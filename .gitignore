@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# NodeAgent .gitignore
+# Secrets NEVER get committed. scripts/secret-scan.mjs is the belt-and-suspenders.
+# ---------------------------------------------------------------------------
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# --- Secrets / environment (CRITICAL) ---
+.env
+.env.*
+!.env.example
+*.local
+.convex/
+convex.json.local
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Logs & caches
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vite/
+coverage/
+
+# Misc
+*.tmp
+.cache/

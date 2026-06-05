@@ -1,0 +1,56 @@
+{
+  "name": "nodeagent",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Cross-collaborative agent for live chat context gathering, search & synthesis, spreadsheet modeling, and TipTap notebook editing — distilled from NodeBench AI.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Homen Shum",
+  "homepage": "https://github.com/homenshum/NodeAgent",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/homenshum/NodeAgent.git"
+  },
+  "keywords": [
+    "agent",
+    "convex",
+    "tiptap",
+    "spreadsheet",
+    "rag",
+    "search",
+    "context-engineering",
+    "model-context-protocol"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 5173",
+    "proto": "vite --open /nodeagent-v1.html",
+    "demo": "tsx demo/runNodeAgentDemo.ts",
+    "demo:node": "node demo/runNodeAgentDemo.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "secret-scan": "node scripts/secret-scan.mjs",
+    "convex:dev": "convex dev",
+    "prepush": "npm run secret-scan && npm run typecheck && npm run test"
+  },
+  "dependencies": {
+    "convex": "^1.31.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  }
+}
