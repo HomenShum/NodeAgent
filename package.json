@@ -39,6 +39,7 @@
     "prepush": "npm run secret-scan && npm run typecheck && npm run test"
   },
   "dependencies": {
+    "@assistant-ui/react": "^0.14.14",
     "convex": "^1.31.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

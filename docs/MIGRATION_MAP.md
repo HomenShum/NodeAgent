@@ -21,6 +21,15 @@ This document is the honest ledger of what came from where.
 | [`convex/schema.ts`](../convex/schema.ts) | `liveEvent*` tables (`liveEvents`, `liveEventMembers`, `liveEventMessages`, `liveEventAnswers`), `documents`, `spreadsheets`/`spreadsheetEvents`, notebook tables | Kept the table shapes that back the four surfaces. New fields are `v.optional(...)` (expand-contract). Reduced ~80 tables to the 9 NodeAgent needs. |
 | [`nodeagent-v1.html`](../nodeagent-v1.html) | `public/proto/home-v4.html` (Notebook + Artifacts + Chat) and `public/proto/home-v5.html` (ScratchNode live room) | Inherited the full design DNA — `#151413` ground, terracotta `#d97757`, Manrope + JetBrains Mono, the motion tokens — and the v4 → v5 lineage. NodeAgent is the next step: the four surfaces as one agent loop. |
 
+## New in NodeAgent: the assistant-ui UI
+
+One thing NodeAgent did *not* inherit from NodeBench — it added. The UI is built on
+**[assistant-ui](https://github.com/assistant-ui/assistant-ui)** (`@assistant-ui/react`). NodeBench
+has its own bespoke agent panel; NodeAgent instead uses assistant-ui's `LocalRuntime` /
+`ChatModelAdapter` to run the loop and `makeAssistantToolUI` to render the four capabilities as
+**inline tool UIs** in the conversation. The ported modules feed it; the chat UX is assistant-ui's.
+(`nodeagent-v1.html` is a vanilla mirror of the same chat, for a zero-build demo.)
+
 ## What was deliberately left behind
 
 NodeAgent is intentionally *not* the platform. Out of scope, by design:

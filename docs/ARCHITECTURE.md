@@ -306,31 +306,51 @@ the demo modules and the live tables are the same shapes. Per `.env.example`:
 `VITE_CONVEX_URL` lights up the live room; `ANTHROPIC`/`OPENAI` light up live
 synthesis + RAG embeddings; `LINKUP`/`BRAVE`/etc. light up live web retrieval.
 
-## Two runnable surfaces
+## The assistant-ui UI layer
 
-Both surfaces import the **same** ported modules and share the same design DNA
-(CSS tokens `--bg`, `--line`, `--ink`, `--accent`, `--green`):
+The presentation layer is a real **assistant-ui** app (`@assistant-ui/react`). The
+loop is unchanged underneath; assistant-ui supplies the runtime, the thread
+primitives, and the generative tool-UI pattern.
 
-1. **`nodeagent-v1.html`** (repo root) — a self-contained prototype. Run with
-   `npm run proto` (`vite --open /nodeagent-v1.html`).
-2. **React app** — `src/app/main.tsx` mounts
-   `src/features/node-agent/components/NodeAgentDemoApp.tsx`, which calls the real
-   `runNodeAgent` over `buildDemoScenario()` and renders a live `AgentRunResult`.
-   Editing the question re-runs the grounded pipeline, so grounding/winner respond
-   to input. Run with `npm run dev`; the header links to the full prototype.
+- **Runtime** — `useLocalRuntime(nodeAgentChatAdapter)` under `AssistantRuntimeProvider`.
+  The adapter (`src/features/node-agent/runtime/nodeAgentChatAdapter.ts`) is a
+  `ChatModelAdapter` whose `async *run({ messages, abortSignal })` reads the user's
+  question, runs `runNodeAgent` over `buildDemoScenario()`, and **streams** the result
+  as cumulative content: an intro text part plus four `tool-call` parts that go
+  running → complete with their real results.
+- **Tool UIs** — `src/features/node-agent/components/toolUIs.tsx` registers four
+  `makeAssistantToolUI` renderers keyed by tool name (`collect_context`,
+  `search_synthesize`, `apply_spreadsheet_delta`, `write_memo`). assistant-ui matches
+  each streamed tool-call part to its renderer and draws the card **inline in the
+  assistant's message** — the generative-UI pattern.
+- **Thread** — `NodeAgentThread.tsx` composes `ThreadPrimitive` / `ComposerPrimitive` /
+  `MessagePrimitive` (headless) and is themed with the design DNA — no Tailwind, no shadcn.
 
-A third entry point, `demo/runNodeAgentDemo.ts` (`npm run demo`), runs the *same*
-loop as a CLI and prints the trace, gathered context, ranked sources, model delta,
-and the markdown memo. The MCP tool surface (`src/features/node-agent/tools/nodeAgentTools.ts`
-+ `src/mcp/toolRegistry.ts`) wraps the same pure functions as discoverable tools
-(`collect_context`, `search_synthesize`, `apply_spreadsheet_delta`, `write_claim`,
-`run_agent`) with `nextTools` workflow hints.
+Going live is a one-line swap: replace `nodeAgentChatAdapter` with `useChatRuntime`
+(AI SDK) or a fetch-backed `ChatModelAdapter`. The tool UIs and the four modules are
+unchanged.
+
+## Three runnable surfaces
+
+All import the **same** ported modules and share the design DNA (CSS tokens `--bg`,
+`--line`, `--ink`, `--accent`, `--green`):
+
+1. **React app — the assistant-ui chat (primary).** `src/app/main.tsx` →
+   `NodeAgentDemoApp.tsx`. `npm run dev`.
+2. **`nodeagent-v1.html`** — a vanilla mirror of the same chat (thread + composer +
+   inline tool cards), zero build. `npm run proto`.
+3. **CLI** — `demo/runNodeAgentDemo.ts` (`npm run demo`) and the zero-dep
+   `demo/runNodeAgentDemo.mjs` print the loop's trace, ranked sources, model delta, and
+   the markdown memo.
+
+The MCP tool surface (`tools/nodeAgentTools.ts` + `mcp/toolRegistry.ts`) wraps the same
+pure functions as discoverable tools with `nextTools` workflow hints.
 
 The canonical scenario (`src/features/node-agent/demoScenario.ts`, "Acme diligence
-room") drives all three surfaces with a fixed `DEMO_NOW` timestamp so output is
-byte-stable: a teammate asks whether the wedge holds and whether the model survives
-18 months; the agent grounds an answer, corrects a fat-fingered burn (510 → 420,
-runway recomputes 14.8 → 18.0), and writes the cited memo.
+room") drives every surface with a fixed `DEMO_NOW` timestamp so output is byte-stable:
+a teammate asks whether the wedge holds and whether the model survives 18 months; the
+agent grounds an answer, corrects a fat-fingered burn (510 → 420, runway recomputes
+14.8 → 18.0), and writes the cited memo.
 
 ## Reliability map
 

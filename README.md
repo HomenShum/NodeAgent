@@ -8,49 +8,52 @@
 document for the right answer, updates the model as a versioned delta, and writes it into a
 notebook — as one loop.**
 
+**Built on [assistant-ui](https://github.com/assistant-ui/assistant-ui).** The live chat is the
+Thread; each capability renders inline as a tool UI as the agent works.
+
 `live chat + context` · `grounded search & synthesis` · `versioned spreadsheet` · `TipTap notebook`
 
-[Quickstart](#quickstart) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md) · [Demo script](docs/DEMO_SCRIPT.md)
+[Quickstart](#quickstart) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
 
 </div>
 
 ---
 
 NodeAgent is the distilled, portfolio-grade core of [NodeBench AI](#provenance) — the four
-capabilities I kept reaching for, rebuilt as clean, tested, dependency-light TypeScript and
-wired into a single agent loop. It runs as a **self-contained prototype with no keys at all**
-(deterministic demo data) and ships the **Convex schema + modules** that back the live,
-multiplayer version.
+capabilities I kept reaching for, rebuilt as clean, tested, dependency-light TypeScript, wired
+into a single agent loop, and presented as an **[assistant-ui](https://github.com/assistant-ui/assistant-ui)
+chat**. It runs with **no keys at all** (deterministic demo data) and ships the **Convex schema +
+modules** that back the live, multiplayer version.
 
-> **One loop, four surfaces.** A teammate asks a question in a live room → the agent gathers
-> the relevant context → searches and synthesizes a *grounded, cited* answer → corrects the
-> model and bumps its version → writes the memo. Every step is bounded, every failure is
-> surfaced, and the whole thing is honest about what it doesn't know.
+> **One loop, four tool UIs.** Ask the room a question → the agent gathers the relevant context →
+> searches and synthesizes a *grounded, cited* answer → corrects the model and bumps its version →
+> writes the memo. Each step renders inline in the conversation as an assistant-ui tool UI. Every
+> step is bounded, every failure is surfaced, and the whole thing is honest about what it doesn't know.
 
 <div align="center">
 
-![NodeAgent — the agent loop populated across all four surfaces](docs/screenshots/desktop-after-run.png)
+![NodeAgent — an assistant-ui chat; the agent's work renders inline as tool UIs](docs/screenshots/chat-desktop-run.png)
 
-<sub>The agent loop, run: room context gathered, search ranks 4 sources and highlights the winner,
-the model bumps to v4 with a delta log, the notebook holds the grounded claim. <br/>
-<b>No account, no keys</b> — press <kbd>R</kbd> or click <b>Run the agent</b>.</sub>
+<sub>The React app (<code>@assistant-ui/react</code>): one prompt drives the loop, and the four
+capabilities render as inline tool cards — ranked sources with the winner, the versioned model
+delta, the grounded notebook claim. <br/>
+<b>No account, no keys</b> — deterministic demo over the real modules.</sub>
 
 </div>
 
 ## Quickstart
 
-Three ways to see it, fastest first:
-
 ```bash
-# 1. Instant — zero install, zero build. Runs the real loop's math and prints the result.
-node demo/runNodeAgentDemo.mjs
-
-# 2. The browser prototype (the centerpiece). Self-contained, responsive, no keys.
+# 1. The assistant-ui chat (the main surface). Ask the room; the agent's work
+#    streams inline as tool UIs.
 npm install
-npm run proto          # opens /nodeagent-v1.html — then click "Run the agent"
+npm run dev            # http://localhost:5173 — type a question or tap a suggestion
 
-# 3. The React app + the real modules' CLI demo
-npm run dev            # the React surface (src/app + NodeAgentDemoApp)
+# 2. The no-build prototype — a vanilla mirror of the same chat, zero install.
+npm run proto          # opens /nodeagent-v1.html
+
+# 3. Instant CLI — the real loop's math, no install, no build.
+node demo/runNodeAgentDemo.mjs
 npm run demo           # the loop over the canonical scenario, via tsx
 ```
 
@@ -67,7 +70,29 @@ To light up the **live** paths (multiplayer room, live web retrieval, LLM synthe
 deterministic demo — nothing breaks. Secrets are gitignored and `npm run secret-scan` refuses
 to ship them.
 
+## Built on assistant-ui
+
+NodeAgent's UI is a real [assistant-ui](https://github.com/assistant-ui/assistant-ui) app — not a
+bespoke chat clone:
+
+- **The runtime** — `useLocalRuntime(nodeAgentChatAdapter)`. The adapter
+  ([`nodeAgentChatAdapter.ts`](src/features/node-agent/runtime/nodeAgentChatAdapter.ts)) is a
+  `ChatModelAdapter` whose `async *run()` executes the loop and streams the result back as an
+  assistant message. Swap it for `useChatRuntime` (AI SDK) or a fetch-backed adapter to go live —
+  the tool UIs and the modules don't change.
+- **The Thread** — built from assistant-ui's headless primitives (`ThreadPrimitive`,
+  `ComposerPrimitive`, `MessagePrimitive`) and themed with the design DNA — no Tailwind, no shadcn
+  ([`NodeAgentThread.tsx`](src/features/node-agent/components/NodeAgentThread.tsx)).
+- **The four capabilities are tool UIs** — each is a `makeAssistantToolUI` renderer
+  ([`toolUIs.tsx`](src/features/node-agent/components/toolUIs.tsx)): `collect_context`,
+  `search_synthesize`, `apply_spreadsheet_delta`, `write_memo`. They render *inline in the
+  assistant's message* as the agent works — the generative-UI pattern assistant-ui is built for.
+
+`nodeagent-v1.html` is a faithful **vanilla mirror** of the same chat, for a zero-build demo.
+
 ## The four surfaces
+
+Each renders as an assistant-ui tool UI; underneath, each is a real, tested module:
 
 | Surface | What it does | Real module |
 |---|---|---|
@@ -97,11 +122,11 @@ Read the full retrospective in [`docs/TECH_RETRO.md`](docs/TECH_RETRO.md).
 
 ## Mobile parity
 
-The prototype is responsive web → mobile with verified parity (no horizontal overflow, grids
-collapse, typography scales, sticky → static at the breakpoint):
+The chat is responsive web → mobile with verified parity (zero horizontal overflow; tool cards
+stack; the composer pins to the bottom):
 
 <div align="center">
-<img src="docs/screenshots/mobile-initial.png" width="300" alt="NodeAgent on mobile — single-column stack, full parity" />
+<img src="docs/screenshots/chat-mobile-run.png" width="300" alt="NodeAgent chat on mobile — tool cards stack, full parity" />
 </div>
 
 ## How it stays honest
@@ -122,10 +147,13 @@ in the code and the tests:
 
 ```
 NodeAgent/
-├── nodeagent-v1.html              # the self-contained prototype (the centerpiece)
-├── index.html · src/app/          # the React app (Vite)
+├── nodeagent-v1.html              # vanilla mirror of the assistant-ui chat (no build)
+├── index.html · src/app/          # the assistant-ui React app (Vite)
 ├── src/features/
-│   ├── node-agent/                # types · runtime · tools · demoScenario · React component
+│   ├── node-agent/
+│   │   ├── components/            # assistant-ui: NodeAgentThread · toolUIs · DemoApp
+│   │   ├── runtime/               # nodeAgentRuntime · nodeAgentChatAdapter (ChatModelAdapter)
+│   │   ├── tools · types · demoScenario
 │   ├── chat/contextCollector.ts
 │   ├── search/searchAndSynthesize.ts
 │   ├── spreadsheet/               # applySpreadsheetDelta · versionedSpreadsheetSync
@@ -144,6 +172,10 @@ NodeAgent is distilled from **NodeBench AI**, a 300+-tool agent platform (live c
 rooms, a 4-layer grounded search pipeline, TipTap notebooks, Convex-backed spreadsheets). The
 mapping from there to here — what was kept, simplified, and reduced to pure TypeScript — is in
 [`docs/MIGRATION_MAP.md`](docs/MIGRATION_MAP.md).
+
+The UI is built on **[assistant-ui](https://github.com/assistant-ui/assistant-ui)** (`@assistant-ui/react`) —
+its `LocalRuntime` / `ChatModelAdapter` and `makeAssistantToolUI` generative-UI primitives. Each
+module that borrows the pattern cites it in its header comment.
 
 ## License
 

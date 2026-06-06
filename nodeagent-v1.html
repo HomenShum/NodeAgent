@@ -3,749 +3,372 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>NodeAgent — cross-collaborative agent workbench</title>
-<meta name="description" content="One agent that gathers live context in a shared room, finds the right document for the right answer, updates the model as a versioned delta, and writes the memo. The synthesis of a banking, data-engineering, and agentic-AI path." />
+<title>NodeAgent — a cross-collaborative agent, built on assistant-ui</title>
+<meta name="description" content="An assistant-ui chat where the agent gathers live room context, finds the right document for the right answer, updates the model as a versioned delta, and writes the memo — each step rendered inline as a tool UI. No build, no keys." />
 
-<!-- Social preview -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="NodeAgent — the room asks, the agent answers" />
-<meta property="og:description" content="Live context gathering, grounded search & synthesis, versioned spreadsheet modeling, and notebook editing — one cross-collaborative agent loop." />
+<meta property="og:description" content="An assistant-ui chat with inline tool UIs: live context, grounded search, versioned spreadsheet, notebook memo." />
 <meta name="twitter:card" content="summary_large_image" />
 
-<!-- Terracotta-on-dark favicon -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23151413'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23d97757'/%3E%3C/svg%3E" />
-
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
 <style>
 /* ===========================================================================
-   NodeAgent v1 — design DNA inherited from NodeBench home-v4 / home-v5
-   bg #151413 · terracotta accent #d97757 · Manrope + JetBrains Mono
+   NodeAgent v1 — a vanilla mirror of the assistant-ui chat (src/app uses the
+   real @assistant-ui/react). Design DNA from NodeBench home-v4 / home-v5.
    =========================================================================== */
 :root{
   --bg:#151413; --paper:#1c1b1a; --panel:#232221; --surface:#2a2928;
   --ink:#e8e4df; --ink-muted:#8a857e; --ink-faint:#5a5650;
   --accent:#d97757; --accent-dim:rgba(217,119,87,.15); --accent-ghost:rgba(217,119,87,.10);
-  --green:#5ea867; --green-bright:#7bd089; --blue:#5b9bf5; --purple:#a78bfa; --yellow:#e4c567;
-  --line:rgba(255,255,255,.07); --line-faint:rgba(255,255,255,.04);
-  --glass:rgba(255,255,255,.02); --glass-2:rgba(255,255,255,.035);
-
-  --fs-display:clamp(30px,4.6vw,46px);
-  --fs-h2:clamp(20px,2.8vw,26px);
-  --fs-title:15px; --fs-base:14px; --fs-sub:12px; --fs-label:11px; --fs-mono:11px;
+  --green:#7bd089; --blue:#5b9bf5; --purple:#a78bfa;
+  --line:rgba(255,255,255,.07); --line-faint:rgba(255,255,255,.04); --glass:rgba(255,255,255,.02);
+  --fs-display:clamp(28px,4.4vw,42px); --fs-h2:clamp(19px,2.6vw,25px);
   --r:14px; --r-sm:9px; --r-pill:999px;
-
-  --m-fast:120ms; --m-med:220ms; --m-slow:420ms;
-  --ease:cubic-bezier(.22,.61,.36,1); --spring:cubic-bezier(.2,.8,.2,1);
-  --maxw:1240px;
+  --m-fast:120ms; --ease:cubic-bezier(.22,.61,.36,1); --maxw:840px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0; background:var(--bg); color:var(--ink);
-  font-family:'Manrope',system-ui,-apple-system,sans-serif;
-  font-size:var(--fs-base); line-height:1.55; -webkit-font-smoothing:antialiased;
-  background-image:
-    radial-gradient(900px 500px at 12% -8%, rgba(217,119,87,.10), transparent 60%),
-    radial-gradient(800px 600px at 100% 0%, rgba(91,155,245,.06), transparent 55%);
-  background-attachment:fixed;
-}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 480px at 50% -10%, rgba(217,119,87,.08), transparent 60%);}
 .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
-a{color:inherit;text-decoration:none}
+a{color:var(--accent);text-decoration:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 .skip{position:absolute;left:-999px;top:8px;z-index:99;background:var(--accent);color:#1a1009;padding:8px 14px;border-radius:8px;font-weight:600}
 .skip:focus{left:12px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px}
 
-/* ---- layout shell ---- */
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
-section{position:relative}
-
-/* ---- top bar ---- */
-.topbar{
-  position:sticky;top:0;z-index:50;
-  backdrop-filter:saturate(140%) blur(14px);
-  background:linear-gradient(180deg, rgba(21,20,19,.92), rgba(21,20,19,.74));
-  border-bottom:1px solid var(--line);
-}
-.topbar .wrap{display:flex;align-items:center;gap:14px;height:56px}
-.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.01em}
-.dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(217,119,87,.55);animation:breathe 3.4s var(--ease) infinite}
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(14px);
+  background:linear-gradient(180deg,rgba(21,20,19,.92),rgba(21,20,19,.72));border-bottom:1px solid var(--line)}
+.topbar .row{display:flex;align-items:center;gap:12px;height:54px;max-width:var(--maxw);margin:0 auto;padding:0 18px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:-.02em}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(217,119,87,.55);animation:breathe 3.4s var(--ease) infinite}
 @keyframes breathe{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(217,119,87,.5)}50%{transform:scale(1.18);box-shadow:0 0 0 7px rgba(217,119,87,0)}}
-.brand b{color:var(--ink)}
-.brand .ver{color:var(--ink-faint);font-size:var(--fs-mono);font-weight:500;margin-left:2px}
-.lineage{display:flex;align-items:center;gap:6px;margin-left:6px;color:var(--ink-faint);font-size:var(--fs-label);font-family:'JetBrains Mono',monospace}
+.brand .ver{color:var(--ink-faint);font-size:11px;font-weight:500;font-family:'JetBrains Mono',monospace}
+.lineage{color:var(--ink-faint);font-size:11px;font-family:'JetBrains Mono',monospace}
 .lineage .now{color:var(--accent)}
-.topbar .spacer{flex:1}
-.live{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-label);font-weight:600;color:var(--green-bright);letter-spacing:.06em}
-.live i{width:7px;height:7px;border-radius:50%;background:var(--green-bright);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:var(--r-pill);font-weight:600;font-size:var(--fs-sub);transition:transform var(--m-fast) var(--ease),background var(--m-fast)}
+.spacer{flex:1}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:var(--r-pill);font-weight:600;font-size:12px;transition:transform var(--m-fast) var(--ease),background var(--m-fast)}
 .btn:active{transform:translateY(1px)}
 .btn-primary{background:var(--accent);color:#1a1009}
 .btn-primary:hover{background:#e0855f}
 .btn-ghost{border:1px solid var(--line);color:var(--ink-muted)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--ink)}
-.topbar .btn-ghost{padding:7px 12px}
-@media(max-width:720px){.lineage,.topbar .nav-doc{display:none}}
+.link{font-size:12px;color:var(--ink-muted)}.link:hover{color:var(--accent)}
+@media(max-width:640px){.lineage,.nav-doc{display:none}}
 
-/* ---- hero ---- */
-.hero{padding:54px 0 30px}
-.eyebrow{font-size:var(--fs-label);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace}
-.hero h1{font-size:var(--fs-display);line-height:1.08;letter-spacing:-.025em;font-weight:800;margin:14px 0 0;max-width:18ch}
+/* hero */
+.hero{padding:40px 0 8px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace}
+.hero h1{font-size:var(--fs-display);line-height:1.1;letter-spacing:-.025em;font-weight:800;margin:12px 0 0;max-width:20ch}
 .hero h1 .g{background:linear-gradient(100deg,var(--accent),#e8a07f);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p.lead{margin:16px 0 0;font-size:clamp(15px,1.7vw,17px);color:var(--ink-muted);max-width:62ch}
-.cap-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.cap{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--line);border-radius:var(--r-pill);font-size:var(--fs-sub);color:var(--ink-muted);background:var(--glass)}
-.cap b{color:var(--ink);font-weight:600}
-.cap .k{width:7px;height:7px;border-radius:2px}
-.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;align-items:center}
-.hero-cta .hint{font-size:var(--fs-sub);color:var(--ink-faint)}
+.hero p.lead{margin:14px 0 0;color:var(--ink-muted);max-width:64ch}
+.hero .built{margin-top:14px;font-size:12px;color:var(--ink-faint)}
+.hero .built b{color:var(--ink-muted)}
 
-/* ---- workbench ---- */
-.workbench{padding:18px 0 20px}
-.cmdbar{
-  border:1px solid var(--line);border-radius:var(--r);background:var(--glass-2);
-  padding:14px 16px;display:flex;flex-direction:column;gap:12px;
-}
-.cmdbar-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.cmd-q{flex:1;min-width:200px;display:flex;align-items:center;gap:9px;color:var(--ink-muted);font-size:var(--fs-sub)}
-.cmd-q .tag{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:var(--fs-mono)}
-.trace{display:flex;gap:8px;flex-wrap:wrap}
-.tstep{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:var(--r-pill);font-size:var(--fs-label);font-weight:600;border:1px solid var(--line-faint);color:var(--ink-faint);background:var(--glass);transition:all var(--m-med) var(--ease)}
-.tstep .n{width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font-size:9px;background:var(--surface);color:var(--ink-faint)}
-.tstep[data-state="active"]{border-color:var(--accent);color:var(--ink);background:var(--accent-ghost)}
-.tstep[data-state="active"] .n{background:var(--accent);color:#1a1009;animation:spin 1s linear infinite}
-.tstep[data-state="done"]{border-color:rgba(126,208,137,.4);color:var(--green-bright)}
-.tstep[data-state="done"] .n{background:var(--green);color:#0c1a0e}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.grid{display:grid;gap:14px;margin-top:14px;grid-template-columns:340px 1fr}
-@media(max-width:920px){.grid{grid-template-columns:1fr}}
-
-.panel{border:1px solid var(--line);border-radius:var(--r);background:var(--paper);overflow:hidden;display:flex;flex-direction:column}
-.panel-h{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid var(--line-faint);background:var(--glass)}
-.panel-h .pi{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:13px}
-.panel-h h3{font-size:var(--fs-title);font-weight:700;margin:0;letter-spacing:-.01em}
-.panel-h .sub{font-size:var(--fs-label);color:var(--ink-faint);margin-left:auto;font-family:'JetBrains Mono',monospace}
-.panel-b{padding:14px;flex:1}
-.col-right{display:flex;flex-direction:column;gap:14px;min-width:0}
-
-/* room / chat */
-.room{position:sticky;top:72px}
-@media(max-width:920px){.room{position:static}}
-.presence{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line-faint)}
-.av{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;color:#16110d;margin-left:-6px;border:2px solid var(--paper)}
-.av:first-child{margin-left:0}
-.presence .who{margin-left:8px;font-size:var(--fs-label);color:var(--ink-faint)}
-.feed{display:flex;flex-direction:column;gap:11px;max-height:330px;overflow-y:auto;padding-right:4px}
-.msg{display:flex;gap:9px;align-items:flex-start;animation:rise var(--m-med) var(--ease)}
-@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.msg .ma{width:24px;height:24px;border-radius:50%;flex:0 0 24px;display:grid;place-items:center;font-size:10px;font-weight:700;color:#16110d}
-.msg .mb{flex:1;min-width:0}
-.msg .mn{font-size:var(--fs-label);font-weight:600;color:var(--ink-muted)}
-.msg .mn .t{color:var(--ink-faint);font-weight:400;margin-left:6px;font-family:'JetBrains Mono',monospace}
-.msg .mt{font-size:var(--fs-sub);color:var(--ink);margin-top:2px}
-.msg.agent .mt{background:var(--accent-ghost);border:1px solid var(--line);padding:8px 10px;border-radius:0 var(--r-sm) var(--r-sm) var(--r-sm)}
-.msg.pinned .mt{border-left:2px solid var(--accent);padding-left:8px}
-.ctx-pin{display:inline-flex;align-items:center;gap:5px;font-size:9px;color:var(--accent);font-weight:600;margin-top:4px;font-family:'JetBrains Mono',monospace}
-.composer{display:flex;gap:8px;padding:11px 14px;border-top:1px solid var(--line-faint);background:var(--glass)}
-.composer input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 11px;color:var(--ink);font-size:var(--fs-sub)}
-.composer input::placeholder{color:var(--ink-faint)}
-.composer .send{background:var(--accent);color:#1a1009;border-radius:var(--r-sm);padding:0 13px;font-weight:600;font-size:var(--fs-sub)}
-.chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 12px}
-.chip{font-size:var(--fs-label);padding:5px 10px;border:1px solid var(--line);border-radius:var(--r-pill);color:var(--ink-muted);background:var(--glass);transition:all var(--m-fast)}
+/* ============ assistant-ui-style chat ============ */
+.chat{margin:18px auto 8px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);overflow:hidden;display:flex;flex-direction:column;min-height:520px}
+.chat-h{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--line-faint);background:var(--glass);font-size:12px;color:var(--ink-faint)}
+.chat-h .av{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--accent-dim);color:var(--accent);font-size:12px}
+.chat-h b{color:var(--ink-muted);font-weight:600}
+.chat-h .reset{margin-left:auto;color:var(--ink-faint);font-size:11px}
+.chat-h .reset:hover{color:var(--accent)}
+.thread{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:16px;max-height:560px}
+.empty{margin:auto;text-align:center;max-width:50ch}
+.empty .av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:var(--accent-dim);color:var(--accent);font-size:22px}
+.empty h2{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
+.empty p{color:var(--ink-muted);margin:0 auto 16px}
+.suggestions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.chip{border:1px solid var(--line);background:var(--glass);color:var(--ink-muted);border-radius:var(--r-pill);padding:9px 14px;font-size:12px;font-weight:600;transition:border-color var(--m-fast),color var(--m-fast)}
 .chip:hover{border-color:var(--accent);color:var(--ink)}
 
-/* search & synthesize */
-.src{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line-faint);border-radius:var(--r-sm);margin-bottom:8px;background:var(--glass);transition:all var(--m-med) var(--ease)}
+.msg{display:flex;gap:10px;animation:rise var(--m-fast) var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg.user{justify-content:flex-end}
+.msg .av{width:26px;height:26px;border-radius:50%;flex:0 0 26px;display:grid;place-items:center;background:var(--accent-dim);color:var(--accent);font-size:13px;margin-top:2px}
+.bubble{max-width:88%;border-radius:16px;padding:11px 14px;font-size:14px;line-height:1.6}
+.bubble.u{background:var(--accent);color:#1a1009;border-bottom-right-radius:5px;font-weight:500}
+.bubble.a{background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:5px;flex:1;min-width:0}
+
+/* tool cards */
+.tool{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper);margin:9px 0;overflow:hidden}
+.tool[data-running="true"]{border-style:dashed}
+.tool-h{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--glass)}
+.tool-i{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:12px;background:var(--surface)}
+.tool-label{font-weight:700;font-size:13px}
+.tool-status{margin-left:auto;font-size:10px;font-family:'JetBrains Mono',monospace}
+.tool-status.done{color:var(--green)}
+.tool-status.run{color:var(--accent);display:inline-flex;align-items:center;gap:6px}
+.spin{width:10px;height:10px;border:2px solid var(--accent-dim);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tool-b{padding:11px 12px}
+.ctx{display:flex;gap:9px;align-items:baseline;padding:4px 0;font-size:12px;border-top:1px solid var(--line-faint)}
+.ctx:first-child{border-top:none}
+.ctx .rel{color:var(--accent);font-size:11px;font-family:'JetBrains Mono',monospace}
+.ctx .kind{color:var(--ink-faint);font-size:10px;text-transform:uppercase;letter-spacing:.06em;flex:0 0 64px}
+.ctx .txt{color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.src{display:flex;gap:9px;align-items:center;padding:8px 9px;border:1px solid var(--line-faint);border-radius:7px;margin-bottom:6px}
 .src.win{border-color:var(--accent);background:var(--accent-ghost)}
-.src .badge{flex:0 0 auto;font-size:9px;font-family:'JetBrains Mono',monospace;padding:3px 6px;border-radius:5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.src .s-meta{flex:1;min-width:0}
-.src .s-title{font-size:var(--fs-sub);font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.src .s-snip{font-size:var(--fs-label);color:var(--ink-faint);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.src .score{flex:0 0 auto;text-align:right}
-.src .score .num{font-family:'JetBrains Mono',monospace;font-size:var(--fs-sub);font-weight:600;color:var(--ink-muted)}
-.src .score .lab{font-size:8px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em}
-.src.win .num{color:var(--accent)}
-.answer{margin-top:12px;padding:13px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg)}
-.answer .ah{display:flex;align-items:center;gap:8px;font-size:var(--fs-label);text-transform:uppercase;letter-spacing:.1em;color:var(--ink-faint);font-weight:600;margin-bottom:8px}
-.answer .ah .grounded{margin-left:auto;color:var(--green-bright);text-transform:none;letter-spacing:0;font-family:'JetBrains Mono',monospace;font-size:9px}
-.answer .atxt{font-size:var(--fs-sub);color:var(--ink);line-height:1.6}
-.cite{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);background:var(--accent-dim);border-radius:4px;padding:0 4px;margin:0 1px;vertical-align:super;font-weight:600}
-.search-input{display:flex;gap:8px;margin-bottom:12px}
-.search-input input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;color:var(--ink);font-size:var(--fs-sub)}
+.src .badge{font-size:9px;padding:2px 6px;border-radius:5px;background:var(--surface);color:var(--ink-muted);font-weight:600;font-family:'JetBrains Mono',monospace}
+.src .t{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.src .g{margin-left:auto;font-size:11px;color:var(--ink-muted);font-family:'JetBrains Mono',monospace}
+.src.win .g{color:var(--accent)}
+.answer{margin-top:9px;padding:11px;border:1px solid var(--line);border-radius:7px;background:var(--paper);font-size:13px;line-height:1.6}
+.cite{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);background:var(--accent-dim);border-radius:4px;padding:0 4px;vertical-align:super;font-weight:600}
+table.sheet{width:100%;border-collapse:collapse;font-size:12px;font-family:'JetBrains Mono',monospace}
+table.sheet td{border:1px solid var(--line-faint);padding:6px 9px;text-align:right}
+table.sheet td:first-child{text-align:left;color:var(--ink-muted)}
+table.sheet td.delta{color:var(--accent);font-weight:700;background:var(--accent-ghost)}
+.reason{margin-top:8px;font-size:10px;color:var(--ink-faint);font-family:'JetBrains Mono',monospace}
+.memo h4{margin:0 0 6px;font-size:14px}.memo p{margin:6px 0}
+.claim{border-left:2px solid var(--accent);background:var(--accent-ghost);padding:9px 11px;border-radius:0 7px 7px 0;margin:7px 0}
+.claim .ct{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700;font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+.cite-line{color:var(--ink-muted);font-size:12px}
 
-/* spreadsheet */
-.sheet-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:var(--fs-label)}
-.vchip{font-family:'JetBrains Mono',monospace;font-size:var(--fs-mono);padding:3px 8px;border-radius:var(--r-pill);background:var(--surface);color:var(--ink-muted);border:1px solid var(--line);transition:all var(--m-med)}
-.vchip.bump{background:var(--accent);color:#1a1009;border-color:var(--accent)}
-table.grid-t{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:var(--fs-sub)}
-table.grid-t th,table.grid-t td{border:1px solid var(--line-faint);padding:7px 9px;text-align:right}
-table.grid-t th{background:var(--glass);color:var(--ink-faint);font-weight:500;text-align:right;font-size:var(--fs-label)}
-table.grid-t td:first-child,table.grid-t th:first-child{text-align:left;color:var(--ink-muted)}
-table.grid-t td[contenteditable]{cursor:text;color:var(--ink)}
-table.grid-t td.delta{animation:flash var(--m-slow) var(--ease)}
-@keyframes flash{0%{background:var(--accent)}100%{background:transparent}}
-table.grid-t td.total{font-weight:600;color:var(--accent);background:var(--accent-ghost)}
-.delta-log{margin-top:11px;display:flex;flex-direction:column;gap:5px}
-.dl{display:flex;gap:8px;align-items:center;font-size:var(--fs-label);font-family:'JetBrains Mono',monospace;color:var(--ink-faint);animation:rise var(--m-med) var(--ease)}
-.dl .op{color:var(--green-bright);font-weight:600}
-.dl .cell{color:var(--accent)}
+.composer{display:flex;align-items:flex-end;gap:8px;border-top:1px solid var(--line-faint);padding:10px 12px;background:var(--glass)}
+.composer .field{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:9px 13px;color:var(--ink);font-size:14px}
+.composer .field::placeholder{color:var(--ink-faint)}
+.composer .field:focus{outline:none;border-color:var(--accent)}
+.composer .send{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#1a1009;font-size:16px;font-weight:700;display:grid;place-items:center}
+.disclaimer{text-align:center;font-size:11px;color:var(--ink-faint);padding:8px 0 0}
 
-/* notebook */
-.nb{border:1px solid var(--line-faint);border-radius:var(--r-sm);background:var(--bg);padding:6px 6px 6px 0;min-height:130px}
-.nb-block{display:flex;align-items:flex-start;gap:4px;padding:3px 8px;border-radius:6px}
-.nb-block:hover{background:var(--glass)}
-.nb-handle{flex:0 0 18px;color:var(--ink-faint);font-size:13px;opacity:0;transition:opacity var(--m-fast);user-select:none;text-align:center;line-height:1.6}
-.nb-block:hover .nb-handle{opacity:1}
-.nb-body{flex:1;min-width:0;outline:none;font-size:var(--fs-sub);color:var(--ink);line-height:1.6}
-.nb-h2{font-size:var(--fs-title);font-weight:700;letter-spacing:-.01em}
-.nb-body:empty:before{content:attr(data-ph);color:var(--ink-faint)}
-.nb-claim{border:1px solid var(--line);border-left:2px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:9px 11px;margin:4px 0;background:var(--accent-ghost);animation:rise var(--m-med) var(--ease)}
-.nb-claim .ct{font-size:var(--fs-label);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700;font-family:'JetBrains Mono',monospace;margin-bottom:4px}
-.nb-claim .cc{font-size:var(--fs-sub);color:var(--ink)}
-.nb-ent{color:var(--blue);border-bottom:1px dashed rgba(91,155,245,.5);cursor:pointer}
-.slash-hint{font-size:var(--fs-label);color:var(--ink-faint);padding:6px 10px;font-family:'JetBrains Mono',monospace}
-.slash-menu{position:absolute;z-index:30;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);box-shadow:0 12px 32px rgba(0,0,0,.5);padding:5px;min-width:200px;display:none}
-.slash-menu.open{display:block;animation:rise var(--m-fast) var(--ease)}
-.smi{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:6px;font-size:var(--fs-sub);color:var(--ink-muted)}
-.smi:hover,.smi.sel{background:var(--accent-ghost);color:var(--ink)}
-.smi .si{width:18px;text-align:center}
-
-/* evolution / story */
-.evolution{padding:46px 0 30px;border-top:1px solid var(--line-faint);margin-top:30px}
-.sec-head{text-align:center;max-width:60ch;margin:0 auto 28px}
+/* evolution + architecture */
+.evolution{padding:46px 0 28px;border-top:1px solid var(--line-faint);margin-top:34px}
+.sec-head{text-align:center;max-width:60ch;margin:0 auto 26px}
 .sec-head .eyebrow{display:block}
 .sec-head h2{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.02em;margin:10px 0 0}
 .sec-head p{color:var(--ink-muted);margin:10px 0 0}
 .evo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:860px){.evo-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.evo-grid{grid-template-columns:1fr}}
 .evo{border:1px solid var(--line);border-radius:var(--r);padding:18px;background:var(--glass);position:relative;overflow:hidden}
 .evo:before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:var(--accent);opacity:.55}
-.evo .era{font-size:var(--fs-label);font-family:'JetBrains Mono',monospace;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.1em}
-.evo h3{font-size:var(--fs-title);font-weight:700;margin:8px 0 0}
-.evo .arrow{color:var(--accent);font-weight:700;margin:10px 0;font-size:var(--fs-sub)}
-.evo .maps{font-size:var(--fs-sub);color:var(--ink-muted);line-height:1.6}
-.evo .maps b{color:var(--ink)}
-.evo .sysref{margin-top:12px;font-size:var(--fs-label);font-family:'JetBrains Mono',monospace;color:var(--accent);padding-top:10px;border-top:1px solid var(--line-faint)}
-
-/* architecture */
-.arch{padding:30px 0 50px}
+.evo .era{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.1em}
+.evo h3{font-size:15px;font-weight:700;margin:8px 0 0}
+.evo .arrow{color:var(--accent);font-weight:700;margin:10px 0;font-size:12px}
+.evo .maps{font-size:13px;color:var(--ink-muted);line-height:1.6}.evo .maps b{color:var(--ink)}
+.evo .sysref{margin-top:12px;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--accent);padding-top:10px;border-top:1px solid var(--line-faint)}
+.arch{padding:24px 0 50px}
 .arch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-@media(max-width:860px){.arch-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.arch-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.arch-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.arch-grid{grid-template-columns:1fr}}
 .arch-card{border:1px solid var(--line);border-radius:var(--r-sm);padding:14px;background:var(--paper)}
-.arch-card .ac-k{font-size:var(--fs-label);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);font-weight:600}
-.arch-card h4{font-size:var(--fs-sub);font-weight:700;margin:6px 0 8px}
-.arch-card .files{font-size:var(--fs-label);font-family:'JetBrains Mono',monospace;color:var(--ink-muted);line-height:1.8}
+.arch-card .ac-k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);font-weight:600}
+.arch-card h4{font-size:13px;font-weight:700;margin:6px 0 8px}
+.arch-card .files{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--ink-muted);line-height:1.8}
 .arch-card .files span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* footer */
-footer{border-top:1px solid var(--line);padding:26px 0 50px;color:var(--ink-faint);font-size:var(--fs-sub)}
-footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
-footer a{color:var(--ink-muted)}
-footer a:hover{color:var(--accent)}
-
-.reveal{opacity:0;transform:translateY(14px);transition:opacity var(--m-slow) var(--ease),transform var(--m-slow) var(--ease)}
+footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--ink-faint);font-size:13px}
+footer .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;max-width:var(--maxw);margin:0 auto;padding:0 18px}
+footer a{color:var(--ink-muted)}footer a:hover{color:var(--accent)}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .42s var(--ease),transform .42s var(--ease)}
 .reveal.in{opacity:1;transform:none}
-
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .reveal{opacity:1;transform:none}
-}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-<a class="skip" href="#workbench">Skip to workbench</a>
+<a class="skip" href="#chat">Skip to the chat</a>
 
 <header class="topbar">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="NodeAgent home">
-      <span class="dot" aria-hidden="true"></span>
-      <b>NodeAgent</b><span class="ver mono">v1</span>
-    </a>
-    <span class="lineage" aria-label="lineage">home-v4 <span>·</span> home-v5 <span>·</span> <span class="now">NodeAgent</span></span>
+  <div class="row">
+    <a class="brand" href="#top"><span class="dot" aria-hidden="true"></span>NodeAgent<span class="ver mono">on assistant-ui</span></a>
+    <span class="lineage">home-v4 · home-v5 · <span class="now">NodeAgent</span></span>
     <span class="spacer"></span>
-    <span class="live"><i aria-hidden="true"></i>LIVE DEMO</span>
-    <a class="btn btn-ghost nav-doc" href="#evolution">The story</a>
-    <button class="btn btn-primary" onclick="runAgent()" id="topRun">▶ Run the agent</button>
+    <a class="link nav-doc" href="#evolution">The story</a>
+    <a class="link" href="https://github.com/HomenShum/NodeAgent">GitHub ↗</a>
+    <button class="btn btn-primary" onclick="runAgent()">▶ Run the agent</button>
   </div>
 </header>
 
 <main id="top">
-  <!-- ============================ HERO ============================ -->
   <section class="hero">
     <div class="wrap">
-      <span class="eyebrow">Cross-collaborative agent workbench</span>
-      <h1>The room asks.<br/>The agent answers — with <span class="g">sources, a model, and a memo.</span></h1>
+      <span class="eyebrow">Cross-collaborative agent · built on assistant-ui</span>
+      <h1>The room asks. The agent answers — <span class="g">inline, with tool UIs.</span></h1>
       <p class="lead">
-        NodeAgent gathers live context from a shared room, finds the <em>right document for the right answer</em>,
-        updates the model as a <em>versioned delta</em>, and writes it into a notebook — as one loop.
-        It's the synthesis of a path through banking, data engineering, and agentic AI.
+        NodeAgent is an <a href="https://github.com/assistant-ui/assistant-ui">assistant-ui</a> chat.
+        Ask the room a question and watch the agent gather context, find the right document for the
+        right answer, update the model as a versioned delta, and write the memo — each step rendered
+        as a tool UI inside the conversation.
       </p>
-      <div class="cap-row" role="list">
-        <span class="cap" role="listitem"><span class="k" style="background:var(--blue)"></span><b>Live room</b> context gathering</span>
-        <span class="cap" role="listitem"><span class="k" style="background:var(--accent)"></span><b>Grounded search</b> &amp; synthesis</span>
-        <span class="cap" role="listitem"><span class="k" style="background:var(--green)"></span><b>Versioned spreadsheet</b> deltas</span>
-        <span class="cap" role="listitem"><span class="k" style="background:var(--purple)"></span><b>TipTap notebook</b> editing</span>
-      </div>
-      <div class="hero-cta">
-        <button class="btn btn-primary" onclick="runAgent()" style="padding:11px 18px;font-size:var(--fs-base)">▶ Run the agent</button>
-        <a class="btn btn-ghost" href="#evolution" style="padding:11px 16px">Read the evolution story</a>
-        <span class="hint">No account, no keys — deterministic demo data. Press <b>R</b> to run.</span>
-      </div>
+      <p class="built">Built on <b>@assistant-ui/react</b> · <code class="mono">useLocalRuntime</code> + <code class="mono">makeAssistantToolUI</code>. This page is the no-build mirror; <code class="mono">src/app</code> uses the real library.</p>
     </div>
   </section>
 
-  <!-- ========================= WORKBENCH ========================= -->
-  <section class="workbench" id="workbench" aria-label="Agent workbench">
-    <div class="wrap">
-      <div class="cmdbar">
-        <div class="cmdbar-top">
-          <div class="cmd-q">
-            <span class="tag">/ask</span>
-            <span id="cmdText">Tap “Run the agent” — or ask the room anything.</span>
-          </div>
-          <button class="btn btn-ghost" onclick="resetDemo()" style="padding:6px 12px;font-size:var(--fs-label)">↺ Reset</button>
-        </div>
-        <div class="trace" id="trace" role="status" aria-live="polite">
-          <span class="tstep" data-step="room"><span class="n">1</span>Gather context</span>
-          <span class="tstep" data-step="search"><span class="n">2</span>Search &amp; synthesize</span>
-          <span class="tstep" data-step="model"><span class="n">3</span>Update model</span>
-          <span class="tstep" data-step="notebook"><span class="n">4</span>Write memo</span>
-        </div>
+  <section id="chat" class="wrap">
+    <div class="chat">
+      <div class="chat-h">
+        <span class="av" aria-hidden="true">◆</span>
+        <b>NodeAgent</b> — live room · <span class="mono">/r/acme-dd</span>
+        <button class="reset" onclick="resetChat()">↺ Reset</button>
       </div>
-
-      <div class="grid">
-        <!-- ROOM (left, sticky) -->
-        <div class="panel room">
-          <div class="panel-h">
-            <span class="pi" style="background:rgba(91,155,245,.16)">💬</span>
-            <h3>Live room</h3>
-            <span class="sub" id="roomCode">/r/acme-dd</span>
-          </div>
-          <div class="presence">
-            <span class="av" style="background:var(--blue)">JL</span>
-            <span class="av" style="background:var(--green-bright)">PR</span>
-            <span class="av" style="background:var(--yellow)">MK</span>
-            <span class="av" style="background:var(--accent)">◆</span>
-            <span class="who"><b style="color:var(--ink-muted)">3 teammates</b> + NodeAgent</span>
-          </div>
-          <div class="panel-b" style="padding:12px 14px">
-            <div class="feed" id="feed"></div>
-          </div>
-          <div class="chips" id="roomChips">
-            <button class="chip" onclick="askRoom('Does the model still hold at 18-month runway?')">18-mo runway?</button>
-            <button class="chip" onclick="askRoom('What is our defensible wedge vs Acme?')">Wedge vs Acme?</button>
-          </div>
-          <div class="composer">
-            <input id="roomInput" placeholder="Message the room…" aria-label="Message the room"
-                   onkeydown="if(event.key==='Enter')sendRoom()" />
-            <button class="send" onclick="sendRoom()">Send</button>
-          </div>
-        </div>
-
-        <!-- RIGHT column: search / model / notebook -->
-        <div class="col-right">
-
-          <!-- SEARCH & SYNTHESIZE -->
-          <div class="panel">
-            <div class="panel-h">
-              <span class="pi" style="background:var(--accent-dim)">🔎</span>
-              <h3>Search &amp; synthesize</h3>
-              <span class="sub" id="searchMeta">idle</span>
-            </div>
-            <div class="panel-b">
-              <div class="search-input">
-                <input id="searchInput" placeholder="Find the right document for the right answer…"
-                       aria-label="Search query" onkeydown="if(event.key==='Enter')runSearch(this.value)"/>
-                <button class="btn btn-ghost" style="padding:8px 13px" onclick="runSearch(document.getElementById('searchInput').value)">Synthesize</button>
-              </div>
-              <div id="sources" aria-live="polite"></div>
-              <div id="synthAnswer"></div>
-            </div>
-          </div>
-
-          <!-- SPREADSHEET MODEL -->
-          <div class="panel">
-            <div class="panel-h">
-              <span class="pi" style="background:rgba(94,168,103,.16)">▦</span>
-              <h3>Spreadsheet model</h3>
-              <span class="sub">runway.model · versioned</span>
-            </div>
-            <div class="panel-b">
-              <div class="sheet-meta">
-                <span class="vchip" id="vchip">v3</span>
-                <span style="color:var(--ink-faint)">Cash-runway sensitivity — edit any white cell to author a delta</span>
-              </div>
-              <table class="grid-t" id="sheet">
-                <thead><tr><th>Assumption</th><th>Base</th><th>Stress</th></tr></thead>
-                <tbody>
-                  <tr><td>Net burn / mo ($k)</td><td contenteditable data-cell="burn" data-base="420">420</td><td>510</td></tr>
-                  <tr><td>Cash on hand ($k)</td><td contenteditable data-cell="cash" data-base="7560">7,560</td><td>7,560</td></tr>
-                  <tr><td>Runway (months)</td><td class="total" data-cell="runway">18.0</td><td>14.8</td></tr>
-                </tbody>
-              </table>
-              <div class="delta-log" id="deltaLog"></div>
-            </div>
-          </div>
-
-          <!-- NOTEBOOK -->
-          <div class="panel" style="position:relative">
-            <div class="panel-h">
-              <span class="pi" style="background:rgba(167,139,250,.16)">✎</span>
-              <h3>Notebook</h3>
-              <span class="sub">memo.acme-dd · TipTap</span>
-            </div>
-            <div class="panel-b">
-              <div class="nb" id="nb">
-                <div class="nb-block"><span class="nb-handle">⋮⋮</span>
-                  <div class="nb-body nb-h2" contenteditable>Acme — diligence memo</div></div>
-                <div class="nb-block"><span class="nb-handle">+</span>
-                  <div class="nb-body" contenteditable data-ph="Type ‘/’ for blocks — claim, citation, entity…"
-                       onkeyup="nbKey(event)">The room asked whether the wedge holds and whether the model survives an 18-month runway.</div></div>
-                <div id="nbInsert"></div>
-              </div>
-              <div class="slash-hint">Tip: type <b>/</b> in the notebook for the block menu — or let the agent write the claim.</div>
-            </div>
-            <div class="slash-menu" id="slashMenu">
-              <div class="smi" onclick="insertClaim()"><span class="si">◆</span> Claim block — with evidence</div>
-              <div class="smi" onclick="insertCite()"><span class="si">⌗</span> Citation — link a source</div>
-              <div class="smi" onclick="insertEntity()"><span class="si">@</span> Entity — Acme Corp</div>
-            </div>
-          </div>
-
-        </div>
+      <div class="thread" id="thread" aria-live="polite"></div>
+      <div class="composer">
+        <input class="field" id="composer" placeholder="Ask the room anything…" aria-label="Ask the room"
+               onkeydown="if(event.key==='Enter')sendComposer()"/>
+        <button class="send" onclick="sendComposer()" aria-label="Send">↑</button>
       </div>
     </div>
+    <p class="disclaimer">Deterministic demo — no keys. The agent runs the real ported modules over a fixed scenario.</p>
   </section>
 
-  <!-- ========================= EVOLUTION ========================= -->
   <section class="evolution" id="evolution">
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Why this shape</span>
-        <h2>NodeAgent is a career, compiled into four surfaces</h2>
-        <p>Each capability is the production form of a problem I already spent years solving. The agent is the part that finally makes them one loop.</p>
+        <h2>NodeAgent is a career, compiled into four tool UIs</h2>
+        <p>Each capability is the production form of a problem I already spent years solving — and assistant-ui renders each one inline as the agent works.</p>
       </div>
       <div class="evo-grid">
-        <div class="evo reveal">
-          <span class="era">Banking · Finance</span>
-          <h3>Pressure-testing models</h3>
-          <div class="arrow">↓ becomes</div>
-          <div class="maps">Years where a wrong assumption was a tracked, defensible change — never a silent overwrite — became NodeAgent's <b>versioned spreadsheet engine</b>. Every edit is a delta with a version bump and an audit log.</div>
-          <div class="sysref">→ spreadsheet/applySpreadsheetDelta.ts</div>
-        </div>
-        <div class="evo reveal">
-          <span class="era">Data Engineering</span>
-          <h3>Context ingestion → structure</h3>
-          <div class="arrow">↓ becomes</div>
-          <div class="maps">Pipelines that turned messy, multi-source inputs into structured truth became NodeAgent's <b>context collector</b> and <b>4-layer grounded search</b> — retrieval confidence, claim grounding, citation chains, the right doc for the right answer.</div>
-          <div class="sysref">→ chat/contextCollector.ts · search/searchAndSynthesize.ts</div>
-        </div>
-        <div class="evo reveal">
-          <span class="era">Agentic AI</span>
-          <h3>Orchestration &amp; eval</h3>
-          <div class="arrow">↓ becomes</div>
-          <div class="maps">Tool orchestration, schemas, and eval discipline became the <b>runtime</b> that drives the room, the search, the model, and the memo as a single reliable loop — bounded, honest about failure, traceable end to end.</div>
-          <div class="sysref">→ node-agent/runtime/nodeAgentRuntime.ts</div>
-        </div>
+        <div class="evo reveal"><span class="era">Banking · Finance</span><h3>Pressure-testing models</h3><div class="arrow">↓ becomes</div>
+          <div class="maps">A wrong assumption had to be a tracked, defensible change — never a silent overwrite — so the <b>Update model</b> tool UI shows a versioned delta with an audit line.</div>
+          <div class="sysref">→ spreadsheet/applySpreadsheetDelta.ts</div></div>
+        <div class="evo reveal"><span class="era">Data Engineering</span><h3>Context → structure</h3><div class="arrow">↓ becomes</div>
+          <div class="maps">Messy multi-source inputs into structured truth → the <b>Gather context</b> and <b>Search &amp; synthesize</b> tool UIs: the right doc, with grounding scores and a winner.</div>
+          <div class="sysref">→ chat/contextCollector.ts · search/searchAndSynthesize.ts</div></div>
+        <div class="evo reveal"><span class="era">Agentic AI</span><h3>Orchestration &amp; eval</h3><div class="arrow">↓ becomes</div>
+          <div class="maps">Tool orchestration and eval discipline → the <b>local-runtime adapter</b> that streams the loop, plus the <b>Write memo</b> tool UI — bounded, honest, traceable.</div>
+          <div class="sysref">→ runtime/nodeAgentChatAdapter.ts</div></div>
       </div>
     </div>
   </section>
 
-  <!-- ======================= ARCHITECTURE ======================= -->
   <section class="arch">
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Not vapor</span>
-        <h2>The four surfaces are real, ported modules</h2>
-        <p>Distilled from the NodeBench AI monorepo into clean, testable TypeScript. This page is the no-build proof; the repo is the contract.</p>
+        <h2>Four real modules, rendered as assistant-ui tool UIs</h2>
+        <p>The loop runs in a <code class="mono">ChatModelAdapter</code>; each capability is a <code class="mono">makeAssistantToolUI</code> renderer. Distilled from NodeBench AI into clean, tested TypeScript.</p>
       </div>
       <div class="arch-grid">
-        <div class="arch-card">
-          <div class="ac-k">Live chat</div>
-          <h4>Cross-collaborative room</h4>
-          <div class="files">
-            <span>convex/schema.ts</span>
-            <span>chat/contextCollector.ts</span>
-            <span>node-agent/runtime/*</span>
-          </div>
-        </div>
-        <div class="arch-card">
-          <div class="ac-k">Retrieval</div>
-          <h4>Search &amp; synthesize</h4>
-          <div class="files">
-            <span>search/searchAndSynthesize.ts</span>
-            <span>4-layer grounding</span>
-            <span>citation chain</span>
-          </div>
-        </div>
-        <div class="arch-card">
-          <div class="ac-k">Modeling</div>
-          <h4>Versioned spreadsheet</h4>
-          <div class="files">
-            <span>spreadsheet/applySpreadsheetDelta.ts</span>
-            <span>spreadsheet/versionedSpreadsheetSync.ts</span>
-            <span>tests/spreadsheetDelta.test.ts</span>
-          </div>
-        </div>
-        <div class="arch-card">
-          <div class="ac-k">Authoring</div>
-          <h4>Notebook editor</h4>
-          <div class="files">
-            <span>notebook/notebookEditor.ts</span>
-            <span>claim · citation · entity</span>
-            <span>mcp/toolRegistry.ts</span>
-          </div>
-        </div>
+        <div class="arch-card"><div class="ac-k">collect_context</div><h4>Gather room context</h4><div class="files"><span>chat/contextCollector.ts</span><span>presence-TTL, bounded</span></div></div>
+        <div class="arch-card"><div class="ac-k">search_synthesize</div><h4>Search &amp; synthesize</h4><div class="files"><span>search/searchAndSynthesize.ts</span><span>4-layer grounding</span></div></div>
+        <div class="arch-card"><div class="ac-k">apply_spreadsheet_delta</div><h4>Update model</h4><div class="files"><span>spreadsheet/applySpreadsheetDelta.ts</span><span>versioned · optimistic</span></div></div>
+        <div class="arch-card"><div class="ac-k">write_memo</div><h4>Notebook memo</h4><div class="files"><span>notebook/notebookEditor.ts</span><span>claim · citation</span></div></div>
       </div>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">
-    <span>NodeAgent — built by <a href="https://github.com/homenshum">Homen Shum</a>. Distilled from NodeBench AI. MIT.</span>
-    <span class="mono" style="font-size:var(--fs-label)">context → structure → execution</span>
+  <div class="row">
+    <span>NodeAgent — built by <a href="https://github.com/HomenShum">Homen Shum</a> on <a href="https://github.com/assistant-ui/assistant-ui">assistant-ui</a>. Distilled from NodeBench AI. MIT.</span>
+    <span class="mono" style="font-size:11px">context → structure → execution</span>
   </div>
 </footer>
 
 <script>
-/* ===========================================================================
-   NodeAgent v1 — demo orchestration (vanilla, self-contained, no build step).
-   The real algorithms live in src/features/** and are unit-tested; this file
-   is the faithful no-keys preview that proves the loop end-to-end.
-   =========================================================================== */
 "use strict";
 const RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-const wait = (ms) => new Promise(r => setTimeout(r, RM ? 0 : ms));
-const $ = (s, r=document) => r.querySelector(s);
-const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-let running = false;
+const wait = (ms)=>new Promise(r=>setTimeout(r, RM?0:ms));
+const $ = (s,r=document)=>r.querySelector(s);
+let busy=false;
 
-/* ---- demo fixtures ---- */
-const AUTHORS = {
-  JL:{name:'Jordan (PM)',  c:'var(--blue)'},
-  PR:{name:'Priya (Eng)',  c:'var(--green-bright)'},
-  MK:{name:'Marcus (Ops)', c:'var(--yellow)'},
-  AG:{name:'NodeAgent',    c:'var(--accent)'},
+/* ---- deterministic demo (mirrors src/features/node-agent/demoScenario.ts) ---- */
+const QUESTION = "Does our wedge hold versus Acme, and does the runway model survive 18 months?";
+const CONTEXT = {
+  items:[
+    {rel:0.20, kind:'document', txt:'room://benchmark — retrieval-latency benchmark doc (Priya)'},
+    {rel:0.19, kind:'message',  txt:'Acme dropped a competing teardown of our wedge. Investor call in 40.'},
+  ], active:2
 };
-const SEED_MSGS = [
-  {who:'JL', t:'Acme just dropped a competing teardown of our wedge. Investor call is in 40.', time:'09:12'},
-  {who:'MK', t:'Finance flagged burn crept to 420k/mo after the two senior hires.', time:'09:13'},
-  {who:'PR', t:'I pushed the retrieval-latency benchmark doc to the room earlier.', time:'09:14'},
+const SOURCES=[
+  {badge:'RAG',win:true,  cite:1,g:0.44,t:'room://benchmark — wedge holds vs Acme on latency'},
+  {badge:'DOC',win:false, cite:2,g:0.56,t:'finance://burn — runway model'},
+  {badge:'DOC',win:false, cite:3,g:0.44,t:'diligence://wedge — competitive note'},
+  {badge:'WEB',win:false, cite:4,g:0.11,t:'Acme teardown blog — Why context rooms lose'},
 ];
-const SOURCES = [
-  {badge:'RAG', c:'var(--purple)', title:'room://benchmark — retrieval latency p95', snip:'NodeAgent p95 211ms vs Acme 540ms on the shared eval set; grounded answer rate 0.93.', score:0.94, win:true},
-  {badge:'WEB', c:'var(--blue)', title:'Acme teardown blog — “Why context rooms lose”', snip:'Marketing claim, no benchmark methodology, no shared eval set disclosed.', score:0.41},
-  {badge:'SEC', c:'var(--green)', title:'Acme 10-K — operating expenses note', snip:'R&D headcount up 38% YoY; no retrieval-quality disclosure.', score:0.55},
-  {badge:'DOC', c:'var(--yellow)', title:'finance://burn — Q2 cash schedule', snip:'Cash on hand $7.56M; net burn $420k/mo base case after senior hires.', score:0.72},
-];
-const ANSWER = `Our defensible wedge is <b>grounded retrieval quality on a shared eval set</b> — p95 <b>211ms</b> at a 0.93 grounded-answer rate vs Acme's 540ms <span class="cite">1</span>. Acme's teardown makes no methodology claim and discloses no shared benchmark <span class="cite">2</span>. On the model: base burn $420k/mo against $7.56M cash holds an <b>18.0-month runway</b> <span class="cite">4</span> — the stress case (510k) still clears 14.8 months.`;
+const ANSWER = `Best-grounded source <span class="cite">1</span> (RAG): defends the wedge — NodeAgent retrieval latency p95 <b>211ms</b> vs Acme 540ms on the shared eval set; grounded answer rate 0.93. Corroborated by <span class="cite">2</span> finance://burn and <span class="cite">3</span> diligence://wedge. Model holds: base burn $420k against $7.56M clears an <b>18.0-month</b> runway.`;
+const MODEL={version:2, cells:[
+  {label:'Net burn / mo ($k)', v:'420', delta:true},
+  {label:'Cash on hand ($k)',  v:'7,560', delta:false},
+  {label:'Runway (months)',    v:'18.0', delta:true},
+], reason:'Correct base burn to the finance-audited 420k (was stress figure 510k).'};
 
-/* ---- room ---- */
-function avatar(who){const a=AUTHORS[who];return `<span class="ma" style="background:${a.c}">${who==='AG'?'◆':who}</span>`;}
-function msgHTML(m){
-  const a=AUTHORS[m.who]; const agent = m.who==='AG';
-  return `<div class="msg ${agent?'agent':''} ${m.pinned?'pinned':''}">
-    ${avatar(m.who)}
-    <div class="mb">
-      <div class="mn">${a.name}<span class="t">${m.time||now()}</span></div>
-      <div class="mt">${m.t}</div>
-      ${m.pin?`<div class="ctx-pin">📌 pinned to context — ${m.pin}</div>`:''}
+/* ---- card renderers (the four tool UIs) ---- */
+function toolShell(icon,label,sub,running,body){
+  return `<div class="tool" data-running="${running}">
+    <div class="tool-h"><span class="tool-i">${icon}</span><span class="tool-label">${label}</span>
+      ${running?`<span class="tool-status run"><i class="spin"></i> working…</span>`:`<span class="tool-status done">${sub}</span>`}</div>
+    ${running?'':`<div class="tool-b">${body}</div>`}</div>`;
+}
+const ctxBody=()=>CONTEXT.items.map(i=>`<div class="ctx"><span class="rel">${i.rel.toFixed(2)}</span><span class="kind">${i.kind}</span><span class="txt">${i.txt}</span></div>`).join('');
+const searchBody=()=>SOURCES.map(s=>`<div class="src ${s.win?'win':''}"><span class="badge">${s.badge}</span><span class="t">[${s.cite}] ${s.t}</span><span class="g">${s.g.toFixed(2)}</span></div>`).join('')+`<div class="answer">${ANSWER}</div>`;
+const modelBody=()=>`<table class="sheet"><tbody>${MODEL.cells.map(c=>`<tr><td>${c.label}</td><td class="${c.delta?'delta':''}">${c.v}</td></tr>`).join('')}</tbody></table><div class="reason">↳ ${MODEL.reason}</div>`;
+const memoBody=()=>`<div class="memo"><h4>Acme — diligence memo</h4>
+  <p>The room asked: "${QUESTION}"</p>
+  <div class="claim"><div class="ct">◆ Claim · grounded 3/4</div>${ANSWER}</div>
+  <p class="cite-line">⌗ room://benchmark — wedge holds vs Acme on latency <span class="cite">1</span></p>
+  <p>Model updated to v2: runway now 18.0 months.</p></div>`;
+
+const STEPS=[
+  {icon:'💬',label:'Gather room context',sub:`${CONTEXT.items.length} items · ${CONTEXT.active} active`,body:ctxBody},
+  {icon:'🔎',label:'Search & synthesize',sub:'high · grounded 3/4',body:searchBody},
+  {icon:'▦',label:'Update model',sub:`v${MODEL.version} · 2 cells`,body:modelBody},
+  {icon:'✎',label:'Write memo',sub:'5 blocks',body:memoBody},
+];
+
+/* ---- chat plumbing ---- */
+function renderEmpty(){
+  $('#thread').innerHTML=`<div class="empty">
+    <div class="av">◆</div><h2>Ask the room</h2>
+    <p>NodeAgent gathers context, finds the right document, updates the model as a versioned delta, and writes the cited memo — each step rendered inline as a tool UI.</p>
+    <div class="suggestions">
+      <button class="chip" onclick="runAgent()">Does our wedge hold + survive 18 months? →</button>
+      <button class="chip" onclick="runAgent('What changed since the last investor update?')">What changed since last update? →</button>
     </div></div>`;
 }
-function now(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
-function renderFeed(list){ $('#feed').innerHTML = list.map(msgHTML).join(''); $('#feed').scrollTop = $('#feed').scrollHeight; }
-let feedState = [...SEED_MSGS];
-renderFeed(feedState);
-
-function pushMsg(m){ feedState.push(m); renderFeed(feedState); }
-function sendRoom(){
-  const i=$('#roomInput'); const v=(i.value||'').trim(); if(!v) return;
-  pushMsg({who:'JL', t:v, time:now()}); i.value='';
-  if(!running) askRoom(v);
+function scroll(){const t=$('#thread');t.scrollTop=t.scrollHeight;}
+function addUser(text){
+  const t=$('#thread');
+  t.insertAdjacentHTML('beforeend',`<div class="msg user"><div class="bubble u">${text}</div></div>`);
+  scroll();
 }
-function askRoom(q){
-  $('#roomInput').value='';
-  if(!feedState.some(m=>m.t===q)) pushMsg({who:'JL', t:q, time:now()});
-  runAgent(q);
+function addAssistant(){
+  const t=$('#thread');
+  const id='a'+t.querySelectorAll('.msg.assistant').length;
+  t.insertAdjacentHTML('beforeend',`<div class="msg assistant"><span class="av">◆</span><div class="bubble a" id="${id}"><div class="lead-line">On it — pulling the room context, then searching, updating the model, and writing the memo.</div><div class="cards"></div><div class="closing"></div></div></div>`);
+  scroll();
+  return $('#'+id);
 }
 
-/* ---- trace ---- */
-function setStep(step, state){ const el=$(`.tstep[data-step="${step}"]`); if(el) el.dataset.state=state; }
-function clearTrace(){ $$('.tstep').forEach(s=>s.removeAttribute('data-state')); }
-
-/* ---- search & synthesize ---- */
-function srcHTML(s){
-  return `<div class="src ${s.win?'win':''}">
-    <span class="badge mono" style="background:${s.c}22;color:${s.c}">${s.badge}</span>
-    <div class="s-meta"><div class="s-title">${s.title}</div><div class="s-snip">${s.snip}</div></div>
-    <div class="score"><div class="num">${s.score.toFixed(2)}</div><div class="lab">grounded</div></div>
-  </div>`;
-}
-async function runSearch(query){
-  const q = (query||'').trim() || 'defensible wedge vs Acme; model at 18-month runway';
-  $('#searchInput').value = q;
-  $('#searchMeta').textContent = 'retrieving…';
-  $('#sources').innerHTML=''; $('#synthAnswer').innerHTML='';
-  const ranked=[...SOURCES].sort((a,b)=>b.score-a.score);
-  for(const s of ranked){ await wait(170); $('#sources').insertAdjacentHTML('beforeend', srcHTML(s)); }
-  $('#searchMeta').textContent = `${ranked.length} sources · reranked`;
+async function runAgent(custom){
+  if(busy) return; busy=true;
+  if($('#thread .empty')) $('#thread').innerHTML='';
+  const q = custom || QUESTION;
+  addUser(q);
   await wait(220);
-  $('#synthAnswer').innerHTML =
-    `<div class="answer"><div class="ah">Synthesized answer
-       <span class="grounded">● grounded 4/4 · 1 winner</span></div>
-       <div class="atxt">${ANSWER}</div></div>`;
-}
-
-/* ---- spreadsheet: versioned delta engine (mirrors applySpreadsheetDelta) ---- */
-let version = 3;
-function parseNum(s){ return parseFloat(String(s).replace(/[^0-9.\-]/g,'')) || 0; }
-function fmt(n){ return n.toLocaleString('en-US',{maximumFractionDigits: n>=100?0:1}); }
-function recomputeRunway(flash){
-  const burn = parseNum($('[data-cell="burn"]').textContent);
-  const cash = parseNum($('[data-cell="cash"]').textContent);
-  const runwayCell = $('[data-cell="runway"]');
-  const runway = burn>0 ? cash/burn : 0;
-  runwayCell.textContent = runway.toFixed(1);
-  if(flash){ runwayCell.classList.add('delta'); setTimeout(()=>runwayCell.classList.remove('delta'),420); }
-  return runway;
-}
-function bumpVersion(){
-  version++; const v=$('#vchip'); v.textContent='v'+version; v.classList.add('bump');
-  setTimeout(()=>v.classList.remove('bump'),700);
-}
-function logDelta(op, cell, from, to){
-  $('#deltaLog').insertAdjacentHTML('afterbegin',
-    `<div class="dl"><span class="op">${op}</span><span class="cell">${cell}</span> ${from} → ${to} <span style="margin-left:auto;color:var(--ink-faint)">v${version}</span></div>`);
-}
-async function applyModelDelta(){
-  const cell=$('[data-cell="burn"]'); const from=cell.textContent;
-  cell.textContent='420'; // base already 420; demo re-asserts the audited assumption
-  cell.classList.add('delta'); setTimeout(()=>cell.classList.remove('delta'),420);
-  bumpVersion();
-  const runway=recomputeRunway(true);
-  logDelta('set', 'burn', from, '420');
-  logDelta('recompute', 'runway', '—', runway.toFixed(1)+'mo');
-  await wait(120);
-}
-// manual edit -> author a delta
-$$('#sheet td[contenteditable]').forEach(td=>{
-  td.addEventListener('focus',()=>{ td.dataset.prev=td.textContent.trim(); });
-  td.addEventListener('blur',()=>{
-    const from=td.dataset.prev, to=td.textContent.trim();
-    if(from!==to){ bumpVersion(); const r=recomputeRunway(true); logDelta('edit', td.dataset.cell, from, to);
-      logDelta('recompute','runway','—', r.toFixed(1)+'mo'); }
-  });
-});
-
-/* ---- notebook: claim / citation / entity blocks + slash menu ---- */
-let slashTarget=null;
-function nbKey(e){
-  const el=e.target;
-  if(e.key==='/' && el.textContent.trim()==='/'){
-    el.textContent=''; slashTarget=el; openSlash(el);
-  } else if(e.key==='Escape'){ closeSlash(); }
-}
-function openSlash(anchor){
-  const m=$('#slashMenu'); const r=anchor.getBoundingClientRect();
-  const host=$('.panel.room').closest('.workbench');
-  m.style.left = Math.max(14, r.left - anchor.closest('.panel').getBoundingClientRect().left + 10)+'px';
-  m.style.top = (anchor.closest('.panel').scrollTop + (r.top - anchor.closest('.panel').getBoundingClientRect().top) + 26)+'px';
-  m.classList.add('open');
-}
-function closeSlash(){ $('#slashMenu').classList.remove('open'); }
-document.addEventListener('click',(e)=>{ if(!e.target.closest('#slashMenu') && !e.target.closest('.nb-body')) closeSlash(); });
-
-function insertBlock(html){
-  $('#nbInsert').insertAdjacentHTML('beforeend', html); closeSlash();
-}
-function insertClaim(){
-  insertBlock(`<div class="nb-block"><span class="nb-handle">⋮⋮</span><div class="nb-body" style="flex:1">
-    <div class="nb-claim"><div class="ct">◆ Claim · grounded 4/4</div>
-    <div class="cc">Wedge holds: grounded retrieval p95 <b>211ms</b> / 0.93 vs Acme 540ms <span class="cite">1</span>. Model clears <b>18.0-mo</b> runway at base burn <span class="cite">4</span>.</div></div></div></div>`);
-}
-function insertCite(){
-  insertBlock(`<div class="nb-block"><span class="nb-handle">+</span><div class="nb-body">Source: <span class="nb-ent">room://benchmark — retrieval latency p95</span> <span class="cite">1</span></div></div>`);
-}
-function insertEntity(){
-  insertBlock(`<div class="nb-block"><span class="nb-handle">+</span><div class="nb-body">Subject entity: <span class="nb-ent">@Acme Corp</span> — competitor, diligence target.</div></div>`);
-}
-
-/* ---- the loop: room -> search -> model -> notebook ---- */
-async function runAgent(q){
-  if(running) return; running=true;
-  $('#topRun').disabled=true;
-  resetWork();
-  clearTrace();
-  const question = q || 'Does the wedge hold, and does the model survive an 18-month runway?';
-  $('#cmdText').innerHTML = `<span style="color:var(--ink)">${question}</span>`;
-
-  /* 1 — gather context */
-  setStep('room','active');
-  await wait(380);
-  pushMsg({who:'AG', t:'On it — pulling the benchmark Priya shared and the Q2 cash schedule into context.', time:now(), pin:'2 messages + 1 doc'});
-  // mark the two source messages as pinned
-  feedState[2].pinned=true; renderFeed(feedState);
-  await wait(520); setStep('room','done');
-
-  /* 2 — search & synthesize */
-  setStep('search','active');
-  await runSearch(question);
-  setStep('search','done');
-  await wait(160);
-
-  /* 3 — update model */
-  setStep('model','active');
+  const bubble = addAssistant();
+  const cards = $('.cards', bubble);
   await wait(260);
-  await applyModelDelta();
-  await wait(360);
-  setStep('model','done');
-
-  /* 4 — write memo */
-  setStep('notebook','active');
-  await wait(240);
-  insertClaim();
-  await wait(260);
-  insertCite();
-  setStep('notebook','done');
-
-  pushMsg({who:'AG', t:'Memo updated: wedge defended on grounded latency, model holds at 18.0 months. Shareable wiki ready.', time:now()});
-  $('#cmdText').innerHTML = `<span style="color:var(--green-bright)">✓ Loop complete</span> — context → answer → model → memo, fully cited.`;
-  running=false; $('#topRun').disabled=false;
+  for(const step of STEPS){
+    // running
+    cards.insertAdjacentHTML('beforeend', toolShell(step.icon,step.label,step.sub,true,''));
+    const el = cards.lastElementChild; scroll();
+    await wait(360);
+    // done
+    el.outerHTML = toolShell(step.icon,step.label,step.sub,false,step.body());
+    scroll();
+    await wait(170);
+  }
+  $('.closing',bubble).innerHTML=`<p style="margin:8px 0 0;color:var(--green)">✓ Done — wedge defended on high-confidence grounding (3/4), model clears 18.0 months, cited memo ready.</p>`;
+  scroll(); busy=false;
 }
-
-/* ---- reset ---- */
-function resetWork(){
-  $('#sources').innerHTML=''; $('#synthAnswer').innerHTML=''; $('#searchMeta').textContent='idle';
-  $('#nbInsert').innerHTML=''; $('#deltaLog').innerHTML='';
+function sendComposer(){
+  const i=$('#composer'); const v=(i.value||'').trim(); if(!v||busy) return;
+  i.value=''; runAgent(v);
 }
-function resetDemo(){
-  if(running) return;
-  feedState=[...SEED_MSGS]; renderFeed(feedState);
-  version=3; $('#vchip').textContent='v3';
-  $('[data-cell="burn"]').textContent='420'; $('[data-cell="cash"]').textContent='7,560'; recomputeRunway(false);
-  resetWork(); clearTrace();
-  $('#cmdText').textContent='Tap “Run the agent” — or ask the room anything.';
-}
+function resetChat(){ if(busy) return; renderEmpty(); }
 
-/* ---- keyboard: R to run ---- */
-document.addEventListener('keydown',(e)=>{
-  if(e.target.isContentEditable || e.target.tagName==='INPUT') return;
-  if(e.key==='r'||e.key==='R') runAgent();
-});
-
-/* ---- scroll reveal ---- */
-const io=new IntersectionObserver((es)=>es.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('in'); }),{threshold:.15});
-$$('.reveal').forEach(el=>io.observe(el));
-
-/* init */
-recomputeRunway(false);
+/* reveal + init */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.addEventListener('keydown',e=>{ if(e.target.tagName==='INPUT')return; if(e.key==='r'||e.key==='R')runAgent(); });
+renderEmpty();
 </script>
 </body>
 </html>
