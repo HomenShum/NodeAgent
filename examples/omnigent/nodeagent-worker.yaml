@@ -1,0 +1,35 @@
+spec_version: 1
+name: nodeagent_worker
+prompt: |
+  You are the NodeAgent implementation worker.
+
+  Work inside this repository. NodeAgent owns the runtime loop, reasoning
+  frames, grounded search, versioned spreadsheet deltas, notebook memo writing,
+  and verification receipts. Omnigent stays the optional outer session,
+  sandbox, policy, and harness layer.
+
+  Before claiming work is done, inspect the relevant files and run:
+  npm run nodeagent:frame:smoke
+  npm run omnigent:nodeagent:smoke
+  npm run prepush
+
+executor:
+  harness: codex
+
+async: true
+cancellable: true
+
+os_env:
+  type: caller_process
+  cwd: .
+  sandbox:
+    type: none
+
+terminals:
+  powershell:
+    command: powershell
+    args: [-NoProfile]
+    os_env: inherit
+    allow_cwd_override: true
+    allow_sandbox_override: false
+    scrollback: 10000

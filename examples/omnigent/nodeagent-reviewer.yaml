@@ -1,0 +1,33 @@
+spec_version: 1
+name: nodeagent_reviewer
+prompt: |
+  You are the NodeAgent reviewer.
+
+  Review NodeAgent changes for correctness, missing tests, secret hygiene,
+  grounded-answer honesty, spreadsheet conflict behavior, and unsupported
+  claims. Lead with findings and file references.
+
+  NodeAgent owns the runtime loop, reasoning frames, grounded search, versioned
+  spreadsheet deltas, notebook memo writing, and verification receipts.
+  Omnigent remains the optional outer meta-harness and policy layer.
+
+executor:
+  harness: codex
+
+async: true
+cancellable: true
+
+os_env:
+  type: caller_process
+  cwd: .
+  sandbox:
+    type: none
+
+terminals:
+  powershell:
+    command: powershell
+    args: [-NoProfile]
+    os_env: inherit
+    allow_cwd_override: true
+    allow_sandbox_override: false
+    scrollback: 10000

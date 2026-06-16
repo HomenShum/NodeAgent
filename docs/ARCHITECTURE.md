@@ -13,6 +13,13 @@ only stochastic step (answer generation) made injectable. The same code runs
 live (real Convex room + LLM keys) or as a self-contained, key-free showcase on
 deterministic demo data.
 
+The repo now also exposes a bounded frame wrapper for coding-agent adoption:
+`src/features/node-agent/runtime/reasoningFrameRunner.ts`. A frame carries the
+goal, context expectations, model-delta requirement, and evidence threshold; the
+runner executes `runNodeAgent` and returns `FrameDelta` plus a verifier receipt.
+Omnigent/Omniagent can sit outside this as the session/sandbox/policy harness,
+but NodeAgent remains the owner of runtime state and verification.
+
 ## Design principles
 
 **1. Deterministic core, injectable stochastics.** The expensive-to-trust parts

@@ -1,0 +1,88 @@
+{
+  "ok": true,
+  "omnigent": {
+    "cli": {
+      "checked": true,
+      "installed": false
+    },
+    "runCommands": [
+      {
+        "path": "examples/omnigent/nodeagent-worker.yaml",
+        "command": "omni run examples/omnigent/nodeagent-worker.yaml"
+      },
+      {
+        "path": "examples/omnigent/nodeagent-reviewer.yaml",
+        "command": "omni run examples/omnigent/nodeagent-reviewer.yaml"
+      }
+    ]
+  },
+  "specs": [
+    {
+      "ok": true,
+      "path": "examples/omnigent/nodeagent-worker.yaml",
+      "profile": "worker",
+      "name": "nodeagent_worker",
+      "executorHarness": "codex",
+      "osEnvType": "caller_process",
+      "cwd": ".",
+      "hasPromptOrInstructions": true,
+      "hasBoundary": true,
+      "hasSecretLiteral": false,
+      "requiredCommands": [
+        {
+          "command": "npm run nodeagent:frame:smoke",
+          "present": true
+        },
+        {
+          "command": "npm run omnigent:nodeagent:smoke",
+          "present": true
+        },
+        {
+          "command": "npm run prepush",
+          "present": true
+        }
+      ],
+      "runCommand": "omni run examples/omnigent/nodeagent-worker.yaml",
+      "issues": []
+    },
+    {
+      "ok": true,
+      "path": "examples/omnigent/nodeagent-reviewer.yaml",
+      "profile": "reviewer",
+      "name": "nodeagent_reviewer",
+      "executorHarness": "codex",
+      "osEnvType": "caller_process",
+      "cwd": ".",
+      "hasPromptOrInstructions": true,
+      "hasBoundary": true,
+      "hasSecretLiteral": false,
+      "requiredCommands": [],
+      "runCommand": "omni run examples/omnigent/nodeagent-reviewer.yaml",
+      "issues": []
+    }
+  ],
+  "nodeagentFrameSmoke": {
+    "ok": true,
+    "frameId": "rf_nodeagent_demo_wedge_runway",
+    "status": "completed",
+    "runtimeStatus": "ok",
+    "stateDelta": {
+      "contextItemCount": 3,
+      "activeParticipants": 2,
+      "groundedCount": 3,
+      "modelChanged": true,
+      "memoBlockCount": 5
+    },
+    "verification": {
+      "status": "completed",
+      "reason": "Frame completed.",
+      "evidenceState": {
+        "confidence": "high",
+        "citationCount": 3,
+        "winnerSourceId": "src_bench"
+      }
+    },
+    "runwayMonths": 18,
+    "memoBlocks": 5
+  }
+}

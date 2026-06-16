@@ -30,6 +30,7 @@
   "include": [
     "src",
     "demo",
+    "scripts",
     "tests",
     "convex",
     "vite.config.ts",

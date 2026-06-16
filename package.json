@@ -34,6 +34,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
+    "nodeagent:frame:smoke": "tsx scripts/nodeagent-frame-smoke.ts --json-out docs/eval/nodeagent-frame-smoke.json",
+    "omnigent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
+    "omniagent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
     "secret-scan": "node scripts/secret-scan.mjs",
     "convex:dev": "convex dev",
     "prepush": "npm run secret-scan && npm run typecheck && npm run test"

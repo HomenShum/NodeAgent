@@ -60,9 +60,21 @@ npm run demo           # the loop over the canonical scenario, via tsx
 Verify it for yourself:
 
 ```bash
+npm run nodeagent:frame:smoke
+npm run omnigent:nodeagent:smoke
 npm run typecheck      # tsc --noEmit, clean
 npm run test           # 31 scenario-based tests across the 4 modules + the loop
 npm run build          # vite build, clean
+```
+
+`nodeagent:frame:smoke` proves the Fable-like bounded frame path:
+`ReasoningFrame -> runNodeAgent -> FrameDelta -> verifier receipt`.
+`omnigent:nodeagent:smoke` validates the Omnigent/Omniagent YAML specs, runs the
+frame smoke, and writes `docs/eval/omnigent-nodeagent-smoke.json`. If the
+Omnigent CLI is installed, the outer harness check is:
+
+```bash
+omni run examples/omnigent/nodeagent-worker.yaml
 ```
 
 To light up the **live** paths (multiplayer room, live web retrieval, LLM synthesis), copy
@@ -134,6 +146,13 @@ stack; the composer pins to the bottom):
 This repo follows the same agentic-reliability discipline as its parent. The seams are visible
 in the code and the tests:
 
+- **Frame-bounded execution.** `reasoningFrameRunner.ts` wraps the existing loop
+  in a durable-style frame contract with explicit evidence checks and a verifier
+  receipt; the smoke command fails if the demo frame cannot produce the expected
+  runway delta and grounded memo.
+- **Omnigent outside, NodeAgent inside.** Omnigent YAML is available for the
+  optional outer harness, but NodeAgent owns runtime state, frames, evidence,
+  spreadsheet deltas, and memo output.
 - **No fabrication.** Grounding scores are *computed* from token overlap, never hardcoded. On
   weak grounding the pipeline returns an empty answer with an honest note instead of inventing one.
 - **Honest status.** Stale spreadsheet edits surface a version *conflict*; they don't silently
