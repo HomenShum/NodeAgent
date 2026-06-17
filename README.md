@@ -13,7 +13,7 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 `live chat + context` · `grounded search & synthesis` · `versioned spreadsheet` · `TipTap notebook`
 
-[Quickstart](#quickstart) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
+[Quickstart](#quickstart) · [Portability](#portability-guidance) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
 
 </div>
 
@@ -81,6 +81,92 @@ To light up the **live** paths (multiplayer room, live web retrieval, LLM synthe
 `.env.example` → `.env.local` and add keys. With no keys, every live path falls back to the
 deterministic demo — nothing breaks. Secrets are gitignored and `npm run secret-scan` refuses
 to ship them.
+
+## Portability guidance
+
+The durable runtime must not be locked to Convex, Postgres, DynamoDB, SQLite, or
+any one queue provider. NodeAgent core should depend on **ports**, while each app
+supplies adapters:
+
+```text
+NodeAgent core
+  ReasoningFrame
+  FrameRunner
+  Tool contracts
+  Verifier receipts
+  Journal contract
+  Lease/checkpoint contract
+
+Adapters
+  Convex
+  Postgres
+  DynamoDB/SQS/S3
+  SQLite/local files
+  Cloudflare D1/R2/Queues
+```
+
+The durable adapter contract should stay explicit:
+
+| Port | Responsibility |
+|---|---|
+| `DurableJobStore` | job status, attempts, cursor, priority, terminal state |
+| `DurableFrameStore` | frame id, phase, status, context pack, evidence, result refs |
+| `LeaseStore` | claim/release/expire worker leases and stale-run fencing |
+| `StepJournal` | idempotent model/tool receipts so retries do not duplicate side effects |
+| `Scheduler` | enqueue, delay, resume, cancel, and dead-letter work |
+| `ArtifactStore` | source media/files, generated artifacts, render outputs |
+| `ToolRuntime` | app-specific read/write tools with typed inputs and structured errors |
+| `PolicyContext` | auth, tenancy, private/public boundaries, spend and egress gates |
+
+Portability acceptance gate:
+
+```bash
+npm run nodeagent:frame:smoke
+npm run omnigent:nodeagent:smoke
+# target repo adds:
+#   nodeagent durable smoke
+#   frame resume smoke
+#   stale lease smoke
+#   duplicate journal replay smoke
+#   app-specific tool smoke
+```
+
+If a target repo requires changing NodeAgent core to support its database, queue,
+or render provider, the abstraction is wrong. The target should add adapters and
+tools, not fork the runtime contract.
+
+### Target repo guidance
+
+- **AWS-Hackathon / VisualLabs** ([repo](https://github.com/quachphu/AWS-Hackathon)):
+  good target for an AWS-native durable adapter. Keep ClickHouse as analytics /
+  event warehouse, not the transactional job store. Prefer DynamoDB for jobs,
+  frames, leases, and journal ids; S3 for media/artifacts; SQS, EventBridge, or
+  Step Functions for scheduling; Lambda/ECS/Fargate for workers and render jobs.
+- **Open Design** ([site](https://open-design.ai/)): good local-first dashboard
+  and design workflow host. It is Apache-2.0, BYOK, local-first, and already
+  oriented around local coding agents. Use it for frame inspection, artifact
+  review, agent-native dashboard shells, and design handoff.
+- **Twick** ([repo](https://github.com/ncounterspecialist/twick)): close fit
+  for timeline/canvas/video-editor UI, AI captions, and MP4 export. License is
+  Sustainable Use License, so confirm the planned product shape before relying
+  on it as a redistributed SDK or developer tool.
+- **FreeCut** ([repo](https://github.com/walterlow/freecut)) and **Clypra**
+  ([repo](https://github.com/AIEraDev/Clypra)): better permissive-license
+  starting points for video editors. FreeCut is browser/WebGPU/WebCodecs
+  oriented; Clypra is Tauri + React + TypeScript. Expect more agent/MCP wiring.
+- **Remotion** ([site](https://www.remotion.dev/)), **editly**
+  ([repo](https://github.com/mifi/editly)), and FFmpeg: use as render
+  backends. Remotion is excellent for React-programmatic video but has current
+  commercial terms for larger/automator usage. editly is MIT and declarative,
+  useful for agent-generated edit decision lists.
+- **yt-dlp** ([repo](https://github.com/yt-dlp/yt-dlp)): use only for content
+  the user is authorized to access. `--cookies-from-browser` is useful, but raw
+  cookies must never be exposed to agent prompts, tool outputs, traces, or logs.
+- **Auto-Editor** ([repo](https://github.com/WyattBlue/auto-editor)),
+  **PySceneDetect** ([site](https://www.scenedetect.com/)), and
+  **faster-whisper** ([PyPI](https://pypi.org/project/faster-whisper/0.3.0/)):
+  good local analysis tools for silence/motion cuts, scene detection, and
+  transcription before the agent proposes timeline edits.
 
 ## Built on assistant-ui
 
