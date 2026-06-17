@@ -11,7 +11,18 @@ add, what credentials to request, and what smoke proves the app works.
 | `minimal-portable-agent` | you want the smallest app that proves NodeAgent can be dropped into another repo |
 | `aws-hackathon-visual-labs` | you want AWS-native durable runtime plus media/artifact workflows |
 | `local-design-dashboard` | you want Open Design-style local dashboard and frame review workflow |
+| `local-dashboard` | you want a fully scaffolded no-key dashboard with SQLite and Trace Lens tabs |
 | `video-agent-pipeline` | you want timeline/edit/render tools around the durable runtime |
+
+Scaffold the runnable local dashboard:
+
+```bash
+npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard
+cd nodeagent-local-dashboard
+npm install
+npm run agent:demo
+npm run dev
+```
 
 ## Coding Agent Done Criteria
 

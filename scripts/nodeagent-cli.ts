@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { dirname } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { Command } from "commander";
 import { intro, log, note, outro, spinner } from "@clack/prompts";
 
@@ -35,6 +35,15 @@ interface HappyPathReport {
     credentialRequired: false;
     command: string;
   };
+}
+
+interface AppTemplateInfo {
+  id: "local-dashboard";
+  label: string;
+  templateDir: string;
+  defaultDir: string;
+  credentials: string[];
+  smoke: string;
 }
 
 const adapters: AdapterInfo[] = [
@@ -76,11 +85,22 @@ const adapters: AdapterInfo[] = [
   },
 ];
 
+const appTemplates: AppTemplateInfo[] = [
+  {
+    id: "local-dashboard",
+    label: "Local dashboard",
+    templateDir: "examples/apps/local-dashboard/template",
+    defaultDir: "nodeagent-local-dashboard",
+    credentials: [],
+    smoke: "nodeagent:local-dashboard:smoke",
+  },
+];
+
 const program = new Command();
 
 program
   .name("nodeagent")
-  .description("Pretty CLI for NodeAgent checks, adapter guidance, and local provider smokes.")
+  .description("Pretty CLI for NodeAgent checks, app scaffolds, adapter guidance, and local provider smokes.")
   .version("0.1.0");
 
 program
@@ -93,6 +113,8 @@ program
       checkPath("src/features/node-agent/runtime/durableRuntime.ts"),
       checkPath("examples/adapters/README.md"),
       checkPath("examples/adapters/sqlite-local/sqliteDurableRuntime.ts"),
+      checkPath("examples/apps/local-dashboard/template/package.json"),
+      checkPath("scripts/nodeagent-local-dashboard-scaffold-smoke.ts"),
       checkPath("scripts/nodeagent-sqlite-smoke.ts"),
     ];
     for (const check of checks) {
@@ -106,6 +128,9 @@ program
       "",
       "Fully runnable provider:",
       "  npm run nodeagent -- adapters setup sqlite-local --run",
+      "",
+      "No-key dashboard scaffold:",
+      "  npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard",
     ].join("\n"), "Next");
     outro(checks.every((check) => check.ok) ? "Doctor passed." : "Doctor found missing files.");
     if (!checks.every((check) => check.ok)) process.exitCode = 1;
@@ -119,7 +144,7 @@ program
     intro("NodeAgent Smoke");
     const scripts = options.full
       ? ["prepush"]
-      : ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "examples:guidance:smoke"];
+      : ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "nodeagent:local-dashboard:smoke", "examples:guidance:smoke"];
     const ok = runScripts(scripts);
     outro(ok ? "All requested smokes passed." : "One or more smokes failed.");
     if (!ok) process.exitCode = 1;
@@ -219,6 +244,74 @@ adaptersCommand
     outro("Adapter guidance complete.");
   });
 
+const appsCommand = program
+  .command("apps")
+  .description("Scaffold and inspect runnable NodeAgent app templates.");
+
+appsCommand
+  .command("list")
+  .description("List app templates that can be scaffolded locally.")
+  .action(() => {
+    intro("NodeAgent Apps");
+    for (const template of appTemplates) {
+      const credentials = template.credentials.length > 0 ? template.credentials.join(", ") : "none";
+      log.info(`${template.id.padEnd(16)} ${template.defaultDir.padEnd(28)} credentials: ${credentials}`);
+    }
+    outro("Use `npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard` for the no-key dashboard.");
+  });
+
+appsCommand
+  .command("scaffold")
+  .argument("<template>", "template id")
+  .option("--dir <path>", "target directory")
+  .option("--force", "overwrite matching template files if the target already exists")
+  .description("Create a coding-agent-friendly local app scaffold.")
+  .action((templateId: AppTemplateInfo["id"], options: { dir?: string; force?: boolean }) => {
+    const template = appTemplates.find((candidate) => candidate.id === templateId);
+    intro(`NodeAgent App Scaffold: ${templateId}`);
+    if (!template) {
+      log.error(`Unknown app template: ${templateId}`);
+      note(appTemplates.map((candidate) => candidate.id).join("\n"), "Available templates");
+      outro("App scaffold failed.");
+      process.exitCode = 1;
+      return;
+    }
+
+    const sourceDir = resolve(template.templateDir);
+    const targetDir = resolve(options.dir ?? template.defaultDir);
+    if (!existsSync(sourceDir)) {
+      log.error(`Missing template source: ${template.templateDir}`);
+      outro("App scaffold failed.");
+      process.exitCode = 1;
+      return;
+    }
+    if (existsSync(targetDir) && !options.force) {
+      log.error(`Target already exists: ${formatPath(targetDir)}`);
+      note("Re-run with --force to overwrite matching template files.", "Existing directory");
+      outro("App scaffold stopped before writing files.");
+      process.exitCode = 1;
+      return;
+    }
+
+    const filesCopied = copyDir(sourceDir, targetDir);
+    log.success(`created ${formatPath(targetDir)} (${filesCopied} files)`);
+    note([
+      "No API keys are required for the first run.",
+      "The app uses a scripted local agent and SQLite durability by default.",
+      "The dashboard includes the NodeRoom-style Trace Lens tabs: Review, Builder, Business proof, Runtime trace, and gated Code ownership.",
+      "",
+      "Run:",
+      `  cd ${formatPath(targetDir)}`,
+      "  npm install",
+      "  npm run agent:demo",
+      "  npm run dev",
+      "",
+      "Optional verification:",
+      "  npm run smoke",
+    ].join("\n"), template.label);
+    outro("Local dashboard scaffold is ready.");
+  });
+
 program.parse();
 
 function checkPath(path: string) {
@@ -240,6 +333,7 @@ function runHappyPathSpeed(): HappyPathReport {
       checkPath("scripts/nodeagent-cli.ts"),
       checkPath("examples/adapters/sqlite-local/sqliteDurableRuntime.ts"),
       checkPath("scripts/nodeagent-sqlite-smoke.ts"),
+      checkPath("examples/apps/local-dashboard/template/package.json"),
     ];
     const missing = checks.filter((check) => !check.ok).map((check) => check.message.replace("missing ", ""));
     return {
@@ -249,7 +343,7 @@ function runHappyPathSpeed(): HappyPathReport {
   }));
 
   if (phases[0].ok) {
-    for (const script of ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "examples:guidance:smoke"]) {
+    for (const script of ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "nodeagent:local-dashboard:smoke", "examples:guidance:smoke"]) {
       phases.push(runScriptPhase(script));
       if (!phases[phases.length - 1].ok) break;
     }
@@ -336,4 +430,27 @@ function writeJson(path: string, value: unknown) {
 
 function npmCommand() {
   return process.platform === "win32" ? "npm.cmd" : "npm";
+}
+
+function copyDir(sourceDir: string, targetDir: string): number {
+  mkdirSync(targetDir, { recursive: true });
+  let filesCopied = 0;
+  for (const entry of readdirSync(sourceDir)) {
+    const sourcePath = join(sourceDir, entry);
+    const targetPath = join(targetDir, entry);
+    const stats = statSync(sourcePath);
+    if (stats.isDirectory()) {
+      filesCopied += copyDir(sourcePath, targetPath);
+    } else if (stats.isFile()) {
+      mkdirSync(dirname(targetPath), { recursive: true });
+      copyFileSync(sourcePath, targetPath);
+      filesCopied += 1;
+    }
+  }
+  return filesCopied;
+}
+
+function formatPath(path: string) {
+  const relativePath = relative(process.cwd(), path);
+  return relativePath && !relativePath.startsWith("..") ? relativePath : path;
 }

@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "startedAt": "2026-06-17T02:35:49.469Z",
+  "completedAt": "2026-06-17T02:35:50.819Z",
+  "targetDir": "C:\\Users\\hshum\\AppData\\Local\\Temp\\nodeagent-local-dashboard-AWSzbV\\app",
+  "requiredFiles": [
+    "package.json",
+    "README.md",
+    "AGENTS.md",
+    ".env.example",
+    "vite.config.mjs",
+    "index.html",
+    "public/nodeagent-state.json",
+    "src/main.jsx",
+    "src/styles.css",
+    "scripts/run-local-agent.mjs"
+  ],
+  "issues": [],
+  "summary": {
+    "scaffoldCommand": "npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard",
+    "apiKeysRequired": false,
+    "databaseProvider": "sqlite-local",
+    "traceTabs": [
+      "Review",
+      "Builder",
+      "Business proof",
+      "Runtime trace",
+      "Code ownership"
+    ]
+  }
+}

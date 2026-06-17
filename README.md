@@ -60,6 +60,7 @@ npm run demo           # the loop over the canonical scenario, via tsx
 npm run nodeagent -- doctor
 npm run nodeagent -- adapters list
 npm run nodeagent -- adapters setup sqlite-local --run
+npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard
 ```
 
 Verify it for yourself:
@@ -68,6 +69,7 @@ Verify it for yourself:
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
 npm run nodeagent:sqlite:smoke
+npm run nodeagent:local-dashboard:smoke
 npm run omnigent:nodeagent:smoke
 npm run examples:guidance:smoke
 npm run typecheck      # tsc --noEmit, clean
@@ -81,6 +83,8 @@ npm run build          # vite build, clean
 `DurableJob -> lease -> runReasoningFrame -> StepJournal -> receipt replay`.
 `nodeagent:sqlite:smoke` proves the fully runnable no-cloud SQLite adapter:
 `SQLite tables -> persisted frame -> receipt replay after database reopen`.
+`nodeagent:local-dashboard:smoke` proves the no-key app scaffold:
+`pretty CLI -> Vite/React dashboard template -> SQLite/scripted-agent happy path -> Trace Lens tabs`.
 `omnigent:nodeagent:smoke` validates the Omnigent/Omniagent YAML specs, runs the
 frame and durable smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`. If the
 Omnigent CLI is installed, the outer harness check is:
@@ -106,12 +110,28 @@ npm run nodeagent -- happy-path
 npm run nodeagent -- smoke
 npm run nodeagent -- adapters list
 npm run nodeagent -- adapters setup sqlite-local --run
+npm run nodeagent -- apps list
+npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard
 ```
 
 The SQLite provider proof uses [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 and runs with no cloud account.
 `npm run nodeagent:happy-path:smoke` records init-to-runnable timing in
 [`docs/eval/nodeagent-happy-path-speed.json`](docs/eval/nodeagent-happy-path-speed.json).
+
+The local dashboard scaffold creates a spinnable app that looks and behaves like
+a local VisualLabs/NodeRoom work surface without requiring model keys:
+
+```bash
+cd nodeagent-local-dashboard
+npm install
+npm run agent:demo
+npm run dev
+```
+
+It includes a scripted local agent, SQLite durability, `public/nodeagent-state.json`,
+and NodeRoom-style Trace Lens tabs: `Review`, `Builder`, `Business proof`,
+`Runtime trace`, and gated `Code ownership`.
 
 ## Portability guidance
 
@@ -170,10 +190,12 @@ tools, not fork the runtime contract.
 Provider and app blueprints live under [`examples/adapters`](examples/adapters)
 and [`examples/apps`](examples/apps). They are written for coding agents: each
 folder lists credential names, official setup links, spin-up commands, adapter
-mapping, app tools, and done criteria. `npm run examples:guidance:smoke` fails
-if those guides lose the required sections. `sqlite-local` is fully runnable
-today; the cloud providers are credential-guided blueprints until their
-provider-specific smokes are implemented.
+mapping, app tools, and done criteria. `local-dashboard` is scaffoldable today
+with no credentials; `sqlite-local` is fully runnable today; the cloud providers
+are credential-guided blueprints until their provider-specific smokes are
+implemented. `npm run examples:guidance:smoke` and
+`npm run nodeagent:local-dashboard:smoke` fail if those guides or scaffold
+contracts drift.
 
 ### Target repo guidance
 

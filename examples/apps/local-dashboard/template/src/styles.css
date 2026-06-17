@@ -1,0 +1,445 @@
+:root {
+  color: #18212f;
+  background: #f6f7f4;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  line-height: 1.45;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button {
+  font: inherit;
+}
+
+.appShell {
+  display: grid;
+  grid-template-columns: 248px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 22px;
+  background: #1d2633;
+  color: #f9fbfb;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandMark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 8px;
+  background: #59b390;
+  color: #102018;
+  font-weight: 800;
+}
+
+.brand span,
+.sidebarNote span,
+.bodyText,
+.proofItem p {
+  color: #647082;
+}
+
+.sidebar .brand span,
+.sidebarNote span {
+  color: #c7d0d8;
+}
+
+.navList {
+  display: grid;
+  gap: 8px;
+}
+
+.navItem,
+.surfaceRow,
+.modeTabs button {
+  border: 0;
+  cursor: pointer;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: transparent;
+  color: #dce4ea;
+  text-align: left;
+}
+
+.navItem.active,
+.navItem:hover {
+  background: #2d3847;
+  color: #ffffff;
+}
+
+.sidebarNote {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid #344151;
+  font-size: 13px;
+}
+
+.workspace {
+  min-width: 0;
+  padding: 28px;
+}
+
+.topbar,
+.sectionHeader,
+.traceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.topbar h1,
+.sectionHeader h2,
+.traceHeader h2 {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.topbar h1 {
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1;
+}
+
+.sectionHeader h2,
+.traceHeader h2 {
+  font-size: 20px;
+}
+
+.eyebrow {
+  margin: 0 0 7px;
+  color: #7d576a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.topbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.pill,
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: #e4f2ec;
+  color: #1f6b52;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pill.muted {
+  background: #e8edf4;
+  color: #38506d;
+}
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 26px 0;
+}
+
+.statBlock,
+.sectionBand,
+.traceLens,
+.proofItem {
+  border: 1px solid #d9dfda;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.statBlock {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.statBlock span,
+.statBlock small,
+.surfaceRow small,
+.proofItem small,
+.traceRows em {
+  color: #687488;
+  font-size: 12px;
+}
+
+.statBlock strong {
+  color: #1c2734;
+  font-size: 22px;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 460px);
+  gap: 18px;
+  align-items: start;
+}
+
+.workColumn {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.sectionBand,
+.traceLens {
+  padding: 18px;
+}
+
+.bodyText {
+  max-width: 740px;
+  margin: 14px 0 0;
+}
+
+.commandStrip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  overflow-x: auto;
+  border-radius: 8px;
+  padding: 11px 12px;
+  background: #212b38;
+  color: #f3faf7;
+}
+
+.commandStrip code {
+  white-space: nowrap;
+}
+
+.surfaceList {
+  display: grid;
+  gap: 10px;
+}
+
+.surfaceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 76px;
+  border: 1px solid #d9dfda;
+  border-radius: 8px;
+  padding: 14px;
+  background: #ffffff;
+  color: inherit;
+  text-align: left;
+}
+
+.surfaceRow span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.surfaceRow em {
+  color: #1f6b52;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.surfaceRow.selected {
+  border-color: #59b390;
+  box-shadow: inset 3px 0 0 #59b390;
+}
+
+.traceLens {
+  position: sticky;
+  top: 18px;
+  display: grid;
+  gap: 16px;
+}
+
+.modeTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  border: 1px solid #d8ded7;
+  border-radius: 8px;
+}
+
+.modeTabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 40px;
+  background: #f5f7f5;
+  color: #425064;
+  font-weight: 800;
+}
+
+.modeTabs button.active {
+  background: #1d2633;
+  color: #ffffff;
+}
+
+.traceSection {
+  display: grid;
+  gap: 10px;
+}
+
+.traceSection h3,
+.lockedPanel h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.proofStack,
+.traceRows {
+  display: grid;
+  gap: 10px;
+}
+
+.proofItem {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 12px;
+  padding: 12px;
+}
+
+.proofItem p {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 13px;
+}
+
+.proofItem span {
+  color: #1f6b52;
+  font-weight: 900;
+}
+
+.traceRows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.traceRows li {
+  display: grid;
+  grid-template-columns: 78px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid #e7ebe5;
+  padding: 10px 0;
+}
+
+.traceRows span {
+  color: #7d576a;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.traceRows strong {
+  min-width: 0;
+  font-size: 13px;
+}
+
+.ownership,
+.lockedPanel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  padding: 12px;
+  background: #f6efe4;
+  color: #6a4d1f;
+}
+
+.lockedPanel {
+  display: grid;
+  justify-items: start;
+  color: #5c4630;
+}
+
+.lockedPanel p {
+  margin: 0;
+}
+
+@media (max-width: 980px) {
+  .appShell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    gap: 16px;
+  }
+
+  .navList {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .mainGrid,
+  .statusGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .traceLens {
+    position: static;
+  }
+}
+
+@media (max-width: 620px) {
+  .workspace,
+  .sidebar {
+    padding: 16px;
+  }
+
+  .topbar,
+  .sectionHeader,
+  .traceHeader,
+  .surfaceRow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .navList {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .traceRows li {
+    grid-template-columns: 1fr;
+  }
+}

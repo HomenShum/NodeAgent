@@ -1,0 +1,92 @@
+{
+  "generatedAt": "seed",
+  "mode": "scripted",
+  "apiKeysRequired": false,
+  "database": {
+    "provider": "sqlite-local",
+    "path": ".nodeagent/nodeagent.sqlite",
+    "ready": false
+  },
+  "capabilities": {
+    "builderCapable": false,
+    "codeOwnership": "locked"
+  },
+  "statusCards": [
+    {
+      "label": "Agent",
+      "value": "scripted",
+      "detail": "deterministic local run"
+    },
+    {
+      "label": "Durability",
+      "value": "SQLite",
+      "detail": "run npm run agent:demo"
+    },
+    {
+      "label": "Credentials",
+      "value": "none",
+      "detail": "no API keys required"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "seed-local-run",
+      "title": "Local dashboard happy path",
+      "status": "ready",
+      "summary": "Seed state loaded. Run npm run agent:demo to write the SQLite receipt."
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "workSurface.traceStrip",
+      "label": "Trace strip",
+      "status": "ready",
+      "description": "Surface-level runtime progress and receipt status."
+    },
+    {
+      "id": "workSurface.evidenceCarousel",
+      "label": "Evidence carousel",
+      "status": "ready",
+      "description": "Business proof cards linked to verifier receipts."
+    },
+    {
+      "id": "copilot.agentOperationStream",
+      "label": "Agent operation stream",
+      "status": "ready",
+      "description": "Bounded local frame/tool events."
+    },
+    {
+      "id": "shell.statusStrip",
+      "label": "Status strip",
+      "status": "ready",
+      "description": "Credential, database, and run-mode state."
+    }
+  ],
+  "proofs": [
+    {
+      "id": "proof-seed",
+      "title": "No-key local run",
+      "status": "ready",
+      "confidence": 0.98,
+      "source": "Seed dashboard state",
+      "detail": "The default happy path uses a scripted local agent and SQLite durability."
+    }
+  ],
+  "traces": [
+    {
+      "id": "trace-seed-001",
+      "phase": "init",
+      "status": "ready",
+      "summary": "Seed UI loaded from public/nodeagent-state.json",
+      "durationMs": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "artifact-seed",
+      "kind": "dashboard-state",
+      "title": "Seed dashboard state",
+      "path": "public/nodeagent-state.json"
+    }
+  ]
+}

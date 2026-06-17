@@ -38,6 +38,7 @@
     "nodeagent:frame:smoke": "tsx scripts/nodeagent-frame-smoke.ts --json-out docs/eval/nodeagent-frame-smoke.json",
     "nodeagent:durable:smoke": "tsx scripts/nodeagent-durable-smoke.ts --json-out docs/eval/nodeagent-durable-smoke.json",
     "nodeagent:sqlite:smoke": "tsx scripts/nodeagent-sqlite-smoke.ts --json-out docs/eval/nodeagent-sqlite-smoke.json",
+    "nodeagent:local-dashboard:smoke": "tsx scripts/nodeagent-local-dashboard-scaffold-smoke.ts --json-out docs/eval/nodeagent-local-dashboard-scaffold-smoke.json",
     "nodeagent:happy-path:smoke": "tsx scripts/nodeagent-cli.ts happy-path --json-out docs/eval/nodeagent-happy-path-speed.json",
     "omnigent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
     "omniagent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
