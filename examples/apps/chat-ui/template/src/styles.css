@@ -1,0 +1,439 @@
+:root {
+  --bg: #101418;
+  --panel: #171d23;
+  --surface: #202831;
+  --text: #eef3f7;
+  --muted: #97a5b3;
+  --line: rgba(255, 255, 255, 0.11);
+  --accent: #65d6ad;
+  --accent-2: #f2b84b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.naShell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 64px 1fr;
+}
+
+.naTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(16, 20, 24, 0.92);
+}
+
+.naBrand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.naBrand strong,
+.naBrand span {
+  display: block;
+}
+
+.naBrand span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.naLogo,
+.naAvatar,
+.naHeroMark {
+  display: inline-grid;
+  place-items: center;
+  background: var(--accent);
+  color: #06110d;
+  font-weight: 800;
+}
+
+.naLogo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.naTopActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.naPill,
+.naIconLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--muted);
+  padding: 0 11px;
+  text-decoration: none;
+}
+
+.naIconLink {
+  width: 36px;
+  padding: 0;
+}
+
+.naMain,
+.naThread,
+.naViewport {
+  min-height: 0;
+}
+
+.naMain {
+  display: flex;
+}
+
+.naThread {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.naViewport {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: min(920px, 100%);
+  margin: 0 auto;
+  padding: 28px 18px 8px;
+}
+
+.naEmpty {
+  width: min(640px, 100%);
+  margin: auto;
+  text-align: center;
+  padding: 28px 0;
+}
+
+.naHeroMark {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 16px;
+  border-radius: 14px;
+}
+
+.naEyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.naEmpty h1 {
+  margin: 0 0 12px;
+  font-size: 40px;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.naEmpty p {
+  margin: 0 auto 18px;
+  color: var(--muted);
+  max-width: 58ch;
+}
+
+.naSuggestions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.naChip {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px 13px;
+}
+
+.naMsg {
+  display: flex;
+  gap: 10px;
+}
+
+.naMsgUser {
+  justify-content: flex-end;
+}
+
+.naMsgAssistant {
+  justify-content: flex-start;
+}
+
+.naAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 11px;
+  flex: 0 0 auto;
+}
+
+.naBubble {
+  max-width: min(760px, 88%);
+  border-radius: 12px;
+  padding: 12px 14px;
+  line-height: 1.55;
+}
+
+.naBubbleUser {
+  background: var(--accent);
+  color: #06110d;
+  font-weight: 650;
+}
+
+.naBubbleAssistant {
+  flex: 1;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.naFooter {
+  position: sticky;
+  bottom: 0;
+  width: min(920px, 100%);
+  margin: 0 auto;
+  padding: 12px 18px 20px;
+  background: linear-gradient(180deg, rgba(16, 20, 24, 0), var(--bg) 35%);
+}
+
+.naComposer {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 9px 9px 9px 13px;
+}
+
+.naComposer:focus-within {
+  border-color: var(--accent);
+}
+
+.naComposerInput {
+  min-height: 34px;
+  max-height: 160px;
+  flex: 1;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 7px 0;
+}
+
+.naComposerInput::placeholder,
+.naFootnote {
+  color: var(--muted);
+}
+
+.naSend {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #06110d;
+}
+
+.naSend:disabled {
+  opacity: 0.35;
+}
+
+.naFootnote {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+.naTool {
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.naTool[data-running="true"] {
+  border-style: dashed;
+}
+
+.naTool header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--surface);
+}
+
+.naTool header span {
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.naToolBody {
+  padding: 12px;
+}
+
+.naContextRow,
+.naReason,
+.naAnswer {
+  margin: 0;
+  color: var(--muted);
+}
+
+.naContextRow {
+  display: grid;
+  grid-template-columns: 48px 72px 1fr;
+  gap: 8px;
+  padding: 5px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  text-align: left;
+}
+
+.naContextRow:first-child {
+  border-top: 0;
+}
+
+.naContextRow span,
+.naSource em,
+.naReason {
+  color: var(--accent-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+.naSource {
+  display: grid;
+  grid-template-columns: 70px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 7px;
+}
+
+.naSourceWin {
+  border-color: var(--accent);
+  background: rgba(101, 214, 173, 0.08);
+}
+
+.naSource span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.naModelTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+
+.naModelTable td {
+  border: 1px solid var(--line);
+  padding: 8px;
+}
+
+.naModelTable td:last-child {
+  text-align: right;
+}
+
+.naModelTable .changed {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.naMemo h3 {
+  margin: 0 0 8px;
+}
+
+.naMemo p {
+  color: var(--muted);
+}
+
+.naMemo blockquote {
+  margin: 8px 0;
+  border-left: 3px solid var(--accent);
+  background: rgba(101, 214, 173, 0.08);
+  padding: 10px 12px;
+}
+
+.naMemo blockquote strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--accent);
+}
+
+@media (max-width: 680px) {
+  .naTopbar {
+    padding: 0 14px;
+  }
+
+  .naPill {
+    display: none;
+  }
+
+  .naViewport {
+    padding: 20px 12px 8px;
+  }
+
+  .naEmpty h1 {
+    font-size: 30px;
+  }
+
+  .naBubble {
+    max-width: 100%;
+  }
+
+  .naContextRow,
+  .naSource {
+    grid-template-columns: 1fr;
+  }
+}

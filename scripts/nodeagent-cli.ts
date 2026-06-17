@@ -58,12 +58,14 @@ interface AppSetupReceipt {
 }
 
 interface AppTemplateInfo {
-  id: "local-dashboard";
+  id: "local-dashboard" | "chat-ui";
   label: string;
   templateDir: string;
   defaultDir: string;
   credentials: string[];
   smoke: string;
+  summary: string;
+  autoNote: string;
 }
 
 const adapters: AdapterInfo[] = [
@@ -114,6 +116,18 @@ const appTemplates: AppTemplateInfo[] = [
     defaultDir: "nodeagent-local-dashboard",
     credentials: [],
     smoke: "nodeagent:local-dashboard:smoke",
+    summary: "VisualLabs/NodeRoom-style dashboard with SQLite and Trace Lens tabs.",
+    autoNote: "The dashboard includes the NodeRoom-style Trace Lens tabs: Review, Builder, Business proof, Runtime trace, and gated Code ownership.",
+  },
+  {
+    id: "chat-ui",
+    label: "Chat UI",
+    templateDir: "examples/apps/chat-ui/template",
+    defaultDir: "nodeagent-chat-ui",
+    credentials: [],
+    smoke: "nodeagent:chat-ui:smoke",
+    summary: "assistant-ui chat scaffold with a no-key local adapter and inline tool cards.",
+    autoNote: "The chat uses assistant-ui, a scripted local adapter, and inline NodeAgent tool cards; replace the adapter with a server route when credentials exist.",
   },
 ];
 
@@ -135,7 +149,9 @@ program
       checkPath("examples/adapters/README.md"),
       checkPath("examples/adapters/sqlite-local/sqliteDurableRuntime.ts"),
       checkPath("examples/apps/local-dashboard/template/package.json"),
+      checkPath("examples/apps/chat-ui/template/package.json"),
       checkPath("scripts/nodeagent-local-dashboard-scaffold-smoke.ts"),
+      checkPath("scripts/nodeagent-chat-ui-scaffold-smoke.ts"),
       checkPath("scripts/nodeagent-sqlite-smoke.ts"),
     ];
     for (const check of checks) {
@@ -152,6 +168,9 @@ program
       "",
       "No-key dashboard scaffold:",
       "  npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto",
+      "",
+      "No-key chat UI scaffold:",
+      "  npm run nodeagent -- apps scaffold chat-ui --dir nodeagent-chat-ui --auto",
     ].join("\n"), "Next");
     outro(checks.every((check) => check.ok) ? "Doctor passed." : "Doctor found missing files.");
     if (!checks.every((check) => check.ok)) process.exitCode = 1;
@@ -165,7 +184,7 @@ program
     intro("NodeAgent Smoke");
     const scripts = options.full
       ? ["prepush"]
-      : ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "nodeagent:local-dashboard:smoke", "examples:guidance:smoke"];
+      : ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "nodeagent:local-dashboard:smoke", "nodeagent:chat-ui:smoke", "examples:guidance:smoke"];
     const ok = runScripts(scripts);
     outro(ok ? "All requested smokes passed." : "One or more smokes failed.");
     if (!ok) process.exitCode = 1;
@@ -276,9 +295,9 @@ appsCommand
     intro("NodeAgent Apps");
     for (const template of appTemplates) {
       const credentials = template.credentials.length > 0 ? template.credentials.join(", ") : "none";
-      log.info(`${template.id.padEnd(16)} ${template.defaultDir.padEnd(28)} credentials: ${credentials}`);
+      log.info(`${template.id.padEnd(16)} ${template.defaultDir.padEnd(28)} credentials: ${credentials}  ${template.summary}`);
     }
-    outro("Use `npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto` for the no-key dashboard.");
+    outro("Use `npm run nodeagent -- apps scaffold chat-ui --dir nodeagent-chat-ui --auto` for the no-key chat, or `local-dashboard` for the dashboard shell.");
   });
 
 appsCommand
@@ -344,15 +363,14 @@ appsCommand
 
     note([
       "No API keys are required for the first run.",
-      "The app uses a scripted local agent and SQLite durability by default.",
-      "The dashboard includes the NodeRoom-style Trace Lens tabs: Review, Builder, Business proof, Runtime trace, and gated Code ownership.",
+      template.autoNote,
       "",
       options.auto
         ? "Auto mode already ran install, agent demo, smoke, and build."
         : "Fully automatic setup:",
       options.auto
         ? ""
-        : `  npm run nodeagent -- apps scaffold local-dashboard --dir ${formatPath(targetDir)} --auto`,
+        : `  npm run nodeagent -- apps scaffold ${template.id} --dir ${formatPath(targetDir)} --auto`,
       "",
       "Run:",
       `  cd ${formatPath(targetDir)}`,
@@ -361,7 +379,7 @@ appsCommand
       "Optional verification:",
       "  npm run smoke",
     ].join("\n"), template.label);
-    outro("Local dashboard scaffold is ready.");
+    outro(`${template.label} scaffold is ready.`);
   });
 
 program.parse();
@@ -395,7 +413,7 @@ function runHappyPathSpeed(): HappyPathReport {
   }));
 
   if (phases[0].ok) {
-    for (const script of ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "nodeagent:local-dashboard:smoke", "examples:guidance:smoke"]) {
+    for (const script of ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "nodeagent:local-dashboard:smoke", "nodeagent:chat-ui:smoke", "examples:guidance:smoke"]) {
       phases.push(runScriptPhase(script));
       if (!phases[phases.length - 1].ok) break;
     }

@@ -1,0 +1,12 @@
+{
+  "generatedAt": "not-run",
+  "mode": "scripted",
+  "apiKeysRequired": false,
+  "adapter": "nodeAgentLocalAdapter",
+  "tools": [
+    "collect_context",
+    "search_synthesize",
+    "apply_model_delta",
+    "write_memo"
+  ]
+}

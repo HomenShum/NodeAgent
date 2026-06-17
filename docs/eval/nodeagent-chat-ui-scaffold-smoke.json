@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "startedAt": "2026-06-17T06:49:00.685Z",
+  "completedAt": "2026-06-17T06:49:41.070Z",
+  "targetDir": "C:\\Users\\hshum\\AppData\\Local\\Temp\\nodeagent-chat-ui-qDbqX4\\app",
+  "requiredFiles": [
+    "package.json",
+    "README.md",
+    "AGENTS.md",
+    ".env.example",
+    "vite.config.mjs",
+    "index.html",
+    "public/nodeagent-chat-state.json",
+    "src/main.jsx",
+    "src/styles.css",
+    "src/nodeagent-chat/NodeAgentChatApp.jsx",
+    "src/nodeagent-chat/nodeAgentLocalAdapter.js",
+    "src/nodeagent-chat/toolUIs.jsx",
+    "scripts/run-chat-demo.mjs",
+    "scripts/chat-ui-smoke.mjs",
+    ".nodeagent/setup-receipt.json",
+    "docs/eval/chat-ui-demo.json",
+    "docs/eval/chat-ui-smoke.json"
+  ],
+  "issues": [],
+  "summary": {
+    "scaffoldCommand": "nodeagent apps scaffold chat-ui --dir nodeagent-chat-ui --auto",
+    "apiKeysRequired": false,
+    "chatRuntime": "assistant-ui",
+    "autoVerified": true
+  }
+}

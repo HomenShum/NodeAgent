@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "startedAt": "2026-06-17T04:50:28.584Z",
-  "completedAt": "2026-06-17T04:50:33.823Z",
-  "totalMs": 5239,
+  "startedAt": "2026-06-17T06:48:55.121Z",
+  "completedAt": "2026-06-17T06:49:46.987Z",
+  "totalMs": 51866,
   "phases": [
     {
       "name": "init",
@@ -14,31 +14,37 @@
       "name": "nodeagent:frame:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 942
+      "durationMs": 773
     },
     {
       "name": "nodeagent:durable:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 786
+      "durationMs": 728
     },
     {
       "name": "nodeagent:sqlite:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 823
+      "durationMs": 809
     },
     {
       "name": "nodeagent:local-dashboard:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 1558
+      "durationMs": 1896
+    },
+    {
+      "name": "nodeagent:chat-ui:smoke",
+      "ok": true,
+      "detail": "completed",
+      "durationMs": 46054
     },
     {
       "name": "examples:guidance:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 1127
+      "durationMs": 1603
     }
   ],
   "summary": {

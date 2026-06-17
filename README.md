@@ -60,6 +60,7 @@ npm run demo           # the loop over the canonical scenario, via tsx
 npm run nodeagent -- doctor
 npm run nodeagent -- adapters list
 npm run nodeagent -- adapters setup sqlite-local --run
+npm run nodeagent -- apps scaffold chat-ui --dir nodeagent-chat-ui --auto
 npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
 ```
 
@@ -71,6 +72,7 @@ npm run nodeagent:durable:smoke
 npm run nodeagent:sqlite:smoke
 npm run nodeagent:convex:smoke
 npm run nodeagent:local-dashboard:smoke
+npm run nodeagent:chat-ui:smoke
 npm run nodeagent:live-provider:smoke
 npm run omnigent:nodeagent:smoke
 npm run examples:guidance:smoke
@@ -90,6 +92,8 @@ tables are present in `convex/schema.ts` and the configured Convex URL is
 reachable without printing secret values.
 `nodeagent:local-dashboard:smoke` proves the no-key app scaffold:
 `pretty CLI -> Vite/React dashboard template -> SQLite/scripted-agent happy path -> Trace Lens tabs`.
+`nodeagent:chat-ui:smoke` proves the injectable chat scaffold:
+`pretty CLI -> assistant-ui chat template -> no-key local adapter -> smoke -> build`.
 `nodeagent:live-provider:smoke` proves the local live-provider seam when a
 provider key is present in `.env.local` or an explicit `--env-file`; it also
 checks the configured Convex URL is reachable without printing secret values.
@@ -142,6 +146,7 @@ npm run nodeagent -- smoke
 npm run nodeagent -- adapters list
 npm run nodeagent -- adapters setup sqlite-local --run
 npm run nodeagent -- apps list
+npm run nodeagent -- apps scaffold chat-ui --dir nodeagent-chat-ui --auto
 npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
 ```
 
@@ -163,6 +168,20 @@ runs build, and writes `.nodeagent/setup-receipt.json`. The app includes SQLite
 durability, `public/nodeagent-state.json`, and NodeRoom-style Trace Lens tabs:
 `Review`, `Builder`, `Business proof`, `Runtime trace`, and gated
 `Code ownership`.
+
+The chat UI scaffold creates a spinnable assistant-ui app that can be dropped
+into another repo before credentials exist:
+
+```bash
+npm run nodeagent -- apps scaffold chat-ui --dir nodeagent-chat-ui --auto
+cd nodeagent-chat-ui
+npm run dev
+```
+
+It serves a NodeRoom-style agent chat surface with inline tool cards and a
+scripted local adapter. Upgrade it by replacing the adapter with a server route,
+worker, or live provider runtime; keep the no-key smoke green. Detailed
+instructions are in [`docs/CHAT_UI_ADOPTION.md`](docs/CHAT_UI_ADOPTION.md).
 
 ## Visual walkthrough
 
@@ -241,14 +260,14 @@ tools, not fork the runtime contract.
 Provider and app blueprints live under [`examples/adapters`](examples/adapters)
 and [`examples/apps`](examples/apps). They are written for coding agents: each
 folder lists credential names, official setup links, spin-up commands, adapter
-mapping, app tools, and done criteria. `local-dashboard` is scaffoldable today
-with no credentials; `sqlite-local` is fully runnable today; `convex` has a
+mapping, app tools, and done criteria. `chat-ui` and `local-dashboard` are
+scaffoldable today with no credentials; `sqlite-local` is fully runnable today; `convex` has a
 live contract smoke for schema and URL reachability; `aws-dynamodb`,
 `postgres`, and `cloudflare` remain credential-guided blueprints until their
 provider-specific cloud resources and smokes are added. `npm run
 examples:guidance:smoke` and
-`npm run nodeagent:local-dashboard:smoke` fail if those guides or scaffold
-contracts drift.
+`npm run nodeagent:local-dashboard:smoke` / `npm run nodeagent:chat-ui:smoke`
+fail if those guides or scaffold contracts drift.
 
 ### Target repo guidance
 
