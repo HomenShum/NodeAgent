@@ -70,6 +70,7 @@ npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
 npm run nodeagent:sqlite:smoke
 npm run nodeagent:local-dashboard:smoke
+npm run nodeagent:live-provider:smoke
 npm run omnigent:nodeagent:smoke
 npm run examples:guidance:smoke
 npm run typecheck      # tsc --noEmit, clean
@@ -85,12 +86,16 @@ npm run build          # vite build, clean
 `SQLite tables -> persisted frame -> receipt replay after database reopen`.
 `nodeagent:local-dashboard:smoke` proves the no-key app scaffold:
 `pretty CLI -> Vite/React dashboard template -> SQLite/scripted-agent happy path -> Trace Lens tabs`.
+`nodeagent:live-provider:smoke` proves the local live-provider seam when a
+provider key is present in `.env.local` or an explicit `--env-file`; it also
+checks the configured Convex URL is reachable without printing secret values.
 `omnigent:nodeagent:smoke` validates the Omnigent/Omniagent YAML specs, runs the
 frame and durable smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`. If the
-Omnigent CLI is installed, the outer harness check is:
+Omniagent CLI is installed, the local CLI proof is:
 
 ```bash
-omni run examples/omnigent/nodeagent-worker.yaml
+npm run omnigent:nodeagent:smoke -- --require-omni-cli
+npx omniagent hello
 ```
 
 To light up the **live** paths (multiplayer room, live web retrieval, LLM synthesis), copy

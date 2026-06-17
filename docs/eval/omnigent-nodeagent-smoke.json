@@ -3,7 +3,23 @@
   "omnigent": {
     "cli": {
       "checked": true,
-      "installed": false
+      "installed": true,
+      "command": "omniagent",
+      "probe": {
+        "ok": true,
+        "checks": [
+          {
+            "command": "omniagent hello",
+            "exitCode": 0,
+            "stdout": "Hello, World!"
+          },
+          {
+            "command": "omniagent profiles --json",
+            "exitCode": 0,
+            "stdout": "[]"
+          }
+        ]
+      }
     },
     "runCommands": [
       {

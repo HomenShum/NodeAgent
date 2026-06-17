@@ -40,6 +40,7 @@
     "nodeagent:sqlite:smoke": "tsx scripts/nodeagent-sqlite-smoke.ts --json-out docs/eval/nodeagent-sqlite-smoke.json",
     "nodeagent:local-dashboard:smoke": "tsx scripts/nodeagent-local-dashboard-scaffold-smoke.ts --json-out docs/eval/nodeagent-local-dashboard-scaffold-smoke.json",
     "nodeagent:happy-path:smoke": "tsx scripts/nodeagent-cli.ts happy-path --json-out docs/eval/nodeagent-happy-path-speed.json",
+    "nodeagent:live-provider:smoke": "tsx scripts/nodeagent-live-provider-smoke.ts --json-out docs/eval/nodeagent-live-provider-smoke.json",
     "omnigent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
     "omniagent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
     "examples:guidance:smoke": "tsx scripts/example-guidance-smoke.ts",
@@ -62,9 +63,16 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "omniagent": "^0.1.12",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.7",
     "vitest": "^2.1.8"
+  },
+  "overrides": {
+    "convex": {
+      "esbuild": "0.28.1"
+    },
+    "ws": "8.21.0"
   }
 }

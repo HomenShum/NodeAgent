@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "startedAt": "2026-06-17T04:16:11.893Z",
+  "completedAt": "2026-06-17T04:16:13.324Z",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "envFilesLoaded": [
+    ".env.local"
+  ],
+  "convex": {
+    "configured": true,
+    "urlReachable": true,
+    "status": 200
+  },
+  "llm": {
+    "ok": true,
+    "ms": 1118,
+    "expected": "NODEAGENT_LIVE_OK",
+    "receivedPreview": "NODEAGENT_LIVE_OK"
+  }
+}

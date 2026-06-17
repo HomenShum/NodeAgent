@@ -14,6 +14,7 @@ npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
 npm run nodeagent:sqlite:smoke
 npm run omnigent:nodeagent:smoke
+npm run omnigent:nodeagent:smoke -- --require-omni-cli
 ```
 
 The first command executes the canonical demo through:
@@ -38,13 +39,18 @@ The Omnigent command validates `examples/omnigent/*.yaml`, confirms the worker
 spec points back to the required NodeAgent proof commands, runs the frame and
 durable/provider smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`.
 
-The smoke does not require the Omnigent CLI. When the CLI is installed, run the
-outer harness check with:
+The smoke does not require the Omniagent CLI unless `--require-omni-cli` is
+passed. This repo installs the maintained npm CLI as a dev dependency:
 
 ```bash
-omni run examples/omnigent/nodeagent-worker.yaml
-omni run examples/omnigent/nodeagent-reviewer.yaml
+npx omniagent hello
+npx omniagent profiles --json
 ```
+
+Those commands prove the local wrapper is installed and executable without
+starting a nested coding-agent session. The YAML files remain the portable
+outer-harness contract for environments that provide an `omni run` compatible
+runner.
 
 ## Boundary
 
