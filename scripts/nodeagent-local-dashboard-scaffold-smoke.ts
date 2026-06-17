@@ -57,6 +57,7 @@ function main() {
     validateGeneratedApp(targetDir, issues);
   }
   validateCliContract(issues);
+  validateWalkthrough(issues);
 
   const report: SmokeReport = {
     ok: issues.length === 0,
@@ -84,6 +85,22 @@ function main() {
   }
 
   if (tempDir.startsWith(tmpdir())) rmSync(tempDir, { recursive: true, force: true });
+}
+
+function validateWalkthrough(issues: string[]) {
+  for (const file of [
+    "docs/LOCAL_DASHBOARD_WALKTHROUGH.md",
+    "docs/screenshots/local-dashboard-overview.png",
+    "docs/screenshots/local-dashboard-builder-locked.png",
+  ]) {
+    if (!existsSync(file)) issues.push(`missing ${file}`);
+  }
+  if (existsSync("docs/LOCAL_DASHBOARD_WALKTHROUGH.md")) {
+    const walkthrough = readFileSync("docs/LOCAL_DASHBOARD_WALKTHROUGH.md", "utf8");
+    for (const required of ["Visual Walkthrough", "local-dashboard-overview.png", "local-dashboard-builder-locked.png", "--auto", "setup-receipt.json"]) {
+      if (!walkthrough.includes(required)) issues.push(`docs/LOCAL_DASHBOARD_WALKTHROUGH.md missing ${required}`);
+    }
+  }
 }
 
 function validateCliContract(issues: string[]) {

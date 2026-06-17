@@ -13,7 +13,7 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 `live chat + context` · `grounded search & synthesis` · `versioned spreadsheet` · `TipTap notebook`
 
-[Quickstart](#quickstart) · [CLI](#cli) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
+[Quickstart](#quickstart) · [CLI](#cli) · [Visual walkthrough](#visual-walkthrough) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
 
 </div>
 
@@ -132,6 +132,18 @@ runs build, and writes `.nodeagent/setup-receipt.json`. The app includes SQLite
 durability, `public/nodeagent-state.json`, and NodeRoom-style Trace Lens tabs:
 `Review`, `Builder`, `Business proof`, `Runtime trace`, and gated
 `Code ownership`.
+
+## Visual walkthrough
+
+The local dashboard scaffold has a step-by-step visual walkthrough in
+[`docs/LOCAL_DASHBOARD_WALKTHROUGH.md`](docs/LOCAL_DASHBOARD_WALKTHROUGH.md).
+
+![NodeAgent local dashboard overview](docs/screenshots/local-dashboard-overview.png)
+
+The generated app starts with a scripted local agent, SQLite durability, and no
+credentials. Builder/code ownership is locked by default:
+
+![NodeAgent local dashboard Builder mode locked](docs/screenshots/local-dashboard-builder-locked.png)
 
 ## Portability guidance
 
