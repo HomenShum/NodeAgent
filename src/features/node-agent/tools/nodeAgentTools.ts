@@ -13,7 +13,14 @@ import { collectContext } from "../../chat/contextCollector";
 import { searchAndSynthesize } from "../../search/searchAndSynthesize";
 import { applySpreadsheetDelta } from "../../spreadsheet/applySpreadsheetDelta";
 import { insertClaim } from "../../notebook/notebookEditor";
+import {
+  createInMemoryDurableRuntime,
+  enqueueDurableReasoningFrame,
+  runDurableReasoningFrame,
+  type DurableFrameRunOutcome,
+} from "../runtime/durableRuntime";
 import { runNodeAgent, type RunInput } from "../runtime/nodeAgentRuntime";
+import type { ReasoningFrame } from "../runtime/reasoningFrameRunner";
 import type {
   Citation,
   ContextBundle,
@@ -86,10 +93,42 @@ export const runAgentTool: NodeAgentTool<RunInput, AgentRunResult> = {
   handler: (input) => runNodeAgent(input),
 };
 
+export const runDurableFrameTool: NodeAgentTool<
+  { frame: ReasoningFrame; input?: RunInput; jobId?: string; workerId?: string; now?: number },
+  DurableFrameRunOutcome
+> = {
+  name: "run_durable_frame",
+  description:
+    "Run a reasoning frame through provider-neutral durable ports with an in-memory reference adapter, lease, journal, and receipt replay.",
+  inputSchema: {
+    frame: "ReasoningFrame",
+    input: "RunInput?",
+    jobId: "string?",
+    workerId: "string?",
+    now: "number?",
+  },
+  handler: async ({ frame, input, jobId, workerId, now }) => {
+    const runtime = createInMemoryDurableRuntime();
+    const timestamp = now ?? Date.now();
+    const job = await enqueueDurableReasoningFrame(runtime, {
+      frame,
+      jobId,
+      now: timestamp,
+    });
+    return runDurableReasoningFrame(runtime, {
+      jobId: job.jobId,
+      workerId: workerId ?? "nodeagent-tool-worker",
+      input,
+      now: timestamp,
+    });
+  },
+};
+
 export const NODE_AGENT_TOOLS: NodeAgentTool<never, unknown>[] = [
   collectContextTool,
   searchSynthesizeTool,
   applyDeltaTool,
   writeClaimTool,
   runAgentTool,
+  runDurableFrameTool,
 ] as unknown as NodeAgentTool<never, unknown>[];

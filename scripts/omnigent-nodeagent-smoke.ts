@@ -7,6 +7,7 @@ import {
   OMNIGENT_NODEAGENT_TARGETS,
   summarizeOmnigentAnalysis,
 } from "../src/features/node-agent/runtime/omnigentAdapter";
+import { runNodeAgentDurableSmoke } from "./nodeagent-durable-smoke";
 import { runNodeAgentFrameSmoke } from "./nodeagent-frame-smoke";
 
 function argValue(name: string) {
@@ -39,7 +40,7 @@ function detectCli() {
   return { checked: true, installed: false };
 }
 
-function main() {
+async function main() {
   const jsonOut = argValue("--json-out");
   const requireCli = hasFlag("--require-omni-cli");
   const specs = OMNIGENT_NODEAGENT_TARGETS.map((target) => {
@@ -47,8 +48,9 @@ function main() {
     return analyzeOmnigentSpec({ path: target.path, profile: target.profile, text });
   });
   const frameSmoke = runNodeAgentFrameSmoke();
+  const durableSmoke = await runNodeAgentDurableSmoke();
   const cli = detectCli();
-  const ok = specs.every((spec) => spec.ok) && frameSmoke.ok && (!requireCli || cli.installed);
+  const ok = specs.every((spec) => spec.ok) && frameSmoke.ok && durableSmoke.ok && (!requireCli || cli.installed);
   const report = {
     ok,
     omnigent: {
@@ -57,6 +59,7 @@ function main() {
     },
     specs,
     nodeagentFrameSmoke: frameSmoke,
+    nodeagentDurableSmoke: durableSmoke,
   };
 
   for (const spec of specs) {
@@ -64,6 +67,7 @@ function main() {
     for (const issue of spec.issues) console.log(`  issue: ${issue}`);
   }
   console.log(`nodeagent frame smoke: ${frameSmoke.ok ? "PASS" : "FAIL"} frame=${frameSmoke.frameId} status=${frameSmoke.status}`);
+  console.log(`nodeagent durable smoke: ${durableSmoke.ok ? "PASS" : "FAIL"} frame=${durableSmoke.frameId} job=${durableSmoke.jobId} replay=${durableSmoke.replay.status}`);
   console.log(cli.installed
     ? `omnigent cli: found ${cli.command}`
     : "omnigent cli: not installed locally; install Omnigent and run `omni run examples/omnigent/nodeagent-worker.yaml` for the outer harness live check");
@@ -75,4 +79,6 @@ function main() {
   if (!ok) process.exitCode = 1;
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) main();
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  void main();
+}

@@ -13,7 +13,7 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 `live chat + context` · `grounded search & synthesis` · `versioned spreadsheet` · `TipTap notebook`
 
-[Quickstart](#quickstart) · [Portability](#portability-guidance) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
+[Quickstart](#quickstart) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
 
 </div>
 
@@ -61,16 +61,19 @@ Verify it for yourself:
 
 ```bash
 npm run nodeagent:frame:smoke
+npm run nodeagent:durable:smoke
 npm run omnigent:nodeagent:smoke
 npm run typecheck      # tsc --noEmit, clean
-npm run test           # 31 scenario-based tests across the 4 modules + the loop
+npm run test           # full deterministic suite across modules, runtime, frames, durability
 npm run build          # vite build, clean
 ```
 
 `nodeagent:frame:smoke` proves the Fable-like bounded frame path:
 `ReasoningFrame -> runNodeAgent -> FrameDelta -> verifier receipt`.
+`nodeagent:durable:smoke` proves the provider-neutral durable path:
+`DurableJob -> lease -> runReasoningFrame -> StepJournal -> receipt replay`.
 `omnigent:nodeagent:smoke` validates the Omnigent/Omniagent YAML specs, runs the
-frame smoke, and writes `docs/eval/omnigent-nodeagent-smoke.json`. If the
+frame and durable smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`. If the
 Omnigent CLI is installed, the outer harness check is:
 
 ```bash
@@ -84,9 +87,10 @@ to ship them.
 
 ## Portability guidance
 
-The durable runtime must not be locked to Convex, Postgres, DynamoDB, SQLite, or
-any one queue provider. NodeAgent core should depend on **ports**, while each app
-supplies adapters:
+The durable runtime is not locked to Convex, Postgres, DynamoDB, SQLite, or any
+one queue provider. NodeAgent core depends on **ports** in
+[`durableRuntime.ts`](src/features/node-agent/runtime/durableRuntime.ts), while
+each app supplies adapters:
 
 ```text
 NodeAgent core
@@ -105,7 +109,7 @@ Adapters
   Cloudflare D1/R2/Queues
 ```
 
-The durable adapter contract should stay explicit:
+The durable adapter contract is explicit:
 
 | Port | Responsibility |
 |---|---|
@@ -122,9 +126,9 @@ Portability acceptance gate:
 
 ```bash
 npm run nodeagent:frame:smoke
+npm run nodeagent:durable:smoke
 npm run omnigent:nodeagent:smoke
 # target repo adds:
-#   nodeagent durable smoke
 #   frame resume smoke
 #   stale lease smoke
 #   duplicate journal replay smoke
@@ -236,6 +240,10 @@ in the code and the tests:
   in a durable-style frame contract with explicit evidence checks and a verifier
   receipt; the smoke command fails if the demo frame cannot produce the expected
   runway delta and grounded memo.
+- **Provider-neutral durability.** `durableRuntime.ts` defines job/frame/lease/
+  journal/scheduler/artifact/tool ports plus an in-memory reference adapter. The
+  durable smoke proves lease fencing, stale lease reclaim, idempotent journal
+  replay, and stored verifier receipts without any provider dependency.
 - **Omnigent outside, NodeAgent inside.** Omnigent YAML is available for the
   optional outer harness, but NodeAgent owns runtime state, frames, evidence,
   spreadsheet deltas, and memo output.
@@ -257,7 +265,7 @@ NodeAgent/
 ├── src/features/
 │   ├── node-agent/
 │   │   ├── components/            # assistant-ui: NodeAgentThread · toolUIs · DemoApp
-│   │   ├── runtime/               # nodeAgentRuntime · nodeAgentChatAdapter (ChatModelAdapter)
+│   │   ├── runtime/               # nodeAgentRuntime · nodeAgentChatAdapter · frames · durable ports
 │   │   ├── tools · types · demoScenario
 │   ├── chat/contextCollector.ts
 │   ├── search/searchAndSynthesize.ts
@@ -266,7 +274,7 @@ NodeAgent/
 ├── src/mcp/toolRegistry.ts        # progressive-discovery tool registry
 ├── convex/schema.ts               # the live backend contract
 ├── demo/                          # runNodeAgentDemo.ts (real) · .mjs (zero-dep mirror)
-├── tests/                         # 31 scenario-based tests
+├── tests/                         # deterministic module, runtime, frame, Omnigent, durable tests
 ├── scripts/secret-scan.mjs        # refuses to ship secrets (gates the push)
 └── docs/                          # ARCHITECTURE · TECH_RETRO · DEMO_SCRIPT · MIGRATION_MAP
 ```

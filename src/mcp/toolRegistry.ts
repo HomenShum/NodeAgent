@@ -44,6 +44,13 @@ export const TOOL_REGISTRY: ToolRegistryEntry[] = [
     category: "runtime",
     description:
       "Run the full gather → search → model → memo loop and return a structured result.",
+    nextTools: ["run_durable_frame"],
+  },
+  {
+    name: "run_durable_frame",
+    category: "runtime",
+    description:
+      "Run a reasoning frame through provider-neutral durable ports with leases, idempotent journal, and verifier receipt replay.",
     nextTools: [],
   },
 ];

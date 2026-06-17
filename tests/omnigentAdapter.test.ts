@@ -30,6 +30,7 @@ describe("Omnigent NodeAgent adapter", () => {
 
     expect(analysis.requiredCommands.map((command) => [command.command, command.present])).toEqual([
       ["npm run nodeagent:frame:smoke", true],
+      ["npm run nodeagent:durable:smoke", true],
       ["npm run omnigent:nodeagent:smoke", true],
       ["npm run prepush", true],
     ]);

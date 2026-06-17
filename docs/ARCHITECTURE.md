@@ -20,6 +20,13 @@ runner executes `runNodeAgent` and returns `FrameDelta` plus a verifier receipt.
 Omnigent/Omniagent can sit outside this as the session/sandbox/policy harness,
 but NodeAgent remains the owner of runtime state and verification.
 
+The durable layer lives in
+`src/features/node-agent/runtime/durableRuntime.ts`. It keeps provider concerns
+behind ports: jobs, frames, leases, journal, scheduler, artifacts, tools, and
+policy context. The included in-memory adapter is not a production database; it
+is the deterministic reference implementation that proves the contract before a
+target repo adds Convex, AWS, Postgres, SQLite, or another adapter.
+
 ## Design principles
 
 **1. Deterministic core, injectable stochastics.** The expensive-to-trust parts
@@ -287,6 +294,45 @@ plus the winner citation; no grounded answer writes "manual review required."
                    steps[gather,search,model,memo] · status ok|partial|error
 ```
 
+## Durable runtime ports
+
+`src/features/node-agent/runtime/durableRuntime.ts` wraps the frame runner in a
+provider-neutral durable contract:
+
+```text
+DurableJob -> LeaseStore.claim -> runReasoningFrame
+  -> ArtifactStore.putJson -> StepJournal.writeOnce -> receipt replay
+```
+
+The ports are intentionally small:
+
+| Port | Role |
+|------|------|
+| `DurableJobStore` | job status, attempts, priority, `runAfter`, terminal receipt refs |
+| `DurableFrameStore` | frame status, evidence, and verifier receipt refs |
+| `LeaseStore` | worker claim/release/expiry with monotonic fencing tokens |
+| `StepJournal` | atomic `writeOnce` idempotency for frame receipts |
+| `DurableScheduler` | enqueue frames and select runnable jobs |
+| `ArtifactStore` | JSON receipt/result storage |
+| `ToolRuntime` | typed tool execution behind policy |
+| `PolicyContext` | principal, tenant, scopes, egress, and spend boundaries |
+
+`createInMemoryDurableRuntime()` is the reference adapter used by tests and
+smokes. It proves the semantics without choosing a vendor. A production adapter
+must provide the same behavior with the provider's transactional primitives:
+DynamoDB conditional writes, Convex mutations, Postgres unique keys/locks,
+SQLite unique keys, Durable Objects, or equivalent.
+
+The durable smoke is:
+
+```bash
+npm run nodeagent:durable:smoke
+```
+
+It fails unless a frame can run through the durable path, store a verifier
+receipt, replay a duplicate run from the journal, fence an active lease, and
+reclaim an expired lease with a higher fencing token.
+
 ## The live backend contract
 
 `convex/schema.ts` is the production contract. The prototype runs on deterministic
@@ -371,8 +417,10 @@ Each module upholds the relevant invariants from `.claude/rules/agentic_reliabil
 | **SSRF** | live retrieval adapter | `isSafeFetchUrl` — http/https only; blocks loopback, RFC1918, `169.254.0.0/16` link-local + cloud metadata, `.internal`/`.local` |
 | **DETERMINISTIC** | reproducible output | injectable clocks (`now`) everywhere; no `eval` (recursive-descent formula parser); only the injected `synthesizer` is stochastic; stable sorts + deterministic block ids |
 | **ERROR_BOUNDARY** | runtime loop | `runNodeAgent` never throws — each step wrapped in `safe()` with a typed fallback so swarm lanes don't crash each other |
+| **DURABLE_REPLAY** | durable runtime ports | lease fencing, atomic journal `writeOnce`, stored verifier receipts, duplicate-run replay, and stale lease reclaim are covered by `nodeagent:durable:smoke` |
 
 Verification floor (from `package.json`): `npm run typecheck` (`tsc --noEmit`),
 `npm run test` (`vitest run` — see `tests/nodeAgentRuntime.test.ts`,
 `searchSynthesize.test.ts`, `spreadsheetDelta.test.ts`), and `npm run secret-scan`
-before any push (`prepush` chains all three).
+before any push (`prepush` chains secret scan, frame smoke, durable smoke,
+Omnigent smoke, typecheck, and tests).
