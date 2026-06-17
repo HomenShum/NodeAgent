@@ -63,6 +63,7 @@ Verify it for yourself:
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
 npm run omnigent:nodeagent:smoke
+npm run examples:guidance:smoke
 npm run typecheck      # tsc --noEmit, clean
 npm run test           # full deterministic suite across modules, runtime, frames, durability
 npm run build          # vite build, clean
@@ -138,6 +139,12 @@ npm run omnigent:nodeagent:smoke
 If a target repo requires changing NodeAgent core to support its database, queue,
 or render provider, the abstraction is wrong. The target should add adapters and
 tools, not fork the runtime contract.
+
+Provider and app blueprints live under [`examples/adapters`](examples/adapters)
+and [`examples/apps`](examples/apps). They are written for coding agents: each
+folder lists credential names, official setup links, spin-up commands, adapter
+mapping, app tools, and done criteria. `npm run examples:guidance:smoke` fails
+if those guides lose the required sections.
 
 ### Target repo guidance
 
@@ -273,6 +280,8 @@ NodeAgent/
 │   └── notebook/notebookEditor.ts
 ├── src/mcp/toolRegistry.ts        # progressive-discovery tool registry
 ├── convex/schema.ts               # the live backend contract
+├── examples/adapters/             # provider adapter blueprints + credential handoff
+├── examples/apps/                 # spinnable app blueprints and tool maps
 ├── demo/                          # runNodeAgentDemo.ts (real) · .mjs (zero-dep mirror)
 ├── tests/                         # deterministic module, runtime, frame, Omnigent, durable tests
 ├── scripts/secret-scan.mjs        # refuses to ship secrets (gates the push)

@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nodeagent-durable-worker",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-06-01",
+  "vars": {
+    "NODEAGENT_QUEUE_NAME": "nodeagent-jobs"
+  },
+  "d1_databases": [
+    {
+      "binding": "NODEAGENT_DB",
+      "database_name": "nodeagent",
+      "database_id": "replace-with-d1-database-id"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "NODEAGENT_ARTIFACTS",
+      "bucket_name": "nodeagent-artifacts"
+    }
+  ],
+  "queues": {
+    "producers": [
+      {
+        "binding": "NODEAGENT_QUEUE",
+        "queue": "nodeagent-jobs"
+      }
+    ]
+  }
+}

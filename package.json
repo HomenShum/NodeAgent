@@ -38,9 +38,10 @@
     "nodeagent:durable:smoke": "tsx scripts/nodeagent-durable-smoke.ts --json-out docs/eval/nodeagent-durable-smoke.json",
     "omnigent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
     "omniagent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
+    "examples:guidance:smoke": "tsx scripts/example-guidance-smoke.ts",
     "secret-scan": "node scripts/secret-scan.mjs",
     "convex:dev": "convex dev",
-    "prepush": "npm run secret-scan && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run omnigent:nodeagent:smoke && npm run typecheck && npm run test"
+    "prepush": "npm run secret-scan && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run omnigent:nodeagent:smoke && npm run examples:guidance:smoke && npm run typecheck && npm run test"
   },
   "dependencies": {
     "@assistant-ui/react": "^0.14.14",

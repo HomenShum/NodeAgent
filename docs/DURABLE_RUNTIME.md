@@ -12,6 +12,7 @@ apps supply adapters.
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
 npm run omnigent:nodeagent:smoke
+npm run examples:guidance:smoke
 npm run prepush
 ```
 
@@ -66,3 +67,21 @@ instead of changing the frame runner:
 
 If a provider requires edits to `runReasoningFrame` or `runDurableReasoningFrame`,
 the adapter is leaking provider concerns into NodeAgent core.
+
+## Coding-Agent Blueprints
+
+Use these folders when adapting NodeAgent into another repo:
+
+- [`examples/adapters`](../examples/adapters/README.md): provider adapter
+  guidance for SQLite/local, Convex, AWS DynamoDB/SQS/S3, Postgres, and
+  Cloudflare D1/R2/Queues.
+- [`examples/apps`](../examples/apps/README.md): sample app maps for a minimal
+  portable agent, AWS-Hackathon/VisualLabs, local design dashboards, and video
+  agent pipelines.
+
+Every provider/app README must include credentials, spin-up commands, done
+criteria, and coding-agent handoff guidance. The structural check is:
+
+```bash
+npm run examples:guidance:smoke
+```
