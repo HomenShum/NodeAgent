@@ -37,6 +37,26 @@ interface HappyPathReport {
   };
 }
 
+interface AppSetupPhase {
+  name: string;
+  command: string;
+  ok: boolean;
+  durationMs: number;
+  detail: string;
+}
+
+interface AppSetupReceipt {
+  ok: boolean;
+  startedAt: string;
+  completedAt: string;
+  totalMs: number;
+  template: AppTemplateInfo["id"];
+  targetDir: string;
+  apiKeysRequired: false;
+  phases: AppSetupPhase[];
+  nextSteps: string[];
+}
+
 interface AppTemplateInfo {
   id: "local-dashboard";
   label: string;
@@ -130,7 +150,7 @@ program
       "  npm run nodeagent -- adapters setup sqlite-local --run",
       "",
       "No-key dashboard scaffold:",
-      "  npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard",
+      "  npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto",
     ].join("\n"), "Next");
     outro(checks.every((check) => check.ok) ? "Doctor passed." : "Doctor found missing files.");
     if (!checks.every((check) => check.ok)) process.exitCode = 1;
@@ -257,7 +277,7 @@ appsCommand
       const credentials = template.credentials.length > 0 ? template.credentials.join(", ") : "none";
       log.info(`${template.id.padEnd(16)} ${template.defaultDir.padEnd(28)} credentials: ${credentials}`);
     }
-    outro("Use `npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard` for the no-key dashboard.");
+    outro("Use `npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto` for the no-key dashboard.");
   });
 
 appsCommand
@@ -265,8 +285,12 @@ appsCommand
   .argument("<template>", "template id")
   .option("--dir <path>", "target directory")
   .option("--force", "overwrite matching template files if the target already exists")
+  .option("--install", "run npm install in the generated app")
+  .option("--run-demo", "run npm run agent:demo in the generated app")
+  .option("--verify", "run npm run smoke and npm run build in the generated app")
+  .option("--auto", "run install, agent demo, smoke, and build; writes .nodeagent/setup-receipt.json")
   .description("Create a coding-agent-friendly local app scaffold.")
-  .action((templateId: AppTemplateInfo["id"], options: { dir?: string; force?: boolean }) => {
+  .action((templateId: AppTemplateInfo["id"], options: { auto?: boolean; dir?: string; force?: boolean; install?: boolean; runDemo?: boolean; verify?: boolean }) => {
     const template = appTemplates.find((candidate) => candidate.id === templateId);
     intro(`NodeAgent App Scaffold: ${templateId}`);
     if (!template) {
@@ -295,15 +319,42 @@ appsCommand
 
     const filesCopied = copyDir(sourceDir, targetDir);
     log.success(`created ${formatPath(targetDir)} (${filesCopied} files)`);
+
+    const shouldInstall = Boolean(options.auto || options.install);
+    const shouldRunDemo = Boolean(options.auto || options.runDemo);
+    const shouldVerify = Boolean(options.auto || options.verify);
+    if (shouldInstall || shouldRunDemo || shouldVerify) {
+      const receipt = runAppSetupAutomation({
+        install: shouldInstall,
+        runDemo: shouldRunDemo,
+        targetDir,
+        templateId: template.id,
+        verify: shouldVerify,
+      });
+      const receiptPath = join(targetDir, ".nodeagent", "setup-receipt.json");
+      writeJson(receiptPath, receipt);
+      if (receipt.ok) {
+        log.success(`wrote ${formatPath(receiptPath)}`);
+      } else {
+        log.error(`setup failed; receipt wrote ${formatPath(receiptPath)}`);
+        process.exitCode = 1;
+      }
+    }
+
     note([
       "No API keys are required for the first run.",
       "The app uses a scripted local agent and SQLite durability by default.",
       "The dashboard includes the NodeRoom-style Trace Lens tabs: Review, Builder, Business proof, Runtime trace, and gated Code ownership.",
       "",
+      options.auto
+        ? "Auto mode already ran install, agent demo, smoke, and build."
+        : "Fully automatic setup:",
+      options.auto
+        ? ""
+        : `  npm run nodeagent -- apps scaffold local-dashboard --dir ${formatPath(targetDir)} --auto`,
+      "",
       "Run:",
       `  cd ${formatPath(targetDir)}`,
-      "  npm install",
-      "  npm run agent:demo",
       "  npm run dev",
       "",
       "Optional verification:",
@@ -383,6 +434,77 @@ function runScripts(scripts: string[]) {
     }
   }
   return ok;
+}
+
+function runAppSetupAutomation({
+  install,
+  runDemo,
+  targetDir,
+  templateId,
+  verify,
+}: {
+  install: boolean;
+  runDemo: boolean;
+  targetDir: string;
+  templateId: AppTemplateInfo["id"];
+  verify: boolean;
+}): AppSetupReceipt {
+  const startedAtMs = Date.now();
+  const startedAt = new Date(startedAtMs).toISOString();
+  const phases: AppSetupPhase[] = [];
+
+  if (install) phases.push(runAppCommandPhase(targetDir, "install", ["install"]));
+  if (phases.every((phase) => phase.ok) && runDemo) phases.push(runAppCommandPhase(targetDir, "agent demo", ["run", "agent:demo"]));
+  if (phases.every((phase) => phase.ok) && verify) {
+    phases.push(runAppCommandPhase(targetDir, "smoke", ["run", "smoke"]));
+    if (phases.every((phase) => phase.ok)) phases.push(runAppCommandPhase(targetDir, "build", ["run", "build"]));
+  }
+
+  const completedAtMs = Date.now();
+  return {
+    ok: phases.every((phase) => phase.ok),
+    startedAt,
+    completedAt: new Date(completedAtMs).toISOString(),
+    totalMs: completedAtMs - startedAtMs,
+    template: templateId,
+    targetDir,
+    apiKeysRequired: false,
+    phases,
+    nextSteps: [
+      "npm run dev",
+      "Open the Vite URL printed by the dev server.",
+      "Add model/provider credentials only when upgrading beyond scripted local mode.",
+    ],
+  };
+}
+
+function runAppCommandPhase(targetDir: string, name: string, args: string[]): AppSetupPhase {
+  const command = `npm ${args.join(" ")}`;
+  const startedAt = performance.now();
+  const s = spinner();
+  s.start(`${command} (${formatPath(targetDir)})`);
+  const result = spawnSync(npmCommand(), args, {
+    cwd: targetDir,
+    encoding: "utf8",
+    shell: process.platform === "win32",
+  });
+  const durationMs = Math.round(performance.now() - startedAt);
+  const output = [result.error?.message, result.stdout, result.stderr].filter(Boolean).join("\n");
+  if (result.status === 0) {
+    s.stop(command);
+    log.success(`${name} ${formatMs(durationMs)}`);
+  } else {
+    s.stop(command);
+    log.error(`${name} failed`);
+    if (output.trim()) note(output.trim().slice(-3000), "Command output");
+  }
+  return {
+    name,
+    command,
+    ok: result.status === 0,
+    durationMs,
+    detail: result.status === 0 ? "completed" : output.slice(-240).replace(/\s+/g, " ").trim() || "failed",
+  };
 }
 
 function runScriptPhase(script: string): TimedPhase {

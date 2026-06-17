@@ -17,10 +17,8 @@ add, what credentials to request, and what smoke proves the app works.
 Scaffold the runnable local dashboard:
 
 ```bash
-npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard
+npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
 cd nodeagent-local-dashboard
-npm install
-npm run agent:demo
 npm run dev
 ```
 

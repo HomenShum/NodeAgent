@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "startedAt": "2026-06-17T02:35:49.469Z",
-  "completedAt": "2026-06-17T02:35:50.819Z",
-  "targetDir": "C:\\Users\\hshum\\AppData\\Local\\Temp\\nodeagent-local-dashboard-AWSzbV\\app",
+  "startedAt": "2026-06-17T02:55:41.144Z",
+  "completedAt": "2026-06-17T02:55:42.171Z",
+  "targetDir": "C:\\Users\\hshum\\AppData\\Local\\Temp\\nodeagent-local-dashboard-F18j8n\\app",
   "requiredFiles": [
     "package.json",
     "README.md",

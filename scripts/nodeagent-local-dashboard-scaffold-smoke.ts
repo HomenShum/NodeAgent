@@ -56,6 +56,7 @@ function main() {
   if (issues.length === 0) {
     validateGeneratedApp(targetDir, issues);
   }
+  validateCliContract(issues);
 
   const report: SmokeReport = {
     ok: issues.length === 0,
@@ -83,6 +84,13 @@ function main() {
   }
 
   if (tempDir.startsWith(tmpdir())) rmSync(tempDir, { recursive: true, force: true });
+}
+
+function validateCliContract(issues: string[]) {
+  const cli = readFileSync("scripts/nodeagent-cli.ts", "utf8");
+  for (const required of ["--auto", "--install", "--run-demo", "--verify", "setup-receipt.json"]) {
+    if (!cli.includes(required)) issues.push(`nodeagent-cli.ts missing ${required}`);
+  }
 }
 
 function validateGeneratedApp(targetDir: string, issues: string[]) {

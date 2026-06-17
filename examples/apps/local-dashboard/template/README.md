@@ -34,6 +34,15 @@ npm run smoke
 npm run build
 ```
 
+If this app was generated with:
+
+```bash
+npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
+```
+
+the install, local agent demo, smoke, and build already ran. The automation
+receipt is `.nodeagent/setup-receipt.json`.
+
 ## Trace Lens
 
 The dashboard includes the NodeRoom-style trace workflow:

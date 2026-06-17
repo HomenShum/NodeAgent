@@ -43,8 +43,8 @@ const targets: GuidanceTarget[] = [
   { path: "examples/apps/minimal-portable-agent/README.md", required: [...appSections, "## What To Copy", "## Add App Tools", "## Coding-Agent Prompt"] },
   { path: "examples/apps/aws-hackathon-visual-labs/README.md", required: [...appSections, "## Runtime Mapping", "## App Tools To Add"] },
   { path: "examples/apps/local-design-dashboard/README.md", required: [...appSections, "## Runtime Mapping", "## App Tools To Add"] },
-  { path: "examples/apps/local-dashboard/README.md", required: [...appSections, "## Runtime Mapping", "## Trace Lens", "## App Tools To Add", "npm run nodeagent -- apps scaffold local-dashboard"] },
-  { path: "examples/apps/local-dashboard/template/README.md", required: ["# NodeAgent Local Dashboard", "## No API Keys", "## Spin Up", "## Trace Lens", "## Local Backend", "npm run agent:demo"] },
+  { path: "examples/apps/local-dashboard/README.md", required: [...appSections, "## Runtime Mapping", "## Trace Lens", "## App Tools To Add", "npm run nodeagent -- apps scaffold local-dashboard", "--auto"] },
+  { path: "examples/apps/local-dashboard/template/README.md", required: ["# NodeAgent Local Dashboard", "## No API Keys", "## Spin Up", "## Trace Lens", "## Local Backend", "npm run agent:demo", "setup-receipt.json"] },
   { path: "examples/apps/video-agent-pipeline/README.md", required: [...appSections, "## Runtime Mapping", "## App Tools To Add"] },
 ];
 

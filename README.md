@@ -60,7 +60,7 @@ npm run demo           # the loop over the canonical scenario, via tsx
 npm run nodeagent -- doctor
 npm run nodeagent -- adapters list
 npm run nodeagent -- adapters setup sqlite-local --run
-npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard
+npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
 ```
 
 Verify it for yourself:
@@ -111,7 +111,7 @@ npm run nodeagent -- smoke
 npm run nodeagent -- adapters list
 npm run nodeagent -- adapters setup sqlite-local --run
 npm run nodeagent -- apps list
-npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard
+npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
 ```
 
 The SQLite provider proof uses [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
@@ -124,14 +124,14 @@ a local VisualLabs/NodeRoom work surface without requiring model keys:
 
 ```bash
 cd nodeagent-local-dashboard
-npm install
-npm run agent:demo
 npm run dev
 ```
 
-It includes a scripted local agent, SQLite durability, `public/nodeagent-state.json`,
-and NodeRoom-style Trace Lens tabs: `Review`, `Builder`, `Business proof`,
-`Runtime trace`, and gated `Code ownership`.
+`--auto` installs dependencies, runs the scripted SQLite agent demo, runs smoke,
+runs build, and writes `.nodeagent/setup-receipt.json`. The app includes SQLite
+durability, `public/nodeagent-state.json`, and NodeRoom-style Trace Lens tabs:
+`Review`, `Builder`, `Business proof`, `Runtime trace`, and gated
+`Code ownership`.
 
 ## Portability guidance
 

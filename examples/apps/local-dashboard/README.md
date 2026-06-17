@@ -46,17 +46,16 @@ The scaffold mirrors the latest NodeRoom trace-tab pattern:
 ## Spin Up
 
 ```bash
-npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard
+npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
 cd nodeagent-local-dashboard
-npm install
-npm run agent:demo
 npm run dev
 npm run smoke
 ```
 
-The first useful screen works before credentials exist. The scripted agent writes
-a SQLite run receipt and a dashboard JSON state file. A live model adapter can be
-added later without changing the trace UI contract.
+`--auto` installs dependencies, runs the scripted SQLite agent demo, runs smoke,
+runs build, and writes `.nodeagent/setup-receipt.json`. The first useful screen
+works before credentials exist. A live model adapter can be added later without
+changing the trace UI contract.
 
 ## App Tools To Add
 
