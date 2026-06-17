@@ -13,7 +13,7 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 `live chat + context` · `grounded search & synthesis` · `versioned spreadsheet` · `TipTap notebook`
 
-[Quickstart](#quickstart) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
+[Quickstart](#quickstart) · [CLI](#cli) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
 
 </div>
 
@@ -55,6 +55,11 @@ npm run proto          # opens /nodeagent-v1.html
 # 3. Instant CLI — the real loop's math, no install, no build.
 node demo/runNodeAgentDemo.mjs
 npm run demo           # the loop over the canonical scenario, via tsx
+
+# 4. Pretty CLI — guided checks and adapter setup.
+npm run nodeagent -- doctor
+npm run nodeagent -- adapters list
+npm run nodeagent -- adapters setup sqlite-local --run
 ```
 
 Verify it for yourself:
@@ -62,6 +67,7 @@ Verify it for yourself:
 ```bash
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
+npm run nodeagent:sqlite:smoke
 npm run omnigent:nodeagent:smoke
 npm run examples:guidance:smoke
 npm run typecheck      # tsc --noEmit, clean
@@ -73,6 +79,8 @@ npm run build          # vite build, clean
 `ReasoningFrame -> runNodeAgent -> FrameDelta -> verifier receipt`.
 `nodeagent:durable:smoke` proves the provider-neutral durable path:
 `DurableJob -> lease -> runReasoningFrame -> StepJournal -> receipt replay`.
+`nodeagent:sqlite:smoke` proves the fully runnable no-cloud SQLite adapter:
+`SQLite tables -> persisted frame -> receipt replay after database reopen`.
 `omnigent:nodeagent:smoke` validates the Omnigent/Omniagent YAML specs, runs the
 frame and durable smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`. If the
 Omnigent CLI is installed, the outer harness check is:
@@ -85,6 +93,22 @@ To light up the **live** paths (multiplayer room, live web retrieval, LLM synthe
 `.env.example` → `.env.local` and add keys. With no keys, every live path falls back to the
 deterministic demo — nothing breaks. Secrets are gitignored and `npm run secret-scan` refuses
 to ship them.
+
+## CLI
+
+The pretty CLI uses maintained OSS packages instead of a custom prompt stack:
+[Commander](https://github.com/tj/commander.js) for subcommands and
+[@clack/prompts](https://github.com/bombshell-dev/clack) for terminal UI.
+
+```bash
+npm run nodeagent -- doctor
+npm run nodeagent -- smoke
+npm run nodeagent -- adapters list
+npm run nodeagent -- adapters setup sqlite-local --run
+```
+
+The SQLite provider proof uses [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
+and runs with no cloud account.
 
 ## Portability guidance
 
@@ -144,7 +168,9 @@ Provider and app blueprints live under [`examples/adapters`](examples/adapters)
 and [`examples/apps`](examples/apps). They are written for coding agents: each
 folder lists credential names, official setup links, spin-up commands, adapter
 mapping, app tools, and done criteria. `npm run examples:guidance:smoke` fails
-if those guides lose the required sections.
+if those guides lose the required sections. `sqlite-local` is fully runnable
+today; the cloud providers are credential-guided blueprints until their
+provider-specific smokes are implemented.
 
 ### Target repo guidance
 
@@ -280,6 +306,7 @@ NodeAgent/
 │   └── notebook/notebookEditor.ts
 ├── src/mcp/toolRegistry.ts        # progressive-discovery tool registry
 ├── convex/schema.ts               # the live backend contract
+├── scripts/nodeagent-cli.ts       # Commander + Clack pretty CLI
 ├── examples/adapters/             # provider adapter blueprints + credential handoff
 ├── examples/apps/                 # spinnable app blueprints and tool maps
 ├── demo/                          # runNodeAgentDemo.ts (real) · .mjs (zero-dep mirror)

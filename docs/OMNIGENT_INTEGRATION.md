@@ -12,6 +12,7 @@ From the repo root:
 ```bash
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
+npm run nodeagent:sqlite:smoke
 npm run omnigent:nodeagent:smoke
 ```
 
@@ -27,9 +28,15 @@ The durable command executes the provider-neutral ports through:
 DurableJob -> lease -> runReasoningFrame -> StepJournal -> receipt replay
 ```
 
+The SQLite command proves the no-cloud provider adapter through:
+
+```text
+SQLite tables -> persisted frame -> receipt replay after database reopen
+```
+
 The Omnigent command validates `examples/omnigent/*.yaml`, confirms the worker
 spec points back to the required NodeAgent proof commands, runs the frame and
-durable smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`.
+durable/provider smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`.
 
 The smoke does not require the Omnigent CLI. When the CLI is installed, run the
 outer harness check with:

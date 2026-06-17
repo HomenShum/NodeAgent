@@ -9,6 +9,7 @@ import {
 } from "../src/features/node-agent/runtime/omnigentAdapter";
 import { runNodeAgentDurableSmoke } from "./nodeagent-durable-smoke";
 import { runNodeAgentFrameSmoke } from "./nodeagent-frame-smoke";
+import { runNodeAgentSqliteSmoke } from "./nodeagent-sqlite-smoke";
 
 function argValue(name: string) {
   const prefix = `${name}=`;
@@ -49,8 +50,9 @@ async function main() {
   });
   const frameSmoke = runNodeAgentFrameSmoke();
   const durableSmoke = await runNodeAgentDurableSmoke();
+  const sqliteSmoke = await runNodeAgentSqliteSmoke();
   const cli = detectCli();
-  const ok = specs.every((spec) => spec.ok) && frameSmoke.ok && durableSmoke.ok && (!requireCli || cli.installed);
+  const ok = specs.every((spec) => spec.ok) && frameSmoke.ok && durableSmoke.ok && sqliteSmoke.ok && (!requireCli || cli.installed);
   const report = {
     ok,
     omnigent: {
@@ -60,6 +62,7 @@ async function main() {
     specs,
     nodeagentFrameSmoke: frameSmoke,
     nodeagentDurableSmoke: durableSmoke,
+    nodeagentSqliteSmoke: sqliteSmoke,
   };
 
   for (const spec of specs) {
@@ -68,6 +71,7 @@ async function main() {
   }
   console.log(`nodeagent frame smoke: ${frameSmoke.ok ? "PASS" : "FAIL"} frame=${frameSmoke.frameId} status=${frameSmoke.status}`);
   console.log(`nodeagent durable smoke: ${durableSmoke.ok ? "PASS" : "FAIL"} frame=${durableSmoke.frameId} job=${durableSmoke.jobId} replay=${durableSmoke.replay.status}`);
+  console.log(`nodeagent sqlite smoke: ${sqliteSmoke.ok ? "PASS" : "FAIL"} frame=${sqliteSmoke.frameId} job=${sqliteSmoke.jobId} replay=${sqliteSmoke.replayAfterReopen.status}`);
   console.log(cli.installed
     ? `omnigent cli: found ${cli.command}`
     : "omnigent cli: not installed locally; install Omnigent and run `omni run examples/omnigent/nodeagent-worker.yaml` for the outer harness live check");

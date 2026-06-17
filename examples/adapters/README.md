@@ -17,9 +17,18 @@ does not fork NodeAgent core.
 ```bash
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
+npm run nodeagent:sqlite:smoke
 npm run omnigent:nodeagent:smoke
 npm run examples:guidance:smoke
 npm run prepush
+```
+
+Pretty CLI path:
+
+```bash
+npm run nodeagent -- doctor
+npm run nodeagent -- adapters list
+npm run nodeagent -- adapters setup sqlite-local --run
 ```
 
 ## Adapter Contract
@@ -61,7 +70,7 @@ After the human provides credentials, the agent should:
 
 | Folder | Status | Best first use |
 |---|---|---|
-| `sqlite-local` | local-first blueprint, no cloud credentials | desktop/local dev, CI proof, offline demo |
+| `sqlite-local` | fully runnable, no cloud credentials | desktop/local dev, CI proof, offline demo |
 | `convex` | live app blueprint | existing NodeBench/Convex-style multiplayer app |
 | `aws-dynamodb` | AWS durable blueprint | AWS-Hackathon / VisualLabs style apps |
 | `postgres` | SQL durable blueprint | Neon, Supabase, Railway, RDS, local Postgres |

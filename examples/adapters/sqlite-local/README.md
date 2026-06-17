@@ -1,8 +1,8 @@
 # SQLite Local Adapter
 
-Status: blueprint for a local-first durable adapter. No cloud credentials are
-required. This is the recommended first provider to implement because it can run
-in CI and on a laptop.
+Status: fully runnable local-first durable adapter. No cloud credentials are
+required. This is the recommended first provider because it can run in CI and
+on a laptop.
 
 ## Credentials
 
@@ -21,8 +21,8 @@ Target app commands:
 ```bash
 npm install
 npm run nodeagent:durable:smoke
-# after the SQLite adapter exists:
 npm run nodeagent:sqlite:smoke
+npm run nodeagent -- adapters setup sqlite-local --run
 ```
 
 ## Adapter Mapping
@@ -31,7 +31,7 @@ npm run nodeagent:sqlite:smoke
 |---|---|
 | `DurableJobStore` | `nodeagent_jobs` table |
 | `DurableFrameStore` | `nodeagent_frames` table |
-| `LeaseStore` | `nodeagent_leases` table with `resource_id` unique |
+| `LeaseStore` | `nodeagent_leases` table with `resource_id` primary key |
 | `StepJournal` | `nodeagent_journal` table with `key` primary key |
 | `DurableScheduler` | query queued jobs by `run_after`, priority, id |
 | `ArtifactStore` | JSON column or file path under `NODEAGENT_ARTIFACT_DIR` |
@@ -39,6 +39,8 @@ npm run nodeagent:sqlite:smoke
 
 ## Implementation Notes
 
+- Adapter code: `sqliteDurableRuntime.ts`.
+- Provider smoke: `scripts/nodeagent-sqlite-smoke.ts`.
 - Use a transaction for lease claim and journal write.
 - Store receipts as JSON, not prompt text.
 - Make `nodeagent_journal.key` unique so duplicate runs replay.
@@ -48,16 +50,17 @@ npm run nodeagent:sqlite:smoke
 ## Done Criteria
 
 - `npm run nodeagent:durable:smoke` still passes.
-- Provider smoke proves enqueue, lease, stale lease reclaim, journal write once,
-  receipt store/load, and duplicate replay.
+- `npm run nodeagent:sqlite:smoke` proves enqueue, persisted frame run, stale
+  lease reclaim, journal write once, receipt store/load, and duplicate replay
+  after reopening the SQLite database.
 - A clean checkout can run with only local files and no external accounts.
 
 ## Coding-Agent Prompt
 
 ```text
-Implement the SQLite adapter behind DurableRuntimePorts.
-Use examples/adapters/sqlite-local/schema.sql as the schema shape.
-Do not change runReasoningFrame. Add npm run nodeagent:sqlite:smoke and prove
+Use the existing SQLite adapter behind DurableRuntimePorts.
+Run npm run nodeagent:sqlite:smoke before changing it.
+If extending it, keep schema.sql and sqliteDurableRuntime.ts aligned and prove
 enqueue, lease, stale lease reclaim, journal writeOnce, receipt storage, and
-duplicate replay.
+duplicate replay after database reopen.
 ```

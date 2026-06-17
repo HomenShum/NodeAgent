@@ -11,6 +11,7 @@ prompt: |
   Before claiming work is done, inspect the relevant files and run:
   npm run nodeagent:frame:smoke
   npm run nodeagent:durable:smoke
+  npm run nodeagent:sqlite:smoke
   npm run omnigent:nodeagent:smoke
   npm run prepush
 

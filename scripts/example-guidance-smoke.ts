@@ -29,9 +29,9 @@ const targets: GuidanceTarget[] = [
   },
   {
     path: "examples/adapters/AGENTS.md",
-    required: ["# Coding Agent Notes", "npm run examples:guidance:smoke", "Do not modify `runReasoningFrame`"],
+    required: ["# Coding Agent Notes", "npm run examples:guidance:smoke", "npm run nodeagent:sqlite:smoke", "Do not modify `runReasoningFrame`"],
   },
-  { path: "examples/adapters/sqlite-local/README.md", required: providerSections },
+  { path: "examples/adapters/sqlite-local/README.md", required: [...providerSections, "fully runnable", "npm run nodeagent:sqlite:smoke"] },
   { path: "examples/adapters/convex/README.md", required: [...providerSections, "https://docs.convex.dev/cli/overview"] },
   { path: "examples/adapters/aws-dynamodb/README.md", required: [...providerSections, "https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html"] },
   { path: "examples/adapters/postgres/README.md", required: [...providerSections, "https://www.postgresql.org/docs/current/libpq-connect.html"] },
@@ -49,6 +49,7 @@ const targets: GuidanceTarget[] = [
 const supportFiles = [
   "examples/adapters/sqlite-local/.env.example",
   "examples/adapters/sqlite-local/schema.sql",
+  "examples/adapters/sqlite-local/sqliteDurableRuntime.ts",
   "examples/adapters/convex/.env.example",
   "examples/adapters/aws-dynamodb/.env.example",
   "examples/adapters/aws-dynamodb/iam-policy.template.json",
@@ -58,6 +59,8 @@ const supportFiles = [
   "examples/adapters/cloudflare/wrangler.example.jsonc",
   "examples/apps/minimal-portable-agent/.env.example",
   "examples/apps/minimal-portable-agent/AGENTS.md",
+  "scripts/nodeagent-cli.ts",
+  "scripts/nodeagent-sqlite-smoke.ts",
 ];
 
 function main() {

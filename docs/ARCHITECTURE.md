@@ -318,20 +318,33 @@ The ports are intentionally small:
 | `PolicyContext` | principal, tenant, scopes, egress, and spend boundaries |
 
 `createInMemoryDurableRuntime()` is the reference adapter used by tests and
-smokes. It proves the semantics without choosing a vendor. A production adapter
-must provide the same behavior with the provider's transactional primitives:
+smokes. `examples/adapters/sqlite-local/sqliteDurableRuntime.ts` is the first
+fully runnable provider adapter: it uses real SQLite tables, primary keys for
+journal idempotency, and transactions for lease claim. Cloud adapters must
+provide the same behavior with the provider's transactional primitives:
 DynamoDB conditional writes, Convex mutations, Postgres unique keys/locks,
-SQLite unique keys, Durable Objects, or equivalent.
+Durable Objects, or equivalent.
 
 The durable smoke is:
 
 ```bash
 npm run nodeagent:durable:smoke
+npm run nodeagent:sqlite:smoke
 ```
 
-It fails unless a frame can run through the durable path, store a verifier
-receipt, replay a duplicate run from the journal, fence an active lease, and
-reclaim an expired lease with a higher fencing token.
+The generic durable smoke fails unless a frame can run through the durable path,
+store a verifier receipt, replay a duplicate run from the journal, fence an
+active lease, and reclaim an expired lease with a higher fencing token. The
+SQLite smoke adds a provider proof: persisted frame state and receipt replay
+after reopening the database.
+
+The pretty CLI wraps these checks with Commander and Clack:
+
+```bash
+npm run nodeagent -- doctor
+npm run nodeagent -- smoke
+npm run nodeagent -- adapters setup sqlite-local --run
+```
 
 ## The live backend contract
 
@@ -417,10 +430,10 @@ Each module upholds the relevant invariants from `.claude/rules/agentic_reliabil
 | **SSRF** | live retrieval adapter | `isSafeFetchUrl` — http/https only; blocks loopback, RFC1918, `169.254.0.0/16` link-local + cloud metadata, `.internal`/`.local` |
 | **DETERMINISTIC** | reproducible output | injectable clocks (`now`) everywhere; no `eval` (recursive-descent formula parser); only the injected `synthesizer` is stochastic; stable sorts + deterministic block ids |
 | **ERROR_BOUNDARY** | runtime loop | `runNodeAgent` never throws — each step wrapped in `safe()` with a typed fallback so swarm lanes don't crash each other |
-| **DURABLE_REPLAY** | durable runtime ports | lease fencing, atomic journal `writeOnce`, stored verifier receipts, duplicate-run replay, and stale lease reclaim are covered by `nodeagent:durable:smoke` |
+| **DURABLE_REPLAY** | durable runtime ports | lease fencing, atomic journal `writeOnce`, stored verifier receipts, duplicate-run replay, and stale lease reclaim are covered by `nodeagent:durable:smoke`; SQLite persistence is covered by `nodeagent:sqlite:smoke` |
 
-Verification floor (from `package.json`): `npm run typecheck` (`tsc --noEmit`),
-`npm run test` (`vitest run` — see `tests/nodeAgentRuntime.test.ts`,
-`searchSynthesize.test.ts`, `spreadsheetDelta.test.ts`), and `npm run secret-scan`
-before any push (`prepush` chains secret scan, frame smoke, durable smoke,
-Omnigent smoke, typecheck, and tests).
+Verification floor (from `package.json`): `npm run nodeagent:frame:smoke`,
+`npm run nodeagent:durable:smoke`, `npm run nodeagent:sqlite:smoke`,
+`npm run omnigent:nodeagent:smoke`, `npm run examples:guidance:smoke`,
+`npm run typecheck` (`tsc --noEmit`), `npm run test` (`vitest run`), and
+`npm run secret-scan` before any push (`prepush` chains the same gates).

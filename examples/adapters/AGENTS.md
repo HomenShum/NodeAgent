@@ -9,6 +9,7 @@ Before editing provider guidance or adapter examples, run:
 ```bash
 npm run examples:guidance:smoke
 npm run nodeagent:durable:smoke
+npm run nodeagent:sqlite:smoke
 ```
 
 Rules:
@@ -18,6 +19,7 @@ Rules:
 - Do not modify `runReasoningFrame` to satisfy a provider.
 - Include credential names, official docs links, spin-up commands, and done
   criteria in every provider README.
-- Mark blueprint-only examples clearly. Do not imply they are production-ready.
+- Mark blueprint-only examples clearly. `sqlite-local` is runnable; cloud
+  providers remain blueprints until their provider smokes exist.
 - Every provider adapter must eventually prove enqueue, lease, stale lease
   reclaim, journal `writeOnce`, receipt storage, and replay.

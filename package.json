@@ -31,25 +31,31 @@
     "proto": "vite --open /nodeagent-v1.html",
     "demo": "tsx demo/runNodeAgentDemo.ts",
     "demo:node": "node demo/runNodeAgentDemo.mjs",
+    "nodeagent": "tsx scripts/nodeagent-cli.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "nodeagent:frame:smoke": "tsx scripts/nodeagent-frame-smoke.ts --json-out docs/eval/nodeagent-frame-smoke.json",
     "nodeagent:durable:smoke": "tsx scripts/nodeagent-durable-smoke.ts --json-out docs/eval/nodeagent-durable-smoke.json",
+    "nodeagent:sqlite:smoke": "tsx scripts/nodeagent-sqlite-smoke.ts --json-out docs/eval/nodeagent-sqlite-smoke.json",
     "omnigent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
     "omniagent:nodeagent:smoke": "tsx scripts/omnigent-nodeagent-smoke.ts --json-out docs/eval/omnigent-nodeagent-smoke.json",
     "examples:guidance:smoke": "tsx scripts/example-guidance-smoke.ts",
     "secret-scan": "node scripts/secret-scan.mjs",
     "convex:dev": "convex dev",
-    "prepush": "npm run secret-scan && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run omnigent:nodeagent:smoke && npm run examples:guidance:smoke && npm run typecheck && npm run test"
+    "prepush": "npm run secret-scan && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run nodeagent:sqlite:smoke && npm run omnigent:nodeagent:smoke && npm run examples:guidance:smoke && npm run typecheck && npm run test"
   },
   "dependencies": {
     "@assistant-ui/react": "^0.14.14",
-    "convex": "^1.31.0",
+    "@clack/prompts": "^1.5.1",
+    "better-sqlite3": "^12.11.1",
+    "commander": "^15.0.0",
+    "convex": "^1.41.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

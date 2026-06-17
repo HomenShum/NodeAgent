@@ -39,6 +39,7 @@ export const OMNIGENT_NODEAGENT_TARGETS: OmnigentSpecTarget[] = [
     requiredCommands: [
       "npm run nodeagent:frame:smoke",
       "npm run nodeagent:durable:smoke",
+      "npm run nodeagent:sqlite:smoke",
       "npm run omnigent:nodeagent:smoke",
       "npm run prepush",
     ],

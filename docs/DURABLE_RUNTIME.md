@@ -11,6 +11,7 @@ apps supply adapters.
 ```bash
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
+npm run nodeagent:sqlite:smoke
 npm run omnigent:nodeagent:smoke
 npm run examples:guidance:smoke
 npm run prepush
@@ -27,6 +28,11 @@ npm run prepush
 
 The JSON receipt is written to
 [`docs/eval/nodeagent-durable-smoke.json`](eval/nodeagent-durable-smoke.json).
+
+`nodeagent:sqlite:smoke` uses the real SQLite adapter in
+[`examples/adapters/sqlite-local/sqliteDurableRuntime.ts`](../examples/adapters/sqlite-local/sqliteDurableRuntime.ts).
+It creates a temporary SQLite database, runs a durable frame, reopens through a
+second runtime, and proves duplicate execution replays the persisted receipt.
 
 ## Ports
 
@@ -84,4 +90,12 @@ criteria, and coding-agent handoff guidance. The structural check is:
 
 ```bash
 npm run examples:guidance:smoke
+```
+
+The guided CLI wraps the same checks with Commander and Clack:
+
+```bash
+npm run nodeagent -- doctor
+npm run nodeagent -- smoke
+npm run nodeagent -- adapters setup sqlite-local --run
 ```
