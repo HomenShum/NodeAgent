@@ -6,9 +6,10 @@ type Provider = "openrouter" | "openai" | "anthropic" | "gemini";
 
 type SmokeReport = {
   ok: boolean;
+  skipped?: boolean;
   startedAt: string;
   completedAt: string;
-  provider: Provider;
+  provider: Provider | "none";
   model: string;
   envFilesLoaded: string[];
   convex: {
@@ -36,6 +37,28 @@ async function main() {
     ".env",
     ...asArray(args["env-file"]),
   ]);
+  if (args["skip-if-missing"] && !hasAnyProviderKey()) {
+    const convex = await probeConvexUrl();
+    const report: SmokeReport = {
+      ok: true,
+      skipped: true,
+      startedAt,
+      completedAt: new Date().toISOString(),
+      provider: "none",
+      model: "none",
+      envFilesLoaded,
+      convex,
+      llm: {
+        ok: true,
+        ms: 0,
+        expected: EXPECTED,
+        receivedPreview: "skipped: no provider key configured",
+      },
+    };
+    if (args["json-out"]) writeJson(args["json-out"], report);
+    console.log("nodeagent live provider smoke: SKIP no provider key configured");
+    return;
+  }
   const provider = selectProvider(args.provider);
   const model = selectModel(provider, args.model);
   const convex = await probeConvexUrl();
@@ -119,6 +142,16 @@ function selectProvider(raw?: string | string[]): Provider {
   if (process.env.ANTHROPIC_API_KEY) return "anthropic";
   if (process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY) return "gemini";
   throw new Error("missing provider API key; set OPENROUTER_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GOOGLE_GENERATIVE_AI_API_KEY");
+}
+
+function hasAnyProviderKey() {
+  return !!(
+    process.env.OPENROUTER_API_KEY ||
+    process.env.OPENAI_API_KEY ||
+    process.env.ANTHROPIC_API_KEY ||
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
+    process.env.GEMINI_API_KEY
+  );
 }
 
 function selectModel(provider: Provider, raw?: string | string[]) {

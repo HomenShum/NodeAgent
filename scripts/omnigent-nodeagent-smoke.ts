@@ -11,10 +11,17 @@ import { runNodeAgentDurableSmoke } from "./nodeagent-durable-smoke";
 import { runNodeAgentFrameSmoke } from "./nodeagent-frame-smoke";
 import { runNodeAgentSqliteSmoke } from "./nodeagent-sqlite-smoke";
 
-type CliProbe = ReturnType<typeof runCliProbe>;
+type CliProbe = {
+  ok: boolean;
+  checks: Array<{ command: string; exitCode: number | null; stdout: string; stderr?: string }>;
+};
 type DetectedCli =
   | { checked: true; installed: true; command: string; probe: CliProbe }
   | { checked: true; installed: false };
+type CliReport = {
+  officialOmnigent: DetectedCli;
+  npmOmniagent: DetectedCli;
+};
 
 function argValue(name: string) {
   const prefix = `${name}=`;
@@ -40,7 +47,7 @@ function ensureParent(path: string) {
   if (parent && parent !== "." && !existsSync(parent)) mkdirSync(parent, { recursive: true });
 }
 
-function runCliProbe(command: string) {
+function runNpmOmniagentProbe(command: string): CliProbe {
   const hello = spawnSync(command, ["hello"], {
     encoding: "utf8",
     shell: process.platform === "win32",
@@ -58,17 +65,61 @@ function runCliProbe(command: string) {
   };
 }
 
-function detectCli(): DetectedCli {
-  for (const command of ["omni", "omnigent", "omniagent", "omni-agent"]) {
+function runOfficialOmnigentProbe(command: string): CliProbe {
+  const help = spawnSync(command, ["--help"], {
+    encoding: "utf8",
+    shell: process.platform === "win32",
+  });
+  const runHelp = spawnSync(command, ["run", "--help"], {
+    encoding: "utf8",
+    shell: process.platform === "win32",
+  });
+  return {
+    ok: help.status === 0 && runHelp.status === 0,
+    checks: [
+      {
+        command: `${command} --help`,
+        exitCode: help.status,
+        stdout: (help.stdout ?? "").trim().slice(0, 160),
+        stderr: (help.stderr ?? "").trim().slice(0, 240),
+      },
+      {
+        command: `${command} run --help`,
+        exitCode: runHelp.status,
+        stdout: (runHelp.stdout ?? "").trim().slice(0, 160),
+        stderr: (runHelp.stderr ?? "").trim().slice(0, 240),
+      },
+    ],
+  };
+}
+
+function detectOfficialOmnigent(): DetectedCli {
+  for (const command of ["omni", "omnigent"]) {
     if (!commandExists(command)) continue;
-    return { checked: true, installed: true, command, probe: runCliProbe(command) };
+    return { checked: true, installed: true, command, probe: runOfficialOmnigentProbe(command) };
   }
   return { checked: true, installed: false };
+}
+
+function detectNpmOmniagent(): DetectedCli {
+  for (const command of ["omniagent", "omni-agent"]) {
+    if (!commandExists(command)) continue;
+    return { checked: true, installed: true, command, probe: runNpmOmniagentProbe(command) };
+  }
+  return { checked: true, installed: false };
+}
+
+function detectCli(): CliReport {
+  return {
+    officialOmnigent: detectOfficialOmnigent(),
+    npmOmniagent: detectNpmOmniagent(),
+  };
 }
 
 async function main() {
   const jsonOut = argValue("--json-out");
   const requireCli = hasFlag("--require-omni-cli");
+  const requireOfficial = hasFlag("--require-official-omnigent");
   const specs = OMNIGENT_NODEAGENT_TARGETS.map((target) => {
     const text = readFileSync(target.path, "utf8");
     return analyzeOmnigentSpec({ path: target.path, profile: target.profile, text });
@@ -77,12 +128,17 @@ async function main() {
   const durableSmoke = await runNodeAgentDurableSmoke();
   const sqliteSmoke = await runNodeAgentSqliteSmoke();
   const cli = detectCli();
+  const anyCliInstalled = cli.officialOmnigent.installed || cli.npmOmniagent.installed;
+  const officialOk = !cli.officialOmnigent.installed || cli.officialOmnigent.probe.ok;
+  const npmOk = !cli.npmOmniagent.installed || cli.npmOmniagent.probe.ok;
   const ok = specs.every((spec) => spec.ok)
     && frameSmoke.ok
     && durableSmoke.ok
     && sqliteSmoke.ok
-    && (!cli.installed || cli.probe.ok)
-    && (!requireCli || cli.installed);
+    && officialOk
+    && npmOk
+    && (!requireCli || anyCliInstalled)
+    && (!requireOfficial || (cli.officialOmnigent.installed && cli.officialOmnigent.probe.ok));
   const report = {
     ok,
     omnigent: {
@@ -102,11 +158,19 @@ async function main() {
   console.log(`nodeagent frame smoke: ${frameSmoke.ok ? "PASS" : "FAIL"} frame=${frameSmoke.frameId} status=${frameSmoke.status}`);
   console.log(`nodeagent durable smoke: ${durableSmoke.ok ? "PASS" : "FAIL"} frame=${durableSmoke.frameId} job=${durableSmoke.jobId} replay=${durableSmoke.replay.status}`);
   console.log(`nodeagent sqlite smoke: ${sqliteSmoke.ok ? "PASS" : "FAIL"} frame=${sqliteSmoke.frameId} job=${sqliteSmoke.jobId} replay=${sqliteSmoke.replayAfterReopen.status}`);
-  if (cli.installed) {
-    console.log(`omnigent cli: found ${cli.command} probe=${cli.probe.ok ? "PASS" : "FAIL"}`);
-    for (const check of cli.probe.checks) console.log(`  ${check.command}: exit=${check.exitCode} ${check.stdout}`);
+  if (cli.officialOmnigent.installed) {
+    console.log(`official omnigent cli: found ${cli.officialOmnigent.command} probe=${cli.officialOmnigent.probe.ok ? "PASS" : "FAIL"}`);
+    for (const check of cli.officialOmnigent.probe.checks) {
+      console.log(`  ${check.command}: exit=${check.exitCode} ${check.stdout || check.stderr || ""}`);
+    }
   } else {
-    console.log("omnigent cli: not installed locally; install `omniagent` and run `npm run omnigent:nodeagent:smoke -- --require-omni-cli`");
+    console.log("official omnigent cli: not installed locally; install `omnigent`/`omni` and run `npm run omnigent:nodeagent:smoke -- --require-official-omnigent`");
+  }
+  if (cli.npmOmniagent.installed) {
+    console.log(`npm omniagent cli: found ${cli.npmOmniagent.command} probe=${cli.npmOmniagent.probe.ok ? "PASS" : "FAIL"}`);
+    for (const check of cli.npmOmniagent.probe.checks) console.log(`  ${check.command}: exit=${check.exitCode} ${check.stdout}`);
+  } else {
+    console.log("npm omniagent cli: not installed locally; install `omniagent` and run `npm run omnigent:nodeagent:smoke -- --require-omni-cli`");
   }
 
   if (jsonOut) {

@@ -72,7 +72,7 @@ After the human provides credentials, the agent should:
 | Folder | Status | Best first use |
 |---|---|---|
 | `sqlite-local` | fully runnable, no cloud credentials | desktop/local dev, CI proof, offline demo |
-| `convex` | live app blueprint | existing NodeBench/Convex-style multiplayer app |
+| `convex` | runnable live contract smoke + adapter blueprint | existing NodeBench/Convex-style multiplayer app |
 | `aws-dynamodb` | AWS durable blueprint | AWS-Hackathon / VisualLabs style apps |
 | `postgres` | SQL durable blueprint | Neon, Supabase, Railway, RDS, local Postgres |
 | `cloudflare` | edge durable blueprint | Workers, D1, R2, Queues, Workflows |

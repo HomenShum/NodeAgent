@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "startedAt": "2026-06-17T04:51:58.965Z",
+  "completedAt": "2026-06-17T04:52:06.479Z",
+  "apiKeysRequired": false,
+  "strategy": "wsl-uv",
+  "probes": [
+    {
+      "strategy": "uv",
+      "label": "uv tool run --python 3.12 omnigent",
+      "ok": false,
+      "checks": [
+        {
+          "command": "uv tool run --python 3.12 omnigent --help",
+          "exitCode": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last): File \"<frozen runpy>\", line 198, in _run_module_as_main File \"<frozen runpy>\", line 88, in _run_code File \"[home]\\AppData\\Local\\uv\\cache\\archive-v0\\7gifVfy2mZKijg1O3amUQ\\Scripts\\omnigent.exe\\__main__.py\", line 4, in <module> File \"[home]\\AppData\\Local\\uv\\cache\\archive-v0\\7gifVfy2mZKijg1O3amUQ\\Lib\\site-packages\\omnigent\\__init__.py\", line 77, in <module> from omnigent.inner.claude_sdk_executor import ClaudeSDKExecutor File \"[home]\\AppData\\Local\\uv\\cache\\archive-"
+        },
+        {
+          "command": "uv tool run --python 3.12 omnigent run --help",
+          "exitCode": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last): File \"<frozen runpy>\", line 198, in _run_module_as_main File \"<frozen runpy>\", line 88, in _run_code File \"[home]\\AppData\\Local\\uv\\cache\\archive-v0\\7gifVfy2mZKijg1O3amUQ\\Scripts\\omnigent.exe\\__main__.py\", line 4, in <module> File \"[home]\\AppData\\Local\\uv\\cache\\archive-v0\\7gifVfy2mZKijg1O3amUQ\\Lib\\site-packages\\omnigent\\__init__.py\", line 77, in <module> from omnigent.inner.claude_sdk_executor import ClaudeSDKExecutor File \"[home]\\AppData\\Local\\uv\\cache\\archive-"
+        }
+      ]
+    },
+    {
+      "strategy": "wsl-uv",
+      "label": "wsl uv tool run --python 3.12 omnigent",
+      "ok": true,
+      "checks": [
+        {
+          "command": "wsl uv tool run --python 3.12 omnigent --help",
+          "exitCode": 0,
+          "stdout": "Usage: omnigent [OPTIONS] COMMAND [ARGS]... Omnigent CLI. Options: --version Show the version and exit. --help Show this message and exit. Commands: attach Attach the REPL to a LIVE session ? never starts anything. claude Launch Claude Code in an Omnigent terminal. codex Launch Codex TUI in an Omnigent terminal. config Get, set, and view Omnigent defaults and credentials. debby Launch debby, the bundled two-headed brainstorming agent. debug Internal maintenance commands (advanced ? not needed fo",
+          "stderr": ""
+        },
+        {
+          "command": "wsl uv tool run --python 3.12 omnigent run --help",
+          "exitCode": 0,
+          "stdout": "Usage: omnigent run [OPTIONS] [AGENT] Start a session with an Omnigent agent. AGENT may be an agent YAML file or an agent directory. Without AGENT, pass ``--server`` to connect directly to a server, or pass ``--harness`` to launch a built-in harness directly. Default: omnigent server+REPL architecture (spawns a local server, REPL connects as an HTTP client). With ``--server <url>`` and no AGENT, connect directly to that server; with AGENT, use local runner + remote server topology (RUNNER.md ?6 ",
+          "stderr": ""
+        }
+      ]
+    }
+  ],
+  "nextRunCommand": "omnigent run examples/omnigent/nodeagent-worker.yaml",
+  "issues": []
+}

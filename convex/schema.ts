@@ -120,6 +120,67 @@ export default defineSchema({
     appliedAt: v.number(),
   }).index("by_sheet_version", ["spreadsheetId", "toVersion"]),
 
+  /* durable NodeAgent runtime ports */
+  nodeagentJobs: defineTable({
+    jobId: v.string(),
+    status: v.union(v.literal("queued"), v.literal("running"), v.literal("completed"), v.literal("failed"), v.literal("cancelled")),
+    priority: v.number(),
+    attempts: v.number(),
+    maxAttempts: v.number(),
+    cursor: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_job", ["jobId"])
+    .index("by_status_priority", ["status", "priority", "createdAt"]),
+
+  nodeagentFrames: defineTable({
+    frameId: v.string(),
+    jobId: v.string(),
+    status: v.union(v.literal("pending"), v.literal("running"), v.literal("completed"), v.literal("failed")),
+    contextPack: v.string(),
+    resultRef: v.optional(v.string()),
+    evidenceRef: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_frame", ["frameId"])
+    .index("by_job", ["jobId"]),
+
+  nodeagentLeases: defineTable({
+    resourceId: v.string(),
+    workerId: v.string(),
+    leaseId: v.string(),
+    expiresAt: v.number(),
+    createdAt: v.number(),
+  })
+    .index("by_resource", ["resourceId"])
+    .index("by_expiry", ["expiresAt"]),
+
+  nodeagentJournal: defineTable({
+    journalKey: v.string(),
+    jobId: v.string(),
+    frameId: v.string(),
+    stepName: v.string(),
+    inputHash: v.string(),
+    outputHash: v.string(),
+    receiptRef: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_key", ["journalKey"])
+    .index("by_job", ["jobId"]),
+
+  nodeagentReceipts: defineTable({
+    receiptId: v.string(),
+    jobId: v.string(),
+    frameId: v.string(),
+    status: v.string(),
+    json: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_receipt", ["receiptId"])
+    .index("by_job", ["jobId"]),
+
   /* ── notebooks ── */
   notebooks: defineTable({
     title: v.string(),

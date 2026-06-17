@@ -2,33 +2,39 @@
   "ok": true,
   "omnigent": {
     "cli": {
-      "checked": true,
-      "installed": true,
-      "command": "omniagent",
-      "probe": {
-        "ok": true,
-        "checks": [
-          {
-            "command": "omniagent hello",
-            "exitCode": 0,
-            "stdout": "Hello, World!"
-          },
-          {
-            "command": "omniagent profiles --json",
-            "exitCode": 0,
-            "stdout": "[]"
-          }
-        ]
+      "officialOmnigent": {
+        "checked": true,
+        "installed": false
+      },
+      "npmOmniagent": {
+        "checked": true,
+        "installed": true,
+        "command": "omniagent",
+        "probe": {
+          "ok": true,
+          "checks": [
+            {
+              "command": "omniagent hello",
+              "exitCode": 0,
+              "stdout": "Hello, World!"
+            },
+            {
+              "command": "omniagent profiles --json",
+              "exitCode": 0,
+              "stdout": "[]"
+            }
+          ]
+        }
       }
     },
     "runCommands": [
       {
         "path": "examples/omnigent/nodeagent-worker.yaml",
-        "command": "omni run examples/omnigent/nodeagent-worker.yaml"
+        "command": "omnigent run examples/omnigent/nodeagent-worker.yaml"
       },
       {
         "path": "examples/omnigent/nodeagent-reviewer.yaml",
-        "command": "omni run examples/omnigent/nodeagent-reviewer.yaml"
+        "command": "omnigent run examples/omnigent/nodeagent-reviewer.yaml"
       }
     ]
   },
@@ -66,7 +72,7 @@
           "present": true
         }
       ],
-      "runCommand": "omni run examples/omnigent/nodeagent-worker.yaml",
+      "runCommand": "omnigent run examples/omnigent/nodeagent-worker.yaml",
       "issues": []
     },
     {
@@ -81,7 +87,7 @@
       "hasBoundary": true,
       "hasSecretLiteral": false,
       "requiredCommands": [],
-      "runCommand": "omni run examples/omnigent/nodeagent-reviewer.yaml",
+      "runCommand": "omnigent run examples/omnigent/nodeagent-reviewer.yaml",
       "issues": []
     }
   ],

@@ -78,9 +78,10 @@ const adapters: AdapterInfo[] = [
   {
     id: "convex",
     label: "Convex",
-    status: "blueprint",
+    status: "runnable",
     guide: "examples/adapters/convex/README.md",
     credentials: ["CONVEX_DEPLOYMENT", "VITE_CONVEX_URL", "CONVEX_DEPLOY_KEY"],
+    smoke: "nodeagent:convex:smoke",
   },
   {
     id: "aws-dynamodb",

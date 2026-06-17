@@ -2,8 +2,9 @@
  * Omnigent compatibility checks for NodeAgent.
  *
  * This validates repo-local YAML shape and proof commands without requiring
- * the Omnigent CLI. The outer harness can be proven with `omni run ...`; this
- * adapter proves the NodeAgent side is runnable and coding-agent friendly.
+ * the Omnigent CLI. The outer harness can be proven with `omnigent run ...`
+ * or its `omni run ...` alias; this adapter proves the NodeAgent side is
+ * runnable and coding-agent friendly.
  */
 
 export type OmnigentProfile = "worker" | "reviewer";
@@ -139,7 +140,7 @@ export function analyzeOmnigentSpec(args: {
     hasBoundary,
     hasSecretLiteral,
     requiredCommands,
-    runCommand: `omni run ${args.path}`,
+    runCommand: `omnigent run ${args.path}`,
     issues,
   };
 }

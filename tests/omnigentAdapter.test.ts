@@ -18,7 +18,7 @@ describe("Omnigent NodeAgent adapter", () => {
       expect(analysis.osEnvType).toBe("caller_process");
       expect(analysis.cwd).toBe(".");
       expect(analysis.hasSecretLiteral).toBe(false);
-      expect(analysis.runCommand).toBe(`omni run ${target.path}`);
+      expect(analysis.runCommand).toBe(`omnigent run ${target.path}`);
     }
   });
 

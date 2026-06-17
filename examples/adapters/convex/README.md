@@ -1,6 +1,8 @@
 # Convex Adapter
 
-Status: blueprint for a Convex-backed live durable adapter.
+Status: runnable live contract smoke plus adapter blueprint. The schema tables
+and Convex URL reachability are proven by `npm run nodeagent:convex:smoke`;
+provider-specific mutation implementations remain app-owned.
 
 Official references:
 
@@ -37,7 +39,6 @@ npm install
 npx convex dev
 npm run dev
 npm run nodeagent:durable:smoke
-# after the Convex adapter exists:
 npm run nodeagent:convex:smoke
 ```
 
@@ -64,8 +65,11 @@ npm run nodeagent:convex:smoke
 ## Done Criteria
 
 - `npx convex dev` starts without schema errors.
-- Provider smoke proves enqueue, lease, stale lease reclaim, journal write once,
-  receipt store/load, and duplicate replay.
+- `npm run nodeagent:convex:smoke` proves the durable table contract and Convex
+  URL reachability.
+- App-owned provider smoke should prove enqueue, lease, stale lease reclaim,
+  journal write once, receipt store/load, and duplicate replay against the
+  target app's Convex mutations.
 - `npm run prepush` passes.
 
 ## Coding-Agent Prompt

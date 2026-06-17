@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "startedAt": "2026-06-17T04:16:11.893Z",
-  "completedAt": "2026-06-17T04:16:13.324Z",
+  "startedAt": "2026-06-17T04:50:34.899Z",
+  "completedAt": "2026-06-17T04:50:36.120Z",
   "provider": "openai",
   "model": "gpt-4o-mini",
   "envFilesLoaded": [
@@ -14,7 +14,7 @@
   },
   "llm": {
     "ok": true,
-    "ms": 1118,
+    "ms": 854,
     "expected": "NODEAGENT_LIVE_OK",
     "receivedPreview": "NODEAGENT_LIVE_OK"
   }

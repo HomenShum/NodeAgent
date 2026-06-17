@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "startedAt": "2026-06-17T04:50:26.088Z",
+  "completedAt": "2026-06-17T04:50:26.315Z",
+  "requiredTables": [
+    "nodeagentJobs",
+    "nodeagentFrames",
+    "nodeagentLeases",
+    "nodeagentJournal",
+    "nodeagentReceipts"
+  ],
+  "convexConfigured": true,
+  "convexReachable": true,
+  "convexStatus": 200,
+  "issues": []
+}

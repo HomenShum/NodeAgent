@@ -69,6 +69,7 @@ Verify it for yourself:
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
 npm run nodeagent:sqlite:smoke
+npm run nodeagent:convex:smoke
 npm run nodeagent:local-dashboard:smoke
 npm run nodeagent:live-provider:smoke
 npm run omnigent:nodeagent:smoke
@@ -84,6 +85,9 @@ npm run build          # vite build, clean
 `DurableJob -> lease -> runReasoningFrame -> StepJournal -> receipt replay`.
 `nodeagent:sqlite:smoke` proves the fully runnable no-cloud SQLite adapter:
 `SQLite tables -> persisted frame -> receipt replay after database reopen`.
+`nodeagent:convex:smoke` proves the Convex live contract: durable runtime
+tables are present in `convex/schema.ts` and the configured Convex URL is
+reachable without printing secret values.
 `nodeagent:local-dashboard:smoke` proves the no-key app scaffold:
 `pretty CLI -> Vite/React dashboard template -> SQLite/scripted-agent happy path -> Trace Lens tabs`.
 `nodeagent:live-provider:smoke` proves the local live-provider seam when a
@@ -91,12 +95,34 @@ provider key is present in `.env.local` or an explicit `--env-file`; it also
 checks the configured Convex URL is reachable without printing secret values.
 `omnigent:nodeagent:smoke` validates the Omnigent/Omniagent YAML specs, runs the
 frame and durable smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`. If the
-Omniagent CLI is installed, the local CLI proof is:
+official Omnigent CLI is installed, the non-interactive official runner proof is:
+
+```bash
+omnigent --help
+omnigent run --help
+npm run omnigent:nodeagent:smoke -- --require-official-omnigent
+npm run omnigent:official:probe
+```
+
+The official docs also install `omni` as a shorter alias, so these are
+equivalent when the official CLI is available:
+
+```bash
+omni run examples/omnigent/nodeagent-worker.yaml
+omnigent run examples/omnigent/nodeagent-worker.yaml
+```
+
+This repo also keeps the npm `omniagent` CLI as a lightweight local executable
+probe:
 
 ```bash
 npm run omnigent:nodeagent:smoke -- --require-omni-cli
 npx omniagent hello
 ```
+
+On native Windows, the current official Python Omnigent package can fail before
+printing help because it imports POSIX-only `signal.SIGUSR1`; use WSL, Linux, or
+macOS for the official `omni run` path if that happens.
 
 To light up the **live** paths (multiplayer room, live web retrieval, LLM synthesis), copy
 `.env.example` → `.env.local` and add keys. With no keys, every live path falls back to the
@@ -216,9 +242,11 @@ Provider and app blueprints live under [`examples/adapters`](examples/adapters)
 and [`examples/apps`](examples/apps). They are written for coding agents: each
 folder lists credential names, official setup links, spin-up commands, adapter
 mapping, app tools, and done criteria. `local-dashboard` is scaffoldable today
-with no credentials; `sqlite-local` is fully runnable today; the cloud providers
-are credential-guided blueprints until their provider-specific smokes are
-implemented. `npm run examples:guidance:smoke` and
+with no credentials; `sqlite-local` is fully runnable today; `convex` has a
+live contract smoke for schema and URL reachability; `aws-dynamodb`,
+`postgres`, and `cloudflare` remain credential-guided blueprints until their
+provider-specific cloud resources and smokes are added. `npm run
+examples:guidance:smoke` and
 `npm run nodeagent:local-dashboard:smoke` fail if those guides or scaffold
 contracts drift.
 
