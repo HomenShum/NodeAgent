@@ -92,12 +92,28 @@ function validateWalkthrough(issues: string[]) {
     "docs/LOCAL_DASHBOARD_WALKTHROUGH.md",
     "docs/screenshots/local-dashboard-overview.png",
     "docs/screenshots/local-dashboard-builder-locked.png",
+    "docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4",
+    "docs/walkthroughs/nodeagent-local-dashboard-walkthrough.gif",
   ]) {
     if (!existsSync(file)) issues.push(`missing ${file}`);
   }
+  if (existsSync("README.md")) {
+    const readme = readFileSync("README.md", "utf8");
+    for (const required of ["nodeagent-local-dashboard-walkthrough.gif", "nodeagent-local-dashboard-walkthrough.mp4"]) {
+      if (!readme.includes(required)) issues.push(`README.md missing ${required}`);
+    }
+  }
   if (existsSync("docs/LOCAL_DASHBOARD_WALKTHROUGH.md")) {
     const walkthrough = readFileSync("docs/LOCAL_DASHBOARD_WALKTHROUGH.md", "utf8");
-    for (const required of ["Visual Walkthrough", "local-dashboard-overview.png", "local-dashboard-builder-locked.png", "--auto", "setup-receipt.json"]) {
+    for (const required of [
+      "Visual Walkthrough",
+      "nodeagent-local-dashboard-walkthrough.gif",
+      "nodeagent-local-dashboard-walkthrough.mp4",
+      "local-dashboard-overview.png",
+      "local-dashboard-builder-locked.png",
+      "--auto",
+      "setup-receipt.json",
+    ]) {
       if (!walkthrough.includes(required)) issues.push(`docs/LOCAL_DASHBOARD_WALKTHROUGH.md missing ${required}`);
     }
   }

@@ -70,6 +70,8 @@ const supportFiles = [
   "docs/LOCAL_DASHBOARD_WALKTHROUGH.md",
   "docs/screenshots/local-dashboard-overview.png",
   "docs/screenshots/local-dashboard-builder-locked.png",
+  "docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4",
+  "docs/walkthroughs/nodeagent-local-dashboard-walkthrough.gif",
   "scripts/nodeagent-local-dashboard-scaffold-smoke.ts",
   "scripts/nodeagent-cli.ts",
   "scripts/nodeagent-sqlite-smoke.ts",

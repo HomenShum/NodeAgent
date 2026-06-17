@@ -4,6 +4,15 @@ This walkthrough shows the no-key local dashboard scaffold created by NodeAgent.
 It is the path a coding agent should run before adding custom tools, model
 providers, or cloud durability.
 
+## MP4/GIF Walkthrough
+
+![NodeAgent local dashboard walkthrough](walkthroughs/nodeagent-local-dashboard-walkthrough.gif)
+
+MP4 version: [nodeagent-local-dashboard-walkthrough.mp4](walkthroughs/nodeagent-local-dashboard-walkthrough.mp4)
+
+The clip covers onboarding, the automated setup process, the finished local
+dashboard, and the default locked Builder/code ownership state.
+
 ## 1. Run Autopilot Setup
 
 ```bash

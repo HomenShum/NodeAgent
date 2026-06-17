@@ -138,6 +138,14 @@ durability, `public/nodeagent-state.json`, and NodeRoom-style Trace Lens tabs:
 The local dashboard scaffold has a step-by-step visual walkthrough in
 [`docs/LOCAL_DASHBOARD_WALKTHROUGH.md`](docs/LOCAL_DASHBOARD_WALKTHROUGH.md).
 
+![NodeAgent local dashboard MP4/GIF walkthrough](docs/walkthroughs/nodeagent-local-dashboard-walkthrough.gif)
+
+MP4 version: [`docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4`](docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4)
+
+The walkthrough shows the full no-key path: onboarding command, automated setup
+steps, the finished SQLite dashboard, and the locked Builder/code ownership
+state.
+
 ![NodeAgent local dashboard overview](docs/screenshots/local-dashboard-overview.png)
 
 The generated app starts with a scripted local agent, SQLite durability, and no
