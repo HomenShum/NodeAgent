@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import { existsSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { dirname } from "node:path";
 import { Command } from "commander";
 import { intro, log, note, outro, spinner } from "@clack/prompts";
 
@@ -14,6 +15,26 @@ interface AdapterInfo {
   guide: string;
   credentials: string[];
   smoke?: string;
+}
+
+interface TimedPhase {
+  name: string;
+  ok: boolean;
+  durationMs: number;
+  detail: string;
+}
+
+interface HappyPathReport {
+  ok: boolean;
+  startedAt: string;
+  completedAt: string;
+  totalMs: number;
+  phases: TimedPhase[];
+  summary: {
+    provider: "sqlite-local";
+    credentialRequired: false;
+    command: string;
+  };
 }
 
 const adapters: AdapterInfo[] = [
@@ -104,6 +125,31 @@ program
     if (!ok) process.exitCode = 1;
   });
 
+program
+  .command("happy-path")
+  .alias("speed")
+  .description("Time the no-cloud path from init checks to fully runnable SQLite-backed proof.")
+  .option("--json-out <path>", "write the speed receipt as JSON")
+  .action((options: { jsonOut?: string }) => {
+    intro("NodeAgent Happy Path Speed");
+    const report = runHappyPathSpeed();
+    const lines = report.phases.map((phase) => {
+      const status = phase.ok ? "PASS" : "FAIL";
+      return `${phase.name.padEnd(18)} ${status.padEnd(4)} ${formatMs(phase.durationMs).padStart(8)}  ${phase.detail}`;
+    });
+    note([
+      ...lines,
+      "",
+      `total              ${report.ok ? "PASS" : "FAIL"} ${formatMs(report.totalMs).padStart(8)}`,
+    ].join("\n"), "Timing");
+    if (options.jsonOut) {
+      writeJson(options.jsonOut, report);
+      log.success(`wrote ${options.jsonOut}`);
+    }
+    outro(report.ok ? "Happy path is fully running." : "Happy path failed before completion.");
+    if (!report.ok) process.exitCode = 1;
+  });
+
 const adaptersCommand = program
   .command("adapters")
   .description("Inspect provider adapters and setup guidance.");
@@ -182,29 +228,110 @@ function checkPath(path: string) {
   };
 }
 
+function runHappyPathSpeed(): HappyPathReport {
+  const startedAtMs = Date.now();
+  const startedAt = new Date(startedAtMs).toISOString();
+  const phases: TimedPhase[] = [];
+
+  phases.push(timePhase("init", () => {
+    const checks = [
+      checkPath("package.json"),
+      checkPath("node_modules"),
+      checkPath("scripts/nodeagent-cli.ts"),
+      checkPath("examples/adapters/sqlite-local/sqliteDurableRuntime.ts"),
+      checkPath("scripts/nodeagent-sqlite-smoke.ts"),
+    ];
+    const missing = checks.filter((check) => !check.ok).map((check) => check.message.replace("missing ", ""));
+    return {
+      ok: missing.length === 0,
+      detail: missing.length === 0 ? "repo ready; dependencies installed" : `missing ${missing.join(", ")}`,
+    };
+  }));
+
+  if (phases[0].ok) {
+    for (const script of ["nodeagent:frame:smoke", "nodeagent:durable:smoke", "nodeagent:sqlite:smoke", "examples:guidance:smoke"]) {
+      phases.push(runScriptPhase(script));
+      if (!phases[phases.length - 1].ok) break;
+    }
+  }
+
+  const completedAtMs = Date.now();
+  return {
+    ok: phases.every((phase) => phase.ok),
+    startedAt,
+    completedAt: new Date(completedAtMs).toISOString(),
+    totalMs: completedAtMs - startedAtMs,
+    phases,
+    summary: {
+      provider: "sqlite-local",
+      credentialRequired: false,
+      command: "npm run nodeagent -- happy-path",
+    },
+  };
+}
+
 function runScripts(scripts: string[]) {
   let ok = true;
   for (const script of scripts) {
     const s = spinner();
     s.start(`npm run ${script}`);
-    const result = spawnSync(npmCommand(), ["run", script], {
-      cwd: process.cwd(),
-      encoding: "utf8",
-      shell: process.platform === "win32",
-    });
-    if (result.status === 0) {
+    const result = runNpmScript(script);
+    if (result.ok) {
       s.stop(`npm run ${script}`);
       log.success(script);
     } else {
       ok = false;
       s.stop(`npm run ${script}`);
       log.error(script);
-      const detail = [result.error?.message, result.stdout, result.stderr].filter(Boolean).join("\n").trim();
+      const detail = result.output.trim();
       if (detail) note(detail.slice(-3000), "Command output");
       break;
     }
   }
   return ok;
+}
+
+function runScriptPhase(script: string): TimedPhase {
+  return timePhase(script, () => {
+    const result = runNpmScript(script);
+    return {
+      ok: result.ok,
+      detail: result.ok ? "completed" : result.output.slice(-240).replace(/\s+/g, " ").trim() || "failed",
+    };
+  });
+}
+
+function runNpmScript(script: string) {
+  const result = spawnSync(npmCommand(), ["run", script], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    shell: process.platform === "win32",
+  });
+  return {
+    ok: result.status === 0,
+    output: [result.error?.message, result.stdout, result.stderr].filter(Boolean).join("\n"),
+  };
+}
+
+function timePhase(name: string, fn: () => { ok: boolean; detail: string }): TimedPhase {
+  const startedAt = performance.now();
+  const result = fn();
+  return {
+    name,
+    ok: result.ok,
+    detail: result.detail,
+    durationMs: Math.round(performance.now() - startedAt),
+  };
+}
+
+function formatMs(ms: number) {
+  return ms >= 1000 ? `${(ms / 1000).toFixed(2)}s` : `${ms}ms`;
+}
+
+function writeJson(path: string, value: unknown) {
+  const parent = dirname(path);
+  if (parent && parent !== "." && !existsSync(parent)) mkdirSync(parent, { recursive: true });
+  writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 }
 
 function npmCommand() {

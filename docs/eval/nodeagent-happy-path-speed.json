@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "startedAt": "2026-06-17T01:26:06.020Z",
+  "completedAt": "2026-06-17T01:26:10.906Z",
+  "totalMs": 4886,
+  "phases": [
+    {
+      "name": "init",
+      "ok": true,
+      "detail": "repo ready; dependencies installed",
+      "durationMs": 1
+    },
+    {
+      "name": "nodeagent:frame:smoke",
+      "ok": true,
+      "detail": "completed",
+      "durationMs": 1958
+    },
+    {
+      "name": "nodeagent:durable:smoke",
+      "ok": true,
+      "detail": "completed",
+      "durationMs": 932
+    },
+    {
+      "name": "nodeagent:sqlite:smoke",
+      "ok": true,
+      "detail": "completed",
+      "durationMs": 1010
+    },
+    {
+      "name": "examples:guidance:smoke",
+      "ok": true,
+      "detail": "completed",
+      "durationMs": 983
+    }
+  ],
+  "summary": {
+    "provider": "sqlite-local",
+    "credentialRequired": false,
+    "command": "npm run nodeagent -- happy-path"
+  }
+}

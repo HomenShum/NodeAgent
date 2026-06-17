@@ -96,6 +96,14 @@ The guided CLI wraps the same checks with Commander and Clack:
 
 ```bash
 npm run nodeagent -- doctor
+npm run nodeagent -- happy-path
 npm run nodeagent -- smoke
 npm run nodeagent -- adapters setup sqlite-local --run
+```
+
+The timed happy path writes:
+
+```bash
+npm run nodeagent:happy-path:smoke
+# -> docs/eval/nodeagent-happy-path-speed.json
 ```

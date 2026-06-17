@@ -102,6 +102,7 @@ The pretty CLI uses maintained OSS packages instead of a custom prompt stack:
 
 ```bash
 npm run nodeagent -- doctor
+npm run nodeagent -- happy-path
 npm run nodeagent -- smoke
 npm run nodeagent -- adapters list
 npm run nodeagent -- adapters setup sqlite-local --run
@@ -109,6 +110,8 @@ npm run nodeagent -- adapters setup sqlite-local --run
 
 The SQLite provider proof uses [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 and runs with no cloud account.
+`npm run nodeagent:happy-path:smoke` records init-to-runnable timing in
+[`docs/eval/nodeagent-happy-path-speed.json`](docs/eval/nodeagent-happy-path-speed.json).
 
 ## Portability guidance
 

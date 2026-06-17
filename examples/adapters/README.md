@@ -27,6 +27,7 @@ Pretty CLI path:
 
 ```bash
 npm run nodeagent -- doctor
+npm run nodeagent -- happy-path
 npm run nodeagent -- adapters list
 npm run nodeagent -- adapters setup sqlite-local --run
 ```

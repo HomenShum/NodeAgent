@@ -25,7 +25,7 @@ const appSections = [
 const targets: GuidanceTarget[] = [
   {
     path: "examples/adapters/README.md",
-    required: ["## Start Here", "## Adapter Contract", "## Credential Handoff", "## Provider Folders", "## Security Rules"],
+    required: ["## Start Here", "## Adapter Contract", "## Credential Handoff", "## Provider Folders", "## Security Rules", "npm run nodeagent -- happy-path"],
   },
   {
     path: "examples/adapters/AGENTS.md",
