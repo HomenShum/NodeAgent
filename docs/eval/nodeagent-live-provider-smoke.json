@@ -1,11 +1,18 @@
 {
   "ok": true,
-  "startedAt": "2026-06-17T06:49:47.715Z",
-  "completedAt": "2026-06-17T06:49:49.223Z",
-  "provider": "openai",
-  "model": "gpt-4o-mini",
+  "startedAt": "2026-06-22T06:00:39.093Z",
+  "completedAt": "2026-06-22T06:00:41.988Z",
+  "provider": "openrouter",
+  "model": "z-ai/glm-5.2",
+  "modelCandidates": [
+    "z-ai/glm-5.2",
+    "moonshotai/kimi-k2.7-code",
+    "cohere/north-mini-code:free",
+    "nvidia/nemotron-3-ultra-550b-a55b",
+    "nex-agi/nex-n2-pro"
+  ],
   "envFilesLoaded": [
-    ".env.local"
+    "external:noderoom/.env.local"
   ],
   "convex": {
     "configured": true,
@@ -14,8 +21,11 @@
   },
   "llm": {
     "ok": true,
-    "ms": 1108,
+    "ms": 2690,
     "expected": "NODEAGENT_LIVE_OK",
-    "receivedPreview": "NODEAGENT_LIVE_OK"
+    "receivedPreview": "NODEAGENT_LIVE_OK",
+    "attemptedModels": [
+      "z-ai/glm-5.2"
+    ]
   }
 }

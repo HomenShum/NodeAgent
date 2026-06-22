@@ -95,8 +95,10 @@ reachable without printing secret values.
 `nodeagent:chat-ui:smoke` proves the injectable chat scaffold:
 `pretty CLI -> assistant-ui chat template -> no-key local adapter -> smoke -> build`.
 `nodeagent:live-provider:smoke` proves the local live-provider seam when a
-provider key is present in `.env.local` or an explicit `--env-file`; it also
-checks the configured Convex URL is reachable without printing secret values.
+provider key is present in `.env.local` or an explicit `--env-file`; it prefers
+OpenRouter and tries current open-model candidates before proprietary-provider
+fallbacks. It also checks the configured Convex URL is reachable without
+printing secret values.
 `omnigent:nodeagent:smoke` validates the Omnigent/Omniagent YAML specs, runs the
 frame and durable smokes, and writes `docs/eval/omnigent-nodeagent-smoke.json`. If the
 official Omnigent CLI is installed, the non-interactive official runner proof is:
@@ -132,6 +134,12 @@ To light up the **live** paths (multiplayer room, live web retrieval, LLM synthe
 `.env.example` → `.env.local` and add keys. With no keys, every live path falls back to the
 deterministic demo — nothing breaks. Secrets are gitignored and `npm run secret-scan` refuses
 to ship them.
+
+For live LLMs, prefer `OPENROUTER_API_KEY`. The default OpenRouter priority is:
+`z-ai/glm-5.2`, `moonshotai/kimi-k2.7-code`, `cohere/north-mini-code:free`,
+`nvidia/nemotron-3-ultra-550b-a55b`, then `nex-agi/nex-n2-pro`. Override with
+`NODEAGENT_OPENROUTER_MODEL_PRIORITY` when a project needs a pinned or cheaper
+route; use `NODEAGENT_LIVE_MODEL` only for a one-off smoke.
 
 ## CLI
 

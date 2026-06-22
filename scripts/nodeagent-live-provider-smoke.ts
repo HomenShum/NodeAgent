@@ -11,6 +11,7 @@ type SmokeReport = {
   completedAt: string;
   provider: Provider | "none";
   model: string;
+  modelCandidates?: string[];
   envFilesLoaded: string[];
   convex: {
     configured: boolean;
@@ -24,10 +25,18 @@ type SmokeReport = {
     expected: string;
     receivedPreview: string;
     error?: string;
+    attemptedModels?: string[];
   };
 };
 
 const EXPECTED = "NODEAGENT_LIVE_OK";
+const OPENROUTER_OPEN_MODEL_PRIORITY = [
+  "z-ai/glm-5.2",
+  "moonshotai/kimi-k2.7-code",
+  "cohere/north-mini-code:free",
+  "nvidia/nemotron-3-ultra-550b-a55b",
+  "nex-agi/nex-n2-pro",
+] as const;
 
 async function main() {
   const startedAt = new Date().toISOString();
@@ -60,15 +69,16 @@ async function main() {
     return;
   }
   const provider = selectProvider(args.provider);
-  const model = selectModel(provider, args.model);
+  const modelCandidates = selectModelCandidates(provider, args.model);
   const convex = await probeConvexUrl();
-  const llm = await probeLlm(provider, model);
+  const { model, llm } = await probeLlm(provider, modelCandidates);
   const report: SmokeReport = {
     ok: llm.ok && (!convex.configured || convex.urlReachable === true),
     startedAt,
     completedAt: new Date().toISOString(),
     provider,
     model,
+    modelCandidates,
     envFilesLoaded,
     convex,
     llm,
@@ -154,20 +164,27 @@ function hasAnyProviderKey() {
   );
 }
 
-function selectModel(provider: Provider, raw?: string | string[]) {
+function selectModelCandidates(provider: Provider, raw?: string | string[]) {
   const requested = Array.isArray(raw) ? raw[0] : raw;
-  if (requested) return requested;
-  if (process.env.NODEAGENT_LIVE_MODEL) return process.env.NODEAGENT_LIVE_MODEL;
+  if (requested) return [requested];
+  if (process.env.NODEAGENT_LIVE_MODEL) return [process.env.NODEAGENT_LIVE_MODEL];
   switch (provider) {
     case "openrouter":
-      return process.env.NODEAGENT_OPENROUTER_MODEL ?? "openai/gpt-4o-mini";
+      return parseModelPriority(process.env.NODEAGENT_OPENROUTER_MODEL_PRIORITY)
+        ?? parseModelPriority(process.env.NODEAGENT_OPENROUTER_MODEL)
+        ?? [...OPENROUTER_OPEN_MODEL_PRIORITY];
     case "openai":
-      return process.env.NODEAGENT_OPENAI_MODEL ?? "gpt-4o-mini";
+      return [process.env.NODEAGENT_OPENAI_MODEL ?? "gpt-5.5"];
     case "anthropic":
-      return process.env.NODEAGENT_ANTHROPIC_MODEL ?? "claude-3-5-haiku-latest";
+      return [process.env.NODEAGENT_ANTHROPIC_MODEL ?? "claude-3-5-haiku-latest"];
     case "gemini":
-      return process.env.NODEAGENT_GEMINI_MODEL ?? "gemini-2.0-flash";
+      return [process.env.NODEAGENT_GEMINI_MODEL ?? "gemini-2.0-flash"];
   }
+}
+
+function parseModelPriority(raw?: string) {
+  const values = raw?.split(",").map((value) => value.trim()).filter(Boolean);
+  return values && values.length > 0 ? values : undefined;
 }
 
 async function probeConvexUrl(): Promise<SmokeReport["convex"]> {
@@ -181,26 +198,50 @@ async function probeConvexUrl(): Promise<SmokeReport["convex"]> {
   }
 }
 
-async function probeLlm(provider: Provider, model: string): Promise<SmokeReport["llm"]> {
-  const started = Date.now();
-  try {
-    const text = await callProvider(provider, model);
-    return {
-      ok: text.includes(EXPECTED),
-      ms: Date.now() - started,
-      expected: EXPECTED,
-      receivedPreview: text.replace(/\s+/g, " ").slice(0, 120),
-      ...(text.includes(EXPECTED) ? {} : { error: `expected ${EXPECTED}` }),
-    };
-  } catch (error) {
-    return {
+async function probeLlm(provider: Provider, models: string[]): Promise<{ model: string; llm: SmokeReport["llm"] }> {
+  const attemptedModels: string[] = [];
+  let last: { model: string; llm: SmokeReport["llm"] } | undefined;
+  for (const model of models) {
+    attemptedModels.push(model);
+    const started = Date.now();
+    try {
+      const text = await callProvider(provider, model);
+      const ok = text.includes(EXPECTED);
+      const llm = {
+        ok,
+        ms: Date.now() - started,
+        expected: EXPECTED,
+        receivedPreview: text.replace(/\s+/g, " ").slice(0, 120),
+        attemptedModels: [...attemptedModels],
+        ...(ok ? {} : { error: `expected ${EXPECTED}` }),
+      };
+      last = { model, llm };
+      if (ok) return last;
+    } catch (error) {
+      last = {
+        model,
+        llm: {
+          ok: false,
+          ms: Date.now() - started,
+          expected: EXPECTED,
+          receivedPreview: "",
+          attemptedModels: [...attemptedModels],
+          error: sanitizeError(error),
+        },
+      };
+    }
+  }
+  return last ?? {
+    model: "none",
+    llm: {
       ok: false,
-      ms: Date.now() - started,
+      ms: 0,
       expected: EXPECTED,
       receivedPreview: "",
-      error: sanitizeError(error),
-    };
-  }
+      attemptedModels,
+      error: "no model candidates configured",
+    },
+  };
 }
 
 async function callProvider(provider: Provider, model: string) {
