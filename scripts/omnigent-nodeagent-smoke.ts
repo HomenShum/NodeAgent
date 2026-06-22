@@ -16,7 +16,7 @@ type CliProbe = {
   checks: Array<{ command: string; exitCode: number | null; stdout: string; stderr?: string }>;
 };
 type DetectedCli =
-  | { checked: true; installed: true; command: string; probe: CliProbe }
+  | { checked: true; installed: true; command: string; strategy?: "path" | "uv"; probe: CliProbe }
   | { checked: true; installed: false };
 type CliReport = {
   officialOmnigent: DetectedCli;
@@ -65,12 +65,12 @@ function runNpmOmniagentProbe(command: string): CliProbe {
   };
 }
 
-function runOfficialOmnigentProbe(command: string): CliProbe {
-  const help = spawnSync(command, ["--help"], {
+function runOfficialOmnigentProbe(label: string, command: string, prefixArgs: string[] = []): CliProbe {
+  const help = spawnSync(command, [...prefixArgs, "--help"], {
     encoding: "utf8",
     shell: process.platform === "win32",
   });
-  const runHelp = spawnSync(command, ["run", "--help"], {
+  const runHelp = spawnSync(command, [...prefixArgs, "run", "--help"], {
     encoding: "utf8",
     shell: process.platform === "win32",
   });
@@ -78,13 +78,13 @@ function runOfficialOmnigentProbe(command: string): CliProbe {
     ok: help.status === 0 && runHelp.status === 0,
     checks: [
       {
-        command: `${command} --help`,
+        command: `${label} --help`,
         exitCode: help.status,
         stdout: (help.stdout ?? "").trim().slice(0, 160),
         stderr: (help.stderr ?? "").trim().slice(0, 240),
       },
       {
-        command: `${command} run --help`,
+        command: `${label} run --help`,
         exitCode: runHelp.status,
         stdout: (runHelp.stdout ?? "").trim().slice(0, 160),
         stderr: (runHelp.stderr ?? "").trim().slice(0, 240),
@@ -93,10 +93,15 @@ function runOfficialOmnigentProbe(command: string): CliProbe {
   };
 }
 
-function detectOfficialOmnigent(): DetectedCli {
+function detectOfficialOmnigent(options: { allowUvFallback: boolean }): DetectedCli {
   for (const command of ["omni", "omnigent"]) {
     if (!commandExists(command)) continue;
-    return { checked: true, installed: true, command, probe: runOfficialOmnigentProbe(command) };
+    return { checked: true, installed: true, command, strategy: "path", probe: runOfficialOmnigentProbe(command, command) };
+  }
+  if (options.allowUvFallback && commandExists("uv")) {
+    const prefixArgs = ["tool", "run", "--python", "3.12", "omnigent"];
+    const label = "uv tool run --python 3.12 omnigent";
+    return { checked: true, installed: true, command: label, strategy: "uv", probe: runOfficialOmnigentProbe(label, "uv", prefixArgs) };
   }
   return { checked: true, installed: false };
 }
@@ -109,9 +114,9 @@ function detectNpmOmniagent(): DetectedCli {
   return { checked: true, installed: false };
 }
 
-function detectCli(): CliReport {
+function detectCli(options: { allowUvOfficialFallback: boolean }): CliReport {
   return {
-    officialOmnigent: detectOfficialOmnigent(),
+    officialOmnigent: detectOfficialOmnigent({ allowUvFallback: options.allowUvOfficialFallback }),
     npmOmniagent: detectNpmOmniagent(),
   };
 }
@@ -127,7 +132,7 @@ async function main() {
   const frameSmoke = runNodeAgentFrameSmoke();
   const durableSmoke = await runNodeAgentDurableSmoke();
   const sqliteSmoke = await runNodeAgentSqliteSmoke();
-  const cli = detectCli();
+  const cli = detectCli({ allowUvOfficialFallback: requireOfficial });
   const anyCliInstalled = cli.officialOmnigent.installed || cli.npmOmniagent.installed;
   const officialOk = !cli.officialOmnigent.installed || cli.officialOmnigent.probe.ok;
   const npmOk = !cli.npmOmniagent.installed || cli.npmOmniagent.probe.ok;
@@ -159,7 +164,7 @@ async function main() {
   console.log(`nodeagent durable smoke: ${durableSmoke.ok ? "PASS" : "FAIL"} frame=${durableSmoke.frameId} job=${durableSmoke.jobId} replay=${durableSmoke.replay.status}`);
   console.log(`nodeagent sqlite smoke: ${sqliteSmoke.ok ? "PASS" : "FAIL"} frame=${sqliteSmoke.frameId} job=${sqliteSmoke.jobId} replay=${sqliteSmoke.replayAfterReopen.status}`);
   if (cli.officialOmnigent.installed) {
-    console.log(`official omnigent cli: found ${cli.officialOmnigent.command} probe=${cli.officialOmnigent.probe.ok ? "PASS" : "FAIL"}`);
+    console.log(`official omnigent cli: found ${cli.officialOmnigent.command} strategy=${cli.officialOmnigent.strategy ?? "path"} probe=${cli.officialOmnigent.probe.ok ? "PASS" : "FAIL"}`);
     for (const check of cli.officialOmnigent.probe.checks) {
       console.log(`  ${check.command}: exit=${check.exitCode} ${check.stdout || check.stderr || ""}`);
     }

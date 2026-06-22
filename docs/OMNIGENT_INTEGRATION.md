@@ -55,11 +55,14 @@ omnigent run examples/omnigent/nodeagent-worker.yaml
 ```
 
 Use `npm run omnigent:nodeagent:smoke -- --require-official-omnigent` to fail if
-the official CLI is missing or its `run` command is not available. The final
-`omnigent run ...` command can launch a nested coding-agent harness, so the repo
-smoke probes `run --help` by default instead of starting a live nested session.
-`npm run omnigent:official:probe` also tries direct PATH, local `uv`, and WSL
-`uv` on Windows, then records the result in
+the official CLI is missing or its `run` command is not available. In strict
+mode the smoke accepts either a PATH-installed `omnigent`/`omni` binary or
+`uv tool run --python 3.12 omnigent`, so a coding agent can verify Omnigent
+without a separate global install step. The final `omnigent run ...` command
+can launch a nested coding-agent harness, so the repo smoke probes `run --help`
+by default instead of starting a live nested session. `npm run
+omnigent:official:probe` also tries direct PATH, local `uv`, and WSL `uv` on
+Windows, then records the result in
 `docs/eval/omnigent-official-cli-probe.json`.
 
 The npm `omniagent` proof is:
