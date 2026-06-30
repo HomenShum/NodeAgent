@@ -186,6 +186,7 @@ receipt produced by a smoke that asserts a *concrete* value.
 - **Durable idempotency / timeout.** Lease TTL (default 30s) fences concurrent workers; the
   `StepJournal.writeOnce` makes retries replay the stored receipt instead of duplicating side
   effects; terminal jobs replay rather than re-run ([`durableRuntime.ts`](src/features/node-agent/runtime/durableRuntime.ts)).
+- **PROVE-BEFORE-CLAIM** (agent-side gate) — never assert done/pass/fixed/blocked/absent/"root cause" from a *proxy* (an affordance, a keyword/template echo, a rendered shell, or a prior-based hypothesis); name the artifact that proves it and check THAT, independent-confirm anything that "looks done", and treat no gate as real until the autonomous path is tried. Canonical gate + observed failure signals: https://github.com/HomenShum/noderl/blob/main/spec/prove-before-claim.md
 
 ---
 
