@@ -109,7 +109,10 @@ The outer loop is **operated by a coding agent + the `prepush` gate**, not an au
   [`package.json`](package.json): `secret-scan → frame → durable → sqlite → convex → local-dashboard
   → chat-ui → happy-path → live-provider → omnigent → examples-guidance → typecheck → test → build
   → npm audit`. CI re-runs it on every push/PR ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)),
-  and additionally diffs `docs/walkthroughs` (`git diff --exit-code`) so regenerated media can't drift.
+  and additionally verifies the walkthrough render pipeline in a temp dir (`walkthroughs:check`)
+  and diffs `docs/walkthroughs` (`git diff --exit-code`) so nothing mutates the committed media
+  mid-run (ffmpeg output is not byte-deterministic across builds, so CI checks the pipeline, not
+  byte-identity of re-rendered media).
 - **Kill criteria.** Any smoke failing its *concrete* assertion (e.g. frame ≠ 18-month runway),
   any drift guard tripping (`examples:guidance:smoke`, walkthrough diff), `secret-scan` finding a
   secret, or `npm audit` flagging a non-dev vuln — the push is blocked. The Portability gate

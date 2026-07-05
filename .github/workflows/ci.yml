@@ -19,7 +19,12 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-      - run: npm run walkthroughs:render
+      # Verify the walkthrough render pipeline end-to-end in a temp dir.
+      # ffmpeg output (x264/GIF palette) is not byte-deterministic across
+      # builds, so CI must not re-render over the committed media and expect
+      # byte-identity; the git-diff guard below now only catches unintended
+      # mutations of docs/walkthroughs during the run.
+      - run: npm run walkthroughs:check
       - run: npm run omnigent:official:probe
       - run: npm run prepush
       - run: git diff --exit-code -- docs/walkthroughs
