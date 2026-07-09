@@ -195,6 +195,10 @@ instructions are in [`docs/CHAT_UI_ADOPTION.md`](docs/CHAT_UI_ADOPTION.md).
 
 The local dashboard scaffold has a step-by-step visual walkthrough in
 [`docs/LOCAL_DASHBOARD_WALKTHROUGH.md`](docs/LOCAL_DASHBOARD_WALKTHROUGH.md).
+Storyboard first: the README media is governed by
+[`docs/FEATURE_PROOF_STORYBOARD.md`](docs/FEATURE_PROOF_STORYBOARD.md). It
+must prove the no-key adoption path, bounded frame execution, visible tool
+surfaces, and smoke receipts before it is treated as publishable proof.
 
 ![NodeAgent local dashboard MP4/GIF walkthrough](docs/walkthroughs/nodeagent-local-dashboard-walkthrough.gif)
 
@@ -203,6 +207,12 @@ MP4 version: [`docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4`](doc
 The walkthrough shows the full no-key path: onboarding command, automated setup
 steps, the finished SQLite dashboard, and the locked Builder/code ownership
 state.
+
+Regenerate the README GIF/MP4 after storyboard or screenshot updates with:
+
+```bash
+npm run clip:capture
+```
 
 ![NodeAgent local dashboard overview](docs/screenshots/local-dashboard-overview.png)
 

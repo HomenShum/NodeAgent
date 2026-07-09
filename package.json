@@ -50,6 +50,7 @@
     "omnigent:official:probe": "node scripts/omnigent-official-probe.mjs --json-out docs/eval/omnigent-official-cli-probe.json",
     "walkthroughs:render": "node scripts/render-walkthrough-media.mjs",
     "walkthroughs:check": "node scripts/render-walkthrough-media.mjs --check",
+    "clip:capture": "node scripts/render-walkthrough-media.mjs",
     "nodeagent:chat-ui:smoke": "tsx scripts/nodeagent-chat-ui-scaffold-smoke.ts --json-out docs/eval/nodeagent-chat-ui-scaffold-smoke.json",
     "examples:guidance:smoke": "tsx scripts/example-guidance-smoke.ts",
     "secret-scan": "node scripts/secret-scan.mjs",
