@@ -1,0 +1,50 @@
+schemaVersion: nodekit.repo/v1
+repository: HomenShum/NodeAgent
+lifecycle: production
+support: active
+role: runtime
+commandProfile: application
+
+canonicalFor:
+  - nodeagent.agent-run
+  - nodeagent.policy-context
+
+consumes:
+  - nodeplatform.repo-contract
+  - nodeplatform.environment
+  - nodetrace.trace-ui-store
+  - nodemem.memory
+  - proofloop.certification
+
+commands:
+  dev: { script: dev, mode: service }
+  demo: { script: demo, mode: finite }
+  doctor: { script: doctor, mode: finite }
+  check: { script: check, mode: finite }
+  proof: { script: proof, mode: finite }
+
+noKey:
+  status: certified
+  command: npm run demo
+  externalAccountsRequired: 0
+  disclosure: The default run is deterministic and uses the real runtime contracts without a model call.
+
+environment:
+  contractVersion: nodeplatform.env/v1
+  status: migration-planned
+
+proof:
+  command: npm run proof
+  receiptSchema: null
+
+contractDeclarations:
+  - concept: nodeagent.agent-run
+    signature: agent-run-result
+    path: src/features/node-agent/types/nodeAgentTypes.ts
+    mode: canonical
+  - concept: nodeagent.policy-context
+    signature: policy-context
+    path: src/features/node-agent/runtime/durableRuntime.ts
+    mode: canonical
+
+architectureExceptions: []
