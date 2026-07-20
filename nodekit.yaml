@@ -7,7 +7,9 @@ commandProfile: application
 
 canonicalFor:
   - nodeagent.agent-run
+  - nodeagent.event-protocol
   - nodeagent.policy-context
+  - nodeagent.provider-pi
 
 consumes:
   - nodeplatform.repo-contract
@@ -38,6 +40,10 @@ proof:
   receiptSchema: null
 
 contractDeclarations:
+  - concept: nodeagent.event-protocol
+    signature: nodeagent.event/v1
+    path: src/features/node-agent/protocol/events.ts
+    mode: canonical
   - concept: nodeagent.agent-run
     signature: agent-run-result
     path: src/features/node-agent/types/nodeAgentTypes.ts
@@ -45,6 +51,10 @@ contractDeclarations:
   - concept: nodeagent.policy-context
     signature: policy-context
     path: src/features/node-agent/runtime/durableRuntime.ts
+    mode: canonical
+  - concept: nodeagent.provider-pi
+    signature: agent-model-adapter
+    path: src/features/node-agent/providers/piAiAdapter.ts
     mode: canonical
 
 architectureExceptions: []
