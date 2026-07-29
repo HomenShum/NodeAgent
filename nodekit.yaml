@@ -7,7 +7,9 @@ commandProfile: application
 
 canonicalFor:
   - nodeagent.agent-run
+  - nodeagent.event-protocol
   - nodeagent.policy-context
+  - nodeagent.provider-pi
 
 consumes:
   - nodeplatform.repo-contract
