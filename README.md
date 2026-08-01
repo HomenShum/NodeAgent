@@ -81,6 +81,48 @@ npm run test           # full deterministic suite across modules, runtime, frame
 npm run build          # vite build, clean
 ```
 
+### Installable runtime and Pi AI provider
+
+The portable runtime is prepared for publishing under the collision-safe scoped
+package name `@homenshum/nodeagent`. Until the first release is published,
+install it from a pinned GitHub commit or local workspace. The unscoped
+`nodeagent` name belongs to another npm project and is not this repository.
+
+```bash
+# Until the first npm release, pin a reviewed GitHub commit:
+npm install github:HomenShum/NodeAgent#<commit-sha>
+
+# Optional live multi-provider route. NodeAgent still owns orchestration,
+# permissions, tools, durable state, and receipts.
+npm install @earendil-works/pi-ai
+```
+
+After the first scoped release, consumers can replace the GitHub specifier with
+`@homenshum/nodeagent`.
+
+Runtime consumers import the provider-neutral contracts from the package root
+or `@homenshum/nodeagent/runtime`. Pi AI is an optional peer and is loaded only
+when the adapter is used:
+
+```ts
+import { createPiAiAdapter } from "@homenshum/nodeagent/providers/pi-ai";
+
+const model = createPiAiAdapter({
+  provider: "openrouter",
+  model: "openai/gpt-4.1-mini",
+});
+
+const step = await model.next({
+  system: "Use typed tools and return inspectable work.",
+  messages: [{ role: "user", content: "Inspect the attached artifact." }],
+});
+```
+
+Pi AI resolves provider credentials at runtime and returns exact provider usage
+and cost information. Do not place keys in manifests, source, traces, or setup
+receipts. Current Pi AI releases require Node 22.19 or newer when this optional
+adapter is executed; the deterministic NodeAgent core remains usable without Pi.
+
 `nodeagent:frame:smoke` proves the Fable-like bounded frame path:
 `ReasoningFrame -> runNodeAgent -> FrameDelta -> verifier receipt`.
 `nodeagent:durable:smoke` proves the provider-neutral durable path:

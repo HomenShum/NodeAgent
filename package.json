@@ -1,5 +1,5 @@
 {
-  "name": "nodeagent",
+  "name": "@homenshum/nodeagent",
   "version": "0.1.0",
   "private": false,
   "description": "Cross-collaborative agent for live chat context gathering, search & synthesis, spreadsheet modeling, and TipTap notebook editing — distilled from NodeBench AI.",
@@ -14,6 +14,26 @@
   "bin": {
     "nodeagent": "./bin/nodeagent.mjs"
   },
+  "exports": {
+    ".": {
+      "types": "./lib/runtime.d.ts",
+      "import": "./lib/runtime.js"
+    },
+    "./runtime": {
+      "types": "./lib/runtime.d.ts",
+      "import": "./lib/runtime.js"
+    },
+    "./providers/pi-ai": {
+      "types": "./lib/features/node-agent/providers/piAiAdapter.d.ts",
+      "import": "./lib/features/node-agent/providers/piAiAdapter.js"
+    }
+  },
+  "files": [
+    "bin",
+    "lib",
+    "README.md"
+  ],
+  "sideEffects": false,
   "keywords": [
     "agent",
     "convex",
@@ -29,7 +49,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "npm run build:lib && tsc --noEmit && vite build",
+    "build:lib": "tsup src/runtime.ts src/features/node-agent/providers/piAiAdapter.ts --format esm --dts --clean --out-dir lib --external @earendil-works/pi-ai --external @earendil-works/pi-ai/providers/all",
+    "prepack": "npm run build:lib",
     "preview": "vite preview --port 5173",
     "proto": "vite --open /nodeagent-v1.html",
     "demo": "tsx demo/runNodeAgentDemo.ts",
@@ -37,7 +59,7 @@
     "nodeagent": "tsx scripts/nodeagent-cli.ts",
     "doctor": "npm run nodeagent -- doctor",
     "check": "npm run prepush",
-    "proof": "npm run nodeagent:happy-path:smoke",
+    "proof": "npm run secret-scan && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run nodeagent:sqlite:smoke && npm run nodeagent:happy-path:smoke",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
@@ -69,13 +91,23 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": ">=0.80.10 <1"
+  },
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-ai": {
+      "optional": true
+    }
+  },
   "devDependencies": {
+    "@earendil-works/pi-ai": "^0.80.10",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "omniagent": "^0.1.12",
+    "tsup": "^8.5.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.7",
