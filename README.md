@@ -15,6 +15,10 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 [Quickstart](#quickstart) · [CLI](#cli) · [Visual walkthrough](#visual-walkthrough) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
 
+<img src="docs/media/live-graph-rail.gif" alt="A question typed into the chat composer; the agent loop runs and the graph rail populates" width="960" />
+
+<sub>Recorded live UI (<code>e2e/record-live-graph-rail.mjs</code>): a question typed into the real composer, the four-step agent loop rendering its tool UIs, and the session graph rail populating from real loop events. See <a href="docs/GRAPH_INTEGRATION.md">docs/GRAPH_INTEGRATION.md</a> for what the graph does and does not claim.</sub>
+
 </div>
 
 ---

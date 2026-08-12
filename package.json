@@ -57,6 +57,7 @@
     "nodeagent:chat-ui:smoke": "tsx scripts/nodeagent-chat-ui-scaffold-smoke.ts --json-out docs/eval/nodeagent-chat-ui-scaffold-smoke.json",
     "examples:guidance:smoke": "tsx scripts/example-guidance-smoke.ts",
     "e2e:graph-rail": "node e2e/capture-live-graph-rail.mjs",
+    "record:graph-rail": "node e2e/record-live-graph-rail.mjs",
     "secret-scan": "node scripts/secret-scan.mjs",
     "convex:dev": "convex dev",
     "prepush": "npm run secret-scan && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run nodeagent:sqlite:smoke && npm run nodeagent:convex:smoke -- --skip-if-missing && npm run nodeagent:local-dashboard:smoke && npm run nodeagent:chat-ui:smoke && npm run nodeagent:happy-path:smoke && npm run nodeagent:live-provider:smoke -- --skip-if-missing && npm run omnigent:nodeagent:smoke && npm run examples:guidance:smoke && npm run typecheck && npm run test && npm run build && npm audit --omit=dev"
