@@ -153,3 +153,20 @@ button { font-family: inherit; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; }
 }
+
+/* live graph rail (vendored @homenshum/nodegraph-live) */
+.na-rail {
+  width: 360px; min-width: 300px;
+  display: flex; flex-direction: column;
+  border-left: 1px solid var(--line);
+  background: var(--paper);
+}
+.na-rail-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-bottom: 1px solid var(--line-faint);
+  font-size: 12px; font-weight: 700;
+}
+.na-rail-meta { color: var(--ink-muted); font-size: 11px; font-weight: 500; }
+.na-rail-empty { padding: 14px; color: var(--ink-faint); font-size: 12px; }
+.na-rail-graph { padding: 8px; }
+@media (max-width: 960px) { .na-rail { display: none; } }

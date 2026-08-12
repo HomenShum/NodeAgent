@@ -11,6 +11,7 @@ import { AssistantRuntimeProvider, useLocalRuntime } from "@assistant-ui/react";
 import { nodeAgentChatAdapter } from "../runtime/nodeAgentChatAdapter";
 import { NodeAgentToolUIs } from "./toolUIs";
 import { NodeAgentThread } from "./NodeAgentThread";
+import { GraphRailPanel } from "./GraphRailPanel";
 
 export function NodeAgentDemoApp() {
   const runtime = useLocalRuntime(nodeAgentChatAdapter);
@@ -39,6 +40,8 @@ export function NodeAgentDemoApp() {
 
         <main className="na-main">
           <NodeAgentThread />
+          {/* Live session graph: every loop step feeds the one GraphSession. */}
+          <GraphRailPanel />
         </main>
       </div>
     </AssistantRuntimeProvider>

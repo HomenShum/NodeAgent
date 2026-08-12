@@ -221,6 +221,27 @@ credentials. Builder/code ownership is locked by default:
 
 ![NodeAgent local dashboard Builder mode locked](docs/screenshots/local-dashboard-builder-locked.png)
 
+## Live graph rail
+
+![Live session graph rail — the agent loop streams the entities each step actually touched](docs/media/live-graph-rail.png)
+
+The right rail renders a live session graph (vendored
+[`@homenshum/nodegraph-live`](https://github.com/HomenShum/NodeGraph), in
+[`vendor/nodegraph-live/`](vendor/nodegraph-live/) pending its npm publish):
+each step of the real agent loop feeds the entities it actually touched — the
+room and its participants, the retrieved sources, the sheet the delta changed,
+the memo and what it cites — where **evidence** edges carry a count the host
+genuinely measured (context items selected, cells changed, citations written),
+**traversal** edges are interaction history with no measurement claimed, and an
+entity with no measured magnitude renders "unknown — not measured" instead of
+inventing one. Wiring:
+[`agentGraphSession.ts`](src/features/node-agent/graph/agentGraphSession.ts);
+gate: `node e2e/capture-live-graph-rail.mjs` drives the real demo loop and
+exits nonzero if the rail stays empty. Assertion edges are never drawn:
+NodeAgent citations have no release/version field, so no citation can satisfy
+the renderer's full `AssertionReceipt` — an honest API gap, not a styling
+choice.
+
 ## Portability guidance
 
 The durable runtime is not locked to Convex, Postgres, DynamoDB, SQLite, or any

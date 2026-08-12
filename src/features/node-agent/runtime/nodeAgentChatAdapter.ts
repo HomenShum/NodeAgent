@@ -18,6 +18,13 @@ import type { ChatModelAdapter } from "@assistant-ui/react";
 import { runNodeAgent } from "./nodeAgentRuntime";
 import { applySpreadsheetDelta } from "../../spreadsheet/applySpreadsheetDelta";
 import { buildDemoScenario, DEMO_QUESTION } from "../demoScenario";
+import {
+  feedGatherStep,
+  feedMemoStep,
+  feedModelStep,
+  feedSearchStep,
+  nextGraphRunId,
+} from "../graph/agentGraphSession";
 import type {
   ContextBundle,
   NotebookDoc,
@@ -98,15 +105,23 @@ export const nodeAgentChatAdapter: ChatModelAdapter = {
     yield snapshot();
     await tick(280);
 
+    // Each completed step also feeds the live graph rail with the entities it
+    // actually touched (see agentGraphSession.ts for the honesty contract).
+    const graphRunId = nextGraphRunId();
+
     yield* step("ctx", "collect_context", { focus: question }, result.context as ContextToolResult);
+    feedGatherStep(graphRunId, scenario.room, result);
     yield* step("search", "search_synthesize", { query: question }, result.synthesis as SearchToolResult);
+    feedSearchStep(graphRunId, result);
     yield* step(
       "model",
       "apply_spreadsheet_delta",
       { sheet: model.name },
       { applied: result.modelDelta, model } as ModelToolResult,
     );
+    feedModelStep(graphRunId, model, result);
     yield* step("memo", "write_memo", { title: result.memo.title }, result.memo as MemoToolResult);
+    feedMemoStep(graphRunId, result);
 
     // Closing line — honest about the run.
     const runway = result.modelDelta?.changes.find((c) => c.address === "B3");

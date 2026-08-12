@@ -56,6 +56,7 @@
     "clip:capture": "node scripts/render-walkthrough-media.mjs",
     "nodeagent:chat-ui:smoke": "tsx scripts/nodeagent-chat-ui-scaffold-smoke.ts --json-out docs/eval/nodeagent-chat-ui-scaffold-smoke.json",
     "examples:guidance:smoke": "tsx scripts/example-guidance-smoke.ts",
+    "e2e:graph-rail": "node e2e/capture-live-graph-rail.mjs",
     "secret-scan": "node scripts/secret-scan.mjs",
     "convex:dev": "convex dev",
     "prepush": "npm run secret-scan && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run nodeagent:sqlite:smoke && npm run nodeagent:convex:smoke -- --skip-if-missing && npm run nodeagent:local-dashboard:smoke && npm run nodeagent:chat-ui:smoke && npm run nodeagent:happy-path:smoke && npm run nodeagent:live-provider:smoke -- --skip-if-missing && npm run omnigent:nodeagent:smoke && npm run examples:guidance:smoke && npm run typecheck && npm run test && npm run build && npm audit --omit=dev"
@@ -63,11 +64,15 @@
   "dependencies": {
     "@assistant-ui/react": "^0.14.14",
     "@clack/prompts": "^1.5.1",
+    "@sigma/node-border": "^3.0.0",
     "better-sqlite3": "^12.11.1",
     "commander": "^15.0.0",
     "convex": "^1.41.0",
+    "graphology": "^0.26.0",
+    "graphology-layout-forceatlas2": "^0.10.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sigma": "^3.0.3"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
@@ -76,6 +81,7 @@
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "omniagent": "^0.1.12",
+    "playwright": "^1.62.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.7",
