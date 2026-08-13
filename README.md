@@ -23,6 +23,12 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 ---
 
+> **New here? Read [docs/START_HERE.md](docs/START_HERE.md).** It walks the codebase in
+> the order the code actually runs — page load, the composer, the loop, the four tool cards,
+> the live graph, what happens on failure, and the tests that prove it — with the file and
+> symbol for every step. Reference notes live in [docs/codebase/](docs/codebase/), and
+> [.tours/](.tours/) has three CodeTour walkthroughs (`npm run tours:validate`).
+
 NodeAgent is the distilled, portfolio-grade core of [NodeBench AI](#provenance) — the four
 capabilities I kept reaching for, rebuilt as clean, tested, dependency-light TypeScript, wired
 into a single agent loop, and presented as an **[assistant-ui](https://github.com/assistant-ui/assistant-ui)
@@ -56,9 +62,8 @@ npm run dev            # http://localhost:5173 — type a question or tap a sugg
 # 2. The no-build prototype — a vanilla mirror of the same chat, zero install.
 npm run proto          # opens /nodeagent-v1.html
 
-# 3. Instant CLI — the real loop's math, no install, no build.
-node demo/runNodeAgentDemo.mjs
-npm run demo           # the loop over the canonical scenario, via tsx
+# 3. CLI — the real loop over the canonical scenario.
+npm run demo           # runs src/features/** via tsx; prints trace, sources, delta, memo
 
 # 4. Pretty CLI — guided checks and adapter setup.
 npm run nodeagent -- doctor
@@ -444,7 +449,6 @@ NodeAgent/
 │   ├── search/searchAndSynthesize.ts
 │   ├── spreadsheet/               # applySpreadsheetDelta · versionedSpreadsheetSync
 │   └── notebook/notebookEditor.ts
-├── src/mcp/toolRegistry.ts        # progressive-discovery tool registry
 ├── convex/schema.ts               # the live backend contract
 ├── scripts/nodeagent-cli.ts       # Commander + Clack pretty CLI
 ├── examples/adapters/             # provider adapter blueprints + credential handoff

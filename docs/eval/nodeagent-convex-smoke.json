@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "startedAt": "2026-06-17T06:48:10.199Z",
-  "completedAt": "2026-06-17T06:48:10.599Z",
+  "startedAt": "2026-08-13T19:28:14.885Z",
+  "completedAt": "2026-08-13T19:28:14.887Z",
   "requiredTables": [
     "nodeagentJobs",
     "nodeagentFrames",
@@ -9,8 +9,6 @@
     "nodeagentJournal",
     "nodeagentReceipts"
   ],
-  "convexConfigured": true,
-  "convexReachable": true,
-  "convexStatus": 200,
+  "convexConfigured": false,
   "issues": []
 }

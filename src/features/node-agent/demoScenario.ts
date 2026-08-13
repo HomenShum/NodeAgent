@@ -19,7 +19,7 @@ const MIN = 60_000;
 export const DEMO_QUESTION =
   "Does our wedge hold versus Acme, and does the runway model survive 18 months?";
 
-export const DEMO_SOURCES: SearchSource[] = [
+const DEMO_SOURCES: SearchSource[] = [
   {
     id: "src_bench",
     kind: "RAG",

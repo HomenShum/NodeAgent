@@ -30,8 +30,8 @@ import type {
   SynthesisResult,
 } from "../node-agent/types/nodeAgentTypes";
 
-export const MAX_SOURCES = 50;
-export const GROUNDING_THRESHOLD = 0.34;
+const MAX_SOURCES = 50;
+const GROUNDING_THRESHOLD = 0.34;
 /** Weight split between grounding (overlap) and the adapter's retrieval score. */
 const W_GROUNDING = 0.62;
 const W_RETRIEVAL = 0.38;
@@ -141,7 +141,7 @@ export function searchAndSynthesize(
  * sources and attaches citations — synthesis without generation, so it cannot
  * hallucinate. The live path swaps in an LLM via opts.synthesizer.
  */
-export function extractiveSynthesizer(input: {
+function extractiveSynthesizer(input: {
   query: string;
   grounded: RankedSource[];
 }): string {

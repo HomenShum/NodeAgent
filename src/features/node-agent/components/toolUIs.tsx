@@ -52,7 +52,7 @@ function ToolCard({
 }
 
 /* 1 — collect_context */
-export const ContextToolUI = makeAssistantToolUI<{ focus: string }, ContextToolResult>({
+const ContextToolUI = makeAssistantToolUI<{ focus: string }, ContextToolResult>({
   toolName: "collect_context",
   render: ({ result }) => (
     <ToolCard
@@ -73,7 +73,7 @@ export const ContextToolUI = makeAssistantToolUI<{ focus: string }, ContextToolR
 });
 
 /* 2 — search_synthesize */
-export const SearchToolUI = makeAssistantToolUI<{ query: string }, SearchToolResult>({
+const SearchToolUI = makeAssistantToolUI<{ query: string }, SearchToolResult>({
   toolName: "search_synthesize",
   render: ({ result }) => (
     <ToolCard
@@ -101,7 +101,7 @@ export const SearchToolUI = makeAssistantToolUI<{ query: string }, SearchToolRes
 });
 
 /* 3 — apply_spreadsheet_delta */
-export const SpreadsheetToolUI = makeAssistantToolUI<{ sheet: string }, ModelToolResult>({
+const SpreadsheetToolUI = makeAssistantToolUI<{ sheet: string }, ModelToolResult>({
   toolName: "apply_spreadsheet_delta",
   render: ({ result }) => {
     const changed = new Set((result?.applied?.changes ?? []).map((c) => c.address));
@@ -132,7 +132,7 @@ export const SpreadsheetToolUI = makeAssistantToolUI<{ sheet: string }, ModelToo
 });
 
 /* 4 — write_memo */
-export const MemoToolUI = makeAssistantToolUI<{ title: string }, MemoToolResult>({
+const MemoToolUI = makeAssistantToolUI<{ title: string }, MemoToolResult>({
   toolName: "write_memo",
   render: ({ result }) => (
     <ToolCard

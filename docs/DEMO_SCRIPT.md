@@ -66,51 +66,16 @@ runway check, and you can see exactly which source and which number got it there
 
 Pick based on your setting. The first needs nothing but Node.
 
-### A. Instant, zero-deps (no install) — `demo/runNodeAgentDemo.mjs`
+### A. Removed — the zero-deps mirror (`demo/runNodeAgentDemo.mjs`)
 
-```bash
-node demo/runNodeAgentDemo.mjs
-```
+This repo used to ship a second, hand-written copy of the agent loop so the demo could run
+with no `npm install`. It was deleted in the human-readiness pass because it could not fail:
+two of its four TRACE lines and its `overall status: OK` were printed string literals, and it
+imported nothing from `src/`. Setting `GROUNDING_THRESHOLD` to 0.99 in
+`src/features/search/searchAndSynthesize.ts` makes the real loop report `ERROR`; the mirror
+still printed `OK`. See `docs/SIMPLIFICATION_REPORT.md` for the measurement.
 
-No `npm install`, no TypeScript, no Convex, no keys. This file is a compact, faithful
-**mirror** of the tested modules — it computes the real token-overlap grounding, the real
-winner, and the real recompute (`7560 / 420 = 18.0`). The console output looks like this:
-
-```
-────────────────────────────────────────────────────────────────────
-NodeAgent (no-deps mirror) — Does our wedge hold versus Acme, and does the runway model survive 18 months?
-────────────────────────────────────────────────────────────────────
-
-TRACE
-  ✓ gather   3 context items · 2 active
-  ✓ search   <N> grounded · confidence <high|medium>
-  ✓ model    v1 → v2 · 2 cells
-  ✓ memo     5 blocks
-
-SEARCH & SYNTHESIZE
-  ★ [1] RAG  g=0.NN rank=0.NN  room://benchmark — wedge holds vs Acme on latency
-    [2] DOC  g=0.NN rank=0.NN  finance://burn — runway model
-    [3] ...
-    [4] WEB  g=0.NN rank=0.NN  Acme teardown blog — Why context rooms lose
-  answer: Best-grounded source [1] (RAG): ... Corroborated by [2] ...; [3] ....
-
-MODEL DELTA  (v1 → v2)
-    Net burn / mo ($k)     510 → 420
-    Runway (months)        14.82 → 18.0
-
-MEMO (markdown)
-  # Acme — diligence memo
-  ...
-  Model updated to v2: runway now 18.
-
-────────────────────────────────────────────────────────────────────
-overall status: OK
-────────────────────────────────────────────────────────────────────
-```
-
-> Narration: "Trace first — gather, search, model, memo. The **★** marks the winning
-> source. The model delta shows the burn correction and the recompute. Status `OK` means
-> every step completed — and the loop is the one that says so, not me."
+Use (B). It needs `npm install`, and it is the loop.
 
 ### B. The real modules — `npm run demo`
 
@@ -272,7 +237,6 @@ These are the moments that separate a demo from a credible system. Call them out
 
 | Goal | Command | Needs |
 | --- | --- | --- |
-| Instant demo, no install | `node demo/runNodeAgentDemo.mjs` | Node ≥ 20 |
 | Real modules, CLI | `npm install` then `npm run demo` | install |
 | Browser prototype | `npm run proto` (opens `/nodeagent-v1.html`) | install |
 | Full React app | `npm run dev` | install |

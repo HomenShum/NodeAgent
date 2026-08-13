@@ -62,12 +62,14 @@ return value, not a hidden transcript. Steps:
 | `model` | `apply_spreadsheet_delta` | [`spreadsheet/versionedSpreadsheetSync.ts`](src/features/spreadsheet/versionedSpreadsheetSync.ts) | `vX → vY · cells [· rebased]` **or** `version conflict on …` |
 | `memo` | `write_claim` | [`notebook/notebookEditor.ts`](src/features/notebook/notebookEditor.ts) | `B blocks` (claim + citation) |
 
-**Tools / discovery.** The action vocabulary is a progressive-discovery registry
-([`src/mcp/toolRegistry.ts`](src/mcp/toolRegistry.ts)): each entry carries a `category` and
-`nextTools`, so the agent can `discoverTools(query)` (hybrid keyword score) and follow a
-`workflowChain` — `collect_context → search_synthesize → apply_spreadsheet_delta → write_claim`,
-with `run_agent` / `run_durable_frame` as the runtime entry points. (There are no separate
-`.claude/skills/` in this repo — the skills *are* these four typed tool contracts.)
+**Tools / discovery.** The action vocabulary is the four tool NAMES the loop emits —
+`collect_context → search_synthesize → apply_spreadsheet_delta → write_memo`. They are bound
+to inline cards in [`components/toolUIs.tsx`](src/features/node-agent/components/toolUIs.tsx)
+via assistant-ui `makeAssistantToolUI`, and emitted under those exact names by
+[`runtime/nodeAgentChatAdapter.ts`](src/features/node-agent/runtime/nodeAgentChatAdapter.ts).
+An embedding app supplies its own tools through the `ToolRuntime` port in
+[`runtime/durableRuntime.ts`](src/features/node-agent/runtime/durableRuntime.ts). (There are no
+separate `.claude/skills/` in this repo — the skills *are* these four typed tool contracts.)
 
 **How traced.** The loop never throws — `safe()` wraps each step body, marks it `error` on throw,
 and returns a structured fallback so a swarm orchestrator gets partial output, not a crash
@@ -99,7 +101,9 @@ The outer loop is **operated by a coding agent + the `prepush` gate**, not an au
 - **Failure surface.** A red verifier receipt names the exact deficit (`Grounding confidence below
   medium`, `Expected a versioned model delta, but none was applied`, `Memo has no grounded claim
   block`) — pointing the editing agent at the specific module to fix.
-- **What gets edited.** Tools / contracts in [`toolRegistry.ts`](src/mcp/toolRegistry.ts) and the
+- **What gets edited.** The four tool names in
+  [`toolUIs.tsx`](src/features/node-agent/components/toolUIs.tsx) +
+  [`nodeAgentChatAdapter.ts`](src/features/node-agent/runtime/nodeAgentChatAdapter.ts), and the
   four feature modules; grounding thresholds (`GROUNDING_THRESHOLD`, the `W_GROUNDING/W_RETRIEVAL`
   blend) in [`searchAndSynthesize.ts`](src/features/search/searchAndSynthesize.ts); the canonical
   scenario in [`demoScenario.ts`](src/features/node-agent/demoScenario.ts). There is **no
@@ -125,8 +129,8 @@ The outer loop is **operated by a coding agent + the `prepush` gate**, not an au
 
 The substrates that ground the loop (real files; absences flagged):
 
-- **Tool registry** — [`src/mcp/toolRegistry.ts`](src/mcp/toolRegistry.ts): the discoverable
-  action vocabulary + `nextTools` workflow chain.
+- **Tool binding** — [`src/features/node-agent/components/toolUIs.tsx`](src/features/node-agent/components/toolUIs.tsx):
+  the four tool names, each bound to the card that renders it.
 - **The four feature modules** —
   [`chat/contextCollector.ts`](src/features/chat/contextCollector.ts) (presence-TTL-aware, bounded),
   [`search/searchAndSynthesize.ts`](src/features/search/searchAndSynthesize.ts) (4-layer grounding),

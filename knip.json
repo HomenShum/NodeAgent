@@ -1,0 +1,43 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": [
+        "src/app/main.tsx",
+        "bin/nodeagent.mjs",
+        "demo/runNodeAgentDemo.ts",
+        "scripts/*.{ts,mjs}",
+        "e2e/*.mjs",
+        "tests/*.test.ts",
+        "convex/schema.ts",
+        "examples/adapters/sqlite-local/sqliteDurableRuntime.ts"
+      ],
+      "project": [
+        "src/**/*.{ts,tsx}",
+        "bin/**/*.mjs",
+        "demo/**/*.ts",
+        "scripts/**/*.{ts,mjs}",
+        "e2e/**/*.mjs",
+        "tests/**/*.ts",
+        "convex/**/*.ts",
+        "examples/adapters/**/*.ts"
+      ],
+      "ignoreDependencies": [
+        "omniagent",
+        "sigma",
+        "@sigma/node-border",
+        "graphology",
+        "graphology-layout-forceatlas2"
+      ]
+    },
+    "examples/apps/chat-ui/template": {
+      "entry": ["src/main.jsx", "scripts/*.mjs", "vite.config.mjs"],
+      "project": ["src/**/*.{js,jsx}", "scripts/**/*.mjs", "vite.config.mjs"]
+    },
+    "examples/apps/local-dashboard/template": {
+      "entry": ["src/main.jsx", "scripts/*.mjs", "vite.config.mjs"],
+      "project": ["src/**/*.{js,jsx}", "scripts/**/*.mjs", "vite.config.mjs"]
+    }
+  },
+  "ignore": ["vendor/**"]
+}

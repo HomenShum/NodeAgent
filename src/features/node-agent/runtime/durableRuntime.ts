@@ -176,7 +176,7 @@ export interface DurableFrameRunOutcome {
   receipt?: ReasoningFrameRunReceipt;
 }
 
-export function isTerminalJobStatus(status: DurableJobStatus): boolean {
+function isTerminalJobStatus(status: DurableJobStatus): boolean {
   return status === "completed" || status === "blocked" || status === "failed" || status === "canceled";
 }
 

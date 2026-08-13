@@ -1,0 +1,67 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "2 · The four steps, and what each refuses to do",
+  "description": "The domain modules behind the loop. Each is pure, deterministic, and defined as much by what it declines to do as by what it produces.",
+  "steps": [
+    {
+      "file": "src/features/node-agent/demoScenario.ts",
+      "line": 63,
+      "description": "Everything runs on this one fixed scenario: a room with three people, four sources, and a spreadsheet whose monthly-spend figure is wrong on purpose (510 instead of 420) so the agent's correction is visible."
+    },
+    {
+      "file": "src/features/node-agent/demoScenario.ts",
+      "line": 16,
+      "description": "A frozen clock. Every domain function takes `now` as a parameter, which is why output is byte-stable and tests can compare rendered markdown directly."
+    },
+    {
+      "file": "src/features/chat/contextCollector.ts",
+      "line": 47,
+      "description": "Step 1 starts here. Lowercase, drop stop-words, light plural stemming. This same tokenizer is reused by the search module — one definition of 'do these words overlap'."
+    },
+    {
+      "file": "src/features/chat/contextCollector.ts",
+      "line": 24,
+      "description": "Every accumulating collection in this codebase has a cap declared at the top of its file. Agents amplify unbounded growth, so this is a convention, not a one-off."
+    },
+    {
+      "file": "src/features/search/searchAndSynthesize.ts",
+      "line": 63,
+      "description": "Step 2. Blend how well a source overlaps the question with the retrieval score it arrived with, sort, then assign citation numbers 1..n."
+    },
+    {
+      "file": "src/features/search/searchAndSynthesize.ts",
+      "line": 101,
+      "description": "The most important branch in the repo. When the sources are weak it returns an EMPTY answer plus a stated reason instead of writing plausible prose. Refusing to fabricate is the product."
+    },
+    {
+      "file": "src/features/search/searchAndSynthesize.ts",
+      "line": 165,
+      "description": "Guards the live retrieval path: http/https only, and private, loopback and cloud-metadata addresses are blocked. An agent invents URLs from reasoning, and one hallucinated 169.254.169.254 is a credential leak."
+    },
+    {
+      "file": "src/features/spreadsheet/versionedSpreadsheetSync.ts",
+      "line": 58,
+      "description": "Step 3, and the only real validation rule in the app. If your change was written against an older version but nobody touched your cells, it is moved forward silently; if somebody did, you are told which cells clash instead of winning by arriving last."
+    },
+    {
+      "file": "src/features/spreadsheet/applySpreadsheetDelta.ts",
+      "line": 169,
+      "description": "Correcting one cell recomputes the cells that depend on it, and BOTH the edit and the recomputed dependents are recorded in the audit — which is what lets the memo say 'runway now 18'."
+    },
+    {
+      "file": "src/features/notebook/notebookEditor.ts",
+      "line": 61,
+      "description": "Step 4. The unit that makes a memo defensible: a statement plus the citations supporting it plus the ratio of grounded sources. Not a paragraph with a footnote."
+    },
+    {
+      "file": "src/features/node-agent/runtime/nodeAgentRuntime.ts",
+      "line": 160,
+      "description": "The honesty rule: `ok` only when every step completed, `partial` when a memo shipped without grounding, `error` otherwise. Nothing else may report success on this run's behalf."
+    },
+    {
+      "file": "src/features/node-agent/runtime/durableRuntime.ts",
+      "line": 145,
+      "description": "For embedders: real tools are supplied through this port, behind a policy context. The browser demo does not use any of the durable layer — it has no persistence at all."
+    }
+  ]
+}

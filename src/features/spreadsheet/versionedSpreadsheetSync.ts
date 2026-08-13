@@ -24,7 +24,7 @@ import type {
   SpreadsheetModel,
 } from "../node-agent/types/nodeAgentTypes";
 
-export const MAX_LOG = 500;
+const MAX_LOG = 500;
 
 export type CommitOutcome =
   | { ok: true; applied: AppliedDelta; rebased: boolean }

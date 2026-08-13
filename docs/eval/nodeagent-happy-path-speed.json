@@ -1,8 +1,8 @@
 {
-  "ok": true,
-  "startedAt": "2026-06-22T05:59:20.549Z",
-  "completedAt": "2026-06-22T06:00:07.716Z",
-  "totalMs": 47167,
+  "ok": false,
+  "startedAt": "2026-08-13T19:11:15.457Z",
+  "completedAt": "2026-08-13T19:11:41.200Z",
+  "totalMs": 25743,
   "phases": [
     {
       "name": "init",
@@ -14,37 +14,31 @@
       "name": "nodeagent:frame:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 1507
+      "durationMs": 941
     },
     {
       "name": "nodeagent:durable:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 832
+      "durationMs": 909
     },
     {
       "name": "nodeagent:sqlite:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 827
+      "durationMs": 1036
     },
     {
       "name": "nodeagent:local-dashboard:smoke",
       "ok": true,
       "detail": "completed",
-      "durationMs": 1687
+      "durationMs": 1164
     },
     {
       "name": "nodeagent:chat-ui:smoke",
-      "ok": true,
-      "detail": "completed",
-      "durationMs": 41497
-    },
-    {
-      "name": "examples:guidance:smoke",
-      "ok": true,
-      "detail": "completed",
-      "durationMs": 815
+      "ok": false,
+      "detail": "│ ├──────────────────────────────────────────────────────────────────────────────╯ │ └ Chat UI scaffold is ready. - missing docs/eval/chat-ui-demo.json - missing docs/eval/chat-ui-smoke.json",
+      "durationMs": 21690
     }
   ],
   "summary": {

@@ -105,11 +105,10 @@ Each journey states, in this order:
 - **Persona and situation:** An engineer who found the repo, will not create an
   account, and will give it about sixty seconds.
 - **Goal:** See the real loop produce real output before installing anything.
-- **Surface it drives:** `node demo/runNodeAgentDemo.mjs` (no install, no
-  build), `npm run doctor`, and the no-build browser mirror
-  `/nodeagent-v1.html`.
+- **Surface it drives:** `npm run demo` (the real modules via tsx), `npm run doctor`,
+  and the no-build browser mirror `/nodeagent-v1.html`.
 - **Steps:**
-  1. `node demo/runNodeAgentDemo.mjs`.
+  1. `npm install` then `npm run demo`.
   2. Open `/nodeagent-v1.html` and press "▶ Run the agent".
 - **Done when:** The CLI prints the TRACE (gather / search / model / memo), the
   model delta v1 → v2, the memo, and "overall status: OK" with exit 0; the

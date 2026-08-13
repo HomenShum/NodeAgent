@@ -26,7 +26,7 @@ import type {
 } from "../node-agent/types/nodeAgentTypes";
 
 export const MAX_OPS = 256;
-export const MAX_CELLS = 10_000;
+const MAX_CELLS = 10_000;
 
 export interface CreateModelInput {
   id: string;
@@ -166,7 +166,7 @@ export function applySpreadsheetDelta(
  * Bounded: at most `cells.length` passes (a DAG of N nodes settles in <= N
  * passes; cycles stop at the bound and keep their last value — no infinite loop).
  */
-export function recompute(cells: Record<CellAddress, SpreadsheetCell>): CellAddress[] {
+function recompute(cells: Record<CellAddress, SpreadsheetCell>): CellAddress[] {
   const addresses = Object.keys(cells);
   const changed = new Set<CellAddress>();
   let pass = 0;

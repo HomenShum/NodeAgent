@@ -21,8 +21,8 @@ import type {
   RoomMessage,
 } from "../node-agent/types/nodeAgentTypes";
 
-export const MAX_ITEMS = 12;
-export const PRESENCE_TTL_MS = 5 * 60 * 1000; // 5 minutes, mirrors liveEventMembers
+const MAX_ITEMS = 12;
+const PRESENCE_TTL_MS = 5 * 60 * 1000; // 5 minutes, mirrors liveEventMembers
 
 const STOPWORDS = new Set([
   "the", "a", "an", "and", "or", "but", "is", "are", "was", "were", "to", "of",
@@ -53,7 +53,7 @@ export function tokenize(text: string): Set<string> {
 }
 
 /** 0..1 overlap of `text` against the focus query. Deterministic. */
-export function relevanceOf(focusTokens: Set<string>, text: string): number {
+function relevanceOf(focusTokens: Set<string>, text: string): number {
   if (focusTokens.size === 0) return 0;
   const t = tokenize(text);
   let hits = 0;

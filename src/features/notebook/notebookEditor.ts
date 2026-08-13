@@ -18,7 +18,7 @@ import type {
   NotebookDoc,
 } from "../node-agent/types/nodeAgentTypes";
 
-export const MAX_BLOCKS = 2000;
+const MAX_BLOCKS = 2000;
 
 export function createNotebook(
   title: string,
@@ -54,14 +54,6 @@ export function appendParagraph(
   return withBlock(doc, { id: nextId(doc), type: "paragraph", text }, now);
 }
 
-export function insertHeading(
-  doc: NotebookDoc,
-  text: string,
-  now: number = Date.now(),
-): NotebookDoc {
-  return withBlock(doc, { id: nextId(doc), type: "heading", text }, now);
-}
-
 /**
  * Insert a claim block carrying its evidence + grounded ratio. This is the unit
  * that makes a memo defensible: a statement with the citations that support it.
@@ -95,19 +87,6 @@ export function insertCitation(
   return withBlock(
     doc,
     { id: nextId(doc), type: "citation", text, evidence: [citation] },
-    now,
-  );
-}
-
-export function insertEntity(
-  doc: NotebookDoc,
-  entity: string,
-  text: string,
-  now: number = Date.now(),
-): NotebookDoc {
-  return withBlock(
-    doc,
-    { id: nextId(doc), type: "entity", text, entity },
     now,
   );
 }

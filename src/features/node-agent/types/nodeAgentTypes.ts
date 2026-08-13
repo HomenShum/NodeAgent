@@ -215,20 +215,18 @@ export interface AgentRunResult {
   status: "ok" | "partial" | "error";
 }
 
-/* ───────────────────────── tools / MCP ───────────────────────── */
+/* ───────────────────────── tools ───────────────────────── */
 
+/**
+ * The shape a durable-runtime adapter accepts through `ToolRuntime.runTool`
+ * (see runtime/durableRuntime.ts). An app that embeds NodeAgent supplies its
+ * own tools in this shape; this repo ships no concrete instances, because the
+ * demo app invokes its four steps directly from the chat adapter.
+ */
 export interface NodeAgentTool<I = unknown, O = unknown> {
   name: string;
   description: string;
   /** Lightweight JSON-schema-ish description of inputs (for discovery). */
   inputSchema: Record<string, string>;
   handler: (input: I) => O | Promise<O>;
-}
-
-export interface ToolRegistryEntry {
-  name: string;
-  category: "chat" | "search" | "spreadsheet" | "notebook" | "runtime";
-  description: string;
-  /** Tools that commonly run next in a workflow. */
-  nextTools: string[];
 }

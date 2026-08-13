@@ -1,31 +1,18 @@
 {
   "ok": true,
-  "startedAt": "2026-06-22T06:00:39.093Z",
-  "completedAt": "2026-06-22T06:00:41.988Z",
-  "provider": "openrouter",
-  "model": "z-ai/glm-5.2",
-  "modelCandidates": [
-    "z-ai/glm-5.2",
-    "moonshotai/kimi-k2.7-code",
-    "cohere/north-mini-code:free",
-    "nvidia/nemotron-3-ultra-550b-a55b",
-    "nex-agi/nex-n2-pro"
-  ],
-  "envFilesLoaded": [
-    "external:noderoom/.env.local"
-  ],
+  "skipped": true,
+  "startedAt": "2026-08-13T19:29:13.696Z",
+  "completedAt": "2026-08-13T19:29:13.698Z",
+  "provider": "none",
+  "model": "none",
+  "envFilesLoaded": [],
   "convex": {
-    "configured": true,
-    "urlReachable": true,
-    "status": 200
+    "configured": false
   },
   "llm": {
     "ok": true,
-    "ms": 2690,
+    "ms": 0,
     "expected": "NODEAGENT_LIVE_OK",
-    "receivedPreview": "NODEAGENT_LIVE_OK",
-    "attemptedModels": [
-      "z-ai/glm-5.2"
-    ]
+    "receivedPreview": "skipped: no provider key configured"
   }
 }

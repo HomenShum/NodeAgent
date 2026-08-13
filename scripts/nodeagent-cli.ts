@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { Command } from "commander";
 import { intro, log, note, outro, spinner } from "@clack/prompts";
 
@@ -35,37 +36,6 @@ interface HappyPathReport {
     credentialRequired: false;
     command: string;
   };
-}
-
-interface AppSetupPhase {
-  name: string;
-  command: string;
-  ok: boolean;
-  durationMs: number;
-  detail: string;
-}
-
-interface AppSetupReceipt {
-  ok: boolean;
-  startedAt: string;
-  completedAt: string;
-  totalMs: number;
-  template: AppTemplateInfo["id"];
-  targetDir: string;
-  apiKeysRequired: false;
-  phases: AppSetupPhase[];
-  nextSteps: string[];
-}
-
-interface AppTemplateInfo {
-  id: "local-dashboard" | "chat-ui";
-  label: string;
-  templateDir: string;
-  defaultDir: string;
-  credentials: string[];
-  smoke: string;
-  summary: string;
-  autoNote: string;
 }
 
 const adapters: AdapterInfo[] = [
@@ -105,29 +75,6 @@ const adapters: AdapterInfo[] = [
     status: "blueprint",
     guide: "examples/adapters/cloudflare/README.md",
     credentials: ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN", "NODEAGENT_D1_DATABASE_ID", "NODEAGENT_R2_BUCKET"],
-  },
-];
-
-const appTemplates: AppTemplateInfo[] = [
-  {
-    id: "local-dashboard",
-    label: "Local dashboard",
-    templateDir: "examples/apps/local-dashboard/template",
-    defaultDir: "nodeagent-local-dashboard",
-    credentials: [],
-    smoke: "nodeagent:local-dashboard:smoke",
-    summary: "VisualLabs/NodeRoom-style dashboard with SQLite and Trace Lens tabs.",
-    autoNote: "The dashboard includes the NodeRoom-style Trace Lens tabs: Review, Builder, Business proof, Runtime trace, and gated Code ownership.",
-  },
-  {
-    id: "chat-ui",
-    label: "Chat UI",
-    templateDir: "examples/apps/chat-ui/template",
-    defaultDir: "nodeagent-chat-ui",
-    credentials: [],
-    smoke: "nodeagent:chat-ui:smoke",
-    summary: "assistant-ui chat scaffold with a no-key local adapter and inline tool cards.",
-    autoNote: "The chat uses assistant-ui, a scripted local adapter, and inline NodeAgent tool cards; replace the adapter with a server route when credentials exist.",
   },
 ];
 
@@ -284,102 +231,22 @@ adaptersCommand
     outro("Adapter guidance complete.");
   });
 
-const appsCommand = program
+/**
+ * `apps` is owned by bin/nodeagent.mjs — the published entry point, and the
+ * only scaffold implementation. This forwards to it rather than copying the
+ * template table and the copy/verify logic, because two owners of one decision
+ * is how this repo shipped its last critical defect (see promotion/PROMOTION_LOG.md, D1).
+ */
+program
   .command("apps")
-  .description("Scaffold and inspect runnable NodeAgent app templates.");
-
-appsCommand
-  .command("list")
-  .description("List app templates that can be scaffolded locally.")
-  .action(() => {
-    intro("NodeAgent Apps");
-    for (const template of appTemplates) {
-      const credentials = template.credentials.length > 0 ? template.credentials.join(", ") : "none";
-      log.info(`${template.id.padEnd(16)} ${template.defaultDir.padEnd(28)} credentials: ${credentials}  ${template.summary}`);
-    }
-    outro("Use `npm run nodeagent -- apps scaffold chat-ui --dir nodeagent-chat-ui --auto` for the no-key chat, or `local-dashboard` for the dashboard shell.");
-  });
-
-appsCommand
-  .command("scaffold")
-  .argument("<template>", "template id")
-  .option("--dir <path>", "target directory")
-  .option("--force", "overwrite matching template files if the target already exists")
-  .option("--install", "run npm install in the generated app")
-  .option("--run-demo", "run npm run agent:demo in the generated app")
-  .option("--verify", "run npm run smoke and npm run build in the generated app")
-  .option("--auto", "run install, agent demo, smoke, and build; writes .nodeagent/setup-receipt.json")
-  .description("Create a coding-agent-friendly local app scaffold.")
-  .action((templateId: AppTemplateInfo["id"], options: { auto?: boolean; dir?: string; force?: boolean; install?: boolean; runDemo?: boolean; verify?: boolean }) => {
-    const template = appTemplates.find((candidate) => candidate.id === templateId);
-    intro(`NodeAgent App Scaffold: ${templateId}`);
-    if (!template) {
-      log.error(`Unknown app template: ${templateId}`);
-      note(appTemplates.map((candidate) => candidate.id).join("\n"), "Available templates");
-      outro("App scaffold failed.");
-      process.exitCode = 1;
-      return;
-    }
-
-    const sourceDir = resolve(template.templateDir);
-    const targetDir = resolve(options.dir ?? template.defaultDir);
-    if (!existsSync(sourceDir)) {
-      log.error(`Missing template source: ${template.templateDir}`);
-      outro("App scaffold failed.");
-      process.exitCode = 1;
-      return;
-    }
-    if (existsSync(targetDir) && !options.force) {
-      log.error(`Target already exists: ${formatPath(targetDir)}`);
-      note("Re-run with --force to overwrite matching template files.", "Existing directory");
-      outro("App scaffold stopped before writing files.");
-      process.exitCode = 1;
-      return;
-    }
-
-    const filesCopied = copyDir(sourceDir, targetDir);
-    log.success(`created ${formatPath(targetDir)} (${filesCopied} files)`);
-
-    const shouldInstall = Boolean(options.auto || options.install);
-    const shouldRunDemo = Boolean(options.auto || options.runDemo);
-    const shouldVerify = Boolean(options.auto || options.verify);
-    if (shouldInstall || shouldRunDemo || shouldVerify) {
-      const receipt = runAppSetupAutomation({
-        install: shouldInstall,
-        runDemo: shouldRunDemo,
-        targetDir,
-        templateId: template.id,
-        verify: shouldVerify,
-      });
-      const receiptPath = join(targetDir, ".nodeagent", "setup-receipt.json");
-      writeJson(receiptPath, receipt);
-      if (receipt.ok) {
-        log.success(`wrote ${formatPath(receiptPath)}`);
-      } else {
-        log.error(`setup failed; receipt wrote ${formatPath(receiptPath)}`);
-        process.exitCode = 1;
-      }
-    }
-
-    note([
-      "No API keys are required for the first run.",
-      template.autoNote,
-      "",
-      options.auto
-        ? "Auto mode already ran install, agent demo, smoke, and build."
-        : "Fully automatic setup:",
-      options.auto
-        ? ""
-        : `  npm run nodeagent -- apps scaffold ${template.id} --dir ${formatPath(targetDir)} --auto`,
-      "",
-      "Run:",
-      `  cd ${formatPath(targetDir)}`,
-      "  npm run dev",
-      "",
-      "Optional verification:",
-      "  npm run smoke",
-    ].join("\n"), template.label);
-    outro(`${template.label} scaffold is ready.`);
+  .description("Scaffold and inspect runnable NodeAgent app templates (delegates to bin/nodeagent.mjs).")
+  .allowUnknownOption()
+  .allowExcessArguments()
+  .argument("[args...]", "forwarded to bin/nodeagent.mjs apps")
+  .action((args: string[]) => {
+    const cli = resolve(dirname(fileURLToPath(import.meta.url)), "..", "bin", "nodeagent.mjs");
+    const result = spawnSync(process.execPath, [cli, "apps", ...args], { stdio: "inherit" });
+    process.exitCode = result.status ?? 1;
   });
 
 program.parse();
@@ -455,77 +322,6 @@ function runScripts(scripts: string[]) {
   return ok;
 }
 
-function runAppSetupAutomation({
-  install,
-  runDemo,
-  targetDir,
-  templateId,
-  verify,
-}: {
-  install: boolean;
-  runDemo: boolean;
-  targetDir: string;
-  templateId: AppTemplateInfo["id"];
-  verify: boolean;
-}): AppSetupReceipt {
-  const startedAtMs = Date.now();
-  const startedAt = new Date(startedAtMs).toISOString();
-  const phases: AppSetupPhase[] = [];
-
-  if (install) phases.push(runAppCommandPhase(targetDir, "install", ["install"]));
-  if (phases.every((phase) => phase.ok) && runDemo) phases.push(runAppCommandPhase(targetDir, "agent demo", ["run", "agent:demo"]));
-  if (phases.every((phase) => phase.ok) && verify) {
-    phases.push(runAppCommandPhase(targetDir, "smoke", ["run", "smoke"]));
-    if (phases.every((phase) => phase.ok)) phases.push(runAppCommandPhase(targetDir, "build", ["run", "build"]));
-  }
-
-  const completedAtMs = Date.now();
-  return {
-    ok: phases.every((phase) => phase.ok),
-    startedAt,
-    completedAt: new Date(completedAtMs).toISOString(),
-    totalMs: completedAtMs - startedAtMs,
-    template: templateId,
-    targetDir,
-    apiKeysRequired: false,
-    phases,
-    nextSteps: [
-      "npm run dev",
-      "Open the Vite URL printed by the dev server.",
-      "Add model/provider credentials only when upgrading beyond scripted local mode.",
-    ],
-  };
-}
-
-function runAppCommandPhase(targetDir: string, name: string, args: string[]): AppSetupPhase {
-  const command = `npm ${args.join(" ")}`;
-  const startedAt = performance.now();
-  const s = spinner();
-  s.start(`${command} (${formatPath(targetDir)})`);
-  const result = spawnSync(npmCommand(), args, {
-    cwd: targetDir,
-    encoding: "utf8",
-    shell: process.platform === "win32",
-  });
-  const durationMs = Math.round(performance.now() - startedAt);
-  const output = [result.error?.message, result.stdout, result.stderr].filter(Boolean).join("\n");
-  if (result.status === 0) {
-    s.stop(command);
-    log.success(`${name} ${formatMs(durationMs)}`);
-  } else {
-    s.stop(command);
-    log.error(`${name} failed`);
-    if (output.trim()) note(output.trim().slice(-3000), "Command output");
-  }
-  return {
-    name,
-    command,
-    ok: result.status === 0,
-    durationMs,
-    detail: result.status === 0 ? "completed" : output.slice(-240).replace(/\s+/g, " ").trim() || "failed",
-  };
-}
-
 function runScriptPhase(script: string): TimedPhase {
   return timePhase(script, () => {
     const result = runNpmScript(script);
@@ -571,27 +367,4 @@ function writeJson(path: string, value: unknown) {
 
 function npmCommand() {
   return process.platform === "win32" ? "npm.cmd" : "npm";
-}
-
-function copyDir(sourceDir: string, targetDir: string): number {
-  mkdirSync(targetDir, { recursive: true });
-  let filesCopied = 0;
-  for (const entry of readdirSync(sourceDir)) {
-    const sourcePath = join(sourceDir, entry);
-    const targetPath = join(targetDir, entry);
-    const stats = statSync(sourcePath);
-    if (stats.isDirectory()) {
-      filesCopied += copyDir(sourcePath, targetPath);
-    } else if (stats.isFile()) {
-      mkdirSync(dirname(targetPath), { recursive: true });
-      copyFileSync(sourcePath, targetPath);
-      filesCopied += 1;
-    }
-  }
-  return filesCopied;
-}
-
-function formatPath(path: string) {
-  const relativePath = relative(process.cwd(), path);
-  return relativePath && !relativePath.startsWith("..") ? relativePath : path;
 }

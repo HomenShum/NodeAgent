@@ -134,13 +134,17 @@ function validateGeneratedApp(targetDir: string, issues: string[]) {
 }
 
 function validateCliContract(issues: string[]) {
-  const cli = readFileSync("scripts/nodeagent-cli.ts", "utf8");
+  // bin/nodeagent.mjs is the single scaffold implementation and owns the template
+  // table; scripts/nodeagent-cli.ts forwards `apps` to it. Assert the table against
+  // the file that declares it — asserting it against the forwarder would pass while
+  // the real template entry rotted.
+  const cli = readFileSync("bin/nodeagent.mjs", "utf8");
   const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
     bin?: Record<string, string>;
     dependencies?: Record<string, string>;
   };
   for (const required of ["chat-ui", "examples/apps/chat-ui/template", "nodeagent-chat-ui", "assistant-ui chat scaffold"]) {
-    if (!cli.includes(required)) issues.push(`nodeagent-cli.ts missing ${required}`);
+    if (!cli.includes(required)) issues.push(`bin/nodeagent.mjs missing ${required}`);
   }
   if (packageJson.bin?.nodeagent !== "./bin/nodeagent.mjs") issues.push("package.json missing nodeagent bin");
   if (packageJson.dependencies?.tsx) issues.push("package.json should not ship tsx in production dependencies");

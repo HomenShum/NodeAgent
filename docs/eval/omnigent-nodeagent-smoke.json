@@ -4,26 +4,7 @@
     "cli": {
       "officialOmnigent": {
         "checked": true,
-        "installed": true,
-        "command": "uv tool run --python 3.12 omnigent",
-        "strategy": "uv",
-        "probe": {
-          "ok": true,
-          "checks": [
-            {
-              "command": "uv tool run --python 3.12 omnigent --help",
-              "exitCode": 0,
-              "stdout": "Usage: omnigent [OPTIONS] COMMAND [ARGS]...\r\n\r\n  Omnigent CLI.\r\n\r\nOptions:\r\n  --version  Show the version and exit.\r\n  --help     Show this message and exit.\r\n\r",
-              "stderr": ""
-            },
-            {
-              "command": "uv tool run --python 3.12 omnigent run --help",
-              "exitCode": 0,
-              "stdout": "Usage: omnigent run [OPTIONS] [AGENT]\r\n\r\n  Start a session with an Omnigent agent.\r\n\r\n  AGENT may be an agent YAML file or an agent directory. Without AGENT, pa",
-              "stderr": ""
-            }
-          ]
-        }
+        "installed": false
       },
       "npmOmniagent": {
         "checked": true,

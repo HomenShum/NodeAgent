@@ -37,8 +37,15 @@ function main() {
   const options = parseArgs(process.argv.slice(2));
   const tempDir = mkdtempSync(join(tmpdir(), "nodeagent-local-dashboard-"));
   const targetDir = join(tempDir, "app");
-  const scaffoldArgs = ["run", "nodeagent", "--", "apps", "scaffold", "local-dashboard", "--dir", targetDir, "--force"];
-  const result = spawnSync(npmCommand(), scaffoldArgs, {
+  // Drive bin/nodeagent.mjs directly, exactly as the chat-ui smoke does.
+  // Going through `npm run nodeagent -- apps scaffold … --dir <path>` puts two
+  // extra `npm run` layers between here and the scaffolder, and `--dir` does not
+  // survive them when this smoke is itself re-run inside `happy-path` inside
+  // `prepush`: the scaffolder exits 0 having written nothing to the temp dir and
+  // every required file reports missing. That made `npm run check` fail from a
+  // clean checkout on Windows. One less process layer is also the fix.
+  const scaffoldArgs = ["bin/nodeagent.mjs", "apps", "scaffold", "local-dashboard", "--dir", targetDir, "--force"];
+  const result = spawnSync(process.execPath, scaffoldArgs, {
     cwd: process.cwd(),
     encoding: "utf8",
     shell: process.platform === "win32",
@@ -120,9 +127,16 @@ function validateWalkthrough(issues: string[]) {
 }
 
 function validateCliContract(issues: string[]) {
-  const cli = readFileSync("scripts/nodeagent-cli.ts", "utf8");
+  // bin/nodeagent.mjs is the single scaffold implementation; scripts/nodeagent-cli.ts
+  // forwards `apps` to it. Assert the flags against the file that implements them —
+  // asserting them against the forwarder would pass while the real flags rotted.
+  const cli = readFileSync("bin/nodeagent.mjs", "utf8");
   for (const required of ["--auto", "--install", "--run-demo", "--verify", "setup-receipt.json"]) {
-    if (!cli.includes(required)) issues.push(`nodeagent-cli.ts missing ${required}`);
+    if (!cli.includes(required)) issues.push(`bin/nodeagent.mjs missing ${required}`);
+  }
+  const forwarder = readFileSync("scripts/nodeagent-cli.ts", "utf8");
+  if (!forwarder.includes("bin/nodeagent.mjs") && !forwarder.includes('"nodeagent.mjs"')) {
+    issues.push("scripts/nodeagent-cli.ts no longer forwards apps to bin/nodeagent.mjs");
   }
 }
 
@@ -175,10 +189,6 @@ function writeJson(path: string, value: unknown) {
   const parent = dirname(path);
   if (parent && parent !== "." && !existsSync(parent)) mkdirSync(parent, { recursive: true });
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
-}
-
-function npmCommand() {
-  return process.platform === "win32" ? "npm.cmd" : "npm";
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) main();

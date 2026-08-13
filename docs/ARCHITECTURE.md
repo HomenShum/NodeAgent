@@ -405,12 +405,13 @@ All import the **same** ported modules and share the design DNA (CSS tokens `--b
    `NodeAgentDemoApp.tsx`. `npm run dev`.
 2. **`nodeagent-v1.html`** — a vanilla mirror of the same chat (thread + composer +
    inline tool cards), zero build. `npm run proto`.
-3. **CLI** — `demo/runNodeAgentDemo.ts` (`npm run demo`) and the zero-dep
-   `demo/runNodeAgentDemo.mjs` print the loop's trace, ranked sources, model delta, and
-   the markdown memo.
+3. **CLI** — `demo/runNodeAgentDemo.ts` (`npm run demo`) runs the same modules and
+   prints the loop's trace, ranked sources, model delta, and the markdown memo.
 
-The MCP tool surface (`tools/nodeAgentTools.ts` + `mcp/toolRegistry.ts`) wraps the same
-pure functions as discoverable tools with `nextTools` workflow hints.
+Tools are registered where they are rendered: `components/toolUIs.tsx` binds the four
+tool names to inline cards via assistant-ui's `makeAssistantToolUI`, and
+`runtime/nodeAgentChatAdapter.ts` emits tool-call parts under those exact names. An app
+embedding NodeAgent supplies its own tools to `ToolRuntime` (see `runtime/durableRuntime.ts`).
 
 The canonical scenario (`src/features/node-agent/demoScenario.ts`, "Acme diligence
 room") drives every surface with a fixed `DEMO_NOW` timestamp so output is byte-stable:
