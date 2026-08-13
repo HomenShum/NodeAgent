@@ -1,0 +1,75 @@
+{
+  "desktop-1440": {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "loopMs": 2653,
+    "metrics": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "horizontalOverflow": false,
+      "rootChildren": 1,
+      "messages": 2,
+      "toolCards": 4,
+      "railDisplay": "flex",
+      "railEntities": "12",
+      "railEdges": "26",
+      "memoHeading": "Acme — diligence memo"
+    },
+    "focusOrder": [
+      "BUTTON\"fit\" outline=solid/2px",
+      "INPUT\"\" outline=solid/2px",
+      "INPUT\"\" outline=solid/2px",
+      "body",
+      "A\"Prototype ↗\" outline=solid/2px",
+      "A\"GitHub ↗\" outline=solid/2px"
+    ],
+    "pageErrors": [],
+    "consoleErrors": [
+      "[warning] [.WebGL-0x6c0400e09400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x6c0400e06400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x6c0400e05e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x6c0400e09400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    ],
+    "failed": []
+  },
+  "mobile-375": {
+    "viewport": {
+      "width": 375,
+      "height": 812
+    },
+    "loopMs": "TIMEOUT: fourth tool card never completed within 15s",
+    "metrics": {
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "clientWidth": 375,
+      "horizontalOverflow": false,
+      "rootChildren": 0,
+      "messages": 0,
+      "toolCards": 0,
+      "railDisplay": "absent",
+      "railEntities": null,
+      "railEdges": null,
+      "memoHeading": null
+    },
+    "focusOrder": [
+      "body",
+      "body",
+      "body",
+      "body",
+      "body",
+      "body"
+    ],
+    "pageErrors": [
+      "Sigma: Container has no width. You can set the allowInvalidContainer setting to true to stop seeing this error.",
+      "Sigma: Container has no width. You can set the allowInvalidContainer setting to true to stop seeing this error."
+    ],
+    "consoleErrors": [
+      "[warning] %s\n\n%s\n An error occurred in the <NodeGraph> component. Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://react",
+      "[warning] %s\n\n%s\n An error occurred in the <NodeGraph> component. Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://react"
+    ],
+    "failed": []
+  }
+}
