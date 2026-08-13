@@ -57,6 +57,8 @@
     "nodeagent:chat-ui:smoke": "tsx scripts/nodeagent-chat-ui-scaffold-smoke.ts --json-out docs/eval/nodeagent-chat-ui-scaffold-smoke.json",
     "examples:guidance:smoke": "tsx scripts/example-guidance-smoke.ts",
     "e2e:graph-rail": "node e2e/capture-live-graph-rail.mjs",
+    "e2e:journey": "node e2e/capture-journey-at-width.mjs",
+    "e2e:journey:mobile": "node e2e/capture-journey-at-width.mjs --width 375 --height 812 --label 375",
     "record:graph-rail": "node e2e/record-live-graph-rail.mjs",
     "secret-scan": "node scripts/secret-scan.mjs",
     "convex:dev": "convex dev",

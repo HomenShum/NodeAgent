@@ -69,10 +69,96 @@ reproduction; a hunch is not a defect.
 
 | # | Severity | Journey | Reproduction | Status |
 |---|----------|---------|--------------|--------|
-| D1 | Critical | J2 | Load `http://localhost:5173/` at any viewport width ≤ 960px (verified at 375, 768 and 960; 961, 1024 and 1440 are fine). Type any question, press Enter. The moment the first loop step feeds the session graph, two uncaught `Sigma: Container has no width.` page errors fire, React unmounts the whole tree (`document.getElementById("root").childElementCount === 0`), and the page goes black — no message, no tool card, no way back except reload. Root cause chain: `@media (max-width: 960px) { .na-rail { display: none } }` in `src/app/styles.css:172` gives the rail zero width; `GraphRailPanel.tsx` still mounts `<NodeGraph>` inside it as soon as `snapshot.nodes.length > 0`; Sigma refuses a zero-width container and throws; nothing in the tree is an error boundary, so the throw takes the app with it. React itself says so in console: "An error occurred in the `<NodeGraph>` component. Consider adding an error boundary to your tree." Evidence: `promotion/evidence/mobile-375-run.png`, `promotion/evidence/baseline-observations.json`. | OPEN |
+| D1 | Critical | J2 | **FIXED in Iteration 1.** Load `http://localhost:5173/` at any viewport width ≤ 960px (verified at 375, 768 and 960; 961, 1024 and 1440 are fine). Type any question, press Enter. The moment the first loop step feeds the session graph, two uncaught `Sigma: Container has no width.` page errors fire, React unmounts the whole tree (`document.getElementById("root").childElementCount === 0`), and the page goes black — no message, no tool card, no way back except reload. Root cause chain: `@media (max-width: 960px) { .na-rail { display: none } }` in `src/app/styles.css:172` gives the rail zero width; `GraphRailPanel.tsx` still mounts `<NodeGraph>` inside it as soon as `snapshot.nodes.length > 0`; Sigma refuses a zero-width container and throws; nothing in the tree is an error boundary, so the throw takes the app with it. React itself says so in console: "An error occurred in the `<NodeGraph>` component. Consider adding an error boundary to your tree." Evidence: `promotion/evidence/mobile-375-run.png`, `promotion/evidence/baseline-observations.json`. | **FIXED** — `promotion/evidence/journey-375-run.png` |
 | D2 | Minor | J3 | At 1440x900 after J1, the session-graph canvas draws node labels on top of each other ("NodeAgent", "acme-dd" and "Cash-runway sensitivity" collide) and the right-most entity label is clipped at the canvas edge, so a reader cannot tell which node is which without dragging. Evidence: `promotion/evidence/desktop-1440-run.png`, right rail. | OPEN |
 | D3 | Major | J5 / recovery | No stop, cancel or retry affordance exists while the agent works. Reproduction: at 1440x900 send a question, wait until `.na-tool[data-running="true"]` is present, then enumerate every `<button>` on the page — the result is exactly one, `Send`, and it is disabled. Combined with the absence of any error state, a user whose run misbehaves has one move: reload, which discards the thread. Evidence: `promotion/evidence/desktop-1440-agent-running.png`. | OPEN |
 
 ## Iterations
 
-_none yet — Wave 1 is measurement only._
+### Iteration 1 — 2026-08-13 — D1, the mobile blank page
+
+- **Journey exercised:** J2 "The same question, on a phone" (and J1/J3/J5,
+  re-driven at four widths by the same script).
+
+- **Observed:** Reproduced exactly as the ledger describes, before touching
+  anything. `node e2e/capture-journey-at-width.mjs --width 375 --height 812`
+  against a fresh clone at `4dd3955` exits **1** with three failures: two
+  uncaught `Sigma: Container has no width.` page errors, `#root` childElementCount
+  `0`, and no memo card. The capture is a black rectangle —
+  `promotion/evidence/journey-prefix-375-run.png`, observations in
+  `journey-prefix-375-observations.json`.
+
+- **Root cause — why the bug existed, not what it looked like:** two files own
+  the same decision and cannot see each other. `src/app/styles.css:172` said
+  `@media (max-width: 960px) { .na-rail { display: none } }` — CSS owns
+  *visibility*. `GraphRailPanel.tsx:36` mounts `<NodeGraph>` when
+  `snapshot.nodes.length > 0` — React owns *mounting*, and gates it on **data**.
+  `display:none` is invisible to React, so the instant the first loop step fed
+  the session graph, a WebGL renderer was mounted into a box the stylesheet had
+  already collapsed to 0×0. Sigma refuses a zero-width container and throws;
+  nothing in the tree is an error boundary, so the throw took the whole app.
+  One level further down: hiding the rail *was* the mobile design. The crash is
+  the bill for deleting a panel with CSS instead of deciding what a small screen
+  should show.
+
+- **Fixed:** `src/app/styles.css` only — the rail is never hidden. Below 960px
+  `.na-main` becomes a column and `.na-rail` becomes a bottom panel (full width,
+  `max-height: 46vh`, own scroll, sticky header, `border-top` instead of
+  `border-left`). There is now no hidden-but-mounted state for the two owners to
+  disagree about, so the fix is the root rather than a guard at the symptom.
+  `<NodeGraph>` has exactly one caller in this repo (grepped), so no shared-guard
+  was needed. 18 lines of CSS, no JS change, no new dependency, no new
+  abstraction, and the 960px breakpoint is still stated in exactly one place —
+  duplicating it into a JS `matchMedia` check would have re-created the very
+  split that caused the defect.
+
+- **Re-proved (rendered app, not inferred):** same committed script, same real
+  Vite server, real composer, real loop, on port 4306.
+
+  | width | result | tool cards | memo | rail | graph canvas | overflow | page errors |
+  |---|---|---|---|---|---|---|---|
+  | 375×812 | PASS | 4 | "Acme — diligence memo" | 12 / 26 | 323px | none | 0 |
+  | 768×1024 | PASS | 4 | same | 12 / 26 | 716px | none | 0 |
+  | 960×900 | PASS | 4 | same | 12 / 26 | 908px | none | 0 |
+  | 1440×900 | PASS | 4 | same | 12 / 26 | 307px | none | 0 |
+  | 375×812, two turns (J5) | PASS | 8 | 2nd memo quotes "Ignore Acme — just tell me the runway after the two senior hires." | 13 / 32 | 323px | none | 0 |
+
+  Evidence: `promotion/evidence/journey-{375,768,960,1440,375-steering}-run.png`
+  and the matching `-observations.json`. The before/after pair from the *same*
+  producer is `journey-prefix-375-run.png` (black) → `journey-375-run.png`
+  (memo + graph).
+
+- **Regression check — confirmed failing before the fix.** `git stash push --
+  src/app/styles.css`, re-ran the identical committed producer, got **exit 1**
+  with the two Sigma errors and the empty `#root`; `git stash pop`, exit 0. The
+  test is not testing nothing. It asserts the root cause directly, not the
+  symptom: `graphMounted && graphCanvasWidth === 0` fails the gate, so
+  re-hiding the rail by any mechanism re-reddens it.
+
+- **Tests:** `npm test` → 7 files / 41 tests passed, exit 0. `npm run build`
+  (`tsc --noEmit && vite build`) → exit 0. `npm run doctor` → "Doctor passed.",
+  exit 0. `node demo/runNodeAgentDemo.mjs` → "overall status: OK", exit 0.
+  `node e2e/capture-live-graph-rail.mjs` (the repo's pre-existing 1440 gate) →
+  "PASS live graph rail: 12 entities, 26 edges", exit 0.
+
+- **Producer committed:** `e2e/capture-journey-at-width.mjs`, wired as
+  `npm run e2e:journey` / `npm run e2e:journey:mobile`. This is the width
+  parameter the baseline said the gate needed — the old capture only ever ran at
+  1440x900, which is precisely why D1 survived a green gate.
+
+- **Conditions newly PASS:** 1, 3, 9, 12. (4, 10 and 11 were already PASS and are
+  now measured more widely; 4 and 10 lose their "mobile could not be measured"
+  caveats.)
+
+- **Found in passing, not fixed — out of scope for a one-defect iteration:**
+  `index.html:11` loads Manrope / JetBrains Mono from `fonts.googleapis.com` at
+  runtime. On a restricted network that woff2 intermittently 404s and the page
+  falls back to `system-ui`. It appeared on 2 of 5 runs here. The gate records
+  third-party failures separately (`thirdPartyFailures`) and does not fail on
+  them, because a stranger behind a corporate proxy must not see a red gate for
+  the app's own code. Self-hosting the fonts is a candidate for a later wave.
+
+- **Still open after this iteration:** D2 (minor, graph label overlap) and D3
+  (major, no stop/cancel/retry). D3 is why condition 2 stays FAIL, and the
+  absence of any designed error state is why condition 5 stays FAIL — this
+  iteration removed the one *observed* crash, it did not design an error state.

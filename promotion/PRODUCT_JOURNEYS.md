@@ -48,20 +48,28 @@ Each journey states, in this order:
   call, on a 375px-wide phone screen.
 - **Goal:** Reach the same memo on a small screen.
 - **Surface it drives:** the same route at 375x812; the responsive rules in
-  `src/app/styles.css` (`@media (max-width: 640px)` and
-  `@media (max-width: 960px) { .na-rail { display: none } }`) and the conditional
-  `<NodeGraph>` mount in `GraphRailPanel.tsx`.
+  `src/app/styles.css` (`@media (max-width: 640px)` and the ≤960px block that
+  turns the rail into a bottom panel) and the conditional `<NodeGraph>` mount in
+  `GraphRailPanel.tsx`.
 - **Steps:**
-  1. Open `http://localhost:5173/` at 375x812. The empty state renders correctly.
+  1. Open the app at 375x812. The empty state renders correctly.
   2. Type the question and press Enter.
 - **Done when:** The memo card is readable at 375px with no horizontal scroll,
   and the session graph is either shown in a small-screen form or deliberately
   and visibly deferred.
-- **Evidence:** `promotion/evidence/mobile-375-empty.png` (correct empty state),
-  `promotion/evidence/mobile-375-run.png` (the failure — a black rectangle).
-- **Baseline result:** FAIL — defect D1. The page goes blank at every width
-  ≤960px the instant the first step runs. Nothing is recoverable without a
-  reload, and reloading loses the conversation.
+- **Evidence:** `promotion/evidence/journey-375-run.png` (the memo plus the
+  session graph as a bottom panel), `journey-375-observations.json`; also
+  `journey-768-run.png` and `journey-960-run.png`.
+  `promotion/evidence/mobile-375-empty.png` remains the empty state, and
+  `journey-prefix-375-run.png` is kept deliberately: it is the same producer run
+  on the pre-fix tree, so the before/after pair is reproducible rather than
+  remembered.
+- **Baseline result:** FAIL — defect D1. The page went blank at every width
+  ≤960px the instant the first step ran.
+- **Iteration 1 result:** PASS. Four tool cards, memo "Acme — diligence memo",
+  rail 12 entities / 26 edges in a 323px-wide canvas, `scrollWidth === clientWidth`
+  at 375, zero page errors, 2653 ms from Enter to memo. Reproduce with
+  `npm run e2e:journey:mobile` (exit 0; exit 1 on the pre-fix tree).
 
 ## J3 — "Where did that number come from?"
 
@@ -130,6 +138,13 @@ Each journey states, in this order:
   question and the rail grows 12 → 13 entities, but the sources, the model delta
   and the answer are byte-identical, because the demo scenario is fixed. Steering
   is visible; it is not yet consequential.
+- **Iteration 1 addition:** now also driven at 375x812, where the second turn
+  feeds the session graph a second time — the path most likely to re-trigger D1.
+  8 tool cards, second memo quoting "Ignore Acme — just tell me the runway after
+  the two senior hires.", rail 13 entities / 32 edges, zero page errors
+  (`promotion/evidence/journey-375-steering-run.png`, reproduce with
+  `node e2e/capture-journey-at-width.mjs --width 375 --height 812 --turns 2`).
+  The shallowness above is unchanged and still the honest ceiling.
 
 ---
 
@@ -139,7 +154,9 @@ Each journey states, in this order:
   There is no cancel or stop control while the loop runs (checked in the rendered
   app: no button with a stop/cancel label at any point in a run), no error state,
   and no retry. When the loop did fail for real (J2 / D1) the user lost the whole
-  page and the conversation with it. A recovery journey cannot be written against
-  this build; writing one is Wave 2 work, not a baseline claim.
+  page and the conversation with it. Iteration 1 removed that particular failure
+  at its root, which means the gap is no longer *demonstrated* — but it is not
+  closed: there is still no error state and no retry, so the next unhandled throw
+  will do the same thing. Writing a recovery journey is still open work (D3).
 - **Steering — J5.** Drivable, with the ceiling recorded above.
 - **Receipt — J3.** Drivable, with the release-pinning gap recorded above.

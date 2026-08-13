@@ -1,0 +1,41 @@
+{
+  "capturedAt": "2026-08-13T11:58:22.568Z",
+  "viewport": {
+    "width": 375,
+    "height": 812
+  },
+  "url": "http://localhost:4306/",
+  "question": "Does our wedge hold versus Acme, and does the runway model survive 18 months?",
+  "turns": 1,
+  "followUp": null,
+  "pageErrors": [
+    "Sigma: Container has no width. You can set the allowInvalidContainer setting to true to stop seeing this error.",
+    "Sigma: Container has no width. You can set the allowInvalidContainer setting to true to stop seeing this error."
+  ],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "thirdPartyFailures": [],
+  "thirdPartyConsoleErrors": [],
+  "memoRendered": false,
+  "loopMs": null,
+  "rootChildren": 0,
+  "scrollWidth": 375,
+  "clientWidth": 375,
+  "toolCards": 0,
+  "memos": 0,
+  "lastMemoQuestion": null,
+  "memoHeading": null,
+  "railWidth": 0,
+  "railEntities": null,
+  "railEdges": null,
+  "graphMounted": false,
+  "graphCanvasWidth": 0,
+  "graphDeferred": false,
+  "result": "FAIL",
+  "failures": [
+    "uncaught page errors: [\"Sigma: Container has no width. You can set the allowInvalidContainer setting to true to stop seeing this error.\",\"Sigma: Container has no width. You can set the allowInvalidContainer setting to true to stop seeing this error.\"]",
+    "React unmounted — #root is empty (blank page)",
+    "memo card never rendered"
+  ],
+  "screenshot": "promotion/evidence/journey-prefix-375-run.png"
+}

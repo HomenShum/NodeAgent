@@ -169,4 +169,21 @@ button { font-family: inherit; cursor: pointer; }
 .na-rail-meta { color: var(--ink-muted); font-size: 11px; font-weight: 500; }
 .na-rail-empty { padding: 14px; color: var(--ink-faint); font-size: 12px; }
 .na-rail-graph { padding: 8px; }
-@media (max-width: 960px) { .na-rail { display: none; } }
+/* Below 960px there is no room beside the conversation, so the rail becomes a
+   bottom panel — it is never hidden. It used to be `display: none` here, and
+   that was defect D1: `display:none` is invisible to React, so GraphRailPanel
+   (which mounts <NodeGraph> on `snapshot.nodes.length > 0`, i.e. on DATA) put a
+   WebGL renderer inside a 0x0 box the moment the first loop step landed. Sigma
+   throws "Container has no width", and with no error boundary the throw took
+   the whole app down. A rail that is always laid out cannot be mounted into a
+   collapsed container, so the two owners of "is the rail shown?" cannot
+   disagree. Regression: `node e2e/capture-journey-at-width.mjs --width 375`. */
+@media (max-width: 960px) {
+  .na-main { flex-direction: column; }
+  .na-rail {
+    width: auto; min-width: 0;
+    flex: 0 0 auto; max-height: 46vh; overflow-y: auto;
+    border-left: none; border-top: 1px solid var(--line);
+  }
+  .na-rail-head { position: sticky; top: 0; z-index: 1; background: var(--paper); }
+}
