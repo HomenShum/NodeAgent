@@ -60,6 +60,11 @@ carries `"nanoid@^5.0.0": "5.1.16"` in `overrides`, next to the existing
 `@assistant-ui` asks for, and the range key leaves `postcss`'s CommonJS
 `nanoid@3` alone (forcing ESM 5.x on it would break the Vite build).
 
+Plain `npm audit`, without `--omit=dev`, still reports 8 advisories including
+that same `nanoid` one — it also covers `<3.3.16`, and `vite → postcss` pulls
+`nanoid@3.3.12`. Every one of those is dev-only and none reaches the shipped
+bundle, which is why the gate scopes itself to production dependencies.
+
 The pin is the concern. It is our number, not the upstream's, so when
 `@assistant-ui` bumps its own `nanoid` this override can silently hold the tree
 back. Delete it, run `npm install && npm audit --omit=dev`, and if that is clean
