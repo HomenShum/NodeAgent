@@ -110,9 +110,9 @@ The outer loop is **operated by a coding agent + the `prepush` gate**, not an au
   separate prompt store or skills dir** to edit (the loop is deterministic TS by default; the
   live LLM is an *injectable* `synthesizer`, see §4).
 - **Promotion gate.** A change ships only through the full `prepush` chain in
-  [`package.json`](package.json): `secret-scan → frame → durable → sqlite → convex → local-dashboard
-  → chat-ui → happy-path → live-provider → omnigent → examples-guidance → typecheck → test → build
-  → npm audit`. CI re-runs it on every push/PR ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)),
+  [`package.json`](package.json): `secret-scan → tours-validate → frame → durable → sqlite → convex
+  → local-dashboard → chat-ui → live-provider → omnigent → examples-guidance → typecheck → test →
+  build → npm audit` — fifteen stages. CI re-runs it on every push/PR ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)),
   and additionally verifies the walkthrough render pipeline in a temp dir (`walkthroughs:check`)
   and diffs `docs/walkthroughs` (`git diff --exit-code`) so nothing mutates the committed media
   mid-run (ffmpeg output is not byte-deterministic across builds, so CI checks the pipeline, not

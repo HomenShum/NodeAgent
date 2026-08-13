@@ -50,12 +50,20 @@ the name the adapter emits in `runtime/nodeAgentChatAdapter.ts`. A typo produces
 Two files must agree, with nothing enforcing it. Adding a fifth step is where
 this will bite.
 
-### 5. `npm run check` exits 1 on a dependency advisory
+### 5. A transitive dependency is pinned by hand
 
-The final stage, `npm audit --omit=dev`, reports one high-severity advisory in
-`nanoid` (transitive via `@assistant-ui/react`). Every other stage passes. This
-needs a deliberate dependency upgrade — it was left alone because upgrading a
-dependency is not structural work.
+`npm audit --omit=dev` used to report a high-severity advisory in `nanoid`
+(GHSA-28wg-ghj8-5hjv, transitive via `@assistant-ui/react`), and it was the one
+stage that failed `npm run check` from a clean checkout. `package.json` now
+carries `"nanoid@^5.0.0": "5.1.16"` in `overrides`, next to the existing
+`esbuild` and `ws` pins: the patched version is semver-compatible with what
+`@assistant-ui` asks for, and the range key leaves `postcss`'s CommonJS
+`nanoid@3` alone (forcing ESM 5.x on it would break the Vite build).
+
+The pin is the concern. It is our number, not the upstream's, so when
+`@assistant-ui` bumps its own `nanoid` this override can silently hold the tree
+back. Delete it, run `npm install && npm audit --omit=dev`, and if that is clean
+the pin has done its job and should go.
 
 ### 6. Two different commands are both called `doctor`
 

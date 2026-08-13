@@ -231,6 +231,10 @@ untouched by this pass — no dependency or lockfile entry was modified. Fixing 
 means upgrading a dependency, which is not structural work and is left for a
 maintainer to decide deliberately.
 
+**Since resolved.** A later pass pinned the patched `nanoid` in `overrides`;
+`npm run check` now exits 0 with `found 0 vulnerabilities`. See the note under
+"Left unresolved" below.
+
 ---
 
 ## Two checks were re-pointed. Both are stated here so they can be audited.
@@ -251,10 +255,11 @@ before and after.
 
 ## Left unresolved, with reasons
 
-1. **`npm audit` reports 1 high-severity advisory** (`nanoid`, transitive via
-   `@assistant-ui/react`). Not fixed: resolving it means upgrading a
-   dependency, which is feature/maintenance work, not structural. It is the only
-   reason `npm run check` still exits non-zero.
+1. ~~**`npm audit` reports 1 high-severity advisory**~~ (`nanoid`, transitive
+   via `@assistant-ui/react`). **Resolved after this pass** by adding
+   `"nanoid@^5.0.0": "5.1.16"` to the existing `overrides` block — the version
+   range `@assistant-ui` already asks for, so no dependency was upgraded across
+   a major. `npm run check` now exits 0 on all fifteen stages.
 
 2. **jscpd still reports 24 clones / 287 duplicated lines.** The bulk is
    argument-parsing and receipt-writing boilerplate shared by

@@ -6,52 +6,62 @@
     {
       "file": "src/features/node-agent/runtime/nodeAgentRuntime.ts",
       "line": 171,
+      "anchor": "function safe<T>",
       "description": "The loop's whole failure story. A throwing step is recorded as an error and given a fallback so later steps still run and the user still gets a memo that admits the gap. The loop never throws."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
       "line": 98,
+      "anchor": "if (abortSignal.aborted) return",
       "description": "The abort signal is checked BETWEEN steps only — because the loop already finished synchronously before this generator started yielding. Nothing in the UI is wired to trigger it (defect D3)."
     },
     {
       "file": "src/features/node-agent/components/NodeAgentDemoApp.tsx",
       "line": 20,
+      "anchor": "<AssistantRuntimeProvider runtime={runtime}>",
       "description": "GAP: no component in this tree is a React error boundary, and the adapter has no catch. A throw in any child unmounts the whole app to a blank page. That is exactly how defect D1 presented. A fix starts on this line."
     },
     {
       "file": "src/app/styles.css",
       "line": 181,
+      "anchor": "@media (max-width: 960px)",
       "description": "The site of defect D1. This block used to say `.na-rail { display: none }`. CSS owned visibility, React owned mounting and gated on data — so a WebGL renderer was mounted into a 0x0 box, threw, and took the app down. The rail is now a bottom panel instead: one owner, no hidden-but-mounted state."
     },
     {
       "file": "e2e/capture-journey-at-width.mjs",
       "line": 168,
+      "anchor": "graphMounted:",
       "description": "The browser gate asserts the graph canvas is not zero-width — the CAUSE of D1, not its symptom. Re-hide the rail by any mechanism and this turns red."
     },
     {
       "file": "tests/nodeAgentRuntime.test.ts",
       "line": 17,
-      "description": "The loop's central claims. To prove they are not decorative: set GROUNDING_THRESHOLD in src/features/search/searchAndSynthesize.ts from 0.34 to 0.99 and run `npx vitest run tests/nodeAgentRuntime.test.ts` — it exits 1 with three failures. Put it back."
+      "anchor": "completes all four steps with status ok",
+      "description": "The loop's central claims. To prove they are not decorative: set GROUNDING_THRESHOLD in src/features/search/searchAndSynthesize.ts from 0.34 to 0.99 and run `npx vitest run tests/nodeAgentRuntime.test.ts` — that one file exits 1 with three failures. The whole suite (`npm test`) exits 1 with seven, across four files. Put it back."
     },
     {
       "file": "tests/nodeAgentRuntime.test.ts",
       "line": 54,
+      "anchor": "returns partial (not ok, not crash)",
       "description": "The degradation case: weak sources must produce `partial` and still ship a memo, not a crash and not a fake success."
     },
     {
       "file": "src/features/search/searchAndSynthesize.ts",
       "line": 34,
+      "anchor": "const GROUNDING_THRESHOLD",
       "description": "The knob the mutation above turns. A deleted demo script used to hard-code its own copy of this number and print 'overall status: OK' regardless — see docs/SIMPLIFICATION_REPORT.md for why that was removed."
     },
     {
       "file": "scripts/nodeagent-local-dashboard-scaffold-smoke.ts",
       "line": 40,
+      "anchor": "Drive bin/nodeagent.mjs directly",
       "description": "A trap worth knowing: reaching a tool through nested `npm run x -- --flag value` silently dropped the --dir argument on Windows, so the scaffolder exited 0 having written nothing and `npm run check` failed from a clean checkout. Both scaffold smokes now call the binary directly."
     },
     {
       "file": "package.json",
-      "line": 64,
-      "description": "The full gate. It currently exits 1 on its last stage only — `npm audit` reports a high-severity advisory in a transitive dependency of @assistant-ui/react. Every other stage passes."
+      "line": 66,
+      "anchor": "\"prepush\":",
+      "description": "The full gate: fifteen stages, and it exits 0 from a clean checkout. The last stage, `npm audit --omit=dev`, is why the `overrides` block below pins a patched `nanoid` — @assistant-ui reaches a vulnerable one transitively, and a gate that a new engineer cannot pass is worse than no gate."
     }
   ]
 }

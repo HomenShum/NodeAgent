@@ -15,6 +15,17 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 [Quickstart](#quickstart) · [CLI](#cli) · [Visual walkthrough](#visual-walkthrough) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
 
+</div>
+
+> **New here? Read [docs/START_HERE.md](docs/START_HERE.md).** It walks the codebase in
+> the order the code actually runs — page load, the composer, the loop, the four tool cards,
+> the live graph, what happens on failure, and the tests that prove it — with the file and
+> symbol for every step. Reference notes live in [docs/codebase/](docs/codebase/), and
+> [.tours/](.tours/) has three CodeTour walkthroughs. `npm run tours:validate` re-checks every
+> tour step and every START_HERE citation against the line it names.
+
+<div align="center">
+
 <img src="docs/media/live-graph-rail.gif" alt="A question typed into the chat composer; the agent loop runs and the graph rail populates" width="960" />
 
 <sub>Recorded live UI (<code>e2e/record-live-graph-rail.mjs</code>): a question typed into the real composer, the four-step agent loop rendering its tool UIs, and the session graph rail populating from real loop events. See <a href="docs/GRAPH_INTEGRATION.md">docs/GRAPH_INTEGRATION.md</a> for what the graph does and does not claim.</sub>
@@ -22,12 +33,6 @@ Thread; each capability renders inline as a tool UI as the agent works.
 </div>
 
 ---
-
-> **New here? Read [docs/START_HERE.md](docs/START_HERE.md).** It walks the codebase in
-> the order the code actually runs — page load, the composer, the loop, the four tool cards,
-> the live graph, what happens on failure, and the tests that prove it — with the file and
-> symbol for every step. Reference notes live in [docs/codebase/](docs/codebase/), and
-> [.tours/](.tours/) has three CodeTour walkthroughs (`npm run tours:validate`).
 
 NodeAgent is the distilled, portfolio-grade core of [NodeBench AI](#provenance) — the four
 capabilities I kept reaching for, rebuilt as clean, tested, dependency-light TypeScript, wired

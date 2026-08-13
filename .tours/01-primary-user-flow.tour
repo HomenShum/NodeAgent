@@ -6,71 +6,85 @@
     {
       "file": "index.html",
       "line": 15,
+      "anchor": "<script type=\"module\"",
       "description": "The whole app is one page. This tag is the only entry point — there is no router and no server."
     },
     {
       "file": "src/app/main.tsx",
       "line": 8,
+      "anchor": "createRoot(el).render",
       "description": "Mount one component. That is the entire job of the entry file."
     },
     {
       "file": "src/features/node-agent/components/NodeAgentDemoApp.tsx",
       "line": 17,
+      "anchor": "const runtime = useLocalRuntime",
       "description": "The one decision that says HOW the agent runs. `useLocalRuntime` comes from the installed @assistant-ui/react package and gives us a working chat runtime in exchange for one adapter object. Swapping this adapter for a server-backed one is the single edit that takes this demo to production."
     },
     {
       "file": "src/features/node-agent/components/NodeAgentDemoApp.tsx",
       "line": 23,
+      "anchor": "<NodeAgentToolUIs />",
       "description": "Renders nothing visible. It exists to register the four inline tool cards with the runtime — see tour step 6."
     },
     {
       "file": "src/features/node-agent/components/NodeAgentThread.tsx",
       "line": 91,
+      "anchor": "<ComposerPrimitive.Send",
       "description": "The control the user actually presses. Note it is the only button on the page while a run is in flight, and it is disabled — there is no cancel. That is open defect D3."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
       "line": 61,
+      "anchor": "async *run({ messages, abortSignal })",
       "description": "Pressing Enter lands here. This is the bridge between the chat UI and the agent."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
       "line": 66,
+      "anchor": "const result = runNodeAgent(scenario)",
       "description": "The surprise worth knowing early: this call is SYNCHRONOUS and all four steps finish right here, before anything renders. The streaming a user sees is this function pacing out results that already exist."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentRuntime.ts",
       "line": 54,
+      "anchor": "export function runNodeAgent",
       "description": "The loop itself. Four numbered blocks, top to bottom, no framework. If you read one function in this repo, read this one."
     },
     {
       "file": "src/features/node-agent/components/toolUIs.tsx",
       "line": 56,
+      "anchor": "toolName: \"collect_context\"",
       "description": "Tool REGISTRATION. A tool here is a name string with a card bound to it — there is no model doing tool-calling, no schema registry, no dispatch table."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
       "line": 112,
+      "anchor": "yield* step(\"ctx\", \"collect_context\"",
       "description": "Tool INVOCATION, using the exact same name string. If these two lists ever disagree the card silently does not render and the run still reports success. Nothing enforces the match."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
       "line": 96,
+      "anchor": "parts.set(id, { type: \"tool-call\", toolCallId: id, toolName, args })",
       "description": "How a card appears then fills in: yield the call (card shows 'working…'), pause, yield the same call plus its result (card shows the real data)."
     },
     {
       "file": "src/features/node-agent/graph/agentGraphSession.ts",
       "line": 53,
+      "anchor": "graphSession.observe(",
       "description": "After each step, record the entities that step genuinely touched. Read the file header above for the honesty contract: a count is passed only when something was really counted."
     },
     {
       "file": "src/features/node-agent/components/GraphRailPanel.tsx",
       "line": 17,
+      "anchor": "const snapshot = useSyncExternalStore",
       "description": "The side panel subscribes to that session, so the graph grows as the run proceeds. This is the entire state-management story — no library."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
       "line": 127,
+      "anchor": "const runway = result.modelDelta?.changes.find",
       "description": "The closing line quotes real numbers off the result — the grounded count and the recomputed runway — rather than a canned success message."
     }
   ]

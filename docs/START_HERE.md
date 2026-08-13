@@ -124,7 +124,7 @@ send button is what starts the agent.
 ```
 
 The empty state offers two one-click starter questions
-(`ThreadPrimitive.Suggestion`, line 57), which is how most first-time visitors
+(`ThreadPrimitive.Suggestion`), which is how most first-time visitors
 actually start.
 
 **Input** — typed text, or a click on a suggestion chip.
@@ -205,13 +205,13 @@ export function runNodeAgent(input: RunInput): AgentRunResult {
 
 The honesty rule lives in those two lines: `ok` only when every step completed,
 `partial` when the memo shipped but grounding failed, `error` otherwise. The
-search step refuses to write an answer it cannot support —
-`searchAndSynthesize.ts:101` returns an empty answer with a stated reason rather
-than inventing prose.
+search step refuses to write an answer it cannot support — the
+`confidence === "low"` branch in `searchAndSynthesize.ts` returns an empty
+answer with a stated reason rather than inventing prose.
 
 **Input** — a `RunInput`: question, room, sources, optional model + delta, clock.
 **Output** — an `AgentRunResult` with four step records and the four artifacts.
-**Failure behavior** — never throws. `safe()` (line 171) wraps each step body,
+**Failure behavior** — never throws. `safe()` wraps each step body,
 marks the step `error`, and substitutes an empty result so later steps still run.
 **Next** — Step 6 turns this result into a streamed message.
 
@@ -249,15 +249,15 @@ yield snapshot();                                    // same card, now filled in
 ```
 
 Note what this is *not*: there is no tool-calling model, no schema registry, and
-no dispatch table. The loop already ran (`runNodeAgent`, line 66); the adapter
+no dispatch table. The loop already ran (`runNodeAgent`); the adapter
 replays its four results as tool calls so each one renders as it lands. An app
 embedding NodeAgent supplies real tools through the `ToolRuntime` port in
-`runtime/durableRuntime.ts:145`.
+`runtime/durableRuntime.ts`.
 
 **Input** — the thread's messages, plus an `abortSignal`.
 **Output** — a stream of message snapshots, each replacing the last.
 **Failure behavior** — the abort signal is checked between steps
-(`nodeAgentChatAdapter.ts:98`). There is no `try/catch`: a throw inside this
+(`if (abortSignal.aborted) return`). There is no `try/catch`: a throw inside this
 generator surfaces as an unhandled rejection, which is the gap Step 8 names.
 **Next** — Step 7 is what the run writes to.
 
@@ -389,8 +389,11 @@ it("applies the versioned delta and recomputes runway to 18.0", () => {
 ```
 
 To confirm these are not decorative: change `GROUNDING_THRESHOLD` in
-`src/features/search/searchAndSynthesize.ts:34` from `0.34` to `0.99` and run
-`npm test`. Three assertions fail. Change it back.
+`src/features/search/searchAndSynthesize.ts` from `0.34` to `0.99` and run
+`npm test`. Seven assertions fail, across four of the seven test files
+(`nodeAgentRuntime.test.ts` 3, `durableRuntime.test.ts` 2,
+`reasoningFrameRunner.test.ts` 1, `sqliteDurableRuntime.test.ts` 1). Change it
+back.
 
 The browser check drives the real Vite server at a chosen width and asserts the
 graph canvas is not zero-width — the root cause of D1, not its symptom:
@@ -414,7 +417,7 @@ byte-stable.
 | You want to… | Edit | Then run |
 |---|---|---|
 | Change what the agent says | `demoScenario.ts` | `npm run demo` |
-| Change how sources are ranked | `searchAndSynthesize.ts:36-37` | `npm test` |
+| Change how sources are ranked | `searchAndSynthesize.ts` (`W_GROUNDING`, `W_RETRIEVAL`) | `npm test` |
 | Change how a tool card looks | `components/toolUIs.tsx` | `npm run dev` |
 | Add a fifth step | `nodeAgentRuntime.ts`, then a name in `toolUIs.tsx` **and** `nodeAgentChatAdapter.ts` | `npm test && npm run e2e:journey` |
 | Give the app an error state | `NodeAgentDemoApp.tsx` (add a boundary) + `nodeAgentChatAdapter.ts` (add a catch) | `npm run e2e:journey` |

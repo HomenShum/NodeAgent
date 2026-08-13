@@ -1,6 +1,8 @@
 // Generates .tours/*.tour with line numbers resolved from the real files.
 // Every step names an anchor substring; the generator finds it and fails loudly
-// if it is absent, so a tour can never ship pointing at a line that moved.
+// if it is absent, and writes it into the step so scripts/validate-tours.mjs can
+// assert the line still holds it. A line number alone would stay in range while
+// the code under it moved.
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -70,11 +72,11 @@ const tours = [
       ["src/features/node-agent/components/NodeAgentDemoApp.tsx", "<AssistantRuntimeProvider runtime={runtime}>", "GAP: no component in this tree is a React error boundary, and the adapter has no catch. A throw in any child unmounts the whole app to a blank page. That is exactly how defect D1 presented. A fix starts on this line."],
       ["src/app/styles.css", "@media (max-width: 960px)", "The site of defect D1. This block used to say `.na-rail { display: none }`. CSS owned visibility, React owned mounting and gated on data — so a WebGL renderer was mounted into a 0x0 box, threw, and took the app down. The rail is now a bottom panel instead: one owner, no hidden-but-mounted state."],
       ["e2e/capture-journey-at-width.mjs", "graphMounted:", "The browser gate asserts the graph canvas is not zero-width — the CAUSE of D1, not its symptom. Re-hide the rail by any mechanism and this turns red."],
-      ["tests/nodeAgentRuntime.test.ts", "completes all four steps with status ok", "The loop's central claims. To prove they are not decorative: set GROUNDING_THRESHOLD in src/features/search/searchAndSynthesize.ts from 0.34 to 0.99 and run `npx vitest run tests/nodeAgentRuntime.test.ts` — it exits 1 with three failures. Put it back."],
+      ["tests/nodeAgentRuntime.test.ts", "completes all four steps with status ok", "The loop's central claims. To prove they are not decorative: set GROUNDING_THRESHOLD in src/features/search/searchAndSynthesize.ts from 0.34 to 0.99 and run `npx vitest run tests/nodeAgentRuntime.test.ts` — that one file exits 1 with three failures. The whole suite (`npm test`) exits 1 with seven, across four files. Put it back."],
       ["tests/nodeAgentRuntime.test.ts", "returns partial (not ok, not crash)", "The degradation case: weak sources must produce `partial` and still ship a memo, not a crash and not a fake success."],
       ["src/features/search/searchAndSynthesize.ts", "const GROUNDING_THRESHOLD", "The knob the mutation above turns. A deleted demo script used to hard-code its own copy of this number and print 'overall status: OK' regardless — see docs/SIMPLIFICATION_REPORT.md for why that was removed."],
       ["scripts/nodeagent-local-dashboard-scaffold-smoke.ts", "Drive bin/nodeagent.mjs directly", "A trap worth knowing: reaching a tool through nested `npm run x -- --flag value` silently dropped the --dir argument on Windows, so the scaffolder exited 0 having written nothing and `npm run check` failed from a clean checkout. Both scaffold smokes now call the binary directly."],
-      ["package.json", '"prepush":', "The full gate. It currently exits 1 on its last stage only — `npm audit` reports a high-severity advisory in a transitive dependency of @assistant-ui/react. Every other stage passes."],
+      ["package.json", '"prepush":', "The full gate: fifteen stages, and it exits 0 from a clean checkout. The last stage, `npm audit --omit=dev`, is why the `overrides` block below pins a patched `nanoid` — @assistant-ui reaches a vulnerable one transitively, and a gate that a new engineer cannot pass is worse than no gate."],
     ],
   },
 ];
@@ -84,6 +86,7 @@ for (const tour of tours) {
   const steps = tour.steps.map(([file, anchor, description]) => ({
     file,
     line: lineOf(file, anchor),
+    anchor,
     description,
   }));
   writeFileSync(

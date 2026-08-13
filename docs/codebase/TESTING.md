@@ -14,7 +14,7 @@ you have never seen go red is not yet evidence.
 | `npm run e2e:journey` | the real app in a real browser at 1440x900 | ~30 s |
 | `npm run e2e:journey:mobile` | the same at 375x812 — the D1 guard | ~30 s |
 | `npm run proof` | the timed no-cloud path (`happy-path`), 7 phases | ~65 s |
-| `npm run check` | everything: secret scan, 6 smokes, typecheck, tests, build, `npm audit` | ~3 min |
+| `npm run check` | all fifteen stages: secret scan, tour + citation validation, nine smokes, typecheck, tests, build, `npm audit` | ~3 min |
 
 ## The unit tests (`tests/`, 7 files, 41 tests)
 
@@ -91,11 +91,12 @@ argument when the smoke was re-run inside `happy-path` inside `prepush`, and
 
 ## Known state of the gate
 
-`npm run check` runs all fourteen stages. Every smoke, the typecheck, all 41
-tests and the build pass. It exits **1** on the final stage only:
-`npm audit --omit=dev` reports one high-severity advisory in `nanoid`, a
-transitive dependency of `@assistant-ui/react`. That is a dependency upgrade
-decision, not a code defect. Expect that exit code until someone bumps it.
+`npm run check` runs all fifteen stages and exits **0** from a clean checkout:
+every smoke, the typecheck, all 41 tests, the build, and `npm audit --omit=dev`
+(`found 0 vulnerabilities`). The audit stage used to fail on a high-severity
+`nanoid` advisory reached through `@assistant-ui/react`; `package.json` now pins
+the patched version in `overrides`. The pin is what to watch, not the advisory —
+see concern 5 in `CONCERNS.md`.
 
 ## What is not tested
 
