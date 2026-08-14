@@ -1,0 +1,68 @@
+{
+  "capturedAt": "2026-08-14T02:04:28.955Z",
+  "viewport": {
+    "width": 375,
+    "height": 812
+  },
+  "url": "http://localhost:4306/",
+  "question": "Does our wedge hold versus Acme, and does the runway model survive 18 months?",
+  "turns": 1,
+  "followUp": null,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "thirdPartyFailures": [],
+  "thirdPartyConsoleErrors": [],
+  "memoRendered": true,
+  "loopMs": 2567,
+  "keyboard": {
+    "reachedComposer": true,
+    "focusPath": [
+      {
+        "tabs": 0,
+        "tag": "textarea",
+        "cls": "na-composer-input",
+        "label": "",
+        "outline": "none 3px rgb(232, 228, 223)",
+        "indicatorBorder": "rgb(217, 119, 87)"
+      }
+    ]
+  },
+  "axe": {
+    "axeVersion": "4.13.0",
+    "state": "populated",
+    "passes": 35,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": [
+          "h1",
+          "a[href$=\"nodeagent-v1.html\"]",
+          "a:nth-child(4)",
+          ".na-av",
+          ".na-tool[data-running=\"false\"]:nth-child(4) > .na-tool-h > .na-tool-i[aria-hidden=\"true\"]",
+          ".na-tool[data-running=\"false\"]:nth-child(5) > .na-tool-h > .na-tool-i[aria-hidden=\"true\"]",
+          ".na-disclaimer"
+        ]
+      }
+    ],
+    "violations": []
+  },
+  "rootChildren": 1,
+  "scrollWidth": 375,
+  "clientWidth": 375,
+  "toolCards": 4,
+  "memos": 1,
+  "lastMemoQuestion": "The room asked: \"Does our wedge hold versus Acme, and does the runway model survive 18 months?\"",
+  "memoHeading": "Acme — diligence memo",
+  "railWidth": 375,
+  "railEntities": 12,
+  "railEdges": 26,
+  "graphMounted": true,
+  "graphCanvasWidth": 323,
+  "graphDeferred": false,
+  "result": "PASS",
+  "failures": [],
+  "screenshot": "promotion/evidence/journey-keyboard-375-run.png"
+}

@@ -1,0 +1,463 @@
+{
+  "capturedAt": "2026-08-14T02:04:16.599Z",
+  "checklistSource": "https://vercel.com/design/guidelines",
+  "checklistFetchedAt": "2026-08-13",
+  "url": "http://localhost:4904/",
+  "checks": [
+    {
+      "guideline": "Interactions — Mobile input size (<input> font >=16px on mobile)",
+      "major": true,
+      "measured": "composer font-size 16px at 375w",
+      "pass": true
+    },
+    {
+      "guideline": "Interactions — Respect zoom (never disable browser zoom)",
+      "major": true,
+      "measured": "viewport meta: width=device-width, initial-scale=1.0, viewport-fit=cover",
+      "pass": true
+    },
+    {
+      "guideline": "Interactions — Match visual & hit targets (>=44px on mobile)",
+      "major": true,
+      "measured": "0 control(s) under 44px at 375w: []",
+      "pass": true
+    },
+    {
+      "guideline": "Animations — Honor prefers-reduced-motion",
+      "major": true,
+      "measured": "@media (prefers-reduced-motion) rule in own stylesheet: true; with reduce emulated, .na-dot animation none x1 @ 0ms (emulation alone forces this, so it is not the assertion)",
+      "pass": true
+    },
+    {
+      "guideline": "Content — Headings & skip link (hierarchical h1-h6)",
+      "major": true,
+      "measured": "desktop populated headings: [1,2,3]",
+      "pass": true
+    },
+    {
+      "guideline": "Content — Icon-only buttons are named",
+      "major": true,
+      "measured": "0 control(s) with no accessible name",
+      "pass": true
+    },
+    {
+      "guideline": "Design — Set the appropriate color-scheme",
+      "major": false,
+      "measured": "html color-scheme: dark",
+      "pass": true
+    },
+    {
+      "guideline": "Design — Browser UI matches your background (theme-color)",
+      "major": false,
+      "measured": "theme-color meta: #151413",
+      "pass": true
+    },
+    {
+      "guideline": "Content — Tabular numbers for comparisons",
+      "major": false,
+      "measured": ".na-sheet td font-variant-numeric: tabular-nums",
+      "pass": true
+    },
+    {
+      "guideline": "Content — Headings & skip link (skip-to-content link)",
+      "major": false,
+      "measured": "skip link present: false",
+      "pass": false
+    },
+    {
+      "guideline": "Interactions — Prevent double-tap zoom on controls (touch-action)",
+      "major": false,
+      "measured": "0 of 7 controls without touch-action: manipulation",
+      "pass": true
+    },
+    {
+      "guideline": "Content — Accurate page titles",
+      "major": false,
+      "measured": "<title>: NodeAgent — React demo",
+      "pass": true
+    }
+  ],
+  "reducedMotion": {
+    "mediaMatches": true,
+    "reducedMotionRuleInStylesheet": true,
+    "dotAnimationName": "none",
+    "dotAnimationDurationMs": 0,
+    "dotIterationCount": "1"
+  },
+  "widths": {
+    "desktop-1440": {
+      "empty": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "interactive": [
+          {
+            "selector": "a.na-link",
+            "width": 66,
+            "height": 19,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 12,
+            "touchAction": "manipulation",
+            "accessibleName": "Prototype ↗"
+          },
+          {
+            "selector": "a.na-link",
+            "width": 50,
+            "height": 19,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 12,
+            "touchAction": "manipulation",
+            "accessibleName": "GitHub ↗"
+          },
+          {
+            "selector": "button.na-chip",
+            "width": 304,
+            "height": 38,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 13,
+            "touchAction": "manipulation",
+            "accessibleName": "Does our wedge hold + survive 18 months?"
+          },
+          {
+            "selector": "button.na-chip",
+            "width": 250,
+            "height": 38,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 13,
+            "touchAction": "manipulation",
+            "accessibleName": "What changed since last update? →"
+          },
+          {
+            "selector": "textarea.na-composer-input",
+            "width": 718,
+            "height": 36,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 16,
+            "touchAction": "manipulation",
+            "accessibleName": ""
+          },
+          {
+            "selector": "button.na-send",
+            "width": 34,
+            "height": 34,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 16,
+            "touchAction": "manipulation",
+            "accessibleName": "Send"
+          }
+        ],
+        "composerFontSizePx": 16,
+        "viewportMeta": "width=device-width, initial-scale=1.0, viewport-fit=cover",
+        "themeColorMeta": "#151413",
+        "htmlColorScheme": "dark",
+        "dotAnimation": {
+          "name": "na-breathe",
+          "durationMs": 3400,
+          "iterationCount": "infinite"
+        },
+        "headings": [
+          {
+            "level": 1,
+            "text": "NodeAgenton assistant-ui"
+          },
+          {
+            "level": 2,
+            "text": "Ask the room"
+          }
+        ],
+        "hasSkipLink": false,
+        "sheetNumericVariant": null,
+        "title": "NodeAgent — React demo",
+        "unnamedControls": 0
+      },
+      "populated": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "interactive": [
+          {
+            "selector": "a.na-link",
+            "width": 66,
+            "height": 19,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 12,
+            "touchAction": "manipulation",
+            "accessibleName": "Prototype ↗"
+          },
+          {
+            "selector": "a.na-link",
+            "width": 50,
+            "height": 19,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 12,
+            "touchAction": "manipulation",
+            "accessibleName": "GitHub ↗"
+          },
+          {
+            "selector": "textarea.na-composer-input",
+            "width": 718,
+            "height": 36,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 16,
+            "touchAction": "manipulation",
+            "accessibleName": ""
+          },
+          {
+            "selector": "button.na-send",
+            "width": 34,
+            "height": 34,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 16,
+            "touchAction": "manipulation",
+            "accessibleName": "Send"
+          },
+          {
+            "selector": "button",
+            "width": 28,
+            "height": 21,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 11,
+            "touchAction": "manipulation",
+            "accessibleName": "fit"
+          },
+          {
+            "selector": "input",
+            "width": 93,
+            "height": 19,
+            "hitTargetIsLabel": true,
+            "fontSizePx": 13.33,
+            "touchAction": "manipulation",
+            "accessibleName": "evidence(5)"
+          },
+          {
+            "selector": "input",
+            "width": 133,
+            "height": 19,
+            "hitTargetIsLabel": true,
+            "fontSizePx": 13.33,
+            "touchAction": "manipulation",
+            "accessibleName": "traversal(21)· local"
+          }
+        ],
+        "composerFontSizePx": 16,
+        "viewportMeta": "width=device-width, initial-scale=1.0, viewport-fit=cover",
+        "themeColorMeta": "#151413",
+        "htmlColorScheme": "dark",
+        "dotAnimation": {
+          "name": "na-breathe",
+          "durationMs": 3400,
+          "iterationCount": "infinite"
+        },
+        "headings": [
+          {
+            "level": 1,
+            "text": "NodeAgenton assistant-ui"
+          },
+          {
+            "level": 2,
+            "text": "Acme — diligence memo"
+          },
+          {
+            "level": 3,
+            "text": "Relationship graph"
+          }
+        ],
+        "hasSkipLink": false,
+        "sheetNumericVariant": "tabular-nums",
+        "title": "NodeAgent — React demo",
+        "unnamedControls": 0
+      },
+      "screenshot": "promotion/evidence/wig-desktop-1440.png"
+    },
+    "mobile-375": {
+      "empty": {
+        "viewport": {
+          "width": 375,
+          "height": 812
+        },
+        "interactive": [
+          {
+            "selector": "a.na-link",
+            "width": 66,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 12,
+            "touchAction": "manipulation",
+            "accessibleName": "Prototype ↗"
+          },
+          {
+            "selector": "a.na-link",
+            "width": 50,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 12,
+            "touchAction": "manipulation",
+            "accessibleName": "GitHub ↗"
+          },
+          {
+            "selector": "button.na-chip",
+            "width": 304,
+            "height": 38,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 13,
+            "touchAction": "manipulation",
+            "accessibleName": "Does our wedge hold + survive 18 months?"
+          },
+          {
+            "selector": "button.na-chip",
+            "width": 250,
+            "height": 38,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 13,
+            "touchAction": "manipulation",
+            "accessibleName": "What changed since last update? →"
+          },
+          {
+            "selector": "textarea.na-composer-input",
+            "width": 275,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 16,
+            "touchAction": "manipulation",
+            "accessibleName": ""
+          },
+          {
+            "selector": "button.na-send",
+            "width": 44,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 16,
+            "touchAction": "manipulation",
+            "accessibleName": "Send"
+          }
+        ],
+        "composerFontSizePx": 16,
+        "viewportMeta": "width=device-width, initial-scale=1.0, viewport-fit=cover",
+        "themeColorMeta": "#151413",
+        "htmlColorScheme": "dark",
+        "dotAnimation": {
+          "name": "na-breathe",
+          "durationMs": 3400,
+          "iterationCount": "infinite"
+        },
+        "headings": [
+          {
+            "level": 1,
+            "text": "NodeAgenton assistant-ui"
+          },
+          {
+            "level": 2,
+            "text": "Ask the room"
+          }
+        ],
+        "hasSkipLink": false,
+        "sheetNumericVariant": null,
+        "title": "NodeAgent — React demo",
+        "unnamedControls": 0
+      },
+      "populated": {
+        "viewport": {
+          "width": 375,
+          "height": 812
+        },
+        "interactive": [
+          {
+            "selector": "a.na-link",
+            "width": 66,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 12,
+            "touchAction": "manipulation",
+            "accessibleName": "Prototype ↗"
+          },
+          {
+            "selector": "a.na-link",
+            "width": 50,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 12,
+            "touchAction": "manipulation",
+            "accessibleName": "GitHub ↗"
+          },
+          {
+            "selector": "textarea.na-composer-input",
+            "width": 275,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 16,
+            "touchAction": "manipulation",
+            "accessibleName": ""
+          },
+          {
+            "selector": "button.na-send",
+            "width": 44,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 16,
+            "touchAction": "manipulation",
+            "accessibleName": "Send"
+          },
+          {
+            "selector": "button",
+            "width": 44,
+            "height": 44,
+            "hitTargetIsLabel": false,
+            "fontSizePx": 11,
+            "touchAction": "manipulation",
+            "accessibleName": "fit"
+          },
+          {
+            "selector": "input",
+            "width": 93,
+            "height": 44,
+            "hitTargetIsLabel": true,
+            "fontSizePx": 13.33,
+            "touchAction": "manipulation",
+            "accessibleName": "evidence(5)"
+          },
+          {
+            "selector": "input",
+            "width": 133,
+            "height": 44,
+            "hitTargetIsLabel": true,
+            "fontSizePx": 13.33,
+            "touchAction": "manipulation",
+            "accessibleName": "traversal(21)· local"
+          }
+        ],
+        "composerFontSizePx": 16,
+        "viewportMeta": "width=device-width, initial-scale=1.0, viewport-fit=cover",
+        "themeColorMeta": "#151413",
+        "htmlColorScheme": "dark",
+        "dotAnimation": {
+          "name": "na-breathe",
+          "durationMs": 3400,
+          "iterationCount": "infinite"
+        },
+        "headings": [
+          {
+            "level": 1,
+            "text": "NodeAgenton assistant-ui"
+          },
+          {
+            "level": 2,
+            "text": "Acme — diligence memo"
+          },
+          {
+            "level": 3,
+            "text": "Relationship graph"
+          }
+        ],
+        "hasSkipLink": false,
+        "sheetNumericVariant": "tabular-nums",
+        "title": "NodeAgent — React demo",
+        "unnamedControls": 0
+      },
+      "screenshot": "promotion/evidence/wig-mobile-375.png"
+    }
+  },
+  "result": "PASS",
+  "failures": []
+}

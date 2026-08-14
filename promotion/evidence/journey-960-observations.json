@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-08-13T11:56:44.503Z",
+  "capturedAt": "2026-08-14T02:05:22.613Z",
   "viewport": {
     "width": 960,
     "height": 900
@@ -14,7 +14,9 @@
   "thirdPartyFailures": [],
   "thirdPartyConsoleErrors": [],
   "memoRendered": true,
-  "loopMs": 2628,
+  "loopMs": 2673,
+  "keyboard": null,
+  "axe": null,
   "rootChildren": 1,
   "scrollWidth": 960,
   "clientWidth": 960,

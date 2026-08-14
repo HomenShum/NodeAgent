@@ -1,0 +1,193 @@
+{
+  "capturedAt": "2026-08-14T02:06:59.419Z",
+  "surface": "http://127.0.0.1:4904/ (vite preview — the production build, not the dev server)",
+  "commands": [
+    {
+      "label": "build",
+      "command": "C:\\nvm4w\\nodejs\\node.exe C:\\Users\\hshum\\AppData\\Local\\Temp\\claude\\D--VSCode-Projects-cheiron-ai-take-home\\440ef9e9-83bb-4fe6-8676-4fdaaf332f3e\\scratchpad\\limits\\NodeAgent\\repo\\node_modules\\vite\\bin\\vite.js build",
+      "exit": 0
+    },
+    {
+      "label": "lighthouse-mobile",
+      "command": "npx.cmd --yes lighthouse@13.4.1 http://127.0.0.1:4904/ --output=json --output-path=C:\\Users\\hshum\\AppData\\Local\\Temp\\claude\\D--VSCode-Projects-cheiron-ai-take-home\\440ef9e9-83bb-4fe6-8676-4fdaaf332f3e\\scratchpad\\limits\\NodeAgent\\repo\\promotion\\evidence\\lighthouse-mobile.json --chrome-flags=\"--headless\" --quiet",
+      "exit": 0
+    },
+    {
+      "label": "lighthouse-desktop",
+      "command": "npx.cmd --yes lighthouse@13.4.1 http://127.0.0.1:4904/ --output=json --output-path=C:\\Users\\hshum\\AppData\\Local\\Temp\\claude\\D--VSCode-Projects-cheiron-ai-take-home\\440ef9e9-83bb-4fe6-8676-4fdaaf332f3e\\scratchpad\\limits\\NodeAgent\\repo\\promotion\\evidence\\lighthouse-desktop.json --chrome-flags=\"--headless\" --quiet --preset=desktop",
+      "exit": 0
+    },
+    {
+      "label": "axe-initial",
+      "command": "npx.cmd --yes @axe-core/cli@4.13.0 http://127.0.0.1:4904/ --save promotion/evidence/axe-initial.json",
+      "exit": 0
+    }
+  ],
+  "lighthouse": {
+    "mobile": {
+      "report": "promotion/evidence/lighthouse-mobile.json",
+      "lighthouseVersion": "13.4.1",
+      "fetchTime": "2026-08-14T02:06:21.512Z",
+      "categories": {
+        "performance": 0.86,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 0.91,
+        "agentic-browsing": 0.67
+      },
+      "metrics": {
+        "firstContentfulPaintMs": 3016.0232,
+        "largestContentfulPaintMs": 3145.0232,
+        "cumulativeLayoutShift": 0,
+        "totalBlockingTimeMs": 138.5,
+        "speedIndexMs": 3193.568202949673,
+        "timeToInteractiveMs": 3288.3232000000003
+      },
+      "failedAudits": [
+        {
+          "id": "first-contentful-paint",
+          "score": 0.49,
+          "title": "First Contentful Paint"
+        },
+        {
+          "id": "largest-contentful-paint",
+          "score": 0.74,
+          "title": "Largest Contentful Paint"
+        },
+        {
+          "id": "speed-index",
+          "score": 0.92,
+          "title": "Speed Index"
+        },
+        {
+          "id": "total-blocking-time",
+          "score": 0.95,
+          "title": "Total Blocking Time"
+        },
+        {
+          "id": "max-potential-fid",
+          "score": 0.81,
+          "title": "Max Potential First Input Delay"
+        },
+        {
+          "id": "interactive",
+          "score": 0.94,
+          "title": "Time to Interactive"
+        },
+        {
+          "id": "mainthread-work-breakdown",
+          "score": 0,
+          "title": "Minimize main-thread work"
+        },
+        {
+          "id": "unused-javascript",
+          "score": 0,
+          "title": "Reduce unused JavaScript"
+        },
+        {
+          "id": "robots-txt",
+          "score": 0,
+          "title": "robots.txt is not valid"
+        },
+        {
+          "id": "llms-txt",
+          "score": 0,
+          "title": "llms.txt does not follow recommendations"
+        },
+        {
+          "id": "forced-reflow-insight",
+          "score": 0,
+          "title": "Forced reflow"
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "score": 0,
+          "title": "Network dependency tree"
+        },
+        {
+          "id": "render-blocking-insight",
+          "score": 0,
+          "title": "Render-blocking requests"
+        }
+      ]
+    },
+    "desktop": {
+      "report": "promotion/evidence/lighthouse-desktop.json",
+      "lighthouseVersion": "13.4.1",
+      "fetchTime": "2026-08-14T02:06:42.846Z",
+      "categories": {
+        "performance": 0.99,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 0.91,
+        "agentic-browsing": 0.67
+      },
+      "metrics": {
+        "firstContentfulPaintMs": 754.7764,
+        "largestContentfulPaintMs": 754.7764,
+        "cumulativeLayoutShift": 0.003207947695035461,
+        "totalBlockingTimeMs": 0,
+        "speedIndexMs": 754.7764,
+        "timeToInteractiveMs": 754.7764
+      },
+      "failedAudits": [
+        {
+          "id": "first-contentful-paint",
+          "score": 0.96,
+          "title": "First Contentful Paint"
+        },
+        {
+          "id": "largest-contentful-paint",
+          "score": 0.98,
+          "title": "Largest Contentful Paint"
+        },
+        {
+          "id": "speed-index",
+          "score": 0.99,
+          "title": "Speed Index"
+        },
+        {
+          "id": "unused-javascript",
+          "score": 0.5,
+          "title": "Reduce unused JavaScript"
+        },
+        {
+          "id": "robots-txt",
+          "score": 0,
+          "title": "robots.txt is not valid"
+        },
+        {
+          "id": "llms-txt",
+          "score": 0,
+          "title": "llms.txt does not follow recommendations"
+        },
+        {
+          "id": "forced-reflow-insight",
+          "score": 0,
+          "title": "Forced reflow"
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "score": 0,
+          "title": "Network dependency tree"
+        },
+        {
+          "id": "render-blocking-insight",
+          "score": 0,
+          "title": "Render-blocking requests"
+        }
+      ]
+    }
+  },
+  "axe": {
+    "report": "promotion/evidence/axe-initial.json",
+    "url": "http://127.0.0.1:4904/",
+    "axeVersion": "4.13.0",
+    "timestamp": "2026-08-14T02:06:58.961Z",
+    "passes": 32,
+    "incomplete": 1,
+    "violations": []
+  },
+  "result": "PASS",
+  "failures": []
+}

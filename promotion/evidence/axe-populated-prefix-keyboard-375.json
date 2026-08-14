@@ -1,0 +1,70 @@
+{
+  "capturedAt": "2026-08-14T01:47:16.642Z",
+  "viewport": {
+    "width": 375,
+    "height": 812
+  },
+  "url": "http://localhost:4306/",
+  "axeVersion": "4.13.0",
+  "state": "populated",
+  "passes": 34,
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": 7
+    }
+  ],
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": [
+        {
+          "target": ".na-ctx:nth-child(1) > .na-kind",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #5a5650, background color: #151413, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": ".na-ctx:nth-child(2) > .na-kind",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #5a5650, background color: #151413, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": ".na-ctx:nth-child(3) > .na-kind",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #5a5650, background color: #151413, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": ".win > .na-badge.mono",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.96 (foreground color: #8a857e, background color: #2a2928, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": ".na-src:nth-child(2) > .na-badge.mono",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.96 (foreground color: #8a857e, background color: #2a2928, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": ".na-src:nth-child(3) > .na-badge.mono",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.96 (foreground color: #8a857e, background color: #2a2928, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": ".na-src:nth-child(4) > .na-badge.mono",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.96 (foreground color: #8a857e, background color: #2a2928, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": ".na-reason",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #5a5650, background color: #151413, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    },
+    {
+      "id": "page-has-heading-one",
+      "impact": "moderate",
+      "help": "Page should contain a level-one heading",
+      "nodes": [
+        {
+          "target": "html",
+          "summary": "Fix all of the following:\n  Page must have a level-one heading"
+        }
+      ]
+    }
+  ]
+}

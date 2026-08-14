@@ -143,7 +143,11 @@ const MemoToolUI = makeAssistantToolUI<{ title: string }, MemoToolResult>({
     >
       <div className="na-memo">
         {result?.blocks.map((b) => {
-          if (b.type === "heading") return <h4 key={b.id}>{b.text}</h4>;
+          // h2, not h4: the memo title sits one level under the page <h1>. As
+          // an h4 it skipped two levels and axe reported "heading-order" — a
+          // screen-reader user jumping by heading would hear the memo
+          // announced as a sub-sub-section of nothing.
+          if (b.type === "heading") return <h2 key={b.id}>{b.text}</h2>;
           if (b.type === "claim")
             return (
               <div className="na-claim" key={b.id}>

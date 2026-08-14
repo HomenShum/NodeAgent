@@ -7,8 +7,20 @@
   --panel: #232221;
   --surface: #2a2928;
   --ink: #e8e4df;
-  --ink-muted: #8a857e;
-  --ink-faint: #5a5650;
+  /* The two secondary ink tokens are set by CONTRAST, not by taste. Both are
+     read against the darkest surface they ever sit on (--surface #2a2928), so
+     no call site has to re-check: --ink-muted 5.59:1, --ink-faint 4.88:1, both
+     clear of the 4.5:1 WCAG AA floor for body text.
+     Was --ink-muted #8a857e (3.97:1 on --surface) and --ink-faint #5a5650
+     (1.99:1 on --surface, 2.36:1 on --paper). axe-core 4.13.0 reported the
+     second as a SERIOUS violation on .na-rail-empty at first paint and on
+     eight more nodes once the loop had run (.na-kind, .na-badge, .na-reason) —
+     see promotion/evidence/axe-initial-prefix.json and
+     journey-prefix-keyboard-375-observations.json. Fixed at the token because
+     seven rules read --ink-faint and five read --ink-muted; patching the one
+     selector axe named would have left the other twelve failing. */
+  --ink-muted: #a5a098;
+  --ink-faint: #9a958d;
   --accent: #d97757;
   --accent-dim: rgba(217, 119, 87, 0.15);
   --accent-ghost: rgba(217, 119, 87, 0.1);
@@ -23,7 +35,14 @@
   --r-pill: 999px;
 }
 * { box-sizing: border-box; }
+/* WIG Design — "Set the appropriate color-scheme". Without this the browser
+   still paints scrollbars, <select> popups and form controls light on a dark
+   page. `data-theme="dark"` in index.html is an app attribute; the browser
+   only reads color-scheme. */
+html { color-scheme: dark; }
 html, body, #root { height: 100%; }
+/* WIG Interactions — "Prevent double-tap zoom on controls". */
+a, button, input, textarea, select, label { touch-action: manipulation; }
 body {
   margin: 0;
   background: var(--bg);
@@ -48,7 +67,8 @@ button { font-family: inherit; cursor: pointer; }
   background: linear-gradient(180deg, rgba(21, 20, 19, 0.92), rgba(21, 20, 19, 0.7));
   backdrop-filter: blur(12px);
 }
-.na-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: -0.02em; }
+/* .na-brand is the <h1>; the reset keeps the appbar looking identical. */
+.na-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: -0.02em; margin: 0; font-size: 14px; line-height: 1.55; }
 .na-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.5); animation: na-breathe 3.4s ease infinite; }
 @keyframes na-breathe { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217,119,87,.5);} 50% { transform: scale(1.18); box-shadow: 0 0 0 7px rgba(217,119,87,0);} }
 .na-ver { color: var(--ink-faint); font-size: 11px; font-weight: 500; }
@@ -94,7 +114,11 @@ button { font-family: inherit; cursor: pointer; }
 .na-footer { position: sticky; bottom: 0; width: 100%; max-width: 820px; margin: 0 auto; padding: 8px 0 16px; background: linear-gradient(180deg, transparent, var(--bg) 28%); }
 .na-composer { display: flex; align-items: flex-end; gap: 8px; border: 1px solid var(--line); background: var(--paper); border-radius: 18px; padding: 8px 8px 8px 14px; }
 .na-composer:focus-within { border-color: var(--accent); }
-.na-composer-input { flex: 1; resize: none; border: none; background: transparent; color: var(--ink); font-size: 14px; line-height: 1.5; padding: 6px 0; max-height: 160px; outline: none; }
+/* 16px, not 14px: iOS Safari auto-zooms the page when a field smaller than 16px
+   takes focus, so a 14px composer means every mobile user's first tap jumps the
+   layout. WIG Interactions — "Mobile input size". Measured at 375w before this:
+   14px (promotion/evidence/wig-review-prefix.json). */
+.na-composer-input { flex: 1; resize: none; border: none; background: transparent; color: var(--ink); font-size: 16px; line-height: 1.5; padding: 6px 0; max-height: 160px; outline: none; }
 .na-composer-input::placeholder { color: var(--ink-faint); }
 .na-send { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--accent); color: #1a1009; font-size: 16px; font-weight: 700; display: grid; place-items: center; }
 .na-send:disabled { opacity: 0.3; }
@@ -132,14 +156,17 @@ button { font-family: inherit; cursor: pointer; }
 
 /* spreadsheet */
 .na-sheet { width: 100%; border-collapse: collapse; font-size: 12px; }
-.na-sheet td { border: 1px solid var(--line-faint); padding: 6px 9px; text-align: right; }
+/* WIG Content — "Tabular numbers for comparisons". This table is the runway
+   model: the whole point is reading a column of figures against each other, and
+   proportional digits make the columns wobble. */
+.na-sheet td { border: 1px solid var(--line-faint); padding: 6px 9px; text-align: right; font-variant-numeric: tabular-nums; }
 .na-sheet td:first-child { text-align: left; color: var(--ink-muted); }
 .na-sheet td.na-delta { color: var(--accent); font-weight: 700; background: var(--accent-ghost); }
 .na-reason { margin-top: 8px; font-size: 10px; color: var(--ink-faint); }
 
 /* memo */
 .na-memo { font-size: 13px; line-height: 1.6; }
-.na-memo h4 { margin: 0 0 6px; font-size: 14px; }
+.na-memo h2 { margin: 0 0 6px; font-size: 14px; font-weight: 700; line-height: 1.55; }
 .na-memo p { margin: 6px 0; color: var(--ink); }
 .na-claim { border-left: 2px solid var(--accent); background: var(--accent-ghost); padding: 9px 11px; border-radius: 0 7px 7px 0; margin: 7px 0; }
 .na-claim-t { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 4px; }
@@ -150,8 +177,16 @@ button { font-family: inherit; cursor: pointer; }
   .na-bubble { max-width: 100%; }
   .na-ver { display: none; }
 }
+/* WIG Animations — "Honor prefers-reduced-motion". The animation half was
+   already here; the transition half was not, so .na-chip and .na-composer still
+   animated their border and colour under `reduce`. One rule, extended, rather
+   than a second block: a policy stated twice is a policy that will diverge.
+   The measurement that proves this is honest is in e2e/wig-review.mjs — a
+   runtime probe CANNOT prove it, because headless Chromium computes
+   animation-name: none whenever the media feature is emulated, whether or not
+   the page has any such rule. The check reads CSSOM for the rule itself. */
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; }
+  * { animation: none !important; transition: none !important; }
 }
 
 /* live graph rail (vendored @homenshum/nodegraph-live) */
@@ -186,4 +221,16 @@ button { font-family: inherit; cursor: pointer; }
     border-left: none; border-top: 1px solid var(--line);
   }
   .na-rail-head { position: sticky; top: 0; z-index: 1; background: var(--paper); }
+
+  /* WIG Interactions — "Match visual & hit targets": 44px minimum on mobile.
+     Measured at 375w before this rule: .na-link 66x19, .na-send 34x34,
+     .na-composer-input 285x33, and the vendored NodeGraph "fit" button 28x21
+     with 13x13 filter checkboxes. The vendored control is corrected from here
+     rather than by editing vendor/nodegraph-live, which stays a verbatim copy.
+     Producer: `npm run wig:review`. */
+  .na-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .na-send { width: 44px; height: 44px; }
+  .na-composer-input { min-height: 44px; }
+  .na-rail-graph button { min-width: 44px; min-height: 44px; }
+  .na-rail-graph label { min-height: 44px; }
 }

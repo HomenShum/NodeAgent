@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-08-14T02:05:34.619Z",
+  "capturedAt": "2026-08-14T02:04:41.845Z",
   "viewport": {
     "width": 1440,
     "height": 900
@@ -14,9 +14,30 @@
   "thirdPartyFailures": [],
   "thirdPartyConsoleErrors": [],
   "memoRendered": true,
-  "loopMs": 2666,
+  "loopMs": 2562,
   "keyboard": null,
-  "axe": null,
+  "axe": {
+    "axeVersion": "4.13.0",
+    "state": "populated",
+    "passes": 35,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": [
+          "h1",
+          ".na-ver",
+          "a[href$=\"nodeagent-v1.html\"]",
+          "a:nth-child(4)",
+          ".na-av",
+          ".na-tool[data-running=\"false\"]:nth-child(4) > .na-tool-h > .na-tool-i[aria-hidden=\"true\"]",
+          ".na-tool[data-running=\"false\"]:nth-child(5) > .na-tool-h > .na-tool-i[aria-hidden=\"true\"]",
+          ".na-disclaimer"
+        ]
+      }
+    ],
+    "violations": []
+  },
   "rootChildren": 1,
   "scrollWidth": 1440,
   "clientWidth": 1440,
@@ -32,5 +53,5 @@
   "graphDeferred": false,
   "result": "PASS",
   "failures": [],
-  "screenshot": "promotion/evidence/journey-1440-run.png"
+  "screenshot": "promotion/evidence/journey-axe-1440-run.png"
 }

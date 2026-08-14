@@ -1,0 +1,27 @@
+{
+  "capturedAt": "2026-08-14T02:04:28.953Z",
+  "viewport": {
+    "width": 375,
+    "height": 812
+  },
+  "url": "http://localhost:4306/",
+  "axeVersion": "4.13.0",
+  "state": "populated",
+  "passes": 35,
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": [
+        "h1",
+        "a[href$=\"nodeagent-v1.html\"]",
+        "a:nth-child(4)",
+        ".na-av",
+        ".na-tool[data-running=\"false\"]:nth-child(4) > .na-tool-h > .na-tool-i[aria-hidden=\"true\"]",
+        ".na-tool[data-running=\"false\"]:nth-child(5) > .na-tool-h > .na-tool-i[aria-hidden=\"true\"]",
+        ".na-disclaimer"
+      ]
+    }
+  ],
+  "violations": []
+}

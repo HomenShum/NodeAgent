@@ -1,0 +1,112 @@
+{
+  "capturedAt": "2026-08-14T01:47:16.644Z",
+  "viewport": {
+    "width": 375,
+    "height": 812
+  },
+  "url": "http://localhost:4306/",
+  "question": "Does our wedge hold versus Acme, and does the runway model survive 18 months?",
+  "turns": 1,
+  "followUp": null,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "thirdPartyFailures": [],
+  "thirdPartyConsoleErrors": [],
+  "memoRendered": true,
+  "loopMs": 2686,
+  "keyboard": {
+    "reachedComposer": true,
+    "focusPath": [
+      {
+        "tabs": 0,
+        "tag": "textarea",
+        "cls": "na-composer-input",
+        "label": "",
+        "outline": "none 3px rgb(232, 228, 223)"
+      }
+    ]
+  },
+  "axe": {
+    "axeVersion": "4.13.0",
+    "state": "populated",
+    "passes": 34,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 7
+      }
+    ],
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": ".na-ctx:nth-child(1) > .na-kind",
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #5a5650, background color: #151413, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": ".na-ctx:nth-child(2) > .na-kind",
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #5a5650, background color: #151413, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": ".na-ctx:nth-child(3) > .na-kind",
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #5a5650, background color: #151413, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": ".win > .na-badge.mono",
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.96 (foreground color: #8a857e, background color: #2a2928, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": ".na-src:nth-child(2) > .na-badge.mono",
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.96 (foreground color: #8a857e, background color: #2a2928, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": ".na-src:nth-child(3) > .na-badge.mono",
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.96 (foreground color: #8a857e, background color: #2a2928, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": ".na-src:nth-child(4) > .na-badge.mono",
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.96 (foreground color: #8a857e, background color: #2a2928, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": ".na-reason",
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #5a5650, background color: #151413, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      },
+      {
+        "id": "page-has-heading-one",
+        "impact": "moderate",
+        "help": "Page should contain a level-one heading",
+        "nodes": [
+          {
+            "target": "html",
+            "summary": "Fix all of the following:\n  Page must have a level-one heading"
+          }
+        ]
+      }
+    ]
+  },
+  "rootChildren": 1,
+  "scrollWidth": 375,
+  "clientWidth": 375,
+  "toolCards": 4,
+  "memos": 1,
+  "lastMemoQuestion": "The room asked: \"Does our wedge hold versus Acme, and does the runway model survive 18 months?\"",
+  "memoHeading": "Acme — diligence memo",
+  "railWidth": 375,
+  "railEntities": 12,
+  "railEdges": 26,
+  "graphMounted": true,
+  "graphCanvasWidth": 323,
+  "graphDeferred": false,
+  "result": "FAIL",
+  "failures": [
+    "axe serious violation \"color-contrast\" at .na-ctx:nth-child(1) > .na-kind, .na-ctx:nth-child(2) > .na-kind, .na-ctx:nth-child(3) > .na-kind, .win > .na-badge.mono, .na-src:nth-child(2) > .na-badge.mono, .na-src:nth-child(3) > .na-badge.mono, .na-src:nth-child(4) > .na-badge.mono, .na-reason"
+  ],
+  "screenshot": "promotion/evidence/journey-prefix-keyboard-375-run.png"
+}

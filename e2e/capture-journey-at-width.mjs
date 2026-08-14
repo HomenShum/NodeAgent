@@ -14,13 +14,25 @@
  *   5. the session graph is either populated or explicitly deferred — never
  *      mounted into a zero-width container
  *
+ * Two flags widen it to the gate conditions the audit tools cannot reach:
+ *
+ *   --keyboard  drive the composer with Tab and typed keys only, never
+ *               page.fill(), and record the focus path. Condition 6 asks
+ *               whether a keyboard user can finish the journey, and
+ *               page.fill() answers a different question.
+ *   --axe       inject axe-core AFTER the loop has populated the thread and
+ *               audit that DOM. The axe CLI can only see the first paint, and
+ *               the first paint is the one state with almost nothing in it.
+ *
  * Run:  node e2e/capture-journey-at-width.mjs --width 375 --height 812
  *       node e2e/capture-journey-at-width.mjs --width 1440 --height 900
+ *       node e2e/capture-journey-at-width.mjs --width 375 --keyboard --axe
  * Exits NONZERO on any failed assertion.
  */
 
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { chromium } from "playwright";
@@ -37,6 +49,10 @@ const HEIGHT = Number(arg("height", 812));
 // Wave 2 port. 3000/4173/5173/5177/8787 all collide with sibling agents here.
 const PORT = Number(arg("port", 4306));
 const LABEL = arg("label", `${WIDTH}`);
+const KEYBOARD = process.argv.includes("--keyboard");
+const AXE = process.argv.includes("--axe");
+// Serious and critical are the two axe impacts this gate treats as "major".
+const MAJOR_IMPACTS = new Set(["serious", "critical"]);
 const OUT_DIR = join(root, "promotion", "evidence");
 const SHOT = join(OUT_DIR, `journey-${LABEL}-run.png`);
 const JSON_OUT = join(OUT_DIR, `journey-${LABEL}-observations.json`);
@@ -77,6 +93,8 @@ const failures = [];
 let observations = {};
 let hardFailure = null;
 let loopMs = null;
+let keyboard = null;
+let axeResult = null;
 
 try {
   await waitForServer();
@@ -115,7 +133,46 @@ try {
   // journey it is meant to measure ever runs.
   await page.locator('[data-testid="graph-rail"]').waitFor({ state: "attached", timeout: 10_000 });
 
-  await page.fill(".na-composer-input", QUESTION);
+  // Keyboard mode reaches the composer the way a keyboard user does — Tab
+  // presses from the document, then real keystrokes. page.fill() sets .value
+  // directly and would pass even if nothing on the page were focusable.
+  if (KEYBOARD) {
+    const focusPath = [];
+    const describe = () =>
+      page.evaluate(() => {
+        const el = document.activeElement;
+        if (!el || el === document.body) return { tag: "body", outline: null };
+        const cs = getComputedStyle(el);
+        return {
+          tag: el.tagName.toLowerCase(),
+          cls: el.className || null,
+          label: (el.getAttribute("aria-label") ?? el.textContent ?? "").trim().slice(0, 40),
+          // A focus ring that is not drawn is not a focus ring (WIG "Clear
+          // focus"). The composer draws its indicator as a border-colour change
+          // on the WRAPPER (.na-composer:focus-within), so record that too —
+          // reading only `outline` would report "none" on an element that is
+          // visibly focused.
+          outline: `${cs.outlineStyle} ${cs.outlineWidth} ${cs.outlineColor}`,
+          indicatorBorder: getComputedStyle(el.closest(".na-composer") ?? el).borderColor,
+        };
+      });
+    focusPath.push({ tabs: 0, ...(await describe()) });
+    let reached = await page.evaluate(() =>
+      document.activeElement?.classList.contains("na-composer-input"),
+    );
+    for (let i = 1; i <= 12 && !reached; i += 1) {
+      await page.keyboard.press("Tab");
+      focusPath.push({ tabs: i, ...(await describe()) });
+      reached = await page.evaluate(() =>
+        document.activeElement?.classList.contains("na-composer-input"),
+      );
+    }
+    keyboard = { reachedComposer: reached, focusPath };
+    if (!reached) failures.push("composer never reached by Tab within 12 presses");
+    await page.keyboard.type(QUESTION);
+  } else {
+    await page.fill(".na-composer-input", QUESTION);
+  }
   const startedAt = Date.now();
   await page.keyboard.press("Enter");
 
@@ -161,7 +218,7 @@ try {
       memos: document.querySelectorAll(".na-memo").length,
       lastMemoQuestion:
         [...document.querySelectorAll(".na-memo")].at(-1)?.querySelector("p")?.textContent ?? null,
-      memoHeading: document.querySelector(".na-memo h4")?.textContent ?? null,
+      memoHeading: document.querySelector(".na-memo h2")?.textContent ?? null,
       railWidth: rect ? Math.round(rect.width) : 0,
       railEntities: rail ? Number(rail.getAttribute("data-entities")) : null,
       railEdges: rail ? Number(rail.getAttribute("data-edges")) : null,
@@ -173,6 +230,42 @@ try {
 
   mkdirSync(OUT_DIR, { recursive: true });
   await page.screenshot({ path: SHOT, fullPage: false });
+
+  // Audit the POPULATED DOM — four tool cards, the memo, the session graph.
+  // Same engine the axe CLI runs, resolved from node_modules so this survives
+  // a fresh clone rather than depending on an npx cache.
+  if (AXE) {
+    const require_ = createRequire(import.meta.url);
+    await page.addScriptTag({ path: require_.resolve("axe-core") });
+    const raw = await page.evaluate(async () => await window.axe.run());
+    axeResult = {
+      axeVersion: raw.testEngine.version,
+      state: "populated",
+      passes: raw.passes.length,
+      // "incomplete" = axe could not decide, usually because the background is
+      // a gradient or a backdrop-filter. Record the targets, not just a count:
+      // an unresolved node is exactly the one a human has to measure.
+      incomplete: raw.incomplete.map((v) => ({
+        id: v.id,
+        impact: v.impact,
+        nodes: v.nodes.map((n) => n.target.join(" ")),
+      })),
+      violations: raw.violations.map((v) => ({
+        id: v.id,
+        impact: v.impact,
+        help: v.help,
+        nodes: v.nodes.map((n) => ({ target: n.target.join(" "), summary: n.failureSummary })),
+      })),
+    };
+    writeFileSync(
+      join(OUT_DIR, `axe-populated-${LABEL}.json`),
+      `${JSON.stringify({ capturedAt: new Date().toISOString(), viewport: { width: WIDTH, height: HEIGHT }, url: URL_, ...axeResult }, null, 2)}\n`,
+    );
+    for (const v of axeResult.violations) {
+      if (MAJOR_IMPACTS.has(v.impact))
+        failures.push(`axe ${v.impact} violation "${v.id}" at ${v.nodes.map((n) => n.target).join(", ")}`);
+    }
+  }
 
   if (pageErrors.length) failures.push(`uncaught page errors: ${JSON.stringify(pageErrors)}`);
   if (observations.rootChildren === 0) failures.push("React unmounted — #root is empty (blank page)");
@@ -207,6 +300,8 @@ try {
         thirdPartyConsoleErrors,
         memoRendered,
         loopMs,
+        keyboard,
+        axe: axeResult,
         ...observations,
         result: failures.length ? "FAIL" : "PASS",
         failures,
@@ -239,5 +334,7 @@ console.log(
     `("${observations.memoHeading}"), ` +
     `rail ${observations.railEntities} entities / ${observations.railEdges} edges ` +
     `(graph ${observations.graphMounted ? `${observations.graphCanvasWidth}px` : "deferred"}), ` +
+    (KEYBOARD ? `composer reached in ${keyboard.focusPath.at(-1).tabs} Tab presses, ` : "") +
+    (AXE ? `axe ${axeResult.violations.length} violation(s) / 0 serious+critical, ` : "") +
     `no overflow -> ${SHOT}`,
 );

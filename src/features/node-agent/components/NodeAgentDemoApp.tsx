@@ -24,11 +24,15 @@ export function NodeAgentDemoApp() {
 
       <div className="na-app">
         <header className="na-appbar">
-          <span className="na-brand">
+          {/* The product name is the page's one h1. It was a <span>, which left
+              the document with no level-one heading at all (axe
+              "page-has-heading-one") and made the empty state's <h2> the top of
+              a hierarchy that started at 2. */}
+          <h1 className="na-brand">
             <span className="na-dot" aria-hidden />
             NodeAgent
             <span className="na-ver mono">on assistant-ui</span>
-          </span>
+          </h1>
           <span className="na-spacer" />
           <a className="na-link" href="/nodeagent-v1.html">
             Prototype ↗

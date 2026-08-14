@@ -23,13 +23,13 @@
     },
     {
       "file": "src/app/styles.css",
-      "line": 181,
+      "line": 216,
       "anchor": "@media (max-width: 960px)",
       "description": "The site of defect D1. This block used to say `.na-rail { display: none }`. CSS owned visibility, React owned mounting and gated on data — so a WebGL renderer was mounted into a 0x0 box, threw, and took the app down. The rail is now a bottom panel instead: one owner, no hidden-but-mounted state."
     },
     {
       "file": "e2e/capture-journey-at-width.mjs",
-      "line": 168,
+      "line": 225,
       "anchor": "graphMounted:",
       "description": "The browser gate asserts the graph canvas is not zero-width — the CAUSE of D1, not its symptom. Re-hide the rail by any mechanism and this turns red."
     },
@@ -59,7 +59,7 @@
     },
     {
       "file": "package.json",
-      "line": 66,
+      "line": 70,
       "anchor": "\"prepush\":",
       "description": "The full gate: fifteen stages, and it exits 0 from a clean checkout. The last stage, `npm audit --omit=dev`, is why the `overrides` block below pins a patched `nanoid` — @assistant-ui reaches a vulnerable one transitively, and a gate that a new engineer cannot pass is worse than no gate."
     }
