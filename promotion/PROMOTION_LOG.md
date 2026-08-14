@@ -281,6 +281,23 @@ all three, on the real rendered surface, and fixes what they found.
   extra install step; `axe-core@4.13.0` is a devDependency because the populated
   DOM has to be audited in-page and the CLI cannot drive a journey.
 
+- **Clean-clone check, and the one flake it showed.** After pushing, the repo
+  was re-cloned from GitHub into a separate directory, `npm ci` (400 packages,
+  exit 0), and the producers re-run there. `npm run e2e:journey:keyboard`
+  regenerated its artifact first time: PASS, 0 axe violations, composer reached
+  in 0 Tab presses. `npm run wig:review` **failed on its first attempt** with a
+  Playwright timeout — `navigating to "http://localhost:4904/", waiting until
+  "networkidle"` — and then passed on the immediate retry with the identical
+  result the committed artifact records (6 major checks pass, 1 minor open).
+  `waitUntil: "networkidle"` is the pattern the repo's existing capture script
+  already uses, and `index.html` fetches Manrope and JetBrains Mono from
+  `fonts.googleapis.com`; a stalled third-party request is the standing suspect,
+  since network idle never arrives while one is hanging. Recorded rather than
+  patched: a first guess at a port collision was written, tested against a real
+  squatter on 4904, **did not reproduce the failure**, and was reverted rather
+  than committed as a fix for a cause that had not been shown. The flake is one
+  more argument for self-hosting the fonts (D4).
+
 - **Conditions newly PASS:** 6, 7, 8. No condition is UNVERIFIED any more.
 
 - **Still open after this iteration:** D3 (major, no stop/cancel/retry and no
