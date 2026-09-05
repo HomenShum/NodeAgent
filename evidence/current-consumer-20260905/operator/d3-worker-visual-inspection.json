@@ -1,0 +1,135 @@
+{
+  "worker": "preservation_worker",
+  "purpose": "Actual saved PNG review of changed Stop/error/Retry surfaces; not independent grading",
+  "images": [
+    {
+      "path": "d3-final-browser-03/source-error-again-320.png",
+      "sha256": "1de10380e5438e19a7e0c6e19690cfdbb24cc1822a01dc28fd8dc411c937a2ca"
+    },
+    {
+      "path": "d3-final-browser-03/source-error-again-390.png",
+      "sha256": "1d8241a055cfaeb73eb0a25a1cc110e4ac50c9409e58035754c1896fb8bd1e8e"
+    },
+    {
+      "path": "d3-final-browser-03/source-error-again-768.png",
+      "sha256": "0e9234dad7bd90d049e43078933c4d4e9caf3196d44c94f89b7409be6c6e7cac"
+    },
+    {
+      "path": "d3-final-browser-03/source-error-again-1024.png",
+      "sha256": "97835197502d12bd65dd9a1fe6e859da8892a2251871bf263c1daae2808b3033"
+    },
+    {
+      "path": "d3-final-browser-03/source-error-again-1440.png",
+      "sha256": "2d93b1676903b446f2e89ef6d62d674198ad1b5daf033ab2c0398ea48c348537"
+    },
+    {
+      "path": "d3-final-browser-03/source-error-again-1920.png",
+      "sha256": "fd6ec63d65548c8b6d3ca5558fe5f8758dc84134daa518e3aa7d31d74748f580"
+    },
+    {
+      "path": "d3-final-browser-03/generated-error-again-320.png",
+      "sha256": "937c54b96421ca35ca308d9de0682e87350da227de26184abb7a3754220c5cd8"
+    },
+    {
+      "path": "d3-final-browser-03/generated-error-again-390.png",
+      "sha256": "9b647459c84508775de0544c26432594dd88b5d16d930d0f3e38fab26720746c"
+    },
+    {
+      "path": "d3-final-browser-03/generated-error-again-768.png",
+      "sha256": "b04709917a1a7c0571b29d18e84a1f98b2dbc9071ac2689281b8f7e2bde61968"
+    },
+    {
+      "path": "d3-final-browser-03/generated-error-again-1024.png",
+      "sha256": "56f0f5a4352c57b7c56842dcd6da1f6c90d04dfb46cfae4995994a48995ec2e2"
+    },
+    {
+      "path": "d3-final-browser-03/generated-error-again-1440.png",
+      "sha256": "07765375ec1a2f2786cd335ef09b11e6daf43b5625483e646f3c722a6f5b291b"
+    },
+    {
+      "path": "d3-final-browser-03/generated-error-again-1920.png",
+      "sha256": "8af7493a48bb6c6c5c98e4bcc94edf71d35ffe14af6a3db4b696e2923f5f123b"
+    },
+    {
+      "path": "d3-final-browser-03/source-stopped-320.png",
+      "sha256": "12ff4ab7c4bf5c9d15fa6cd71d5b5d43d2684f73b2ff6dc4d84e26ff711ea8a8"
+    },
+    {
+      "path": "d3-final-browser-03/generated-stopped-320.png",
+      "sha256": "652934d39f0e3eb65357e59ab2312c57f16fe9c2c2c0e4791e407dc9303dc6ec"
+    },
+    {
+      "path": "d3-final-browser-03/source-stopped-1440.png",
+      "sha256": "e370868af0ecaaca436356008fc24545265e37c63ecb2e8b9fdfdd99fd1a8212"
+    },
+    {
+      "path": "d3-final-browser-03/source-error-text-200-390.png",
+      "sha256": "2d2c6213cf705762e21755eabebddcf2d20c07c01a2e505125107c95c0e77f4b"
+    },
+    {
+      "path": "d3-final-browser-03/generated-error-text-200-390.png",
+      "sha256": "f1e2f8bc8999d5d87fe5473340d7ca7c65f7dfbb538a0054eabecbb2776a1f4b"
+    },
+    {
+      "path": "d3-final-browser-03/source-recovered-390.png",
+      "sha256": "3be1d4d87ab86cd042f7a2e2409df9521bcd3d0185e5490a9bdebdfc2322c589"
+    },
+    {
+      "path": "d3-final-browser-03/generated-recovered-390.png",
+      "sha256": "33ee4ebc7c01a3f826e4b66b873fa57610fce8cd9120df361172a40c3def033d"
+    },
+    {
+      "path": "d3-source-matched-after/source-running-320.png",
+      "sha256": "c9f0a54175296caf8ec1dac28b7efdafc2a48ba7b834b8ac3e1c0c8cb8020df6"
+    },
+    {
+      "path": "d3-source-matched-after/source-running-390.png",
+      "sha256": "02f3cdccee3dc97499d21ac9fabfc93c4720847dbc6651cad2080a6f5eb20400"
+    },
+    {
+      "path": "d3-source-matched-after/source-running-768.png",
+      "sha256": "60b103f5712b7d02a41c96e65a727243a8306a755d5af9f75a03e41b94108aee"
+    },
+    {
+      "path": "d3-source-matched-after/source-running-1024.png",
+      "sha256": "b09b2b01f37a29dde76805aead4a0a07ea614a976f121738826c8f6a7df1b791"
+    },
+    {
+      "path": "d3-source-matched-after/source-running-1440.png",
+      "sha256": "3e75fbcf907d074f0a3487b34487f77eb976214f5b69a3c09cbb634f224288f1"
+    },
+    {
+      "path": "d3-source-matched-after/source-running-1920.png",
+      "sha256": "009fdbd78f0e6af1c107ca20f7bdbedac63f4c4c69015ab4f826a9f002fd0251"
+    },
+    {
+      "path": "d3-source-matched-after/source-error-390.png",
+      "sha256": "133256ed2c9bfbfc6f02ef0da27411bb7c1a17e10edf1f8c401c9a451b15c63a"
+    },
+    {
+      "path": "d3-source-matched-after/source-error-1440.png",
+      "sha256": "dc646a03b5847107cabc0a8fbcc03df3860582d796ad05e246ea5e03afbb7f65"
+    },
+    {
+      "path": "d3-generated-matched-after/generated-running-390.png",
+      "sha256": "c3c92b4a3907ad40dbc766b7d20ac8449228fcbeb6f47e1cacb1962b2330314e"
+    },
+    {
+      "path": "d3-generated-matched-after/generated-error-390.png",
+      "sha256": "b36a7a967eef092af86ff1417cc142b8182bf05e335915027c18b31f530e95e2"
+    },
+    {
+      "path": "d3-generated-matched-after/generated-running-1440.png",
+      "sha256": "4f9cb8fedbf3fb25f07292e9624c521a078c1cce713fe440b36d8479b8a409cc"
+    },
+    {
+      "path": "d3-generated-matched-after/generated-error-1440.png",
+      "sha256": "5a572d368b6e666892fa186814393ec7db29a4801bf9a048fcb9a74b84391528"
+    }
+  ],
+  "observedLimits": [
+    "Source header still overflows21px at390 with original computed text doubled.",
+    "Source graph labels remain crowded/clipped in several captured views; graph redesign and grading outside this slice."
+  ],
+  "grade": null
+}

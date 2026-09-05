@@ -1,0 +1,69 @@
+[
+  {
+    "name": "locked-source-pack",
+    "command": [
+      "npm.cmd",
+      "pack",
+      "--json",
+      "--pack-destination",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked package 01"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 1.8401267528533936
+  },
+  {
+    "name": "locked-host-install",
+    "command": [
+      "npm.cmd",
+      "install",
+      "--save-exact",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked package 01\\nodeagent-0.1.0.tgz"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked installed host",
+    "exit": 0,
+    "seconds": 18.053833484649658
+  },
+  {
+    "name": "locked-installed-doctor",
+    "command": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "doctor"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked installed host",
+    "exit": 0,
+    "seconds": 0.7991647720336914
+  },
+  {
+    "name": "locked-installed-scaffold",
+    "command": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "apps",
+      "scaffold",
+      "chat-ui",
+      "--dir",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked Chat app",
+      "--auto"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked installed host",
+    "exit": 0,
+    "seconds": 29.339585065841675
+  },
+  {
+    "name": "locked-existing-target-refusal",
+    "command": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "apps",
+      "scaffold",
+      "chat-ui",
+      "--dir",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked Chat app"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked installed host",
+    "exit": 1,
+    "seconds": 0.08051729202270508
+  }
+]

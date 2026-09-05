@@ -1,0 +1,5 @@
+tours validate: FAIL
+  - 01-primary-user-flow.tour step 5: src/features/node-agent/components/NodeAgentThread.tsx:91 does not contain its anchor "<ComposerPrimitive.Send" — it holds "autoSend". Rebuild with `npm run tours:build`.
+  - 01-primary-user-flow.tour step 9: src/features/node-agent/components/toolUIs.tsx:56 does not contain its anchor "toolName: \"collect_context\"" — it holds "</div>". Rebuild with `npm run tours:build`.
+  - docs/START_HERE.md:119: src/features/node-agent/components/NodeAgentThread.tsx:84 holds "you watch each step render inline.", but the snippet opens with "<ComposerPrimitive.Root className=\"na-composer\">"
+  - docs/START_HERE.md:239: src/features/node-agent/components/toolUIs.tsx:55 holds "{!running && children ? <div className=\"na-tool-b\">{children}</div> : null}", but the snippet opens with "const ContextToolUI = makeAssistantToolUI<{ focus: string }, ContextToolResult>({"

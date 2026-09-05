@@ -1,0 +1,111 @@
+[
+  {
+    "name": "d3-final-03-test",
+    "command": [
+      "npm.cmd",
+      "run",
+      "test"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 1.6661198139190674
+  },
+  {
+    "name": "d3-final-03-build",
+    "command": [
+      "npm.cmd",
+      "run",
+      "build"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 7.173559665679932
+  },
+  {
+    "name": "d3-final-03-tours-validate",
+    "command": [
+      "npm.cmd",
+      "run",
+      "tours:validate"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 0.574967622756958
+  },
+  {
+    "name": "d3-pack-03",
+    "command": [
+      "npm.cmd",
+      "pack",
+      "--json",
+      "--pack-destination",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery package 03"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 1.6015360355377197
+  },
+  {
+    "name": "d3-host-install-03",
+    "command": [
+      "npm.cmd",
+      "install",
+      "--save-exact",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery package 03\\nodeagent-0.1.0.tgz"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host 03",
+    "exit": 0,
+    "seconds": 15.924721717834473
+  },
+  {
+    "name": "d3-installed-doctor-03",
+    "command": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host 03\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "doctor"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host 03",
+    "exit": 0,
+    "seconds": 0.9779763221740723
+  },
+  {
+    "name": "d3-installed-scaffold-03",
+    "command": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host 03\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "apps",
+      "scaffold",
+      "chat-ui",
+      "--dir",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery Chat app 03",
+      "--auto"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host 03",
+    "exit": 0,
+    "seconds": 27.608190059661865
+  },
+  {
+    "name": "d3-final-browser-03",
+    "command": [
+      "node",
+      "e2e/current-consumer-recovery-proof.mjs",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery Chat app 03",
+      "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 238.00431203842163
+  },
+  {
+    "name": "d3-unchanged-baseline-replay",
+    "command": [
+      "node",
+      "e2e/current-consumer-proof.mjs",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery Chat app 03",
+      "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-unchanged-baseline-replay"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 38.92998027801514
+  }
+]

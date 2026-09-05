@@ -1,0 +1,60 @@
+{
+  "layout": [
+    {
+      "class": "na-viewport",
+      "scrollTop": 2771,
+      "scrollHeight": 3677,
+      "clientHeight": 906,
+      "box": {
+        "x": 370,
+        "y": 54,
+        "width": 820,
+        "height": 906,
+        "top": 54,
+        "right": 1190,
+        "bottom": 960,
+        "left": 370
+      }
+    },
+    {
+      "class": "na-footer",
+      "scrollTop": 0,
+      "scrollHeight": 103,
+      "clientHeight": 103,
+      "box": {
+        "x": 388,
+        "y": 848.546875,
+        "width": 784,
+        "height": 103.046875,
+        "top": 848.546875,
+        "right": 1172,
+        "bottom": 951.59375,
+        "left": 388
+      }
+    }
+  ],
+  "viewport": {
+    "width": 1920,
+    "height": 960
+  },
+  "scroll": {
+    "x": 0,
+    "y": 0
+  },
+  "text": "NodeAgent\non assistant-ui\nPrototype ↗\nGitHub ↗\n\nDoes our wedge hold versus Acme, and does the runway model survive 18 months?\n\n◆\n\nDone. The wedge holds on high-confidence grounding (3/4), the model now clears 18 months, and the cited memo is ready.\n\n💬\nGather room context\n3 items · 2 active\n0.20\nDOCUMENT\nI pushed the retrieval-latency benchmark doc to the room earlier.\n0.19\nMESSAGE\nAcme just dropped a competing teardown of our wedge. Investor call is in 40.\n0.03\nMESSAGE\nFinance flagged burn crept to 420k/mo after the two senior hires.\n🔎\nSearch & synthesize\nhigh · grounded 3/4\nRAG\n[1] room://benchmark — wedge holds vs Acme on latency\n0.44\nDOC\n[2] finance://burn — runway model\n0.56\nDOC\n[3] diligence://wedge — competitive note\n0.44\nWEB\n[4] Acme teardown blog — Why context rooms lose\n0.11\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n▦\nUpdate model\nv2 · 2 cells\nNet burn / mo ($k)\t420\nCash on hand ($k)\t7560\nRunway (months)\t18\n↳ Correct base burn to the finance-audited 420k (was stress figure 510k).\n✎\nWrite memo\n5 blocks\nAcme — diligence memo\n\nThe room asked: \"Does our wedge hold versus Acme, and does the runway model survive 18 months?\"\n\n◆ CLAIM · GROUNDED 3/4\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n\n⌗ room://benchmark — wedge holds vs Acme on latency\n\nModel updated to v2 (2 cells).\n\nDoes our wedge hold versus Acme, and does the runway model survive 18 months?\n\n◆\n\nDone. The wedge holds on high-confidence grounding (3/4), the model now clears 18 months, and the cited memo is ready.\n\n💬\nGather room context\n3 items · 2 active\n0.20\nDOCUMENT\nI pushed the retrieval-latency benchmark doc to the room earlier.\n0.19\nMESSAGE\nAcme just dropped a competing teardown of our wedge. Investor call is in 40.\n0.03\nMESSAGE\nFinance flagged burn crept to 420k/mo after the two senior hires.\n🔎\nSearch & synthesize\nhigh · grounded 3/4\nRAG\n[1] room://benchmark — wedge holds vs Acme on latency\n0.44\nDOC\n[2] finance://burn — runway model\n0.56\nDOC\n[3] diligence://wedge — competitive note\n0.44\nWEB\n[4] Acme teardown blog — Why context rooms lose\n0.11\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n▦\nUpdate model\nv2 · 2 cells\nNet burn / mo ($k)\t420\nCash on hand ($k)\t7560\nRunway (months)\t18\n↳ Correct base burn to the finance-audited 420k (was stress figure 510k).\n✎\nWrite memo\n5 blocks\nAcme — diligence memo\n\nThe room asked: \"Does our wedge hold versus Acme, and does the runway model survive 18 months?\"\n\n◆ CLAIM · GROUNDED 3/4\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n\n⌗ room://benchmark — wedge holds vs Acme on latency\n\nModel updated to v2 (2 cells).\n\nDoes our wedge hold versus Acme, and does the runway model survive 18 months?\n\n◆\n\nDone. The wedge holds on high-confidence grounding (3/4), the model now clears 18 months, and the cited memo is ready.\n\n💬\nGather room context\n3 items · 2 active\n0.20\nDOCUMENT\nI pushed the retrieval-latency benchmark doc to the room earlier.\n0.19\nMESSAGE\nAcme just dropped a competing teardown of our wedge. Investor call is in 40.\n0.03\nMESSAGE\nFinance flagged burn crept to 420k/mo after the two senior hires.\n🔎\nSearch & synthesize\nhigh · grounded 3/4\nRAG\n[1] room://benchmark — wedge holds vs Acme on latency\n0.44\nDOC\n[2] finance://burn — runway model\n0.56\nDOC\n[3] diligence://wedge — competitive note\n0.44\nWEB\n[4] Acme teardown blog — Why context rooms lose\n0.11\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n▦\nUpdate model\nv2 · 2 cells\nNet burn / mo ($k)\t420\nCash on hand ($k)\t7560\nRunway (months)\t18\n↳ Correct base burn to the finance-audited 420k (was stress figure 510k).\n✎\nWrite memo\n5 blocks\nAcme — diligence memo\n\nThe room asked: \"Does our wedge hold versus Acme, and does the runway model survive 18 months?\"\n\n◆ CLAIM · GROUNDED 3/4\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n\n⌗ room://benchmark — wedge holds vs Acme on latency\n\nModel updated to v2 (2 cells).\n\n↑\n\nDeterministic demo — no keys. The agent runs the real ported modules over a fixed scenario.\n\nSession graph\n12 entities · 26 edges\nRelationship graph\n\n12 entities · 26 of 26 relationships shown\n\nfit\nevidence\n(5)\ntraversal\n(21)\n· local",
+  "overflow": 0,
+  "focus": {
+    "tag": "TEXTAREA",
+    "label": null
+  },
+  "buttons": [
+    {
+      "label": "Send",
+      "disabled": true
+    },
+    {
+      "label": "fit",
+      "disabled": false
+    }
+  ]
+}

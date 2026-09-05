@@ -116,7 +116,7 @@ send button is what starts the agent.
 
 **Core code**
 ```tsx
-// src/features/node-agent/components/NodeAgentThread.tsx:84-93
+// src/features/node-agent/components/NodeAgentThread.tsx:118-135
 <ComposerPrimitive.Root className="na-composer">
   <ComposerPrimitive.Input placeholder="Ask the room anything…" rows={1} autoFocus />
   <ComposerPrimitive.Send className="na-send" aria-label="Send">↑</ComposerPrimitive.Send>
@@ -130,9 +130,11 @@ actually start.
 **Input** — typed text, or a click on a suggestion chip.
 **Output** — a user message appended to the thread; assistant-ui then calls the
 adapter in Step 4.
-**Failure behavior** — the send button is disabled while a run is in flight.
-There is no cancel button; that is a known open defect (D3 in
-`promotion/PROMOTION_LOG.md`).
+**Failure behavior** — while a response runs, Send gives way to Stop response.
+Stop ends its display updates and preserves completed work; it does not undo
+already computed or external work. Incomplete responses offer explicit Retry
+through the existing runtime. Retry is never automatic; this local demo does
+not certify provider cancellation.
 **Next** — Step 4 receives the message.
 
 ---
@@ -236,7 +238,7 @@ The four names are `collect_context`, `search_synthesize`,
 
 **Core code**
 ```ts
-// registration — src/features/node-agent/components/toolUIs.tsx:55
+// registration — src/features/node-agent/components/toolUIs.tsx:61
 const ContextToolUI = makeAssistantToolUI<{ focus: string }, ContextToolResult>({
   toolName: "collect_context",
 
@@ -345,19 +347,24 @@ function safe<T>(step: AgentStep, fn: () => T, fallback: T): T {
 }
 ```
 
-**Be told this plainly, because the UI does not tell you:**
+**Response recovery and remaining limits:**
 
-- **There is no error state on screen.** `nodeAgentChatAdapter.run` has no
-  `catch`, and no component in the tree is a React error boundary. A throw inside
-  a rendered child unmounts the whole app to a blank page. That is exactly how
-  defect D1 presented.
-- **There is no stop, cancel, or retry.** While a run is in flight the page has
-  one button, `Send`, and it is disabled. A user whose run misbehaves can only
-  reload, which discards the thread. Open as **D3**.
+- **Adapter failures are visible.** The existing assistant-ui runtime marks the
+  response incomplete; the thread presents a constant failure message, marks
+  unfinished tool cards failed, and offers explicit Retry. Earlier results stay.
+- **Stop response ends display updates.** It preserves completed work and cannot
+  undo computation already performed by the local adapter or external work.
+  Retry replaces the current response through the native runtime, runs only on
+  an explicit action, and rejects duplicate immediate activation.
+- **Rendering exceptions remain separate.** There is still no React render-error
+  boundary; a throw in a rendered child can unmount the app, as defect D1 showed.
 - **"New Thread" does not exist here.** This runtime holds a single thread.
+  Reload discards the browser conversation.
 
-These are recorded, with reproductions, in `promotion/PROMOTION_LOG.md` and
-scored in `promotion/PRODUCT_GOAL.md` (conditions 2 and 5, both FAIL).
+`promotion/PROMOTION_LOG.md` and `promotion/PRODUCT_GOAL.md` preserve their
+historical defect reproductions and grades. Read `HANDOFF.md` for the current
+D3 proof and remaining limits; no provider cancellation or full UI grade is
+certified by this local response-recovery work.
 
 **Input** — a step body that may throw.
 **Output** — the fallback value, with the step marked `error`.
@@ -420,7 +427,7 @@ byte-stable.
 | Change how sources are ranked | `searchAndSynthesize.ts` (`W_GROUNDING`, `W_RETRIEVAL`) | `npm test` |
 | Change how a tool card looks | `components/toolUIs.tsx` | `npm run dev` |
 | Add a fifth step | `nodeAgentRuntime.ts`, then a name in `toolUIs.tsx` **and** `nodeAgentChatAdapter.ts` | `npm test && npm run e2e:journey` |
-| Give the app an error state | `NodeAgentDemoApp.tsx` (add a boundary) + `nodeAgentChatAdapter.ts` (add a catch) | `npm run e2e:journey` |
+| Change response recovery | `components/NodeAgentThread.tsx` + `components/toolUIs.tsx` | `node e2e/current-consumer-recovery-proof.mjs "<installed generated app>" "<new proof output>"` |
 
 Adding a step means touching three files, and the two name lists in Step 6 must
 agree. That is the sharpest edge in this codebase.

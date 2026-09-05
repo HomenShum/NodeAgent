@@ -1,0 +1,72 @@
+import assert from 'node:assert/strict';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+import { createServer as createPortProbe } from 'node:net';
+import { chromium } from 'playwright';
+import { createServer } from 'vite';
+
+// The supplied app must be the retained output of the installed package CLI.
+// Source/consumer adapters are changed only in browser memory for a labelled error knockout.
+const source = path.resolve(import.meta.dirname, '..');
+const consumer = path.resolve(process.argv[2] ?? '');
+const evidence = path.resolve(process.argv[3] ?? '');
+assert.ok(process.argv[2] && process.argv[3], 'Provide generated consumer path and NEW evidence directory');
+await mkdir(evidence, { recursive:false });
+const sha = value => createHash('sha256').update(value).digest('hex');
+const tracked = execFileSync('git',['ls-files','-z'],{cwd:source,env:{...process.env,GIT_OPTIONAL_LOCKS:'0'}}).toString().split('\0').filter(Boolean).filter(file=>!path.basename(file).startsWith('.env'));
+tracked.push('e2e/current-consumer-proof.mjs');
+const sourceHashes = async () => Object.fromEntries(await Promise.all(tracked.map(async file=>[file,sha(await readFile(path.join(source,file)))])));
+const consumerFiles=['package.json','package-lock.json','index.html','vite.config.mjs','src/main.jsx','src/styles.css','src/nodeagent-chat/NodeAgentChatApp.jsx','src/nodeagent-chat/nodeAgentLocalAdapter.js','src/nodeagent-chat/toolUIs.jsx'];
+const consumerHashes = async () => Object.fromEntries(await Promise.all(consumerFiles.map(async file=>[file,sha(await readFile(path.join(consumer,file)))])));
+const report={namedProof:'NODEAGENT-CURRENT-CONSUMER-01',passed:false,startedAt:new Date().toISOString(),sourceBefore:await sourceHashes(),consumerBefore:await consumerHashes(),checks:[],captures:[],observations:[],console:[],requests:[],providerCalls:0,grade:null};
+const check=(value,name)=>{report.checks.push({name,passed:Boolean(value)});assert.ok(value,name);};
+let browser,page;const servers=[];
+async function server(root){
+  const probe=createPortProbe(); await new Promise(resolve=>probe.listen(0,'127.0.0.1',resolve)); const port=probe.address().port; await new Promise(resolve=>probe.close(resolve));
+  const app=await createServer({root,envDir:false,server:{host:'127.0.0.1',port,strictPort:true,open:false}}); await app.listen(); servers.push(app);
+  return 'http://127.0.0.1:'+port;
+}
+async function context(base,width){
+  const ctx=await browser.newContext({viewport:{width,height:width<=390?844:960},colorScheme:'light'});
+  await ctx.route('**/*',route=>{const request=route.request(),url=new URL(request.url());if(report.requests.length<500)report.requests.push({origin:url.origin,path:url.pathname,method:request.method()});if(url.origin!==base&&!['fonts.googleapis.com','fonts.gstatic.com'].includes(url.hostname))return route.abort();return route.continue();});
+  page=await ctx.newPage();page.setDefaultTimeout(12000);page.on('pageerror',error=>report.console.push({type:'pageerror',message:error.message}));page.on('console',message=>{if(message.type()==='error'&&report.console.length<100)report.console.push({type:'console',message:message.text()});});await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});await page.locator('textarea[name="input"]').waitFor();await page.evaluate(()=>Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,3000))]));return ctx;
+}
+async function capture(name){
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  const html=await page.content();const state=await page.evaluate(()=>({url:location.href,viewport:{width:innerWidth,height:innerHeight},focused:document.activeElement?.tagName,overflow:document.documentElement.scrollWidth-innerWidth,buttons:[...document.querySelectorAll('button')].map(e=>({label:e.getAttribute('aria-label')??e.textContent,disabled:e.disabled})),bodyText:document.body.innerText.slice(-6000)}));
+  await page.screenshot({path:path.join(evidence,name+'.png'),caret:'initial'});check(await page.content()===html,name+' screenshot restores exact DOM');await writeFile(path.join(evidence,name+'.html'),html);await writeFile(path.join(evidence,name+'.json'),JSON.stringify(state,null,2)+'\n');report.captures.push({name,state,pngSha256:sha(await readFile(path.join(evidence,name+'.png')))});return state;
+}
+async function boundary(name,selectors){
+  const html=await page.content();
+  await page.evaluate(items=>{for(const [index,item]of items.entries()){const target=document.querySelector(item.selector),b=target.getBoundingClientRect();const box=document.createElement('div');box.dataset.boundaryProof='true';Object.assign(box.style,{position:'fixed',left:b.left+'px',top:b.top+'px',width:b.width+'px',height:b.height+'px',border:'3px solid #d31372',boxSizing:'border-box',zIndex:'2147483646',pointerEvents:'none'});const label=document.createElement('div');label.textContent=`CHANGE ${String.fromCharCode(65+index)} Ã‚Â· ${item.title}`;Object.assign(label.style,{position:'absolute',bottom:'100%',left:'0',background:'#971352',color:'white',padding:'3px 6px',font:'bold 12px sans-serif',whiteSpace:'nowrap'});if(b.top<35){label.style.bottom='auto';label.style.top='100%';}box.append(label);document.body.append(box);}},selectors);
+  await page.screenshot({path:path.join(evidence,name+'-change-boundary.png'),caret:'initial'});
+  await page.evaluate(()=>document.querySelectorAll('[data-boundary-proof]').forEach(e=>e.remove()));check(await page.content()===html,name+' boundary restores exact original DOM');
+  const viewport=page.viewportSize();await writeFile(path.join(evidence,name+'-change-boundary.md'),`# UI change boundary\n\nRoute: ${page.url()}\nViewport: ${viewport.width}x${viewport.height}\nTheme: light\nSession: anonymous no-key local browser\nTrigger: ${name}\nFixture: explicit local product question; error state uses a labelled in-memory adapter throw, not a provider call.\n\n${selectors.map((item,index)=>`CHANGE ${String.fromCharCode(65+index)} Ã‚Â· ${item.title}: ${item.selector}`).join('\n\n')}\n\nCurrent: composer sends work but offers no Stop/Cancel; assistant output has no designed failure/retry surface.\nExpected next slice (requires root review): honest current run status, supported cancellation and explicit retry preserve earlier messages. Cancel must not claim to undo prior computed work or durable writes.\n\nStates: empty remains no-key; loading keeps an inspectable current step and supported Stop; error names failed run and recovery without fake completion; populated keeps four tool results; long text wraps; controls remain usable at320/390/768/1024/1440/1920 and enlarged text.\n\nProtected neighbors: branding/navigation, prior conversation/tool results, graph facts, provider/model policy, durable state and all external systems. The browser session still resets on reload until a separate persistence contract exists. No graph assertion receipt is invented.\n`);
+  report.observations.push({name,kind:'labelled-3px-before',selectors});
+}
+async function send(text){await page.locator('textarea[name="input"]').fill(text);await page.locator('textarea[name="input"]').press('Enter');}
+async function complete(generated,count=1){await page.waitForFunction(({generated,count})=>{const cards=document.querySelectorAll(generated?'.naTool':'.na-tool');return cards.length===4*count&&[...cards].every(e=>e.getAttribute('data-running')!=='true')&&document.body.innerText.includes('Done.');},{generated,count});}
+async function throwOnNext(base,generated){await page.evaluate(async({modulePath,key})=>{const module=await import(modulePath);module[key].run=async function*(){yield{content:[{type:'text',text:'PROOF FIXTURE: checking the saved local result.'}]};throw new Error('PROOF FIXTURE: adapter failed before the next result.');};},{modulePath:base+(generated?'/src/nodeagent-chat/nodeAgentLocalAdapter.js':'/src/features/node-agent/runtime/nodeAgentChatAdapter.ts'),key:generated?'nodeAgentLocalAdapter':'nodeAgentChatAdapter'});}
+try {
+  const generatedBase=await server(consumer); let sourceBase;browser=await chromium.launch({headless:true});report.browser=browser.version();report.node=process.version;
+  for(const width of [320,390,768,1024,1440,1920]){
+    const ctx=await context(generatedBase,width);check(await page.locator('[data-nodeagent-chat="empty"]').isVisible(),'generated empty state '+width);await capture('generated-empty-'+width);
+    await send('PROOF FIXTURE: Does the local no-key MVP path work? Preserve unknown provider capability.');await page.locator('.naTool[data-running="true"]').first().waitFor();
+    const running=await capture('generated-running-'+width);check(running.overflow<=1,'generated running reflows '+width);report.observations.push({name:'generated-D3-'+width,hasStop:running.buttons.some(b=>/stop|cancel/i.test(b.label??'')),sendDisabled:running.buttons.find(b=>b.label==='Send')?.disabled});
+    // A second immediate Enter cannot add a concurrent model/fixture run.
+    await page.locator('textarea[name="input"]').press('Enter');await complete(true);check(await page.locator('.naTool').count()===4,'burst Enter retains one four-card run '+width);await capture('generated-populated-'+width);
+    await page.reload({waitUntil:'domcontentloaded'});await page.locator('textarea[name="input"]').waitFor();check(await page.locator('.naTool').count()===0&&await page.locator('[data-nodeagent-chat="empty"]').isVisible(),'reload resets only browser session '+width);await capture('generated-reloaded-'+width);await ctx.close();
+  }
+  const sustained=await context(generatedBase,390),began=Date.now();for(let i=0;i<8;i++){await send('PROOF FIXTURE repeat '+(i+1)+': inspect the same local adoption evidence.');await complete(true,i+1);check(await page.locator('.naTool').count()===4*(i+1),'sustained accumulated four-card run '+(i+1));}report.sustained={turns:8,toolCards:32,elapsedMs:Date.now()-began};await capture('generated-sustained-390');await sustained.close();
+  for(const generated of [true,false])for(const width of [390,1440]){
+    if(!generated&&!sourceBase) sourceBase=await server(source);
+    const base=generated?generatedBase:sourceBase,kind=generated?'generated':'source';const ctx=await context(base,width);await send('PROOF FIXTURE: inspect the current no-key agent handoff.');await page.locator(generated?'.naTool[data-running="true"]':'.na-tool').first().waitFor();
+    const selectors=[{selector:generated?'.naComposer':'.na-composer',title:'Run controls'},{selector:generated?'.naMsgAssistant:last-of-type .naBubble':'.na-msg-assistant:last-of-type .na-bubble',title:'Current run response'}];
+    await capture(kind+'-D3-running-'+width);await boundary(kind+'-D3-running-'+width,selectors);await complete(generated);await throwOnNext(base,generated);await send('PROOF FIXTURE: reproduce adapter failure while retaining the previous complete turn.');await page.waitForFunction(()=>document.body.innerText.includes('PROOF FIXTURE: checking the saved local result.'));await page.waitForTimeout(300);
+    const state=await capture(kind+'-D3-error-'+width);report.observations.push({name:kind+'-D3-error-'+width,hasVisibleError:/adapter failed before the next result/.test(state.bodyText),hasRetry:state.buttons.some(b=>/retry|try again/i.test(b.label??'')),retainedToolCards:await page.locator(generated?'.naTool':'.na-tool').count()});await boundary(kind+'-D3-error-'+width,selectors);await ctx.close();
+  }
+  check(report.requests.every(r=>r.method==='GET'),'browser made no writes or provider requests');report.sourceAfter=await sourceHashes();report.consumerAfter=await consumerHashes();assert.deepEqual(report.sourceAfter,report.sourceBefore);assert.deepEqual(report.consumerAfter,report.consumerBefore);check(true,'source and installed generated input bytes unchanged');report.passed=true;
+}catch(error){report.error=String(error.stack??error);process.exitCode=1;
+}finally{await browser?.close();for(const app of servers)await app.close();report.finishedAt=new Date().toISOString();await writeFile(path.join(evidence,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({evidence,passed:report.passed,checks:report.checks.length,captures:report.captures.length,error:report.error}));}

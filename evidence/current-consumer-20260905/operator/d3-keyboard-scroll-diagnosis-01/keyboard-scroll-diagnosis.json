@@ -1,0 +1,60 @@
+{
+  "hit": {
+    "visible": true,
+    "top": 167.34375,
+    "bottom": 221.34375,
+    "focused": true,
+    "focusVisible": true
+  },
+  "layout": [
+    {
+      "class": "na-viewport",
+      "scrollTop": 8764,
+      "scrollHeight": 9166,
+      "clientHeight": 402,
+      "box": {
+        "x": 0,
+        "y": 54,
+        "width": 390,
+        "height": 401.765625,
+        "top": 54,
+        "right": 390,
+        "bottom": 455.765625,
+        "left": 0
+      }
+    },
+    {
+      "class": "na-recovery",
+      "scrollTop": 0,
+      "scrollHeight": 166,
+      "clientHeight": 166,
+      "box": {
+        "x": 63,
+        "y": 54.75,
+        "width": 300,
+        "height": 166.59375,
+        "top": 54.75,
+        "right": 363,
+        "bottom": 221.34375,
+        "left": 63
+      }
+    },
+    {
+      "class": "na-footer",
+      "scrollTop": 0,
+      "scrollHeight": 196,
+      "clientHeight": 196,
+      "box": {
+        "x": 12,
+        "y": 251.34375,
+        "width": 366,
+        "height": 196.28125,
+        "top": 251.34375,
+        "right": 378,
+        "bottom": 447.625,
+        "left": 12
+      }
+    }
+  ],
+  "sourceChange": false
+}

@@ -1,0 +1,16 @@
+file:///C:/Users/hshum/.codex/worktrees/5dba/nodebench-ai/docs/plans/portfolio-recovery-20260904/E6e-nodeagent-current-consumer/capture-generated-d3-matched-after.mjs:14
+const consumerHashes=async()=>Object.fromEntries(await Promise.all(['package.json','package-lock.json','index.html','vite.config.mjs','src/main.jsx','src/styles.css','src/nodeagent-chat/NodeAgentChatApp.jsx','src/nodeagent-chat/nodeAgentLocalAdapter.js','src/nodeagent-chat/toolUIs.jsx'].map(async f=>[f,sha(await readFile(path.join(roots.generated,f)))]))));
+                                                                                                                                                                                                                                                                                                                                                                     ^
+
+SyntaxError: Unexpected token ')'
+    at compileSourceTextModule (node:internal/modules/esm/utils:346:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:107:18)
+    at #translate (node:internal/modules/esm/loader:546:20)
+    at afterLoad (node:internal/modules/esm/loader:596:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:601:12)
+    at #createModuleJob (node:internal/modules/esm/loader:624:36)
+    at #getJobFromResolveResult (node:internal/modules/esm/loader:343:34)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:311:41)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:664:25)
+
+Node.js v22.22.2

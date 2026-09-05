@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="en"><head>
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NodeAgent Chat UI</title>
+  <style type="text/css" data-vite-dev-id="D:/ProjectRecovery/NodeAgent current consumer 20260905/Locked Chat app/src/styles.css">:root {
+  --bg: #101418;
+  --panel: #171d23;
+  --surface: #202831;
+  --text: #eef3f7;
+  --muted: #97a5b3;
+  --line: rgba(255, 255, 255, 0.11);
+  --accent: #65d6ad;
+  --accent-2: #f2b84b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.naShell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 64px 1fr;
+}
+
+.naTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(16, 20, 24, 0.92);
+}
+
+.naBrand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.naBrand strong,
+.naBrand span {
+  display: block;
+}
+
+.naBrand span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.naLogo,
+.naAvatar,
+.naHeroMark {
+  display: inline-grid;
+  place-items: center;
+  background: var(--accent);
+  color: #06110d;
+  font-weight: 800;
+}
+
+.naLogo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.naTopActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.naPill,
+.naIconLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--muted);
+  padding: 0 11px;
+  text-decoration: none;
+}
+
+.naIconLink {
+  width: 36px;
+  padding: 0;
+}
+
+.naMain,
+.naThread,
+.naViewport {
+  min-height: 0;
+}
+
+.naMain {
+  display: flex;
+}
+
+.naThread {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.naViewport {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: min(920px, 100%);
+  margin: 0 auto;
+  padding: 28px 18px 8px;
+}
+
+.naEmpty {
+  width: min(640px, 100%);
+  margin: auto;
+  text-align: center;
+  padding: 28px 0;
+}
+
+.naHeroMark {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 16px;
+  border-radius: 14px;
+}
+
+.naEyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.naEmpty h1 {
+  margin: 0 0 12px;
+  font-size: 40px;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.naEmpty p {
+  margin: 0 auto 18px;
+  color: var(--muted);
+  max-width: 58ch;
+}
+
+.naSuggestions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.naChip {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px 13px;
+}
+
+.naMsg {
+  display: flex;
+  gap: 10px;
+}
+
+.naMsgUser {
+  justify-content: flex-end;
+}
+
+.naMsgAssistant {
+  justify-content: flex-start;
+}
+
+.naAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 11px;
+  flex: 0 0 auto;
+}
+
+.naBubble {
+  max-width: min(760px, 88%);
+  border-radius: 12px;
+  padding: 12px 14px;
+  line-height: 1.55;
+}
+
+.naBubbleUser {
+  background: var(--accent);
+  color: #06110d;
+  font-weight: 650;
+}
+
+.naBubbleAssistant {
+  flex: 1;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.naFooter {
+  position: sticky;
+  bottom: 0;
+  width: min(920px, 100%);
+  margin: 0 auto;
+  padding: 12px 18px 20px;
+  background: linear-gradient(180deg, rgba(16, 20, 24, 0), var(--bg) 35%);
+}
+
+.naComposer {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 9px 9px 9px 13px;
+}
+
+.naComposer:focus-within {
+  border-color: var(--accent);
+}
+
+.naComposerInput {
+  min-height: 34px;
+  max-height: 160px;
+  flex: 1;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 7px 0;
+}
+
+.naComposerInput::placeholder,
+.naFootnote {
+  color: var(--muted);
+}
+
+.naSend {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #06110d;
+}
+
+.naSend:disabled {
+  opacity: 0.35;
+}
+
+.naFootnote {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+.naTool {
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.naTool[data-running="true"] {
+  border-style: dashed;
+}
+
+.naTool header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--surface);
+}
+
+.naTool header span {
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.naToolBody {
+  padding: 12px;
+}
+
+.naContextRow,
+.naReason,
+.naAnswer {
+  margin: 0;
+  color: var(--muted);
+}
+
+.naContextRow {
+  display: grid;
+  grid-template-columns: 48px 72px 1fr;
+  gap: 8px;
+  padding: 5px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  text-align: left;
+}
+
+.naContextRow:first-child {
+  border-top: 0;
+}
+
+.naContextRow span,
+.naSource em,
+.naReason {
+  color: var(--accent-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+.naSource {
+  display: grid;
+  grid-template-columns: 70px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 7px;
+}
+
+.naSourceWin {
+  border-color: var(--accent);
+  background: rgba(101, 214, 173, 0.08);
+}
+
+.naSource span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.naModelTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+
+.naModelTable td {
+  border: 1px solid var(--line);
+  padding: 8px;
+}
+
+.naModelTable td:last-child {
+  text-align: right;
+}
+
+.naModelTable .changed {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.naMemo h3 {
+  margin: 0 0 8px;
+}
+
+.naMemo p {
+  color: var(--muted);
+}
+
+.naMemo blockquote {
+  margin: 8px 0;
+  border-left: 3px solid var(--accent);
+  background: rgba(101, 214, 173, 0.08);
+  padding: 10px 12px;
+}
+
+.naMemo blockquote strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--accent);
+}
+
+@media (max-width: 680px) {
+  .naTopbar {
+    padding: 0 14px;
+  }
+
+  .naPill {
+    display: none;
+  }
+
+  .naViewport {
+    padding: 20px 12px 8px;
+  }
+
+  .naEmpty h1 {
+    font-size: 30px;
+  }
+
+  .naBubble {
+    max-width: 100%;
+  }
+
+  .naContextRow,
+  .naSource {
+    grid-template-columns: 1fr;
+  }
+}
+</style></head>
+  <body>
+    <div id="root"><main class="naShell" data-nodeagent-chat="shell"><header class="naTopbar" data-nodeagent-chat="topbar"><div class="naBrand"><span class="naLogo">NA</span><div><strong>NodeAgent</strong><span>portable chat UI</span></div></div><div class="naTopActions"><span class="naPill"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>no keys</span><a class="naIconLink" href="https://github.com/HomenShum/NodeAgent" aria-label="NodeAgent GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg></a></div></header><section class="naMain"><div class="naThread" data-nodeagent-chat="thread"><div class="naViewport" data-nodeagent-chat="viewport"><div class="naMsg naMsgUser" data-message-id="HzXnScI"><div class="naBubble naBubbleUser"><p style="white-space: pre-line;"><span data-status="complete">PROOF FIXTURE: Does the local no-key MVP path work? Preserve unknown provider capability.</span></p></div></div><div class="naMsg naMsgAssistant" data-message-id="duiV2zZ"><span class="naAvatar" aria-hidden="true">NA</span><div class="naBubble naBubbleAssistant"><p style="white-space: pre-line;"><span data-status="complete">Running local NodeAgent for: PROOF FIXTURE: Does the local no-key MVP path work? Preserve unknown provider capability.</span></p><section class="naTool" data-running="true"><header><strong>Gather context</strong><span>working</span></header></section><p style="white-space: pre-line;"><span data-status="running"></span><span style="font-family: revert;"> ●</span></p></div></div><div class="naFooter" data-nodeagent-chat="composer"><form class="naComposer"><textarea name="input" class="naComposerInput" placeholder="Ask NodeAgent..." rows="1" style="height: 35px !important;"></textarea><button class="naSend" aria-label="Send" type="button" disabled=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal" aria-hidden="true"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"></path><path d="M6 12h16"></path></svg></button></form><p class="naFootnote">Scripted local adapter. Replace it with a server route when credentials exist.</p></div></div></div></section></main></div>
+    <script type="module" src="/src/main.jsx"></script>
+  
+
+<textarea tabindex="-1" aria-hidden="true" style="min-height: 0px !important; max-height: none !important; height: 0px !important; visibility: hidden !important; overflow: hidden !important; position: absolute !important; z-index: -1000 !important; top: 0px !important; right: 0px !important; display: block !important; border-width: 0px; box-sizing: border-box; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: 400; letter-spacing: normal; line-height: normal; padding: 7px 0px; tab-size: 8; text-indent: 0px; text-rendering: auto; text-transform: none; width: 778px; word-break: normal; word-spacing: 0px; scrollbar-gutter: auto;"></textarea></body></html>

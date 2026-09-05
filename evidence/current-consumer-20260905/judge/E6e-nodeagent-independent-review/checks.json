@@ -1,0 +1,34 @@
+[
+  {
+    "name": "tests",
+    "command": [
+      "npm.cmd",
+      "test"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exitCode": 0,
+    "seconds": 1.890999999945052
+  },
+  {
+    "name": "typecheck",
+    "command": [
+      "npm.cmd",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exitCode": 0,
+    "seconds": 2.26500000001397
+  },
+  {
+    "name": "tours",
+    "command": [
+      "npm.cmd",
+      "run",
+      "tours:validate"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exitCode": 0,
+    "seconds": 0.4690000000409782
+  }
+]

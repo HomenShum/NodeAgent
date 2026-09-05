@@ -1,0 +1,4 @@
+
+> nodeagent@0.1.0 tours:validate
+> node scripts/validate-tours.mjs
+

@@ -1,11 +1,13 @@
 import { makeAssistantToolUI } from "@assistant-ui/react";
 
-function ToolCard({ children, label, running, sub }) {
+function ToolCard({ children, label, running, status, sub }) {
+  const interrupted = running && status.type === "incomplete";
+  const interruptedLabel = interrupted ? (status.reason === "cancelled" ? "stopped" : status.reason === "error" ? "failed" : "interrupted") : null;
   return (
-    <section className="naTool" data-running={running ? "true" : "false"}>
+    <section className="naTool" data-running={running && !interrupted ? "true" : "false"} data-interrupted={interrupted ? "true" : "false"}>
       <header>
         <strong>{label}</strong>
-        <span>{running ? "working" : sub ?? "done"}</span>
+        <span>{interruptedLabel ?? (running ? "working" : sub ?? "done")}</span>
       </header>
       {!running && children ? <div className="naToolBody">{children}</div> : null}
     </section>
@@ -14,8 +16,8 @@ function ToolCard({ children, label, running, sub }) {
 
 export const ContextToolUI = makeAssistantToolUI({
   toolName: "collect_context",
-  render: ({ result }) => (
-    <ToolCard label="Gather context" running={!result} sub={result ? `${result.items.length} items` : undefined}>
+  render: ({ result, status }) => (
+    <ToolCard status={status} label="Gather context" running={!result} sub={result ? `${result.items.length} items` : undefined}>
       {result?.items.map((item, index) => (
         <p className="naContextRow" key={index}>
           <span>{item.relevance.toFixed(2)}</span>
@@ -29,8 +31,8 @@ export const ContextToolUI = makeAssistantToolUI({
 
 export const SearchToolUI = makeAssistantToolUI({
   toolName: "search_synthesize",
-  render: ({ result }) => (
-    <ToolCard
+  render: ({ result, status }) => (
+    <ToolCard status={status}
       label="Search and synthesize"
       running={!result}
       sub={result ? `${result.confidence} confidence` : undefined}
@@ -49,10 +51,10 @@ export const SearchToolUI = makeAssistantToolUI({
 
 export const ModelToolUI = makeAssistantToolUI({
   toolName: "apply_model_delta",
-  render: ({ result }) => {
+  render: ({ result, status }) => {
     const changed = new Set((result?.applied?.changes ?? []).map((change) => change.address));
     return (
-      <ToolCard
+      <ToolCard status={status}
         label="Apply model delta"
         running={!result}
         sub={result ? `v${result.model.version}` : undefined}
@@ -76,8 +78,8 @@ export const ModelToolUI = makeAssistantToolUI({
 
 export const MemoToolUI = makeAssistantToolUI({
   toolName: "write_memo",
-  render: ({ result }) => (
-    <ToolCard label="Write memo" running={!result} sub={result ? `${result.blocks.length} blocks` : undefined}>
+  render: ({ result, status }) => (
+    <ToolCard status={status} label="Write memo" running={!result} sub={result ? `${result.blocks.length} blocks` : undefined}>
       <div className="naMemo">
         {result?.blocks.map((block) => {
           if (block.type === "heading") return <h3 key={block.id}>{block.text}</h3>;

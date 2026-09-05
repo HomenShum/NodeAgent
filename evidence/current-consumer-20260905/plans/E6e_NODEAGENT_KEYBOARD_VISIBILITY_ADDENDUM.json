@@ -1,0 +1,12 @@
+{
+  "scope": "Existing source Retry response onFocus only; required same-tour/citation line relocation if moved",
+  "sourcePath": "src/features/node-agent/components/NodeAgentThread.tsx",
+  "beforeSha256": "be83c68d759e836ea92da6971fb8e4f05a107ffc9eb814d7b69963f7ee33c752",
+  "cause": "Native browser keyboard focus reveals a descendant in the scroll box but ignores the sticky composer; SDK footer measurement controls SDK autoscroll only. Retry remains partly covered after exact200% text.",
+  "proposed": "On focus-visible only, scroll the existing enclosing recovery region into view with block:start. No focus change, no timer/ref/state. Pointer focus does not move the action. Existing explicit Retry onClick guard unchanged.",
+  "diagnostic": "d3-keyboard-scroll-diagnosis-01/keyboard-scroll-diagnosis.json",
+  "boundary": "E6e-nodeagent-current-consumer/d3-keyboard-scroll-diagnosis-01/change-boundary.png",
+  "boundarySha256": "8559c7727d6c0a1750d7ffe7e6dc4bb2f7ede81c6c0180dfa9c582dff95cdf38",
+  "observedAfter": "Browser-only diagnostic focused Retry y167..221, footer starts251; visible hit-test and actual PNG. Error and Retry both visible. Source bytes unchanged.",
+  "protected": "Original source header enlarged overflow21px remains; graph/layout/footer/native runtime/adapter/generated UI unchanged."
+}

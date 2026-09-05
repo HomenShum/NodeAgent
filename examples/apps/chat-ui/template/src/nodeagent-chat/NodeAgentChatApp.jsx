@@ -1,14 +1,22 @@
+import { useRef } from "react";
 import {
+  ActionBarPrimitive,
   AuiIf,
   AssistantRuntimeProvider,
   ComposerPrimitive,
   MessagePrimitive,
   ThreadPrimitive,
+  useAui,
+  useAuiState,
   useLocalRuntime,
 } from "@assistant-ui/react";
 import { Github, KeyRound, SendHorizontal, Sparkles } from "lucide-react";
 import { nodeAgentLocalAdapter, SUGGESTED_PROMPT } from "./nodeAgentLocalAdapter.js";
 import { NodeAgentToolUIs } from "./toolUIs.jsx";
+
+function focusComposer(event) {
+  event.currentTarget.closest(".naThread")?.querySelector("textarea[name=input]")?.focus();
+}
 
 function UserMessage() {
   return (
@@ -21,6 +29,17 @@ function UserMessage() {
 }
 
 function AssistantMessage() {
+  const aui = useAui();
+  const messageId = useAuiState((s) => s.message.id);
+  const submittedResponse = useRef(null);
+  const retryResponse = (event) => {
+    if (aui.thread().getState().isRunning || submittedResponse.current === messageId) {
+      event.preventDefault();
+      return;
+    }
+    submittedResponse.current = messageId;
+    focusComposer(event);
+  };
   return (
     <MessagePrimitive.Root className="naMsg naMsgAssistant">
       <span className="naAvatar" aria-hidden="true">
@@ -28,6 +47,17 @@ function AssistantMessage() {
       </span>
       <div className="naBubble naBubbleAssistant">
         <MessagePrimitive.Parts />
+        <AuiIf condition={(s) => s.message.status?.type === "incomplete" && (s.message.status.reason === "cancelled" || s.message.status.reason === "error")}>
+          <div className="naRecovery">
+            <AuiIf condition={(s) => s.message.status?.type === "incomplete" && s.message.status.reason === "cancelled"}>
+              <p role="status">Stopped this response. Completed work is kept.</p>
+            </AuiIf>
+            <MessagePrimitive.Error>
+              <p role="alert">This response failed. Earlier results are kept.</p>
+            </MessagePrimitive.Error>
+            <ActionBarPrimitive.Reload onClick={retryResponse}>Retry response</ActionBarPrimitive.Reload>
+          </div>
+        </AuiIf>
       </div>
     </MessagePrimitive.Root>
   );
@@ -72,9 +102,16 @@ function NodeAgentThread() {
         <ThreadPrimitive.ViewportFooter className="naFooter" data-nodeagent-chat="composer">
           <ComposerPrimitive.Root className="naComposer">
             <ComposerPrimitive.Input className="naComposerInput" placeholder="Ask NodeAgent..." rows={1} autoFocus />
-            <ComposerPrimitive.Send className="naSend" aria-label="Send">
-              <SendHorizontal size={17} aria-hidden="true" />
-            </ComposerPrimitive.Send>
+            <AuiIf condition={(s) => !s.thread.isRunning}>
+              <ComposerPrimitive.Send className="naSend" aria-label="Send">
+                <SendHorizontal size={17} aria-hidden="true" />
+              </ComposerPrimitive.Send>
+            </AuiIf>
+            <AuiIf condition={(s) => s.thread.isRunning}>
+              <ComposerPrimitive.Cancel className="naSend naStop" aria-label="Stop response" onClick={focusComposer}>
+                Stop
+              </ComposerPrimitive.Cancel>
+            </AuiIf>
           </ComposerPrimitive.Root>
           <p className="naFootnote">Scripted local adapter. Replace it with a server route when credentials exist.</p>
         </ThreadPrimitive.ViewportFooter>

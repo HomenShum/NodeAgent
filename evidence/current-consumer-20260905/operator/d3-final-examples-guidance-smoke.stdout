@@ -1,0 +1,5 @@
+
+> nodeagent@0.1.0 examples:guidance:smoke
+> tsx scripts/example-guidance-smoke.ts
+
+example guidance smoke: PASS 16 guides 37 support files

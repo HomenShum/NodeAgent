@@ -1,0 +1,106 @@
+[
+  {
+    "name": "source-audit",
+    "argv": [
+      "npm.cmd",
+      "audit",
+      "--json"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exitCode": 1,
+    "seconds": 1.25,
+    "stdoutSha256": "0507abc50afeaaf68af460c5d475d106c4749a1fdda75812c327823c36cf59ab",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "source-pack",
+    "argv": [
+      "npm.cmd",
+      "pack",
+      "--json",
+      "--pack-destination",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exitCode": 0,
+    "seconds": 2.25,
+    "stdoutSha256": "d2d9f05091633befdb449cb5d572c882d710855117ce7acd3045c33b0dda2a59",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "host-install",
+    "argv": [
+      "npm.cmd",
+      "install",
+      "--save-exact",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\nodeagent-0.1.0.tgz"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host",
+    "exitCode": 0,
+    "seconds": 17.24,
+    "stdoutSha256": "9c0a23925ed0f61c116e515f3ac86f72484b07c39ca88f666e1308367904c430",
+    "stderrSha256": "fe49a93af7f6a5072c3a3ef65019009ce521808d6b5a32810ad9a6a433f4524d"
+  },
+  {
+    "name": "installed-doctor",
+    "argv": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "doctor"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host",
+    "exitCode": 0,
+    "seconds": 0.84,
+    "stdoutSha256": "c1c258c059eecb124bff61dbb226e41918e33b071584bb25f23fc080febe7dbb",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "installed-apps",
+    "argv": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "apps",
+      "list"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host",
+    "exitCode": 0,
+    "seconds": 0.08,
+    "stdoutSha256": "8e1a0749d92500e1c135eca70a6d0de1d72cfa69a1bbb2616c7d156a9fb9f7dd",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "installed-scaffold",
+    "argv": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "apps",
+      "scaffold",
+      "chat-ui",
+      "--dir",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Generated Chat app",
+      "--auto"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host",
+    "exitCode": 0,
+    "seconds": 38.5,
+    "stdoutSha256": "fa6d77785236eab1b2afc92aa364673c47c9ca6c8f3d80790e50016f2b48ac24",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "existing-target-refusal",
+    "argv": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "apps",
+      "scaffold",
+      "chat-ui",
+      "--dir",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Generated Chat app"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host",
+    "exitCode": 1,
+    "seconds": 0.08,
+    "stdoutSha256": "c86fbc0b75aaf748e98f15c1d9164a987178241b6305db389b148321d418c998",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

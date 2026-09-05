@@ -1,0 +1,14 @@
+{
+  "scope": "Existing template stylesheet only, .naMain and .naThread min-width:0",
+  "cause": "Grid child .naMain and nested flex child .naThread retain automatic minimum widths from enlarged content; both require min-width:0. Input alone or either parent alone leaves55px overflow. Both parents fix it to0 in current browser; no runtime change.",
+  "file": "examples/apps/chat-ui/template/src/styles.css",
+  "beforeSha256": "20a969c5ba58a410ffd1d736693a5f793dbd7a90214c130dee4eb87c6f30ed1a",
+  "proposedCSS": ".naMain, .naThread { min-width: 0; }",
+  "boundary": "E6e-nodeagent-current-consumer/d3-enlargement-diagnosis-01/change-boundary.png",
+  "boundarySha256": "e3a84fa9f8010add7871ab196f8abccfbbaab4046b6aec08bbae8aac4c2f163d",
+  "proof": [
+    "d3-enlargement-diagnosis-01/intrinsic-width-diagnosis.json",
+    "d3-enlargement-diagnosis-02/intrinsic-width-diagnosis.json"
+  ],
+  "protected": "Source header overflow remains disclosed; no branding/card/adapter/graph/lock changes. New pack+fresh scaffold+sixwidth before/after proof required."
+}

@@ -1,0 +1,5 @@
+# Keyboard recovery visibility
+
+Actual source390x844 at original computed text sizes doubled, after two explicitly injected partial adapter failures. Native Shift+Tab focuses Retry but the existing sticky composer covers its lower portion. CHANGE B is the current recovery region; CHANGE A is the composer causing the overlap.3px annotation removed with exact DOM restoration. No source changes.
+
+Browser-only focus-visible recovery-region scroll makes both error and Retry visible above the footer. Scope excludes source header overflow, graph, footer geometry, adapter, runtime and generated UI. Pointer focus must not scroll the clicked action; repeated pointer and keyboard Retry stay part of final proof.

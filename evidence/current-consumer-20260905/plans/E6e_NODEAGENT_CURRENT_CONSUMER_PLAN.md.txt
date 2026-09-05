@@ -1,0 +1,19 @@
+# NodeAgent current consumer plan
+
+Builder. **Prove the current canonical installed application before integrating optional provider work.**
+
+**Re your request:** recover each repository for real developer/user handoff, with visual, responsive and interaction standards. A developer must be able to install the current package, scaffold its chat application and understand which results are deterministic, which state survives restart, and which agent capabilities remain unimplemented.
+
+The recon identifies current canonical4e525fd0f84e08a4f8203599d7341c17bf53205e and a separate preserved Pi draftc0ad5236. The latter's package excludes templates needed by the CLI and its model interface is not connected to the application runtime. Those are reasons to preserve its useful source for a later bounded library slice, rather than replace current upstream owners. E6e_NODEAGENT_NEXT_SLICE_RECON.json binds that evidence and corrects the earlier divergence shorthand to1ahead/11behind.
+
+Named proof: **NODEAGENT-CURRENT-CONSUMER-01**. This first slice owns clean setup, the real installed consumer, current-source evidence and developer handoff. It does not own a UI or runtime redesign.
+
+1. Recheck canonical remote, original HEAD/index/refs and active ownership. Preserve the original Pi checkout and PR. Create one isolated branch codex/nodeagent-current-consumer-20260905 from exact4e525fd0 in sibling .portfolio-worktrees/nodeagent-current-consumer-20260905, outside the original tracked tree. Register its purpose and eventual integration/retirement status. Stop if the current source moved materially.
+2. Use normal Node22/npm ci and packaging from the exact canonical source, with an OS/runtime environment allowlist and no env-file loading. Keep native-install failures and actual commands. No provider request or credential is needed for the documented deterministic demo.
+3. Retain a fresh path-with-spaces consumer. Install the actual tarball and use its installed CLI for doctor/apps/scaffold. Bind package files to the selected Git source and real installed bytes. Verify existing-target refusal with a sentinel; do not use --force to hide ownership problems.
+4. Run generated demo/smoke/build and exercise the rendered prompt and four tool cards with pointer/keyboard, repeated inputs and reload at320/390/768/1024/1440/1920. Capture each exact viewport's DOM, console and pixels before resizing. Record actual reset, loading and failure behavior. Do not call a presentation animation cancellation of already-computed work.
+5. Separately run the actual durable/frame/SQLite reopen and idempotent replay owners. Keep their result separate from the browser session, which currently does not use that durable adapter. Include bounded burst and sustained representative usage; no invented production load claim.
+6. Inspect the current D3 running/error/recovery surfaces and capture a genuine labelled3px before boundary. If a defect is reproduced, report its upstream cause and a minimal separate UI plan to root before editing product code. Do not lower a gate, substitute a fixture as a live provider, or implement the Pi seam in this slice.
+7. Add a concise HANDOFF.md and a reusable bounded consumer scenario where needed. Update only incorrect setup/adoption links identified by the journey. Keep unknown grades null and clearly identify UI applicability. Freeze exact source/evidence for an independent judge before commit/push/integration.
+
+Expected modifications are handoff/scenario/evidence only. Any necessary product or package fix requires a concrete observed failure and a root-approved narrowed delta; reversible diagnosis can continue without a user permission question. The worker is the sole delegated implementation owner; root continues separate NodeKit/NodeTrace finalization, and independent judges review frozen work.

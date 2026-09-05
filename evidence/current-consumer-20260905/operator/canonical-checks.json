@@ -1,0 +1,83 @@
+[
+  {
+    "name": "canonical-tests",
+    "argv": [
+      "npm.cmd",
+      "test"
+    ],
+    "exitCode": 0,
+    "seconds": 6.34,
+    "stdoutSha256": "b939a31d2f0eb38e23b00706c1d8216c85d1571302137207f611de7b98072cf7",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "canonical-build",
+    "argv": [
+      "npm.cmd",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "seconds": 33.52,
+    "stdoutSha256": "dcfd2e31e77842b1f9278c39d812c5433a5f87b4090579b40019e649e8052722",
+    "stderrSha256": "aa9b7207d2d2d42fbf4e013331ee76fc39b9b042505b38551893c1f60f35b63a"
+  },
+  {
+    "name": "frame",
+    "argv": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "scripts/nodeagent-frame-smoke.ts",
+      "--json-out",
+      "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\frame.json"
+    ],
+    "exitCode": 0,
+    "seconds": 1.09,
+    "stdoutSha256": "3930a6e7a06514d750370d57d4c847d207e7e65ad7cb37ec7e6a427a57102137",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "durable",
+    "argv": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "scripts/nodeagent-durable-smoke.ts",
+      "--json-out",
+      "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\durable.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.36,
+    "stdoutSha256": "63c4aa3726029258df491bb45b000952202358eb18952fb55badccdfd25174ff",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "sqlite-reopen",
+    "argv": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "scripts/nodeagent-sqlite-smoke.ts",
+      "--db",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\durable-proof.sqlite",
+      "--keep-db",
+      "--json-out",
+      "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\sqlite-reopen.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.33,
+    "stdoutSha256": "a6c95f2898e8b8f6d9aef94111b98fbe47a16d152b03a83d6b8dca54c0915a24",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "canonical-audit-production",
+    "argv": [
+      "npm.cmd",
+      "audit",
+      "--omit=dev",
+      "--json"
+    ],
+    "exitCode": 0,
+    "seconds": 1.14,
+    "stdoutSha256": "63c0065f6900d02e8b63ffecedfe68547d17db39d991d7f67869cbf3abce2e49",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

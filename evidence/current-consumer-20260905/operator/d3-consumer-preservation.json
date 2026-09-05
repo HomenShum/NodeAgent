@@ -1,0 +1,87 @@
+[
+  {
+    "consumer": "Generated Chat app",
+    "bindingReport": "browser-before-03/report.json",
+    "coreInputFiles": 9,
+    "unchanged": true,
+    "hashes": {
+      "package.json": "1967ba21a4990b73cf2702ada8ced1294a1ceb09feb51f61258c07199a7755c9",
+      "package-lock.json": "f185d6cd0889ef7ea8974f0c73f31c352a52e4c18b7e7394ceded0cf230ef101",
+      "index.html": "58cc6f4dc254bd4d28c03ee74e69ef6d6dd84e249f77bf302e9d7acfcb3f5f50",
+      "vite.config.mjs": "891cad9de5cf84ed18dbd809b6f354871c8847514a002cd46f7aa0169928ef4a",
+      "src/main.jsx": "77078b85930791d340d62404e1274427d42cd60332b5f318ae016f9356b05d1f",
+      "src/styles.css": "f9f17ff4fee7d12a196e8648e071b5081a77a50c33768be03d934957edd3328e",
+      "src/nodeagent-chat/NodeAgentChatApp.jsx": "7435e2a9bc6bd9e905fa7ec17d46c05073317556acf741567f58b0bfe064bc15",
+      "src/nodeagent-chat/nodeAgentLocalAdapter.js": "e0932f813c420b5f9c2c76df07a01d7dcd8888c4ad44dac28f4625f395397f14",
+      "src/nodeagent-chat/toolUIs.jsx": "6e13941961da00d6ce0e2ff34d074ceb83c5d832cef76680b94500b87e1a4216"
+    }
+  },
+  {
+    "consumer": "Locked Chat app",
+    "bindingReport": "locked-browser-02/report.json",
+    "coreInputFiles": 9,
+    "unchanged": true,
+    "hashes": {
+      "package.json": "1967ba21a4990b73cf2702ada8ced1294a1ceb09feb51f61258c07199a7755c9",
+      "package-lock.json": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+      "index.html": "58cc6f4dc254bd4d28c03ee74e69ef6d6dd84e249f77bf302e9d7acfcb3f5f50",
+      "vite.config.mjs": "891cad9de5cf84ed18dbd809b6f354871c8847514a002cd46f7aa0169928ef4a",
+      "src/main.jsx": "77078b85930791d340d62404e1274427d42cd60332b5f318ae016f9356b05d1f",
+      "src/styles.css": "f9f17ff4fee7d12a196e8648e071b5081a77a50c33768be03d934957edd3328e",
+      "src/nodeagent-chat/NodeAgentChatApp.jsx": "7435e2a9bc6bd9e905fa7ec17d46c05073317556acf741567f58b0bfe064bc15",
+      "src/nodeagent-chat/nodeAgentLocalAdapter.js": "e0932f813c420b5f9c2c76df07a01d7dcd8888c4ad44dac28f4625f395397f14",
+      "src/nodeagent-chat/toolUIs.jsx": "6e13941961da00d6ce0e2ff34d074ceb83c5d832cef76680b94500b87e1a4216"
+    }
+  },
+  {
+    "consumer": "Response recovery Chat app",
+    "bindingReport": "d3-final-browser-01/report.json",
+    "coreInputFiles": 9,
+    "unchanged": true,
+    "hashes": {
+      "package.json": "1967ba21a4990b73cf2702ada8ced1294a1ceb09feb51f61258c07199a7755c9",
+      "package-lock.json": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+      "index.html": "58cc6f4dc254bd4d28c03ee74e69ef6d6dd84e249f77bf302e9d7acfcb3f5f50",
+      "vite.config.mjs": "891cad9de5cf84ed18dbd809b6f354871c8847514a002cd46f7aa0169928ef4a",
+      "src/main.jsx": "77078b85930791d340d62404e1274427d42cd60332b5f318ae016f9356b05d1f",
+      "src/styles.css": "20a969c5ba58a410ffd1d736693a5f793dbd7a90214c130dee4eb87c6f30ed1a",
+      "src/nodeagent-chat/NodeAgentChatApp.jsx": "83ac384c19eebdb1e49d8e0e3dc3af967a9f076193081efa45aa16a91036f5b1",
+      "src/nodeagent-chat/nodeAgentLocalAdapter.js": "e0932f813c420b5f9c2c76df07a01d7dcd8888c4ad44dac28f4625f395397f14",
+      "src/nodeagent-chat/toolUIs.jsx": "99ddf781c65b86bc50d450efe03a8f0090ef82597a649a1303cd532eb95d1a24"
+    }
+  },
+  {
+    "consumer": "Response recovery Chat app 02",
+    "bindingReport": "d3-final-browser-02/report.json",
+    "coreInputFiles": 9,
+    "unchanged": true,
+    "hashes": {
+      "package.json": "1967ba21a4990b73cf2702ada8ced1294a1ceb09feb51f61258c07199a7755c9",
+      "package-lock.json": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+      "index.html": "58cc6f4dc254bd4d28c03ee74e69ef6d6dd84e249f77bf302e9d7acfcb3f5f50",
+      "vite.config.mjs": "891cad9de5cf84ed18dbd809b6f354871c8847514a002cd46f7aa0169928ef4a",
+      "src/main.jsx": "77078b85930791d340d62404e1274427d42cd60332b5f318ae016f9356b05d1f",
+      "src/styles.css": "217a84beff59430b4ef561c84ee2cf067e838c1e8ca91360fd007f36735f2096",
+      "src/nodeagent-chat/NodeAgentChatApp.jsx": "83ac384c19eebdb1e49d8e0e3dc3af967a9f076193081efa45aa16a91036f5b1",
+      "src/nodeagent-chat/nodeAgentLocalAdapter.js": "e0932f813c420b5f9c2c76df07a01d7dcd8888c4ad44dac28f4625f395397f14",
+      "src/nodeagent-chat/toolUIs.jsx": "99ddf781c65b86bc50d450efe03a8f0090ef82597a649a1303cd532eb95d1a24"
+    }
+  },
+  {
+    "consumer": "Response recovery Chat app 03",
+    "bindingReport": "d3-final-browser-03/report.json",
+    "coreInputFiles": 9,
+    "unchanged": true,
+    "hashes": {
+      "package.json": "1967ba21a4990b73cf2702ada8ced1294a1ceb09feb51f61258c07199a7755c9",
+      "package-lock.json": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+      "index.html": "58cc6f4dc254bd4d28c03ee74e69ef6d6dd84e249f77bf302e9d7acfcb3f5f50",
+      "vite.config.mjs": "891cad9de5cf84ed18dbd809b6f354871c8847514a002cd46f7aa0169928ef4a",
+      "src/main.jsx": "77078b85930791d340d62404e1274427d42cd60332b5f318ae016f9356b05d1f",
+      "src/styles.css": "217a84beff59430b4ef561c84ee2cf067e838c1e8ca91360fd007f36735f2096",
+      "src/nodeagent-chat/NodeAgentChatApp.jsx": "83ac384c19eebdb1e49d8e0e3dc3af967a9f076193081efa45aa16a91036f5b1",
+      "src/nodeagent-chat/nodeAgentLocalAdapter.js": "e0932f813c420b5f9c2c76df07a01d7dcd8888c4ad44dac28f4625f395397f14",
+      "src/nodeagent-chat/toolUIs.jsx": "99ddf781c65b86bc50d450efe03a8f0090ef82597a649a1303cd532eb95d1a24"
+    }
+  }
+]

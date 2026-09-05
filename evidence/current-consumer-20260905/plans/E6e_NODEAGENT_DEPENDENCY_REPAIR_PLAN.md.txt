@@ -1,0 +1,20 @@
+# NodeAgent installed-consumer dependency repair plan
+
+Builder. Repair the installed first-run dependency closure before changing the chat interface.
+
+**Re your request:** make each repository usable and ready for a developer or user handoff. The real installed CLI generated an app whose smoke and build passed, but typing/submitting its first prompt produced two assistant-ui update-depth errors and no tool result at 390 and 1440 pixels. A new developer cannot complete the promised first run.
+
+The canonical source lock installs assistant-ui/react 0.14.14, core 0.2.10, store 0.2.13, tap 0.5.14 and React 19.2.7. The generated template has compatible ranges but no lock; its normal install selected react 0.14.29, core 0.2.23, store 0.2.22, tap 0.9.16 and React 19.2.8. With only diagnostic Vite aliases to the canonical installed cohort, the same unchanged generated files produced all four cards and Done, with zero runtime errors at both widths. This proves cohort sensitivity; it does not isolate one upstream package as the sole cause. The alias run is not a repaired installed-consumer certificate.
+
+Proposed first product delta: add a tested `examples/apps/chat-ui/template/package-lock.json`, deriving its compatible pruned closure from the exact canonical lock. Preserve the existing dependency ranges and installed CLI install owner. No override/config knob/installer is needed. Update only the bounded reusable browser scenario, new HANDOFF and portable evidence. Normal installed CLI scaffolding into a new target must prove the lock works; the broken original remains untouched.
+
+1. Preserve the failure, resolved versions and source hashes.
+2. Construct the compatible template lock without lifecycle execution, preserving the existing lucide dependency and template root metadata. Report if a valid closure cannot be derived without broad changes.
+3. Pack the isolated candidate, install that exact tarball and use its installed CLI to create a new retained target. Run normal install, demo, smoke and build.
+4. Bind exact package/installed/generated files. Exercise first prompt, all four tool results, burst Enter, repeated turns and reload at 320/390/768/1024/1440/1920 with real DOM, console and pixels.
+5. Continue the separate D3 Stop/error/retry baseline and send its genuine labelled boundary and narrowed runtime/UI delta for parent review before those edits.
+6. Freeze handoff/evidence for the independent judge. No commit or push.
+
+The source-root nine development audit findings remain separately recorded; production audit is zero. No provider credentials, Pi merge, original consumer mutation, automatic retry or browser-persistence claim is introduced. UI grades remain null.
+
+Raw proof: `E6e-nodeagent-current-consumer/first-submit-diagnosis-01/report.json`; diagnostic comparison: `first-submit-dependency-comparison-01/report.json`. Actual viewed images include the generated empty/failed state and source comparison at 390 pixels. The historical whole-body failure annotation is diagnostic only; a tighter composer/empty-state boundary will replace it as the UI scope oracle before any visible edit.

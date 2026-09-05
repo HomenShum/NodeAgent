@@ -29,9 +29,9 @@
     },
     {
       "file": "src/features/node-agent/components/NodeAgentThread.tsx",
-      "line": 91,
+      "line": 126,
       "anchor": "<ComposerPrimitive.Send",
-      "description": "The control the user actually presses. Note it is the only button on the page while a run is in flight, and it is disabled — there is no cancel. That is open defect D3."
+      "description": "Send starts a response. While it runs, Stop response ends its display updates and preserves completed work; it does not undo already computed or external work. An incomplete response offers explicit Retry through the existing runtime, never automatic retry. This local demo does not certify provider cancellation."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
@@ -53,7 +53,7 @@
     },
     {
       "file": "src/features/node-agent/components/toolUIs.tsx",
-      "line": 56,
+      "line": 62,
       "anchor": "toolName: \"collect_context\"",
       "description": "Tool REGISTRATION. A tool here is a name string with a card bound to it — there is no model doing tool-calling, no schema registry, no dispatch table."
     },

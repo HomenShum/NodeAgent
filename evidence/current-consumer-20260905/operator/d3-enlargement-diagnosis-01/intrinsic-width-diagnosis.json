@@ -1,0 +1,95 @@
+[
+  {
+    "css": ".naComposerInput { min-width:0 }",
+    "overflow": 55,
+    "boxes": [
+      {
+        "class": "naThread",
+        "width": 445,
+        "right": 445
+      },
+      {
+        "class": "naViewport",
+        "width": 445,
+        "right": 445
+      },
+      {
+        "class": "naRecovery",
+        "width": 351,
+        "right": 418
+      },
+      {
+        "class": "naComposer",
+        "width": 385,
+        "right": 415
+      },
+      {
+        "class": "naComposerInput",
+        "width": 315,
+        "right": 359
+      }
+    ]
+  },
+  {
+    "css": ".naMain,.naThread { min-width:0 }",
+    "overflow": 0,
+    "boxes": [
+      {
+        "class": "naThread",
+        "width": 390,
+        "right": 390
+      },
+      {
+        "class": "naViewport",
+        "width": 390,
+        "right": 390
+      },
+      {
+        "class": "naRecovery",
+        "width": 296,
+        "right": 363
+      },
+      {
+        "class": "naComposer",
+        "width": 330,
+        "right": 360
+      },
+      {
+        "class": "naComposerInput",
+        "width": 260,
+        "right": 304
+      }
+    ]
+  },
+  {
+    "css": ".naMain,.naThread,.naComposerInput { min-width:0 }",
+    "overflow": 0,
+    "boxes": [
+      {
+        "class": "naThread",
+        "width": 390,
+        "right": 390
+      },
+      {
+        "class": "naViewport",
+        "width": 390,
+        "right": 390
+      },
+      {
+        "class": "naRecovery",
+        "width": 296,
+        "right": 363
+      },
+      {
+        "class": "naComposer",
+        "width": 330,
+        "right": 360
+      },
+      {
+        "class": "naComposerInput",
+        "width": 260,
+        "right": 304
+      }
+    ]
+  }
+]

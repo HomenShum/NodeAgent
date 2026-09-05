@@ -1,0 +1,44 @@
+T  NodeAgent App Scaffold: chat-ui
+|
+*  created D:\ProjectRecovery\NodeAgent current consumer 20260905\Generated Chat app (14 files)
+[?25l|
+o  npm install
+[?25h|
+*  install 13.63s
+[?25l|
+o  npm run agent:demo
+[?25h|
+*  agent demo 428ms
+[?25l|
+o  npm run smoke
+[?25h|
+*  smoke 594ms
+[?25l|
+o  npm run build
+[?25h|
+*  build 23.76s
+|
+*  wrote D:\ProjectRecovery\NodeAgent current consumer 20260905\Generated Chat app\.nodeagent\setup-receipt.json
+|
+o  Chat UI --------------------------------------------------------------------+
+|                                                                              |
+|  No API keys are required for the first run.                                 |
+|  The chat uses assistant-ui, a scripted local adapter, and inline NodeAgent  |
+|   tool cards; replace the adapter with a server route when credentials       |
+|  exist.                                                                      |
+|                                                                              |
+|  Auto mode already ran install, agent demo, smoke, and build.                |
+|                                                                              |
+|                                                                              |
+|  Run:                                                                        |
+|    cd D:\ProjectRecovery\NodeAgent current consumer 20260905\Generated Chat  |
+|   app                                                                        |
+|    npm run dev                                                               |
+|                                                                              |
+|  Optional verification:                                                      |
+|    npm run smoke                                                             |
+|                                                                              |
++------------------------------------------------------------------------------+
+|
+—  Chat UI scaffold is ready.
+

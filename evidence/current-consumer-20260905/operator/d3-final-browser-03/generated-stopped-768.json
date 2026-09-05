@@ -1,0 +1,76 @@
+{
+  "layout": [
+    {
+      "class": "naViewport",
+      "scrollTop": 0,
+      "scrollHeight": 1756,
+      "clientHeight": 1756,
+      "box": {
+        "x": 0,
+        "y": -748,
+        "width": 768,
+        "height": 1756.140625,
+        "top": -748,
+        "right": 768,
+        "bottom": 1008.140625,
+        "left": 0
+      }
+    },
+    {
+      "class": "naRecovery",
+      "scrollTop": 0,
+      "scrollHeight": 90,
+      "clientHeight": 90,
+      "box": {
+        "x": 73,
+        "y": 766.140625,
+        "width": 614.15625,
+        "height": 91,
+        "top": 766.140625,
+        "right": 687.15625,
+        "bottom": 857.140625,
+        "left": 73
+      }
+    },
+    {
+      "class": "naFooter",
+      "scrollTop": 0,
+      "scrollHeight": 112,
+      "clientHeight": 112,
+      "box": {
+        "x": 18,
+        "y": 888.140625,
+        "width": 732,
+        "height": 112,
+        "top": 888.140625,
+        "right": 750,
+        "bottom": 1000.140625,
+        "left": 18
+      }
+    }
+  ],
+  "viewport": {
+    "width": 768,
+    "height": 960
+  },
+  "scroll": {
+    "x": 0,
+    "y": 812
+  },
+  "text": "NA\nNodeAgent\nportable chat UI\nno keys\n\nDoes the local NodeAgent wedge hold for an MVP?\n\nNA\n\nDone. The chat UI is running locally with no provider credentials; swap the adapter when the live route exists.\n\nGather context\n3 items\n\n0.94\nroom\nUser wants a portable agent chat that works before API keys exist.\n\n0.88\nruntime\nThe local adapter must be replaceable by a server route or worker.\n\n0.82\nproof\nSmoke and build should pass in the generated target app.\n\nSearch and synthesize\nhigh confidence\nREADME\n[A] No-key local adapter requirement\n0.94\nSMOKE\n[B] Generated app smoke and build\n0.87\nRUNTIME\n[C] Server route upgrade seam\n0.81\n\nYes. The generated chat starts with a scripted adapter and assistant-ui thread, then upgrades by replacing the adapter with a server route.\n\nApply model delta\nv2\nFirst run\tno keys\nAdapter\tlocal\nUpgrade\tserver route\n\nKeep the first demo runnable before credentials are available.\n\nWrite memo\n5 blocks\nPortable NodeAgent chat proof\nClaim 0.93\nThe scaffold can be dropped into another React app and run without model keys.\n\nReplace the local adapter only after the server-side provider path exists.\n\nDone. The chat UI is running locally with no provider credentials.\n\nSources: local README, smoke receipt, runtime adapter seam.\n\nDoes the local NodeAgent wedge hold for an MVP?\n\nNA\n\nRunning local NodeAgent for: Does the local NodeAgent wedge hold for an MVP?\n\nGather context\nstopped\n\nStopped this response. Completed work is kept.\n\nRetry response\n\nScripted local adapter. Replace it with a server route when credentials exist.",
+  "overflow": 0,
+  "focus": {
+    "tag": "TEXTAREA",
+    "label": null
+  },
+  "buttons": [
+    {
+      "label": "Retry response",
+      "disabled": false
+    },
+    {
+      "label": "Send",
+      "disabled": true
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "status": "PASS_SCOPED_DEPENDENCY_REPAIR_D3_OPEN",
+  "namedProof": "NODEAGENT-CURRENT-CONSUMER-01",
+  "head": "4e525fd0f84e08a4f8203599d7341c17bf53205e",
+  "sourcePaths": {
+    "examples/apps/chat-ui/template/package-lock.json": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+    "e2e/current-consumer-proof.mjs": "88a30299d05c290299bd38cd32fdad9a876ab941378e1f257fb23d5c365622a0",
+    "HANDOFF.md": "17e983697edaf77f341bf588e4618e0cb53f46d6e04ef8e8f9f4914c3ab00d98"
+  },
+  "sourcePackageAndRangesUnchanged": true,
+  "templateLockSha256": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+  "tarball": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked package 01\\nodeagent-0.1.0.tgz",
+  "tarballSha256": "e57bd0b04c81bda8dd766ef49f0d877de63c882efe40ee982f2e373c05021040",
+  "sourceTarInstalledFiles": 240,
+  "generatedLockExact": true,
+  "generatedTemplateFiles": 15,
+  "browser": {
+    "checks": 59,
+    "captures": 25,
+    "widths": [
+      320,
+      390,
+      768,
+      1024,
+      1440,
+      1920
+    ],
+    "consoleErrors": 0,
+    "sustained": {
+      "turns": 8,
+      "toolCards": 32,
+      "elapsedMs": 13941
+    },
+    "providerCalls": 0,
+    "grade": null
+  },
+  "sourceRuntimeUnchanged": true,
+  "bindingLimit": "The 240-file package contains the earlier browser harness revision captured at packaging. The final 59-check harness is separately frozen and hashed here; all installed CLI/template/runtime input bytes and generated lock remain exactly bound to that package. This is not a final committed package certificate. HANDOFF is later metadata.",
+  "rawEvidence": {
+    "locked-installed-consumer.json": "e555920ab2721acffc061072fe60240033b0210473e3ddc2243b91601a2316d9",
+    "locked-consumer-commands.json": "dba7894afaf603c3ff3b04bc6b2c11023eab9d1faf5d96f707fd776ee01a13b2",
+    "locked-browser-02/report.json": "0679d7de20d2694aa81c760a6be7637c3307591c81ec18638a47a0d70ab1b71e",
+    "locked-final-checks.json": "c603d7a3138079428ef76de92aa2299084d415a2a5cff6ede9d63d3b6349391a",
+    "canonical-checks.json": "36fefaf8774eb0b53302640f6779e09bca9293d0c01b34d53a93d1758974299d",
+    "frame.json": "679d289510ae9ec0f3042d9cabe470cdf7142746f3282661e9a256a8ee4ecd79",
+    "durable.json": "1238544f850a472ca59782591a5a1a7a2720492e89b73681f130d9b7ef269272",
+    "sqlite-reopen.json": "46e8a29bc91f337c1aa4e7de5e913675be6d6f2409df3594ba1edb9e0e0c622d",
+    "locked-generated-audit.stdout": "4d1456a71597d6eeb8573095e09bb2f7368c85626a769ef5a3e2dac782b8ab47",
+    "locked-generated-production-audit.stdout": "75206656b5cfd245d6c7e6cd2f4f579d10db9fa0b708b19c6bbc29263526b379",
+    "source-audit.stdout": "0507abc50afeaaf68af460c5d475d106c4749a1fdda75812c327823c36cf59ab",
+    "first-submit-diagnosis-01/report.json": "27741aacc74b04bb19380e0c6354f20d8db768414689edcee557674d7567cfa8",
+    "first-submit-dependency-comparison-01/report.json": "99693bc6140469572d3821b30642b6d3a395c45f12a96a0a8ebd8dd0044aaf1c",
+    "locked-browser-01/report.json": "c1c9e0f1a4b1b08b3e25d672d76bf3f0954dab40ddcdbf4e8fa6028ef7a2eda3"
+  },
+  "holds": [
+    "Source nine development advisories",
+    "Generated four development advisories",
+    "D3 response Stop/error/retry not implemented at this checkpoint",
+    "Full UI grades null; generated browser reset is not SQLite durability",
+    "Pi draft and original consumers preserved; no commit/push/provider/host activation"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "jobId": "job_nodeagent_demo_wedge_runway",
+  "frameId": "rf_nodeagent_demo_wedge_runway",
+  "first": {
+    "status": "completed",
+    "jobStatus": "completed",
+    "receiptStatus": "completed"
+  },
+  "replay": {
+    "status": "replayed",
+    "replayed": true,
+    "sameFrameId": true
+  },
+  "journal": {
+    "entryCount": 1,
+    "keys": [
+      "job_nodeagent_demo_wedge_runway:rf_nodeagent_demo_wedge_runway:runReasoningFrame"
+    ]
+  },
+  "lease": {
+    "blockedWhileActive": true,
+    "reclaimedAfterExpiry": true,
+    "fencingAdvanced": true
+  },
+  "runwayMonths": 18,
+  "verification": {
+    "status": "completed",
+    "reason": "Frame completed.",
+    "evidenceState": {
+      "confidence": "high",
+      "citationCount": 3,
+      "winnerSourceId": "src_bench"
+    }
+  }
+}

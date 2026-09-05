@@ -1,0 +1,32 @@
+[
+  {
+    "name": "primary-head",
+    "exit": 0,
+    "sha256": "60f857286c031a8172d111c183c1c2424aea72ad167f65a7eb0f13343712efce",
+    "sameBefore": null
+  },
+  {
+    "name": "primary-index",
+    "exit": 0,
+    "sha256": "0d7c23b38f63ed4c17a9fd7a2b93fc797a2062bfb4e5090214ad277fa5f171ea",
+    "sameBefore": false
+  },
+  {
+    "name": "primary-status",
+    "exit": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sameBefore": true
+  },
+  {
+    "name": "primary-refs",
+    "exit": 0,
+    "sha256": "66c33b755dd5ab353501b08720e282584bbfc643331375bb49b45e09fdb45007",
+    "sameBefore": false
+  },
+  {
+    "name": "primary-worktrees",
+    "exit": 0,
+    "sha256": "960d0ec942afbfd80194e5e9c9febf8a0ae9fa7cd1e588817df50df4e8352c8a",
+    "sameBefore": false
+  }
+]

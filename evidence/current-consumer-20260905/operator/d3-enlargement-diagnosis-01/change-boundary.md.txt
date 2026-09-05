@@ -1,0 +1,5 @@
+# Enlarged generated response controls
+
+Actual new installed generated consumer at 390 x 844, original computed text sizes doubled after two explicit in-memory partial failures. CHANGE A is the existing composer, CHANGE B is current-response recovery. The 3px overlay was removed with exact DOM restoration. Both areas inherit a 445px thread width and extend outside the390px viewport. Neighboring earlier results, model/backend semantics, brand and ordinary-size layout remain protected.
+
+Browser-only diagnostic min-width:0 on existing .naMain and .naThread removes the55px document overflow; input-only min-width:0 does not. No source mutation. The local fail/fail/retry fixture is not a provider failure.

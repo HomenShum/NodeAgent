@@ -1,0 +1,1199 @@
+{
+  "reports": [
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "reportSha256": "76dd8ca1416225bd0f9abe0b524ced0299a86c975fb839cafa18551d04759f24",
+      "checks": 289,
+      "captures": 76,
+      "sourceConsumerBeforeAfterExact": true
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "reportSha256": "f52dbcec03ade588cf9c315a5ca94af7866b9426af39670afea0e3021889a36d",
+      "checks": 105,
+      "captures": 28,
+      "sourceConsumerBeforeAfterExact": true
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\late-stop-01",
+      "reportSha256": "aad45e4f95205692f1c0e65f335d4c3d0ffbe5d3e2ff53153c239618dc0d9423",
+      "checks": 25,
+      "captures": 6,
+      "sourceConsumerBeforeAfterExact": true
+    }
+  ],
+  "failures": [
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-empty-320",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        320,
+        844
+      ],
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-stopped-320",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        320,
+        844
+      ],
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-320",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        320,
+        844
+      ],
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-again-320",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        320,
+        844
+      ],
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-recovered-320",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        320,
+        844
+      ],
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-reloaded-320",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        320,
+        844
+      ],
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-empty-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-stopped-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-again-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-text-200-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-recovered-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-accumulated-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-reloaded-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-empty-768",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        768,
+        960
+      ],
+      "viewport": {
+        "width": 768,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-stopped-768",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        768,
+        960
+      ],
+      "viewport": {
+        "width": 768,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-768",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        768,
+        960
+      ],
+      "viewport": {
+        "width": 768,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-again-768",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        768,
+        960
+      ],
+      "viewport": {
+        "width": 768,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-recovered-768",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        768,
+        960
+      ],
+      "viewport": {
+        "width": 768,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-reloaded-768",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        768,
+        960
+      ],
+      "viewport": {
+        "width": 768,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-empty-1024",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1024,
+        960
+      ],
+      "viewport": {
+        "width": 1024,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-stopped-1024",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1024,
+        960
+      ],
+      "viewport": {
+        "width": 1024,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-1024",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1024,
+        960
+      ],
+      "viewport": {
+        "width": 1024,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-again-1024",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1024,
+        960
+      ],
+      "viewport": {
+        "width": 1024,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-recovered-1024",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1024,
+        960
+      ],
+      "viewport": {
+        "width": 1024,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-reloaded-1024",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1024,
+        960
+      ],
+      "viewport": {
+        "width": 1024,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-empty-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-stopped-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-again-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-recovered-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-reloaded-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-empty-1920",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1920,
+        960
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-stopped-1920",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1920,
+        960
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-1920",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1920,
+        960
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-error-again-1920",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1920,
+        960
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-recovered-1920",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1920,
+        960
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "capture": "source-reloaded-1920",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1920,
+        960
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-empty-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-stopped-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-error-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-error-again-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-error-text-200-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-recovered-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-accumulated-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-reloaded-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-empty-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-stopped-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-error-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-error-again-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-recovered-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "capture": "source-reloaded-1440",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        1440,
+        960
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\late-stop-01",
+      "capture": "source-empty-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text",
+        "buttons"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\late-stop-01",
+      "capture": "source-stopped-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\late-stop-01",
+      "capture": "source-late-stop-recovered-390",
+      "checks": {
+        "pngHash": true,
+        "stateExact": false,
+        "DOMExact": true,
+        "dimensions": true
+      },
+      "pngSize": [
+        390,
+        844
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stateKeysDiffer": [
+        "text"
+      ]
+    }
+  ]
+}

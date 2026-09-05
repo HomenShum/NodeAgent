@@ -1,0 +1,76 @@
+{
+  "layout": [
+    {
+      "class": "naViewport",
+      "scrollTop": 0,
+      "scrollHeight": 11658,
+      "clientHeight": 11658,
+      "box": {
+        "x": 0,
+        "y": -10814,
+        "width": 390,
+        "height": 11658.4375,
+        "top": -10814,
+        "right": 390,
+        "bottom": 844.4375,
+        "left": 0
+      }
+    },
+    {
+      "class": "naRecovery",
+      "scrollTop": 0,
+      "scrollHeight": 234,
+      "clientHeight": 234,
+      "box": {
+        "x": 67,
+        "y": 378.84375,
+        "width": 296,
+        "height": 234.59375,
+        "top": 378.84375,
+        "right": 363,
+        "bottom": 613.4375,
+        "left": 67
+      }
+    },
+    {
+      "class": "naFooter",
+      "scrollTop": 0,
+      "scrollHeight": 192,
+      "clientHeight": 192,
+      "box": {
+        "x": 12,
+        "y": 644.4375,
+        "width": 366,
+        "height": 192,
+        "top": 644.4375,
+        "right": 378,
+        "bottom": 836.4375,
+        "left": 12
+      }
+    }
+  ],
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "scroll": {
+    "x": 0,
+    "y": 10878
+  },
+  "text": "NA\nNodeAgent\nportable chat UI\n\nDoes the local NodeAgent wedge hold for an MVP?\n\nNA\n\nDone. The chat UI is running locally with no provider credentials; swap the adapter when the live route exists.\n\nGather context\n3 items\n\n0.94\nroom\nUser wants a portable agent chat that works before API keys exist.\n\n0.88\nruntime\nThe local adapter must be replaceable by a server route or worker.\n\n0.82\nproof\nSmoke and build should pass in the generated target app.\n\nSearch and synthesize\nhigh confidence\nREADME\n[A] No-key local adapter requirement\n0.94\nSMOKE\n[B] Generated app smoke and build\n0.87\nRUNTIME\n[C] Server route upgrade seam\n0.81\n\nYes. The generated chat starts with a scripted adapter and assistant-ui thread, then upgrades by replacing the adapter with a server route.\n\nApply model delta\nv2\nFirst run\tno keys\nAdapter\tlocal\nUpgrade\tserver route\n\nKeep the first demo runnable before credentials are available.\n\nWrite memo\n5 blocks\nPortable NodeAgent chat proof\nClaim 0.93\nThe scaffold can be dropped into another React app and run without model keys.\n\nReplace the local adapter only after the server-side provider path exists.\n\nDone. The chat UI is running locally with no provider credentials.\n\nSources: local README, smoke receipt, runtime adapter seam.\n\nDoes the local NodeAgent wedge hold for an MVP?\n\nNA\n\nDone. The chat UI is running locally with no provider credentials; swap the adapter when the live route exists.\n\nGather context\n3 items\n\n0.94\nroom\nUser wants a portable agent chat that works before API keys exist.\n\n0.88\nruntime\nThe local adapter must be replaceable by a server route or worker.\n\n0.82\nproof\nSmoke and build should pass in the generated target app.\n\nSearch and synthesize\nhigh confidence\nREADME\n[A] No-key local adapter requirement\n0.94\nSMOKE\n[B] Generated app smoke and build\n0.87\nRUNTIME\n[C] Server route upgrade seam\n0.81\n\nYes. The generated chat starts with a scripted adapter and assistant-ui thread, then upgrades by replacing the adapter with a server route.\n\nApply model delta\nv2\nFirst run\tno keys\nAdapter\tlocal\nUpgrade\tserver route\n\nKeep the first demo runnable before credentials are available.\n\nWrite memo\n5 blocks\nPortable NodeAgent chat proof\nClaim 0.93\nThe scaffold can be dropped into another React app and run without model keys.\n\nReplace the local adapter only after the server-side provider path exists.\n\nDone. The chat UI is running locally with no provider credentials.\n\nSources: local README, smoke receipt, runtime adapter seam.\n\nDoes the local NodeAgent wedge hold for an MVP?\n\nNA\n\nRunning local NodeAgent for: Does the local NodeAgent wedge hold for an MVP?\n\nGather context\n3 items\n\n0.94\nroom\nUser wants a portable agent chat that works before API keys exist.\n\n0.88\nruntime\nThe local adapter must be replaceable by a server route or worker.\n\n0.82\nproof\nSmoke and build should pass in the generated target app.\n\nSearch and synthesize\nfailed\n\nThis response failed. Earlier results are kept.\n\nRetry response\n\nScripted local adapter. Replace it with a server route when credentials exist.",
+  "overflow": 0,
+  "focus": {
+    "tag": "BUTTON",
+    "label": null
+  },
+  "buttons": [
+    {
+      "label": "Retry response",
+      "disabled": false
+    },
+    {
+      "label": "Send",
+      "disabled": true
+    }
+  ]
+}

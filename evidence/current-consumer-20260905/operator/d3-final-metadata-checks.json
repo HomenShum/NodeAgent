@@ -1,0 +1,22 @@
+[
+  {
+    "name": "d3-final-secret-scan",
+    "command": [
+      "npm.cmd",
+      "run",
+      "secret-scan"
+    ],
+    "exit": 0,
+    "seconds": 0.6680536270141602
+  },
+  {
+    "name": "d3-final-diff-check",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 0.12372994422912598
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "reason": "Approved response controls moved four citation anchors and invalidated exact current no-cancel/no-recovery claims. Historical promotion records unchanged. Existing quoted snippets unchanged.",
+  "files": [
+    {
+      "path": ".tours/01-primary-user-flow.tour",
+      "beforeSha256": "c238088d3c9f457f4ffdb1940f172f2bf78e37399a957751ec4cd850b2d908ae",
+      "afterSha256": "a0e40ef53b606e3249c46002cfaf04c6741859b07d808bad6474287e6a897f1b"
+    },
+    {
+      "path": "docs/START_HERE.md",
+      "beforeSha256": "4e989353925e5d00718b75bd6a0f0bd730617f2bd12ba4b438bd99d0dbaa5f54",
+      "afterSha256": "e0adeb247191d8a894bf74989b714e7fdcfcf9c1f3d91e52b95db2ded5bcf341"
+    }
+  ],
+  "mappings": {
+    "threadSend": "91 -> 122",
+    "toolRegistration": "56 -> 62",
+    "composerRange": "84-93 -> 114-131",
+    "contextTool": "55 -> 61"
+  },
+  "rawFailure": "d3-final-tours-validate.stderr"
+}

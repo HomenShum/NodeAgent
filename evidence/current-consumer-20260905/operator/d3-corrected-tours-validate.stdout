@@ -1,0 +1,5 @@
+
+> nodeagent@0.1.0 tours:validate
+> node scripts/validate-tours.mjs
+
+tours validate: PASS 3 tours, 36 steps, 11 START_HERE citations — every anchor still lives on the line that cites it

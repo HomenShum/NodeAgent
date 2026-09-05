@@ -1,0 +1,981 @@
+{
+  "schemaVersion": "portfolio.nodeagent-independent-judge/v1",
+  "at": "2026-09-05T09:38:44.257890+00:00",
+  "verdict": "APPROVED_SCOPED_SOURCE_AND_INSTALLED_BEHAVIOR_PUBLICATION_BLOCKED",
+  "request": "Make each repository usable for developer/user handoff, including visual/responsive/interaction proof through planner, worker and independent judge.",
+  "reviewerContext": "Reused nonauthor implementation reviewer because all four team slots were occupied. This reviewer did not author NodeAgent product files or its worker plan. The independent replay adapts the existing scenario with a four-cell scope, repeated native keyboard activation and captured console/network errors; late Stop is a separate added case. No independent authorship of the original scenario is claimed.",
+  "candidate": {
+    "repo": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "head": "4e525fd0f84e08a4f8203599d7341c17bf53205e",
+    "branch": "codex/nodeagent-current-consumer-20260905",
+    "receiptSha256": "dc94f74670c577ebf98619e36e60060bb9889341fdb3728b79be1449ea00062e",
+    "authoredPaths": {
+      ".tours/01-primary-user-flow.tour": "238f22bdf410dcbfdf8c183fc6f4fa437c476e0650ab5950e0e0ba79c2e829f8",
+      "HANDOFF.md": "03513bef1b7e6ef34c285472e7701b959f18352241f3e5fe87ac790020eb50be",
+      "docs/START_HERE.md": "2267eb5d12a3da35d036bdd0b9298e267c00dd980d97fc59266ebfefbd6b57a5",
+      "e2e/current-consumer-proof.mjs": "88a30299d05c290299bd38cd32fdad9a876ab941378e1f257fb23d5c365622a0",
+      "e2e/current-consumer-recovery-proof.mjs": "cbda1d63b0c96f4624bf2a3b722213b1a16d76014ccce1ae16d8f2d52d3ea518",
+      "examples/apps/chat-ui/template/package-lock.json": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+      "examples/apps/chat-ui/template/src/nodeagent-chat/NodeAgentChatApp.jsx": "83ac384c19eebdb1e49d8e0e3dc3af967a9f076193081efa45aa16a91036f5b1",
+      "examples/apps/chat-ui/template/src/nodeagent-chat/toolUIs.jsx": "99ddf781c65b86bc50d450efe03a8f0090ef82597a649a1303cd532eb95d1a24",
+      "examples/apps/chat-ui/template/src/styles.css": "217a84beff59430b4ef561c84ee2cf067e838c1e8ca91360fd007f36735f2096",
+      "src/app/styles.css": "b18a51e811b6ac0a003f7bebf988c1077500b4183ae6c54db5e9878a0b28eca8",
+      "src/features/node-agent/components/NodeAgentThread.tsx": "867c29ffa6efe1bce591a54ebdfe1a4721f88e82f53ead5f63e69ee1f19e2c42",
+      "src/features/node-agent/components/toolUIs.tsx": "f7de41d57e4b01946a36f79d4bc3040d07f8355a07107e9a9e5e580e9c31311e"
+    },
+    "authoredDigest": "fe828a524641e727499e575836929cfc38130bcf873693a061173c68485b5e10",
+    "sourceProofBindings": 234,
+    "sourceProofDigest": "a913d12a999e90e4017dca957b69ad7a6d6a5ea671c2ab562b8ce5b3f46939b9",
+    "portableManifestSha256": "c3601b7021e3d7d5a1b233b620f6952422b98828de791492de393e4776dc8210",
+    "stateBeforeAfter": {
+      "head": "4e525fd0f84e08a4f8203599d7341c17bf53205e",
+      "index": "32423ff3a8a3cd745ac285ce51730b139a2344c14a40a67b43ace4dfbc271a51",
+      "refs": "66c33b755dd5ab353501b08720e282584bbfc643331375bb49b45e09fdb45007",
+      "status": "7bc88e40de9c3bf6a846190738ef6e299a80b994252d643a07e718e414064512"
+    }
+  },
+  "sourceAssessment": {
+    "scope": "Six existing UI owners, one compatible template lock, two browser scenarios, two onboarding/tour corrections and HANDOFF; 12 authored paths total. No adapter, graph, provider, backend, dependency range or historical promotion edit.",
+    "causalChain": [
+      "Unlocked normal template installation selected an incompatible assistant-ui cohort; earlier exact unchanged generated UI completed when resolved against the canonical compatible cohort. The new template lock now installs that cohort normally.",
+      "The existing assistant-ui runtime already supports cancel, incomplete/error status and reload; the UI did not present those states. Native Cancel/Reload and the actual tool-part status now own response recovery.",
+      "The message-ID ref takes a synchronous claim before the native Reload callback, preventing rapid duplicate activation before isRunning propagates. The installed native primitive honors prevented events and disables while running.",
+      "Each observed failed/retried response receives a new actual SDK response ID and retains the same user-parent ID; no permanent retry lock occurs on the second failure.",
+      "The source focus-visible-only scroll reveals the existing recovery region above its sticky composer without moving a pointer target. The generated min-width fixes remove inherited intrinsic-width overflow at the actual grid/flex owners."
+    ],
+    "implementationFindings": [],
+    "dependencyVersionsObservedBothLocks": {
+      "@assistant-ui/react": "0.14.14",
+      "@assistant-ui/core": "0.2.10",
+      "@assistant-ui/store": "0.2.13",
+      "@assistant-ui/tap": "0.5.14",
+      "react": "19.2.7",
+      "react-dom": "19.2.7"
+    }
+  },
+  "independentProof": {
+    "browser": "151.0.7922.34",
+    "node": "v22.22.2",
+    "normalMotion": true,
+    "recovery": {
+      "checks": 105,
+      "captures": 28,
+      "cells": [
+        {
+          "surface": "generated",
+          "width": 390,
+          "height": 844,
+          "stopInput": "keyboard",
+          "stopLatencyMs": 320,
+          "attempts": [
+            {
+              "id": "N5YdQQm",
+              "parentId": "z56WHCW",
+              "injectedFailure": true
+            },
+            {
+              "id": "WfwBadG",
+              "parentId": "z56WHCW",
+              "injectedFailure": true
+            },
+            {
+              "id": "VMn2btR",
+              "parentId": "z56WHCW",
+              "injectedFailure": false
+            }
+          ],
+          "accumulation": {
+            "additionalTurns": 12,
+            "totalResponses": 15,
+            "toolCards": 60,
+            "elapsedMs": 21123
+          }
+        },
+        {
+          "surface": "generated",
+          "width": 1440,
+          "height": 960,
+          "stopInput": "pointer",
+          "stopLatencyMs": 252,
+          "attempts": [
+            {
+              "id": "uloluNu",
+              "parentId": "K0u0KWd",
+              "injectedFailure": true
+            },
+            {
+              "id": "DgU4g24",
+              "parentId": "K0u0KWd",
+              "injectedFailure": true
+            },
+            {
+              "id": "kaPHhre",
+              "parentId": "K0u0KWd",
+              "injectedFailure": false
+            }
+          ],
+          "accumulation": null
+        },
+        {
+          "surface": "source",
+          "width": 390,
+          "height": 844,
+          "stopInput": "keyboard",
+          "stopLatencyMs": 825,
+          "attempts": [
+            {
+              "id": "41m1rCu",
+              "parentId": "SXgKNe1",
+              "injectedFailure": true
+            },
+            {
+              "id": "jNbZXFk",
+              "parentId": "SXgKNe1",
+              "injectedFailure": true
+            },
+            {
+              "id": "HJCvzSI",
+              "parentId": "SXgKNe1",
+              "injectedFailure": false
+            }
+          ],
+          "accumulation": {
+            "additionalTurns": 12,
+            "totalResponses": 15,
+            "toolCards": 60,
+            "elapsedMs": 29525
+          }
+        },
+        {
+          "surface": "source",
+          "width": 1440,
+          "height": 960,
+          "stopInput": "pointer",
+          "stopLatencyMs": 355,
+          "attempts": [
+            {
+              "id": "pXjOfpd",
+              "parentId": "VpRVGil",
+              "injectedFailure": true
+            },
+            {
+              "id": "bQbDHDQ",
+              "parentId": "VpRVGil",
+              "injectedFailure": true
+            },
+            {
+              "id": "yepnJAz",
+              "parentId": "VpRVGil",
+              "injectedFailure": false
+            }
+          ],
+          "accumulation": null
+        }
+      ]
+    },
+    "lateStop": {
+      "checks": 25,
+      "captures": 6,
+      "width": 390,
+      "surfaces": [
+        "generated",
+        "source"
+      ],
+      "scenario": "Complete one earlier response, then wait for the next response first tool to finish and second tool to run. Native Stop retains current completed tool/earlier response/graph snapshot and explicit Retry recovers."
+    },
+    "nativeDuplicateActivation": "Two native Enter activations per Retry in both 390 cells, and pointer double-click in both 1440 cells. The first keyboard activation legitimately moves focus to the empty composer; the second key goes to that native focused target. Exactly three attempts across the two injected failures and recovery.",
+    "enlargement": "Original computed font sizes sampled before mutation and doubled only in browser memory; both changed recovery/composer regions have zero internal overflow and visible focus/error hit-tests. Generated document overflow 0, source document overflow 21 retained.",
+    "retainedEarlierOutput": "Earlier response text and source graph snapshots checked after ordinary Stop and recovery; late Stop separately checks current completed tool data and status.",
+    "unexpectedPageErrors": 0,
+    "intentionalPageErrors": 8,
+    "failedRequests": 0,
+    "consoleWarnings": "Four source-390 WebGL ReadPixels GPU-stall warnings retained. No browser console errors. Dev server also reported five inherited vendor sourcemap missing-source warnings in the tool transcript.",
+    "freshChecks": [
+      {
+        "name": "tests",
+        "command": [
+          "npm.cmd",
+          "test"
+        ],
+        "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+        "exitCode": 0,
+        "seconds": 1.890999999945052
+      },
+      {
+        "name": "typecheck",
+        "command": [
+          "npm.cmd",
+          "run",
+          "typecheck"
+        ],
+        "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+        "exitCode": 0,
+        "seconds": 2.26500000001397
+      },
+      {
+        "name": "tours",
+        "command": [
+          "npm.cmd",
+          "run",
+          "tours:validate"
+        ],
+        "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+        "exitCode": 0,
+        "seconds": 0.4690000000409782
+      }
+    ],
+    "existingTestsPassed": 41,
+    "typecheckPassed": true,
+    "tours": "3 tours /36 steps /11 citations passed",
+    "captureBindings": "All 110 worker-final and independent PNG hashes, exact dimensions, JSON states and before/after HTML pairs verified. This is custody verification; only the separately listed 11 PNGs were visually inspected."
+  },
+  "custody": {
+    "sourceAndIndexRefsPreserved": true,
+    "authoredBindings": 12,
+    "sourceBindings": 234,
+    "portableArtifactsExcludingManifest": 938,
+    "exactRawCopies": 937,
+    "authoredPortableIndex": 1,
+    "portableBytesExcludingManifest": 21279473,
+    "sourceTarInstalled": {
+      "files": 242,
+      "tarSha256": "1a6e980a684f433fcdc80021eb5569fa5c4b94e09a71e8a2adbe5d821e654c69",
+      "installedRoot": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host 03\\node_modules\\nodeagent",
+      "currentSourceDifferences": [
+        "HANDOFF.md"
+      ],
+      "scope": "HANDOFF only changed after package capture; all 242 tar/installed bytes exact, 241 current source bytes exact."
+    },
+    "retainedConsumers": 5,
+    "currentGeneratedCoreFilesEqualTemplate": 9,
+    "failedHistoricalEvidencePreserved": true,
+    "emittedOrSourceFilesEditedByJudge": 0,
+    "providerCalls": 0,
+    "deployment": false,
+    "grade": null
+  },
+  "visualObservations": [
+    {
+      "path": "E6e-nodeagent-current-consumer/evidence/nodeagent-d3-source-before/source-error-390/change-boundary.png",
+      "sha256": "02217ecb45988088b5c8a329d439cf1edf36daff0c94485eaad75edbd58406ec",
+      "observation": "Actual source before: labelled 3px composer/current response boundary; no failure explanation or Retry."
+    },
+    {
+      "path": "E6e-nodeagent-current-consumer/evidence/nodeagent-d3-generated-before/generated-running-390/change-boundary.png",
+      "sha256": "3d2adb7dc5324fea59764955b7b5b880b36924fff4de9c20cc34ce70a54ce7e8",
+      "observation": "Actual generated before: labelled 3px composer/current response; the running response has no Stop control."
+    },
+    {
+      "path": "E6e-nodeagent-current-consumer/d3-final-browser-03/source-error-text-200-390.png",
+      "sha256": "2d2c6213cf705762e21755eabebddcf2d20c07c01a2e505125107c95c0e77f4b",
+      "observation": "Worker after: error explanation and focused Retry fully visible; known enlarged header overflow persists."
+    },
+    {
+      "path": "E6e-nodeagent-current-consumer/d3-final-browser-03/generated-error-text-200-390.png",
+      "sha256": "f1e2f8bc8999d5d87fe5473340d7ca7c65f7dfbb538a0054eabecbb2776a1f4b",
+      "observation": "Worker after: failed tool, error and focused Retry visible at enlarged text; recovery stays inside viewport."
+    },
+    {
+      "path": "E6e-nodeagent-independent-review/browser-01/source-stopped-390.png",
+      "sha256": "13807fdd6b2fa5cbe04e46312872828cc78170fea83e1487ca4c9240544b486e",
+      "observation": "Independent ordinary Stop: stopped card, truthful response-only notice, Retry and composer focus visible."
+    },
+    {
+      "path": "E6e-nodeagent-independent-review/browser-01/source-error-text-200-390.png",
+      "sha256": "87ca877089da73e5ff062bff0cfce8b1d68ed1cb3dc929449977781059c9555f",
+      "observation": "Independent enlarged source: failure and visible keyboard focus; top header still clips, graph text remains outside this repair."
+    },
+    {
+      "path": "E6e-nodeagent-independent-review/browser-01/generated-error-text-200-390.png",
+      "sha256": "f1e2f8bc8999d5d87fe5473340d7ca7c65f7dfbb538a0054eabecbb2776a1f4b",
+      "observation": "Independent enlarged installed app: failure and focused Retry paint unobstructed; no horizontal overflow in changed controls."
+    },
+    {
+      "path": "E6e-nodeagent-independent-review/browser-01/source-recovered-1440.png",
+      "sha256": "7eb2085accc67019da7b5693afe4907c008454289880ffb8ecac250834aad101",
+      "observation": "Independent desktop recovery: completed source cards persist, failure notice clears; graph labels remain crowded/clipped."
+    },
+    {
+      "path": "E6e-nodeagent-independent-review/browser-01/generated-error-again-1440.png",
+      "sha256": "07765375ec1a2f2786cd335ef09b11e6daf43b5625483e646f3c722a6f5b291b",
+      "observation": "Independent desktop installed app: prior memo and current completed first tool remain; second tool explicitly failed and Retry is visible."
+    },
+    {
+      "path": "E6e-nodeagent-independent-review/late-stop-01/generated-stopped-390.png",
+      "sha256": "17ff523e31e3db48d9ecc4c639932dcf2454a775015c7eee58f678204a2aa7cc",
+      "observation": "Independent late Stop in installed app: full first result stays visible; second tool is stopped, not working or completed."
+    },
+    {
+      "path": "E6e-nodeagent-independent-review/late-stop-01/source-stopped-390.png",
+      "sha256": "575b71512058fe38969984755ebad70464c545902118f5d0f2dcbfbe6865c35c",
+      "observation": "Independent late Stop in source: first completed context result retained, second tool stopped, composer focus visible."
+    }
+  ],
+  "publicationFindings": [
+    {
+      "priority": "P1",
+      "kind": "publication-custody",
+      "status": "OPEN",
+      "title": "Git normalization changes 60 hash-bound evidence files when staged",
+      "cause": "The packet has no local attributes and inherits root * text=auto eol=lf. Its manifest and 59 copied CRLF text artifacts will be converted to LF.",
+      "examples": [
+        {
+          "path": "evidence/current-consumer-20260905/manifest.json",
+          "rawBlob": "dcbd7b1dd0b12fda1db0fb6c10224ceea66b00ec",
+          "futureFilteredBlob": "78a69528eea85b8b25e4921f5d3ee63150b78403",
+          "crlfCount": 5874
+        },
+        {
+          "path": "evidence/current-consumer-20260905/operator/D3_SOURCE_BEFORE_BINDINGS.json",
+          "rawBlob": "05ba5ad748293621c09ebeeb08ea1b665398bd85",
+          "futureFilteredBlob": "db57d88c1ab923e0d624eed89ceb8a6add0d8b2c",
+          "crlfCount": 32
+        },
+        {
+          "path": "evidence/current-consumer-20260905/operator/browser-before-01-command.json",
+          "rawBlob": "418ba66374b50f25a3d8bb4efcd838d2ac05f5b9",
+          "futureFilteredBlob": "d10d31880da07341f443e320e69d8616fb54f1b3",
+          "crlfCount": 10
+        }
+      ],
+      "impact": "A normal commit would contain different bytes from the accepted manifest and raw receipts even though the working-copy hash checks pass.",
+      "smallestCorrection": "Add a packet-local .gitattributes protecting exact raw bytes, preserve all historical artifact bytes, include the new metadata file in a refrozen manifest/receipt and verify future filtered blobs. Do not normalize historical originals or change root policy.",
+      "closure": "A bounded metadata/filtered-blob recheck is sufficient if all implementation and consumer bindings remain unchanged. No UI or compiler matrix rerun is needed for this correction."
+    }
+  ],
+  "limits": [
+    "This accepts the bounded deterministic local demo and response-recovery slice, not the complete product. All full visual, responsive, accessibility and performance grades remain null.",
+    "The source enlarged-text header still overflows by 21 pixels, and source graph labels are visibly crowded/clipped. Those untouched visual owners remain open.",
+    "The injected adapter faults are labelled browser-memory fixtures after a real partial frame. They are not actual provider outages. Ordinary Stop and late Stop used the unheld adapter.",
+    "Stop prevents further response display updates; it cannot reverse already-computed results, graph facts, durable work or external actions. The local duplicate guard is not external idempotency.",
+    "Both browser conversations reset on reload. Durable/SQLite reopen evidence is a separate library demonstration and was not reclassified as browser persistence.",
+    "Source full audit has nine development advisories including one critical, generated full audit has four (three high/one low). Production-only zero is a narrower recorded result; no fresh audit or dependency-security clearance is claimed here.",
+    "No React render-error boundary, New Thread, provider/Convex/host-hook activation, external idempotency, production longevity or deployment certification.",
+    "No new pack/install/build was performed by the judge. Exact archive/installed/source comparison and actual installed browser replay bind the prior normal package/install/build receipts. Typecheck, tests and tours were rerun independently.",
+    "The 938-artifact packet is exact on disk but not yet safe to commit under current attributes. The publication finding must be closed by a metadata-only refreeze.",
+    "A checker-only UTF-8 mistake initially compared UTF-8 sidecars using the Windows cp1252 default; the false result was retained and the corrected explicit-UTF-8 comparison passes all 110 captures. A raw-log print similarly hit cp1252 output encoding; raw files were unchanged."
+  ],
+  "nextAction": "Preserve this pre-repair judgment, add only the packet-local raw-byte attributes and refreeze metadata, then request a bounded future-filtered-blob/publication recheck. Keep all runtime, installed-consumer and historical raw bytes unchanged.",
+  "artifacts": {
+    "E6e-nodeagent-independent-review/browser-01/generated-accumulated-390.before.html": {
+      "sha256": "fe4aeb6dced29e0f7c207fd97db4fa426b5edb86690fdcbbbd931663d3a0b40e",
+      "bytes": 54536
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-accumulated-390.html": {
+      "sha256": "fe4aeb6dced29e0f7c207fd97db4fa426b5edb86690fdcbbbd931663d3a0b40e",
+      "bytes": 54536
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-accumulated-390.json": {
+      "sha256": "6935b87a602d818b983454526a9b2b3e9d5d1c996fbed4318014aab143995adf",
+      "bytes": 20228
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-accumulated-390.png": {
+      "sha256": "58ba9e90d8ee08e3e4de36315520230539a85f7a6f7aa00c00d551d1faeca633",
+      "bytes": 31563
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-empty-1440.before.html": {
+      "sha256": "8aa32cb7838cf1cb866a15893f58138e08945f3ea8624d0037f77f3b842d2412",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-empty-1440.html": {
+      "sha256": "8aa32cb7838cf1cb866a15893f58138e08945f3ea8624d0037f77f3b842d2412",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-empty-1440.json": {
+      "sha256": "ec64ee186c5090fb5b13eb0536c3d88caa2a51f55cf313b5321ef224d3ba7bf1",
+      "bytes": 1447
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-empty-1440.png": {
+      "sha256": "85dce0fe6e63ede6beee28059b9b45945d59784881ed8f40ac8f442d62351795",
+      "bytes": 37415
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-empty-390.before.html": {
+      "sha256": "40eeffab368587aa5a640bd99ef136507068876897cfa12630001575c7c937d9",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-empty-390.html": {
+      "sha256": "40eeffab368587aa5a640bd99ef136507068876897cfa12630001575c7c937d9",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-empty-390.json": {
+      "sha256": "2c525457a1aba07685e72f49bc59d209bc18f57560f39c287848d0800f9458f2",
+      "bytes": 1429
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-empty-390.png": {
+      "sha256": "1864778420b40947f69cc4fab4ad77cf1d29866b13ba2571b4ef52e6bed1b734",
+      "bytes": 28177
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-1440.before.html": {
+      "sha256": "97eb5be3664f8fceaa54018d195648f0f750def1da3ef9a69b584273fed0d970",
+      "bytes": 18235
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-1440.html": {
+      "sha256": "97eb5be3664f8fceaa54018d195648f0f750def1da3ef9a69b584273fed0d970",
+      "bytes": 18235
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-1440.json": {
+      "sha256": "33ce1d3d8501c0c9bdf34e0f37ca1f9a3a2f39d0b5637f20594dff67c69b053f",
+      "bytes": 4528
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-1440.png": {
+      "sha256": "0b0b4496efe9ccd09e844a4e75afb7ff74e37dc54ce08f64911ee322ed830d60",
+      "bytes": 53157
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-390.before.html": {
+      "sha256": "576c256ce9e420ce073f2e9aa845c6a1e0415713dd856dfd440b9adf5f0abb71",
+      "bytes": 18235
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-390.html": {
+      "sha256": "576c256ce9e420ce073f2e9aa845c6a1e0415713dd856dfd440b9adf5f0abb71",
+      "bytes": 18235
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-390.json": {
+      "sha256": "3db6af757d82478536320876a0a4cc7cc86ec41975d949545985f66a075ef3ac",
+      "bytes": 4502
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-390.png": {
+      "sha256": "d53323ae6041490d23937e6a411552e7a4d6e8d440e2aad9b88e7271eb755df2",
+      "bytes": 29688
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-again-1440.before.html": {
+      "sha256": "0943af035114b3da79f3588c12f2d0a8842de365820d91290a9d43f9c08a4ca2",
+      "bytes": 18235
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-again-1440.html": {
+      "sha256": "0943af035114b3da79f3588c12f2d0a8842de365820d91290a9d43f9c08a4ca2",
+      "bytes": 18235
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-again-1440.json": {
+      "sha256": "51378138438aa879575cff6711662990b1d2dcf1d417c4a9b85ba0a0c3c09421",
+      "bytes": 4524
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-again-1440.png": {
+      "sha256": "07765375ec1a2f2786cd335ef09b11e6daf43b5625483e646f3c722a6f5b291b",
+      "bytes": 53122
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-again-390.before.html": {
+      "sha256": "16d39915dbbeb0a7dccd7e53a6311b1746261160d4e169293bab4fa7592660e7",
+      "bytes": 18235
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-again-390.html": {
+      "sha256": "16d39915dbbeb0a7dccd7e53a6311b1746261160d4e169293bab4fa7592660e7",
+      "bytes": 18235
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-again-390.json": {
+      "sha256": "3db6af757d82478536320876a0a4cc7cc86ec41975d949545985f66a075ef3ac",
+      "bytes": 4502
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-again-390.png": {
+      "sha256": "9b647459c84508775de0544c26432594dd88b5d16d930d0f3e38fab26720746c",
+      "bytes": 29700
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-text-200-390.before.html": {
+      "sha256": "f3eaf9579e9cca0a6ad000c75cc300913f03f911d2a33039b179708c8acf50de",
+      "bytes": 21083
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-text-200-390.html": {
+      "sha256": "f3eaf9579e9cca0a6ad000c75cc300913f03f911d2a33039b179708c8acf50de",
+      "bytes": 21083
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-text-200-390.json": {
+      "sha256": "f623528e34fb1e7fccd23e840e1c9502f91966ba01d204592b1ecf7ad4a3aca3",
+      "bytes": 4506
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-error-text-200-390.png": {
+      "sha256": "f1e2f8bc8999d5d87fe5473340d7ca7c65f7dfbb538a0054eabecbb2776a1f4b",
+      "bytes": 49228
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-recovered-1440.before.html": {
+      "sha256": "7268f9757d592dd677db46155c57a6edc02d91347cc7c37a5e4e822a258ba31c",
+      "bytes": 19736
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-recovered-1440.html": {
+      "sha256": "7268f9757d592dd677db46155c57a6edc02d91347cc7c37a5e4e822a258ba31c",
+      "bytes": 19736
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-recovered-1440.json": {
+      "sha256": "a113dd2bc8fce82da49447e11f2427ae3799c57e868e815d31a3cedc660b770e",
+      "bytes": 4900
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-recovered-1440.png": {
+      "sha256": "a11ca95732178919c8ec6f957d8c8ce1e30376525fda5a4aace5b1870ac31dd2",
+      "bytes": 54055
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-recovered-390.before.html": {
+      "sha256": "d03b23e10304018a6c673ef372e6bdd573942a75aa7f73ad83f8f363d337fc1c",
+      "bytes": 19736
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-recovered-390.html": {
+      "sha256": "d03b23e10304018a6c673ef372e6bdd573942a75aa7f73ad83f8f363d337fc1c",
+      "bytes": 19736
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-recovered-390.json": {
+      "sha256": "919f9b1861ed7e8b243b04a43d3fb579c36cc962ff43b30fb6f562ee52fd4c5c",
+      "bytes": 4886
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-recovered-390.png": {
+      "sha256": "33ee4ebc7c01a3f826e4b66b873fa57610fce8cd9120df361172a40c3def033d",
+      "bytes": 31565
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-reloaded-1440.before.html": {
+      "sha256": "8aa32cb7838cf1cb866a15893f58138e08945f3ea8624d0037f77f3b842d2412",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-reloaded-1440.html": {
+      "sha256": "8aa32cb7838cf1cb866a15893f58138e08945f3ea8624d0037f77f3b842d2412",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-reloaded-1440.json": {
+      "sha256": "ec64ee186c5090fb5b13eb0536c3d88caa2a51f55cf313b5321ef224d3ba7bf1",
+      "bytes": 1447
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-reloaded-1440.png": {
+      "sha256": "85dce0fe6e63ede6beee28059b9b45945d59784881ed8f40ac8f442d62351795",
+      "bytes": 37415
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-reloaded-390.before.html": {
+      "sha256": "40eeffab368587aa5a640bd99ef136507068876897cfa12630001575c7c937d9",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-reloaded-390.html": {
+      "sha256": "40eeffab368587aa5a640bd99ef136507068876897cfa12630001575c7c937d9",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-reloaded-390.json": {
+      "sha256": "2c525457a1aba07685e72f49bc59d209bc18f57560f39c287848d0800f9458f2",
+      "bytes": 1429
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-reloaded-390.png": {
+      "sha256": "1864778420b40947f69cc4fab4ad77cf1d29866b13ba2571b4ef52e6bed1b734",
+      "bytes": 28177
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-stopped-1440.before.html": {
+      "sha256": "678c847fdaf8043fc1d94dba88d0501fef8a2196aa176354d9c87b66b0c5724b",
+      "bytes": 14761
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-stopped-1440.html": {
+      "sha256": "678c847fdaf8043fc1d94dba88d0501fef8a2196aa176354d9c87b66b0c5724b",
+      "bytes": 14761
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-stopped-1440.json": {
+      "sha256": "a28da15d369adaad05e18e10240035df47bd14c334728dd0214a97b54b8d3b5e",
+      "bytes": 2967
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-stopped-1440.png": {
+      "sha256": "83264c4288a5f0b7240a757a12571f7f292902ea890b426b9f4b5318dd3a85c7",
+      "bytes": 47515
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-stopped-390.before.html": {
+      "sha256": "4d58e1525b81bd8ee137720fc0574be59616326108c9cbddfe9014af885ae9a1",
+      "bytes": 14761
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-stopped-390.html": {
+      "sha256": "4d58e1525b81bd8ee137720fc0574be59616326108c9cbddfe9014af885ae9a1",
+      "bytes": 14761
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-stopped-390.json": {
+      "sha256": "e3f58331ed6cebaf94b12e2228cad3e04c98dae4475930aad27a3b5a03716475",
+      "bytes": 2958
+    },
+    "E6e-nodeagent-independent-review/browser-01/generated-stopped-390.png": {
+      "sha256": "6f966bd77522d9419e624a7f11c70b3f936a2457864ccadf8271407cd34770c3",
+      "bytes": 31695
+    },
+    "E6e-nodeagent-independent-review/browser-01/report.json": {
+      "sha256": "f52dbcec03ade588cf9c315a5ca94af7866b9426af39670afea0e3021889a36d",
+      "bytes": 275173
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-accumulated-390.before.html": {
+      "sha256": "d69aba9eff92a8b73e01239674f2b0dfe1dd116ed8ab238ade575e8a6d539164",
+      "bytes": 86122
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-accumulated-390.html": {
+      "sha256": "d69aba9eff92a8b73e01239674f2b0dfe1dd116ed8ab238ade575e8a6d539164",
+      "bytes": 86122
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-accumulated-390.json": {
+      "sha256": "8977d05241f0529107d785c5d2536e2896258bd583088176086cff623edc0365",
+      "bytes": 28403
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-accumulated-390.png": {
+      "sha256": "e58ba2d0b8b367e1dc324bd007529c624f97d26804cbc9e6cd9788c543352e6f",
+      "bytes": 62645
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-empty-1440.before.html": {
+      "sha256": "d76db8006a9d21fcee951b460aa90a2c5b7730ae741fa69494908e441131c21d",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-empty-1440.html": {
+      "sha256": "d76db8006a9d21fcee951b460aa90a2c5b7730ae741fa69494908e441131c21d",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-empty-1440.json": {
+      "sha256": "44f9802ac671da13c467ad5fd9e3283586cd10703eaa3cc653202c61ffe74a1f",
+      "bytes": 1715
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-empty-1440.png": {
+      "sha256": "a6c2b56f63f22462a80c912197c44667a82ed86b39441d288576277765e809d8",
+      "bytes": 84780
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-empty-390.before.html": {
+      "sha256": "6710a8d55dd7cb7a45366e4146b7a0c7428b30ba21f09e3516edacc20a819468",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-empty-390.html": {
+      "sha256": "6710a8d55dd7cb7a45366e4146b7a0c7428b30ba21f09e3516edacc20a819468",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-empty-390.json": {
+      "sha256": "c19bd03c6e18a0a401ad77e5259c0e9d58b2bb4d7952413f6d720433f7492592",
+      "bytes": 1702
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-empty-390.png": {
+      "sha256": "b9bd3a826f01d4e4aa0b498bda080af60cf16f7f9064f7945da07c307601c843",
+      "bytes": 58620
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-1440.before.html": {
+      "sha256": "b6e11b80b60f53274bb86052372fd2f0fe4f8cbc957b0b30b977ffdbb75bb0a8",
+      "bytes": 31169
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-1440.html": {
+      "sha256": "b6e11b80b60f53274bb86052372fd2f0fe4f8cbc957b0b30b977ffdbb75bb0a8",
+      "bytes": 31169
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-1440.json": {
+      "sha256": "5ee19e2c30ca7a72425d05c7933872c423762cb05903081c441f9b5a296b7cd7",
+      "bytes": 5922
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-1440.png": {
+      "sha256": "3cb9414cd86a76b35ca1908bd64ac61013bbf4557aab662dfe7faa57426a79a2",
+      "bytes": 143609
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-390.before.html": {
+      "sha256": "97c5927b2a608fe94c7b8b034b434c4366d1150ffc409a06770777cfa6485d42",
+      "bytes": 31169
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-390.html": {
+      "sha256": "97c5927b2a608fe94c7b8b034b434c4366d1150ffc409a06770777cfa6485d42",
+      "bytes": 31169
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-390.json": {
+      "sha256": "777ed871a4bf97f168ab5331331d5fcd0cb4f5d28bcb97b7832c476d27530d42",
+      "bytes": 5899
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-390.png": {
+      "sha256": "5a3f4eff6c72d24b380e02db272ed7e151f21a5f4abc16034641e5d16dc05e6c",
+      "bytes": 58786
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-again-1440.before.html": {
+      "sha256": "606a414dc4d3b4d3bba931f08a3dd819b7709f9cff42d57818ca23f8d36622d1",
+      "bytes": 31169
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-again-1440.html": {
+      "sha256": "606a414dc4d3b4d3bba931f08a3dd819b7709f9cff42d57818ca23f8d36622d1",
+      "bytes": 31169
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-again-1440.json": {
+      "sha256": "ff0a36f9e62a3e0e18996d3645809fdbd0b7d38dc8b7352c737f930779c43375",
+      "bytes": 5918
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-again-1440.png": {
+      "sha256": "a53b50f14bb3384a630ae6119994336a55949d1432011fd1b81b608775218e22",
+      "bytes": 143606
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-again-390.before.html": {
+      "sha256": "522050d771ce83de35457216d8520dd39290ea65820b439747d0b6311e6eff94",
+      "bytes": 31169
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-again-390.html": {
+      "sha256": "522050d771ce83de35457216d8520dd39290ea65820b439747d0b6311e6eff94",
+      "bytes": 31169
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-again-390.json": {
+      "sha256": "777ed871a4bf97f168ab5331331d5fcd0cb4f5d28bcb97b7832c476d27530d42",
+      "bytes": 5899
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-again-390.png": {
+      "sha256": "a3b5e06697c6cfaac7980233f8bd581d2613c4cc1a397c39917428cb0ba52c9d",
+      "bytes": 58499
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-text-200-390.before.html": {
+      "sha256": "785858bd4f12e1e8226156839494d89c00ee538d31e9d1a491a7abe43b0a89f6",
+      "bytes": 34627
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-text-200-390.html": {
+      "sha256": "785858bd4f12e1e8226156839494d89c00ee538d31e9d1a491a7abe43b0a89f6",
+      "bytes": 34627
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-text-200-390.json": {
+      "sha256": "9e7860273aad6cb70d41aa493f23df595335e8b9b7f32cfa74208bca04c4f0ab",
+      "bytes": 5891
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-error-text-200-390.png": {
+      "sha256": "87ca877089da73e5ff062bff0cfce8b1d68ed1cb3dc929449977781059c9555f",
+      "bytes": 72860
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-recovered-1440.before.html": {
+      "sha256": "bebd658130f0d22efc4678119de6f0714d4811e73987625036c584636c4cae29",
+      "bytes": 33646
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-recovered-1440.html": {
+      "sha256": "bebd658130f0d22efc4678119de6f0714d4811e73987625036c584636c4cae29",
+      "bytes": 33646
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-recovered-1440.json": {
+      "sha256": "06b0c8772672c8c540bdf19a9a6998610ec44597c062617bb734e19dea24c7cf",
+      "bytes": 6723
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-recovered-1440.png": {
+      "sha256": "7eb2085accc67019da7b5693afe4907c008454289880ffb8ecac250834aad101",
+      "bytes": 149936
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-recovered-390.before.html": {
+      "sha256": "5de6c8b23c8a0aa8a73d90e313287196a85dadf1b7188444b5021cd51bf4d5d6",
+      "bytes": 33646
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-recovered-390.html": {
+      "sha256": "5de6c8b23c8a0aa8a73d90e313287196a85dadf1b7188444b5021cd51bf4d5d6",
+      "bytes": 33646
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-recovered-390.json": {
+      "sha256": "2f228584dd5b101347fecb1ac11f22ce41b69b7e55636bcd677337c1e5b65aec",
+      "bytes": 6717
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-recovered-390.png": {
+      "sha256": "15f0d2f858fc3afba0b0b9b1767d1f9d60b4ce86dc47b589c16b24b34e58717a",
+      "bytes": 62871
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-reloaded-1440.before.html": {
+      "sha256": "d76db8006a9d21fcee951b460aa90a2c5b7730ae741fa69494908e441131c21d",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-reloaded-1440.html": {
+      "sha256": "d76db8006a9d21fcee951b460aa90a2c5b7730ae741fa69494908e441131c21d",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-reloaded-1440.json": {
+      "sha256": "44f9802ac671da13c467ad5fd9e3283586cd10703eaa3cc653202c61ffe74a1f",
+      "bytes": 1715
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-reloaded-1440.png": {
+      "sha256": "af46f2737897dc01909a26e05dfcc40315a367b28e8cd459750e635793859608",
+      "bytes": 84775
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-reloaded-390.before.html": {
+      "sha256": "6710a8d55dd7cb7a45366e4146b7a0c7428b30ba21f09e3516edacc20a819468",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-reloaded-390.html": {
+      "sha256": "6710a8d55dd7cb7a45366e4146b7a0c7428b30ba21f09e3516edacc20a819468",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-reloaded-390.json": {
+      "sha256": "c19bd03c6e18a0a401ad77e5259c0e9d58b2bb4d7952413f6d720433f7492592",
+      "bytes": 1702
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-reloaded-390.png": {
+      "sha256": "299c36560e79eeaadea88eb6c5d512f2e8e3f38f89bd6e991606fe6f8e2a1d19",
+      "bytes": 58600
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-stopped-1440.before.html": {
+      "sha256": "a1050ac36a0d18e96ea632b7cf6f98cf54e491d9747b2ed394919a24cabeb71a",
+      "bytes": 25903
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-stopped-1440.html": {
+      "sha256": "a1050ac36a0d18e96ea632b7cf6f98cf54e491d9747b2ed394919a24cabeb71a",
+      "bytes": 25903
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-stopped-1440.json": {
+      "sha256": "d5b8ffa3745e3270bbbf6b26325c4cc6ec1c089a8367934ffbe3ae86ea6762ed",
+      "bytes": 3811
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-stopped-1440.png": {
+      "sha256": "832a7ab40c6f832eec9611ce6cfb38e3cd6a22be4e38630fb7e4a5b886aad3ad",
+      "bytes": 143964
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-stopped-390.before.html": {
+      "sha256": "21c12e7d935542c9887a13970b00fb5982e1b6dd9858b5b0b814bb4f5b817023",
+      "bytes": 25903
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-stopped-390.html": {
+      "sha256": "21c12e7d935542c9887a13970b00fb5982e1b6dd9858b5b0b814bb4f5b817023",
+      "bytes": 25903
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-stopped-390.json": {
+      "sha256": "1aff41667b5c71a7a8837fd32990a1da65f759dd33eeb51427d048c26e2372d1",
+      "bytes": 3790
+    },
+    "E6e-nodeagent-independent-review/browser-01/source-stopped-390.png": {
+      "sha256": "13807fdd6b2fa5cbe04e46312872828cc78170fea83e1487ca4c9240544b486e",
+      "bytes": 61265
+    },
+    "E6e-nodeagent-independent-review/capture-binding-check-before-explicit-utf8.json": {
+      "sha256": "125b2a9db37209b2bd5aadee98a71717f5c843889b5ac62d37d18543b56d90bb",
+      "bytes": 31908
+    },
+    "E6e-nodeagent-independent-review/capture-binding-check.json": {
+      "sha256": "cc89c5c059fecb4edc947b556bc7f23459cb4a758e81151a2af9bbc982130993",
+      "bytes": 1404
+    },
+    "E6e-nodeagent-independent-review/checks.json": {
+      "sha256": "cc3c1657c331ec1925c6d04ac46b641be798fd2911d03aa8da8f8fd73c7add2a",
+      "bytes": 880
+    },
+    "E6e-nodeagent-independent-review/custody-after.json": {
+      "sha256": "40c99481b569aaafdf55281247abc97b262e17bff3904ca80bf58428a8928f9d",
+      "bytes": 312960
+    },
+    "E6e-nodeagent-independent-review/custody-before.json": {
+      "sha256": "fefcc29cfa417ad11393156d29bb6c6f80d54c8193887d1ce4acdaf83009a71a",
+      "bytes": 312961
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-empty-390.before.html": {
+      "sha256": "40eeffab368587aa5a640bd99ef136507068876897cfa12630001575c7c937d9",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-empty-390.html": {
+      "sha256": "40eeffab368587aa5a640bd99ef136507068876897cfa12630001575c7c937d9",
+      "bytes": 12162
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-empty-390.json": {
+      "sha256": "2c525457a1aba07685e72f49bc59d209bc18f57560f39c287848d0800f9458f2",
+      "bytes": 1429
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-empty-390.png": {
+      "sha256": "1864778420b40947f69cc4fab4ad77cf1d29866b13ba2571b4ef52e6bed1b734",
+      "bytes": 28177
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-late-stop-recovered-390.before.html": {
+      "sha256": "c135c2278539fb99fb9f10fc1b829093d5289813e79efd5a04085331b8e38f7b",
+      "bytes": 16836
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-late-stop-recovered-390.html": {
+      "sha256": "c135c2278539fb99fb9f10fc1b829093d5289813e79efd5a04085331b8e38f7b",
+      "bytes": 16836
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-late-stop-recovered-390.json": {
+      "sha256": "ece0e3f172b3cf6b66288d0008d2701abf28f3f4f3df93a982364dddec6807d0",
+      "bytes": 3603
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-late-stop-recovered-390.png": {
+      "sha256": "cee4a063e5e46f062e32d18662e263907c383cd7d52a6df9d709dc7324c1dc1c",
+      "bytes": 31559
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-stopped-390.before.html": {
+      "sha256": "e95938f6d34afff438518026503b581cfc24c9f437d55b76d935ab132997965a",
+      "bytes": 15336
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-stopped-390.html": {
+      "sha256": "e95938f6d34afff438518026503b581cfc24c9f437d55b76d935ab132997965a",
+      "bytes": 15336
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-stopped-390.json": {
+      "sha256": "b1599063d0f55edad035cd7316671f89267b0c531db31d979019cbe52432ea63",
+      "bytes": 3232
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/generated-stopped-390.png": {
+      "sha256": "17ff523e31e3db48d9ecc4c639932dcf2454a775015c7eee58f678204a2aa7cc",
+      "bytes": 28653
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/report.json": {
+      "sha256": "aad45e4f95205692f1c0e65f335d4c3d0ffbe5d3e2ff53153c239618dc0d9423",
+      "bytes": 91042
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-empty-390.before.html": {
+      "sha256": "6710a8d55dd7cb7a45366e4146b7a0c7428b30ba21f09e3516edacc20a819468",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-empty-390.html": {
+      "sha256": "6710a8d55dd7cb7a45366e4146b7a0c7428b30ba21f09e3516edacc20a819468",
+      "bytes": 18277
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-empty-390.json": {
+      "sha256": "c19bd03c6e18a0a401ad77e5259c0e9d58b2bb4d7952413f6d720433f7492592",
+      "bytes": 1702
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-empty-390.png": {
+      "sha256": "75090e3ee26ca99cec746074a56f5980f0c4d90d76399c5138f03af7c34252d1",
+      "bytes": 58605
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-late-stop-recovered-390.before.html": {
+      "sha256": "00a25a4ba736bef90c461264397ed4c596eb74670716f2b36d104bdab588d9da",
+      "bytes": 29273
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-late-stop-recovered-390.html": {
+      "sha256": "00a25a4ba736bef90c461264397ed4c596eb74670716f2b36d104bdab588d9da",
+      "bytes": 29273
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-late-stop-recovered-390.json": {
+      "sha256": "f20eb58c38d4fcc4bc782b32d72c672645b2830a6adbbcfc43c915c1280370ba",
+      "bytes": 4910
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-late-stop-recovered-390.png": {
+      "sha256": "04b9751594d3ef85325d11737b90a0e809eeb52c85e6e605963d786b0bb2db0b",
+      "bytes": 62763
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-stopped-390.before.html": {
+      "sha256": "519b8564971dbb30419f7469307c1a3050a6edbba2c2720e7e8fdbddded21ec8",
+      "bytes": 26797
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-stopped-390.html": {
+      "sha256": "519b8564971dbb30419f7469307c1a3050a6edbba2c2720e7e8fdbddded21ec8",
+      "bytes": 26797
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-stopped-390.json": {
+      "sha256": "6377dd859f28ea3d754b7326efde672bec718fdfa89adc7866cb0bbf90d728e1",
+      "bytes": 4095
+    },
+    "E6e-nodeagent-independent-review/late-stop-01/source-stopped-390.png": {
+      "sha256": "575b71512058fe38969984755ebad70464c545902118f5d0f2dcbfbe6865c35c",
+      "bytes": 57689
+    },
+    "E6e-nodeagent-independent-review/tests.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "E6e-nodeagent-independent-review/tests.stdout.log": {
+      "sha256": "a259fa5b1373f3110364cb8cd6cf278cb336e169835fd172bc1159a237d59887",
+      "bytes": 1251
+    },
+    "E6e-nodeagent-independent-review/tours.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "E6e-nodeagent-independent-review/tours.stdout.log": {
+      "sha256": "8b91eaa9d523522537255352c11c4861181d47d8559a7cfee65ebd89e731476a",
+      "bytes": 188
+    },
+    "E6e-nodeagent-independent-review/typecheck.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "E6e-nodeagent-independent-review/typecheck.stdout.log": {
+      "sha256": "1611f2f8467e52eeae9fc30b4f851e7b429aec602524637ddd6f4a9a58d6ae5f",
+      "bytes": 45
+    },
+    "E6e-nodeagent-independent-custody.py": {
+      "sha256": "1d5f82e6df40622a689f3e12419e90a5ce136fed89f23f3a1772646cbec2a9a1",
+      "bytes": 6741
+    },
+    "E6e-nodeagent-independent-recovery.mjs": {
+      "sha256": "c6bf72b44218aedeca60642d03e62c8b9a8affc022b49789af0f1b0b5ba8a711",
+      "bytes": 18275
+    },
+    "E6e-nodeagent-independent-late-stop.mjs": {
+      "sha256": "e13b16055729d07a1772ff8520a8aff8746eb8cc51dbe46844cc374e3694f191",
+      "bytes": 19050
+    },
+    "E6e_NODEAGENT_CURRENT_CONSUMER_RECEIPT.md": {
+      "sha256": "6b397b20e06cf83500f70bf5bcf0f48ec07729b5c1ebd083fcc7f0b97d7aabb5",
+      "bytes": 4245
+    },
+    "E6e_NODEAGENT_CURRENT_CONSUMER_RECEIPT.json": {
+      "sha256": "dc94f74670c577ebf98619e36e60060bb9889341fdb3728b79be1449ea00062e",
+      "bytes": 33354
+    },
+    "E6e-write-nodeagent-final-judge.py": {
+      "sha256": "c764f4649d0f3118728dfe3aa51a6eab3fd52832c165278b4fae28532034e7d7",
+      "bytes": 20132
+    }
+  }
+}

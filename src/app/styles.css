@@ -234,3 +234,11 @@ button { font-family: inherit; cursor: pointer; }
   .na-rail-graph button { min-width: 44px; min-height: 44px; }
   .na-rail-graph label { min-height: 44px; }
 }
+
+/* Response controls retain completed results when native streaming stops. */
+.na-stop { width: auto; min-width: 64px; padding: 0 12px; }
+.na-recovery { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.na-recovery p { margin: 0 0 10px; }
+.na-recovery button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--ink-muted); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); }
+.na-recovery button:disabled { cursor: default; }
+.na-interrupted { color: var(--ink-muted); }

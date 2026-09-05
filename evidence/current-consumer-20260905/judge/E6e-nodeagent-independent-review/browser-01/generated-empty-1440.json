@@ -1,0 +1,64 @@
+{
+  "layout": [
+    {
+      "class": "naViewport",
+      "scrollTop": 0,
+      "scrollHeight": 896,
+      "clientHeight": 896,
+      "box": {
+        "x": 260,
+        "y": 64,
+        "width": 920,
+        "height": 896,
+        "top": 64,
+        "right": 1180,
+        "bottom": 960,
+        "left": 260
+      }
+    },
+    {
+      "class": "naFooter",
+      "scrollTop": 0,
+      "scrollHeight": 112,
+      "clientHeight": 112,
+      "box": {
+        "x": 278,
+        "y": 840,
+        "width": 884,
+        "height": 112,
+        "top": 840,
+        "right": 1162,
+        "bottom": 952,
+        "left": 278
+      }
+    }
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "scroll": {
+    "x": 0,
+    "y": 0
+  },
+  "text": "NA\nNodeAgent\nportable chat UI\nno keys\n\nNO-KEY LOCAL AGENT\n\nAsk the room. Watch the work.\n\nNodeAgent gathers context, checks sources, applies a model delta, and writes the memo as inline tool cards. The default adapter is scripted so the first run needs no API keys.\n\nRun the MVP proof\nFind the next check\n\nScripted local adapter. Replace it with a server route when credentials exist.",
+  "overflow": 0,
+  "focus": {
+    "tag": "TEXTAREA",
+    "label": null
+  },
+  "buttons": [
+    {
+      "label": "Run the MVP proof",
+      "disabled": false
+    },
+    {
+      "label": "Find the next check",
+      "disabled": false
+    },
+    {
+      "label": "Send",
+      "disabled": true
+    }
+  ]
+}

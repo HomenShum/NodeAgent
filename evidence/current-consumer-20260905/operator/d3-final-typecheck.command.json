@@ -1,0 +1,9 @@
+{
+  "command": [
+    "npm.cmd",
+    "run",
+    "typecheck"
+  ],
+  "exit": 0,
+  "seconds": 2.304358720779419
+}
