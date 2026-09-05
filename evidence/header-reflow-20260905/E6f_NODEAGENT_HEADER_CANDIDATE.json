@@ -1,0 +1,177 @@
+{
+  "at": "2026-09-05T10:25:44.372012+00:00",
+  "proof": "NODEAGENT-ENLARGED-HEADER-01",
+  "status": "ROOT_SOURCE_PROOF_FROZEN_INDEPENDENT_REVIEW_PENDING",
+  "sourceRoot": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+  "baseCommit": "5362505886883b49c8037bf5b9fb4ff2738d47a7",
+  "branch": "codex/nodeagent-enlarged-header-20260905",
+  "sourceOwners": 2,
+  "authoredPaths": {
+    "src/app/styles.css": {
+      "size": 14362,
+      "sha256": "6e6feb6d48d3d2623d5139a890b4f58149e315153aa20934e0ee8f698febfb87"
+    },
+    "src/features/node-agent/components/NodeAgentDemoApp.tsx": {
+      "size": 2209,
+      "sha256": "5bfb4d66491582163365fd8798444dc2744df5389cbb29b519f671e5d02a0707"
+    },
+    ".tours/03-debug-and-recovery.tour": {
+      "size": 4149,
+      "sha256": "9aa6c7d7ecd380b5564bfaf27ea24a7a09d72b8db7ffdcb8d249f533c49e099e"
+    },
+    "docs/codebase/TESTING.md": {
+      "size": 5470,
+      "sha256": "512d3df76468fc3229ce0f3506f97bd9fe0d0529b5827cfbef3157ac199ecfc6"
+    },
+    "e2e/header-reflow-proof.mjs": {
+      "size": 7393,
+      "sha256": "1506b7de8f61e173c31ef12ffa9b85464beee783990b58bbadd5ab6fdb79bb1c"
+    }
+  },
+  "diffSha256": "948b9f9ce79bf346a4c133ee0c3cf94541a5ab7b453a45f4cca570d36d84cce9",
+  "beforeChecks": 12,
+  "afterChecks": 72,
+  "afterCaptures": 12,
+  "recoveryChecks": 145,
+  "recoveryCaptures": 38,
+  "tests": 41,
+  "typecheckBuild": "PASS",
+  "citations": "PASS3TOURS36STEPS11REFERENCES_AFTER_NUMERIC_ANCHOR_CORRECTION",
+  "comparisons": [
+    {
+      "width": 320,
+      "textScale": 100,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": true,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 320,
+      "textScale": 200,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 96.390625,
+      "beforeDocumentOverflow": 91,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": null,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 390,
+      "textScale": 100,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": true,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 390,
+      "textScale": 200,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 96.390625,
+      "beforeDocumentOverflow": 21,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": null,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 768,
+      "textScale": 100,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": true,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 768,
+      "textScale": 200,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": null,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "textScale": 100,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": true,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 1024,
+      "textScale": 200,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": null,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 1440,
+      "textScale": 100,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": true,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 1440,
+      "textScale": 200,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": null,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 1920,
+      "textScale": 100,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": true,
+      "hrefsUnchanged": true
+    },
+    {
+      "width": 1920,
+      "textScale": 200,
+      "beforeHeaderHeight": 54,
+      "afterHeaderHeight": 54,
+      "beforeDocumentOverflow": 0,
+      "afterDocumentOverflow": 0,
+      "normalHeaderBoxUnchanged": null,
+      "hrefsUnchanged": true
+    }
+  ],
+  "fullGrades": null,
+  "limitations": [
+    "Computed text enlargement is not OS or browser zoom.",
+    "Manrope loaded; JetBrains Mono font check false.",
+    "Existing enlarged empty-state clipping and graph readability are outside this header owner.",
+    "Source-only header; generated consumer unchanged and not reinstalled in this slice.",
+    "Original missing vendor sourcemap warnings retained."
+  ],
+  "evidence": [
+    "E6f_NODEAGENT_HEADER_REPAIR_PLAN.md",
+    "E6f-nodeagent-header-before-01/report.json",
+    "E6f-nodeagent-header-after-01/report.json",
+    "E6f-nodeagent-header-recovery-01/report.json",
+    "E6f-nodeagent-header-checks/commands.json"
+  ]
+}

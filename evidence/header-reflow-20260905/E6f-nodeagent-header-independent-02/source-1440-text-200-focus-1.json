@@ -1,0 +1,70 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "header": {
+    "x": 0,
+    "y": 0,
+    "right": 1440,
+    "bottom": 54,
+    "width": 1440,
+    "height": 54
+  },
+  "brand": {
+    "x": 18,
+    "y": 4.796875,
+    "right": 384.515625,
+    "bottom": 48.1875,
+    "width": 366.515625,
+    "height": 43.390625
+  },
+  "main": {
+    "x": 0,
+    "y": 54,
+    "right": 1440,
+    "bottom": 960,
+    "width": 1440,
+    "height": 906
+  },
+  "overflow": 0,
+  "nav": {
+    "role": "NAV",
+    "name": "Project resources"
+  },
+  "links": [
+    {
+      "text": "Prototype ↗",
+      "href": "/nodeagent-v1.html",
+      "box": {
+        "x": 1177.625,
+        "y": 7.90625,
+        "right": 1310.59375,
+        "bottom": 45.09375,
+        "width": 132.96875,
+        "height": 37.1875
+      },
+      "focusVisible": false,
+      "hit": true
+    },
+    {
+      "text": "GitHub ↗",
+      "href": "https://github.com/HomenShum/NodeAgent",
+      "box": {
+        "x": 1322.59375,
+        "y": 7.90625,
+        "right": 1422,
+        "bottom": 45.09375,
+        "width": 99.40625,
+        "height": 37.1875
+      },
+      "focusVisible": true,
+      "hit": true
+    }
+  ],
+  "focus": "GitHub ↗",
+  "fonts": {
+    "manrope": true,
+    "mono": false
+  }
+}

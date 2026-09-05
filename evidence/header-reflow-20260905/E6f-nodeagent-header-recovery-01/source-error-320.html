@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head>
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- WIG Design — "Browser UI matches your background": --bg, so the mobile
+         browser chrome does not sit as a white band above a dark app. -->
+    <meta name="theme-color" content="#151413">
+    <title>NodeAgent — React demo</title>
+    <meta name="description" content="The NodeAgent loop in React: live context gathering, grounded search &amp; synthesis, versioned spreadsheet modeling, notebook editing.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23151413'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23d97757'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style type="text/css" data-vite-dev-id="D:/VSCode Projects/cafecorner_nodebench/nodebench_ai4/.portfolio-worktrees/nodeagent-current-consumer-20260905/src/app/styles.css">/* NodeAgent on assistant-ui — design DNA shared with nodeagent-v1.html.
+   bg #151413 · terracotta #d97757 · Manrope + JetBrains Mono.
+   We theme assistant-ui's headless primitives with our own CSS (no Tailwind). */
+:root {
+  --bg: #151413;
+  --paper: #1c1b1a;
+  --panel: #232221;
+  --surface: #2a2928;
+  --ink: #e8e4df;
+  /* The two secondary ink tokens are set by CONTRAST, not by taste. Both are
+     read against the darkest surface they ever sit on (--surface #2a2928), so
+     no call site has to re-check: --ink-muted 5.59:1, --ink-faint 4.88:1, both
+     clear of the 4.5:1 WCAG AA floor for body text.
+     Was --ink-muted #8a857e (3.97:1 on --surface) and --ink-faint #5a5650
+     (1.99:1 on --surface, 2.36:1 on --paper). axe-core 4.13.0 reported the
+     second as a SERIOUS violation on .na-rail-empty at first paint and on
+     eight more nodes once the loop had run (.na-kind, .na-badge, .na-reason) —
+     see promotion/evidence/axe-initial-prefix.json and
+     journey-prefix-keyboard-375-observations.json. Fixed at the token because
+     seven rules read --ink-faint and five read --ink-muted; patching the one
+     selector axe named would have left the other twelve failing. */
+  --ink-muted: #a5a098;
+  --ink-faint: #9a958d;
+  --accent: #d97757;
+  --accent-dim: rgba(217, 119, 87, 0.15);
+  --accent-ghost: rgba(217, 119, 87, 0.1);
+  --green: #7bd089;
+  --blue: #5b9bf5;
+  --purple: #a78bfa;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-faint: rgba(255, 255, 255, 0.04);
+  --glass: rgba(255, 255, 255, 0.02);
+  --r: 14px;
+  --r-sm: 9px;
+  --r-pill: 999px;
+}
+* { box-sizing: border-box; }
+/* WIG Design — "Set the appropriate color-scheme". Without this the browser
+   still paints scrollbars, <select> popups and form controls light on a dark
+   page. `data-theme="dark"` in index.html is an app attribute; the browser
+   only reads color-scheme. */
+html { color-scheme: dark; }
+html, body, #root { height: 100%; }
+/* WIG Interactions — "Prevent double-tap zoom on controls". */
+a, button, input, textarea, select, label { touch-action: manipulation; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Manrope", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  background-image: radial-gradient(900px 480px at 50% -10%, rgba(217, 119, 87, 0.08), transparent 60%);
+}
+.mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+a { color: var(--accent); text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* shell */
+.na-app { display: flex; flex-direction: column; height: 100%; }
+.na-appbar {
+  display: flex; flex-wrap: wrap; flex-shrink: 0; align-items: center; gap: 0 12px;
+  min-height: 54px; padding: 4px 18px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(21, 20, 19, 0.92), rgba(21, 20, 19, 0.7));
+  backdrop-filter: blur(12px);
+}
+/* .na-brand is the <h1>; the reset keeps the appbar looking identical. */
+.na-brand { display: flex; flex-shrink: 0; align-items: center; gap: 8px; font-weight: 800; letter-spacing: -0.02em; margin: 0; font-size: 14px; line-height: 1.55; }
+.na-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.5); animation: na-breathe 3.4s ease infinite; }
+@keyframes na-breathe { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217,119,87,.5);} 50% { transform: scale(1.18); box-shadow: 0 0 0 7px rgba(217,119,87,0);} }
+.na-ver { color: var(--ink-faint); font-size: 11px; font-weight: 500; }
+.na-spacer { flex: 1; }
+.na-resource-links { display: flex; flex-shrink: 0; align-items: center; gap: 12px; }
+.na-link { font-size: 12px; color: var(--ink-muted); white-space: nowrap; }
+.na-link:hover { color: var(--accent); }
+
+.na-main { flex: 1; min-height: 0; display: flex; }
+
+/* thread */
+.na-thread { flex: 1; min-height: 0; display: flex; flex-direction: column; width: 100%; }
+.na-viewport {
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 18px;
+  padding: 24px 18px 8px;
+  width: 100%; max-width: 820px; margin: 0 auto;
+}
+
+/* empty state */
+.na-empty { margin: auto 0; text-align: center; max-width: 56ch; align-self: center; padding: 32px 0; }
+.na-av { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 26px; background: var(--accent-dim); color: var(--accent); font-size: 13px; }
+.na-av-lg { width: 46px; height: 46px; font-size: 22px; margin: 0 auto 14px; }
+.na-empty h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; }
+.na-empty p { color: var(--ink-muted); margin: 0 auto 18px; }
+.na-suggestions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.na-chip {
+  border: 1px solid var(--line); background: var(--glass); color: var(--ink-muted);
+  border-radius: var(--r-pill); padding: 9px 14px; font-size: 13px; font-weight: 600;
+  transition: border-color 120ms, color 120ms;
+}
+.na-chip:hover { border-color: var(--accent); color: var(--ink); }
+
+/* messages */
+.na-msg { display: flex; gap: 10px; }
+.na-msg-user { justify-content: flex-end; }
+.na-msg-assistant { justify-content: flex-start; }
+.na-bubble { max-width: 88%; border-radius: 16px; padding: 11px 14px; font-size: 14px; line-height: 1.6; }
+.na-bubble-user { background: var(--accent); color: #1a1009; border-bottom-right-radius: 5px; font-weight: 500; }
+.na-bubble-assistant { background: var(--paper); border: 1px solid var(--line); border-bottom-left-radius: 5px; min-width: 0; flex: 1; }
+.na-msg-assistant .na-av { margin-top: 2px; }
+
+/* composer */
+.na-footer { position: sticky; bottom: 0; width: 100%; max-width: 820px; margin: 0 auto; padding: 8px 0 16px; background: linear-gradient(180deg, transparent, var(--bg) 28%); }
+.na-composer { display: flex; align-items: flex-end; gap: 8px; border: 1px solid var(--line); background: var(--paper); border-radius: 18px; padding: 8px 8px 8px 14px; }
+.na-composer:focus-within { border-color: var(--accent); }
+/* 16px, not 14px: iOS Safari auto-zooms the page when a field smaller than 16px
+   takes focus, so a 14px composer means every mobile user's first tap jumps the
+   layout. WIG Interactions — "Mobile input size". Measured at 375w before this:
+   14px (promotion/evidence/wig-review-prefix.json). */
+.na-composer-input { flex: 1; resize: none; border: none; background: transparent; color: var(--ink); font-size: 16px; line-height: 1.5; padding: 6px 0; max-height: 160px; outline: none; }
+.na-composer-input::placeholder { color: var(--ink-faint); }
+.na-send { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--accent); color: #1a1009; font-size: 16px; font-weight: 700; display: grid; place-items: center; }
+.na-send:disabled { opacity: 0.3; }
+.na-disclaimer { text-align: center; font-size: 11px; color: var(--ink-faint); margin: 8px 0 0; }
+
+/* ---- tool cards (the four surfaces, inline) ---- */
+.na-tool { border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--bg); margin: 9px 0; overflow: hidden; }
+.na-tool[data-running="true"] { border-style: dashed; }
+.na-tool-h { display: flex; align-items: center; gap: 9px; padding: 9px 12px; background: var(--glass); }
+.na-tool-i { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: 12px; background: var(--surface); }
+.na-tool-label { font-weight: 700; font-size: 13px; }
+.na-tool-status { margin-left: auto; font-size: 10px; font-family: "JetBrains Mono", monospace; }
+.na-done { color: var(--green); }
+.na-running { color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
+.na-spin { width: 10px; height: 10px; border: 2px solid var(--accent-dim); border-top-color: var(--accent); border-radius: 50%; animation: na-spin 0.8s linear infinite; }
+@keyframes na-spin { to { transform: rotate(360deg); } }
+.na-tool-b { padding: 11px 12px; }
+
+/* context items */
+.na-ctx { display: flex; gap: 9px; align-items: baseline; padding: 4px 0; font-size: 12px; border-top: 1px solid var(--line-faint); }
+.na-ctx:first-child { border-top: none; }
+.na-rel { color: var(--accent); font-size: 11px; flex: 0 0 auto; }
+.na-kind { color: var(--ink-faint); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; flex: 0 0 64px; }
+.na-txt { color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* sources */
+.na-src { display: flex; gap: 9px; align-items: center; padding: 8px 9px; border: 1px solid var(--line-faint); border-radius: 7px; margin-bottom: 6px; }
+.na-src.win { border-color: var(--accent); background: var(--accent-ghost); }
+.na-badge { font-size: 9px; padding: 2px 6px; border-radius: 5px; background: var(--surface); color: var(--ink-muted); font-weight: 600; }
+.na-src-t { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+.na-g { margin-left: auto; font-size: 11px; color: var(--ink-muted); flex: 0 0 auto; }
+.na-src.win .na-g { color: var(--accent); }
+.na-answer { margin-top: 9px; padding: 11px; border: 1px solid var(--line); border-radius: 7px; background: var(--paper); font-size: 13px; line-height: 1.6; }
+.na-faint { color: var(--ink-faint); }
+
+/* spreadsheet */
+.na-sheet { width: 100%; border-collapse: collapse; font-size: 12px; }
+/* WIG Content — "Tabular numbers for comparisons". This table is the runway
+   model: the whole point is reading a column of figures against each other, and
+   proportional digits make the columns wobble. */
+.na-sheet td { border: 1px solid var(--line-faint); padding: 6px 9px; text-align: right; font-variant-numeric: tabular-nums; }
+.na-sheet td:first-child { text-align: left; color: var(--ink-muted); }
+.na-sheet td.na-delta { color: var(--accent); font-weight: 700; background: var(--accent-ghost); }
+.na-reason { margin-top: 8px; font-size: 10px; color: var(--ink-faint); }
+
+/* memo */
+.na-memo { font-size: 13px; line-height: 1.6; }
+.na-memo h2 { margin: 0 0 6px; font-size: 14px; font-weight: 700; line-height: 1.55; }
+.na-memo p { margin: 6px 0; color: var(--ink); }
+.na-claim { border-left: 2px solid var(--accent); background: var(--accent-ghost); padding: 9px 11px; border-radius: 0 7px 7px 0; margin: 7px 0; }
+.na-claim-t { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 4px; }
+.na-cite-line { color: var(--ink-muted); font-size: 12px; }
+
+@media (max-width: 640px) {
+  .na-viewport { padding: 16px 12px 8px; }
+  .na-bubble { max-width: 100%; }
+  .na-ver { display: none; }
+}
+/* WIG Animations — "Honor prefers-reduced-motion". The animation half was
+   already here; the transition half was not, so .na-chip and .na-composer still
+   animated their border and colour under `reduce`. One rule, extended, rather
+   than a second block: a policy stated twice is a policy that will diverge.
+   The measurement that proves this is honest is in e2e/wig-review.mjs — a
+   runtime probe CANNOT prove it, because headless Chromium computes
+   animation-name: none whenever the media feature is emulated, whether or not
+   the page has any such rule. The check reads CSSOM for the rule itself. */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* live graph rail (vendored @homenshum/nodegraph-live) */
+.na-rail {
+  width: 360px; min-width: 300px;
+  display: flex; flex-direction: column;
+  border-left: 1px solid var(--line);
+  background: var(--paper);
+}
+.na-rail-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-bottom: 1px solid var(--line-faint);
+  font-size: 12px; font-weight: 700;
+}
+.na-rail-meta { color: var(--ink-muted); font-size: 11px; font-weight: 500; }
+.na-rail-empty { padding: 14px; color: var(--ink-faint); font-size: 12px; }
+.na-rail-graph { padding: 8px; }
+/* Below 960px there is no room beside the conversation, so the rail becomes a
+   bottom panel — it is never hidden. It used to be `display: none` here, and
+   that was defect D1: `display:none` is invisible to React, so GraphRailPanel
+   (which mounts <NodeGraph> on `snapshot.nodes.length > 0`, i.e. on DATA) put a
+   WebGL renderer inside a 0x0 box the moment the first loop step landed. Sigma
+   throws "Container has no width", and with no error boundary the throw took
+   the whole app down. A rail that is always laid out cannot be mounted into a
+   collapsed container, so the two owners of "is the rail shown?" cannot
+   disagree. Regression: `node e2e/capture-journey-at-width.mjs --width 375`. */
+@media (max-width: 960px) {
+  .na-main { flex-direction: column; }
+  .na-rail {
+    width: auto; min-width: 0;
+    flex: 0 0 auto; max-height: 46vh; overflow-y: auto;
+    border-left: none; border-top: 1px solid var(--line);
+  }
+  .na-rail-head { position: sticky; top: 0; z-index: 1; background: var(--paper); }
+
+  /* WIG Interactions — "Match visual & hit targets": 44px minimum on mobile.
+     Measured at 375w before this rule: .na-link 66x19, .na-send 34x34,
+     .na-composer-input 285x33, and the vendored NodeGraph "fit" button 28x21
+     with 13x13 filter checkboxes. The vendored control is corrected from here
+     rather than by editing vendor/nodegraph-live, which stays a verbatim copy.
+     Producer: `npm run wig:review`. */
+  .na-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .na-send { width: 44px; height: 44px; }
+  .na-composer-input { min-height: 44px; }
+  .na-rail-graph button { min-width: 44px; min-height: 44px; }
+  .na-rail-graph label { min-height: 44px; }
+}
+
+/* Response controls retain completed results when native streaming stops. */
+.na-stop { width: auto; min-width: 64px; padding: 0 12px; }
+.na-recovery { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.na-recovery p { margin: 0 0 10px; }
+.na-recovery button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--ink-muted); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); }
+.na-recovery button:disabled { cursor: default; }
+.na-interrupted { color: var(--ink-muted); }
+</style></head>
+  <body>
+    <div id="root"><div class="na-app"><header class="na-appbar"><h1 class="na-brand"><span class="na-dot" aria-hidden="true"></span>NodeAgent<span class="na-ver mono">on assistant-ui</span></h1><span class="na-spacer"></span><nav class="na-resource-links" aria-label="Project resources"><a class="na-link" href="/nodeagent-v1.html">Prototype ↗</a><a class="na-link" href="https://github.com/HomenShum/NodeAgent">GitHub ↗</a></nav></header><main class="na-main"><div class="na-thread"><div class="na-viewport"><div class="na-msg na-msg-user" data-message-id="tqp1uXi"><div class="na-bubble na-bubble-user"><p style="white-space: pre-line;"><span data-status="complete">Does our wedge hold versus Acme, and does the runway model survive 18 months?</span></p></div></div><div class="na-msg na-msg-assistant" data-message-id="6wESPDf"><span class="na-av" aria-hidden="true">◆</span><div class="na-bubble na-bubble-assistant"><p style="white-space: pre-line;"><span data-status="complete">Done. The wedge holds on high-confidence grounding (3/4), the model now clears 18 months, and the cited memo is ready.</span></p><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">💬</span><span class="na-tool-label">Gather room context</span><span class="na-tool-status na-done">3 items · 2 active</span></div><div class="na-tool-b"><div class="na-ctx"><span class="na-rel mono">0.20</span><span class="na-kind">document</span><span class="na-txt">I pushed the retrieval-latency benchmark doc to the room earlier.</span></div><div class="na-ctx"><span class="na-rel mono">0.19</span><span class="na-kind">message</span><span class="na-txt">Acme just dropped a competing teardown of our wedge. Investor call is in 40.</span></div><div class="na-ctx"><span class="na-rel mono">0.03</span><span class="na-kind">message</span><span class="na-txt">Finance flagged burn crept to 420k/mo after the two senior hires.</span></div></div></div><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">🔎</span><span class="na-tool-label">Search &amp; synthesize</span><span class="na-tool-status na-done">high · grounded 3/4</span></div><div class="na-tool-b"><div class="na-src win"><span class="na-badge mono">RAG</span><span class="na-src-t">[1] room://benchmark — wedge holds vs Acme on latency</span><span class="na-g mono">0.44</span></div><div class="na-src"><span class="na-badge mono">DOC</span><span class="na-src-t">[2] finance://burn — runway model</span><span class="na-g mono">0.56</span></div><div class="na-src"><span class="na-badge mono">DOC</span><span class="na-src-t">[3] diligence://wedge — competitive note</span><span class="na-g mono">0.44</span></div><div class="na-src"><span class="na-badge mono">WEB</span><span class="na-src-t">[4] Acme teardown blog — Why context rooms lose</span><span class="na-g mono">0.11</span></div><div class="na-answer">Best-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.</div></div></div><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">▦</span><span class="na-tool-label">Update model</span><span class="na-tool-status na-done">v2 · 2 cells</span></div><div class="na-tool-b"><table class="na-sheet mono"><tbody><tr><td>Net burn / mo ($k)</td><td class="na-delta">420</td></tr><tr><td>Cash on hand ($k)</td><td class="">7560</td></tr><tr><td>Runway (months)</td><td class="na-delta">18</td></tr></tbody></table><div class="na-reason mono">↳ Correct base burn to the finance-audited 420k (was stress figure 510k).</div></div></div><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">✎</span><span class="na-tool-label">Write memo</span><span class="na-tool-status na-done">5 blocks</span></div><div class="na-tool-b"><div class="na-memo"><h2>Acme — diligence memo</h2><p>The room asked: "Does our wedge hold versus Acme, and does the runway model survive 18 months?"</p><div class="na-claim"><div class="na-claim-t mono">◆ Claim · grounded 3/4</div>Best-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.</div><p class="na-cite-line">⌗ room://benchmark — wedge holds vs Acme on latency</p><p>Model updated to v2 (2 cells).</p></div></div></div></div></div><div class="na-msg na-msg-user" data-message-id="232yrt8"><div class="na-bubble na-bubble-user"><p style="white-space: pre-line;"><span data-status="complete">Does our wedge hold versus Acme, and does the runway model survive 18 months?</span></p></div></div><div class="na-msg na-msg-assistant" data-message-id="I6Y1h5V"><span class="na-av" aria-hidden="true">◆</span><div class="na-bubble na-bubble-assistant"><p style="white-space: pre-line;"><span data-status="complete">Done. The wedge holds on high-confidence grounding (3/4), the model now clears 18 months, and the cited memo is ready.</span></p><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">💬</span><span class="na-tool-label">Gather room context</span><span class="na-tool-status na-done">3 items · 2 active</span></div><div class="na-tool-b"><div class="na-ctx"><span class="na-rel mono">0.20</span><span class="na-kind">document</span><span class="na-txt">I pushed the retrieval-latency benchmark doc to the room earlier.</span></div><div class="na-ctx"><span class="na-rel mono">0.19</span><span class="na-kind">message</span><span class="na-txt">Acme just dropped a competing teardown of our wedge. Investor call is in 40.</span></div><div class="na-ctx"><span class="na-rel mono">0.03</span><span class="na-kind">message</span><span class="na-txt">Finance flagged burn crept to 420k/mo after the two senior hires.</span></div></div></div><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">🔎</span><span class="na-tool-label">Search &amp; synthesize</span><span class="na-tool-status na-done">high · grounded 3/4</span></div><div class="na-tool-b"><div class="na-src win"><span class="na-badge mono">RAG</span><span class="na-src-t">[1] room://benchmark — wedge holds vs Acme on latency</span><span class="na-g mono">0.44</span></div><div class="na-src"><span class="na-badge mono">DOC</span><span class="na-src-t">[2] finance://burn — runway model</span><span class="na-g mono">0.56</span></div><div class="na-src"><span class="na-badge mono">DOC</span><span class="na-src-t">[3] diligence://wedge — competitive note</span><span class="na-g mono">0.44</span></div><div class="na-src"><span class="na-badge mono">WEB</span><span class="na-src-t">[4] Acme teardown blog — Why context rooms lose</span><span class="na-g mono">0.11</span></div><div class="na-answer">Best-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.</div></div></div><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">▦</span><span class="na-tool-label">Update model</span><span class="na-tool-status na-done">v2 · 2 cells</span></div><div class="na-tool-b"><table class="na-sheet mono"><tbody><tr><td>Net burn / mo ($k)</td><td class="na-delta">420</td></tr><tr><td>Cash on hand ($k)</td><td class="">7560</td></tr><tr><td>Runway (months)</td><td class="na-delta">18</td></tr></tbody></table><div class="na-reason mono">↳ Correct base burn to the finance-audited 420k (was stress figure 510k).</div></div></div><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">✎</span><span class="na-tool-label">Write memo</span><span class="na-tool-status na-done">5 blocks</span></div><div class="na-tool-b"><div class="na-memo"><h2>Acme — diligence memo</h2><p>The room asked: "Does our wedge hold versus Acme, and does the runway model survive 18 months?"</p><div class="na-claim"><div class="na-claim-t mono">◆ Claim · grounded 3/4</div>Best-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.</div><p class="na-cite-line">⌗ room://benchmark — wedge holds vs Acme on latency</p><p>Model updated to v2 (2 cells).</p></div></div></div></div></div><div class="na-msg na-msg-user" data-message-id="aL0Wv4W"><div class="na-bubble na-bubble-user"><p style="white-space: pre-line;"><span data-status="complete">Does our wedge hold versus Acme, and does the runway model survive 18 months?</span></p></div></div><div class="na-msg na-msg-assistant" data-message-id="bIMJkwk"><span class="na-av" aria-hidden="true">◆</span><div class="na-bubble na-bubble-assistant"><p style="white-space: pre-line;"><span data-status="complete">On it — pulling the room context, then searching, updating the model, and writing the memo.</span></p><div class="na-tool" data-running="false" data-interrupted="false"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">💬</span><span class="na-tool-label">Gather room context</span><span class="na-tool-status na-done">3 items · 2 active</span></div><div class="na-tool-b"><div class="na-ctx"><span class="na-rel mono">0.20</span><span class="na-kind">document</span><span class="na-txt">I pushed the retrieval-latency benchmark doc to the room earlier.</span></div><div class="na-ctx"><span class="na-rel mono">0.19</span><span class="na-kind">message</span><span class="na-txt">Acme just dropped a competing teardown of our wedge. Investor call is in 40.</span></div><div class="na-ctx"><span class="na-rel mono">0.03</span><span class="na-kind">message</span><span class="na-txt">Finance flagged burn crept to 420k/mo after the two senior hires.</span></div></div></div><div class="na-tool" data-running="false" data-interrupted="true"><div class="na-tool-h"><span class="na-tool-i" aria-hidden="true">🔎</span><span class="na-tool-label">Search &amp; synthesize</span><span class="na-tool-status na-interrupted">failed</span></div></div><div class="na-recovery"><p role="alert">This response failed. Earlier results are kept.</p><button type="button">Retry response</button></div></div></div><div class="na-footer"><form class="na-composer"><textarea name="input" class="na-composer-input" placeholder="Ask the room anything…" rows="1" style="height: 36px !important;"></textarea><button class="na-send" aria-label="Send" type="button" disabled="">↑</button></form><p class="na-disclaimer">Deterministic demo — no keys. The agent runs the real ported modules over a fixed scenario.</p></div></div></div><aside class="na-rail" data-testid="graph-rail" data-entities="12" data-edges="26"><div class="na-rail-head"><span>Session graph</span><span class="na-rail-meta mono">12 entities · 26 edges</span></div><div class="na-rail-graph"><section data-testid="nodegraph" style="border: 1px solid rgb(42, 46, 51); border-radius: 8px; background: rgb(20, 22, 25); color: rgb(226, 230, 233); padding: 16px; font-family: ui-sans-serif, system-ui, sans-serif;"><header style="margin-bottom: 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;"><h3 style="margin: 0px; font-size: 14px; font-weight: 600;">Relationship graph</h3><p style="margin: 0px; font-size: 12px; color: rgb(154, 164, 173);">12 entities · 26 of 26 relationships shown</p></header><div data-testid="edge-type-filters" style="margin-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px;"><button type="button" data-testid="nodegraph-fit" style="border: 1px solid rgb(42, 46, 51); border-radius: 6px; background: transparent; color: rgb(154, 164, 173); padding: 2px 8px; font-size: 11px; cursor: pointer;">fit</button><label style="display: flex; align-items: center; gap: 6px; font-size: 12px;"><input data-filter-type="evidence" type="checkbox" checked=""><span>evidence</span><span style="color: rgb(154, 164, 173);">(5)</span></label><label style="display: flex; align-items: center; gap: 6px; font-size: 12px;"><input data-filter-type="traversal" type="checkbox" checked=""><span>traversal</span><span style="color: rgb(154, 164, 173);">(21)</span><span title="interaction frequency, not evidence strength" style="color: rgb(154, 164, 173);">· local</span></label></div><div style="position: relative; border-radius: 6px; border: 1px solid rgb(42, 46, 51); height: 440px; width: 100%; background-image: radial-gradient(rgba(226, 230, 233, 0.07) 1px, transparent 1px); background-size: 22px 22px;"><div data-testid="nodegraph-canvas" style="position: absolute; inset: 0px;"><canvas class="sigma-edges" width="268px" height="438px" style="position: absolute; width: 268px; height: 438px;"></canvas><canvas class="sigma-edgeLabels" width="268px" height="438px" style="position: absolute; width: 268px; height: 438px;"></canvas><canvas class="sigma-nodes" width="268px" height="438px" style="position: absolute; width: 268px; height: 438px;"></canvas><canvas class="sigma-labels" width="268px" height="438px" style="position: absolute; width: 268px; height: 438px;"></canvas><canvas class="sigma-hovers" width="268px" height="438px" style="position: absolute; width: 268px; height: 438px;"></canvas><canvas class="sigma-hoverNodes" width="268px" height="438px" style="position: absolute; width: 268px; height: 438px;"></canvas><canvas class="sigma-mouse" width="268px" height="438px" style="position: absolute; touch-action: none; user-select: none; width: 268px; height: 438px;"></canvas></div><canvas data-testid="cinematic-layer" width="268" style="pointer-events: none; position: absolute; inset: 0px; z-index: 10; height: 100%; width: 100%;" height="438"></canvas></div></section></div></aside></main></div></div>
+    <script type="module" src="/src/app/main.tsx"></script>
+  
+
+<textarea tabindex="-1" aria-hidden="true" style="min-height: 0px !important; max-height: none !important; height: 0px !important; visibility: hidden !important; overflow: hidden !important; position: absolute !important; z-index: -1000 !important; top: 0px !important; right: 0px !important; display: block !important; border-width: 0px; box-sizing: border-box; font-family: monospace; font-size: 16px; font-style: normal; font-weight: 400; letter-spacing: normal; line-height: 24px; padding: 6px 0px; tab-size: 8; text-indent: 0px; text-rendering: auto; text-transform: none; width: 200px; word-break: normal; word-spacing: 0px; scrollbar-gutter: auto;"></textarea></body></html>

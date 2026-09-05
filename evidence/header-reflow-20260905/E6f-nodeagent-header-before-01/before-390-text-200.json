@@ -1,0 +1,76 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 900
+  },
+  "header": {
+    "x": 0,
+    "y": 0,
+    "width": 390,
+    "height": 54,
+    "right": 390,
+    "bottom": 54
+  },
+  "brand": {
+    "x": 18,
+    "y": 4.796875,
+    "width": 168.90625,
+    "height": 43.390625,
+    "right": 186.90625,
+    "bottom": 48.1875
+  },
+  "links": [
+    {
+      "text": "Prototype ↗",
+      "href": "/nodeagent-v1.html",
+      "box": {
+        "x": 210.90625,
+        "y": -10.6875,
+        "width": 110.59375,
+        "height": 74.375,
+        "right": 321.5,
+        "bottom": 63.6875
+      },
+      "scrollWidth": 111,
+      "clientWidth": 111
+    },
+    {
+      "text": "GitHub ↗",
+      "href": "https://github.com/HomenShum/NodeAgent",
+      "box": {
+        "x": 333.5,
+        "y": -10.6875,
+        "width": 77.03125,
+        "height": 74.375,
+        "right": 410.53125,
+        "bottom": 63.6875
+      },
+      "scrollWidth": 77,
+      "clientWidth": 77
+    }
+  ],
+  "main": {
+    "x": 0,
+    "y": 54,
+    "width": 390,
+    "height": 846,
+    "right": 390,
+    "bottom": 900
+  },
+  "documentOverflow": 21,
+  "headerScrollWidth": 411,
+  "headerClientWidth": 390,
+  "headerCss": {
+    "height": "54px",
+    "flexWrap": "nowrap",
+    "flexShrink": "1"
+  },
+  "brandText": "NodeAgenton assistant-ui",
+  "fonts": {
+    "ready": "loaded",
+    "manrope": true,
+    "mono": false
+  },
+  "errors": [],
+  "resizeMethod": "All original computed element text sizes sampled once then doubled; no browser/OS zoom claim."
+}

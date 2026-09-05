@@ -1,0 +1,158 @@
+{
+  "proof": "NODEAGENT-HEADER-INDEPENDENT-01",
+  "at": "2026-09-05T10:30:58.394Z",
+  "sourceBefore": {
+    "src/app/styles.css": "6e6feb6d48d3d2623d5139a890b4f58149e315153aa20934e0ee8f698febfb87",
+    "src/features/node-agent/components/NodeAgentDemoApp.tsx": "5bfb4d66491582163365fd8798444dc2744df5389cbb29b519f671e5d02a0707",
+    "src/features/node-agent/components/NodeAgentThread.tsx": "867c29ffa6efe1bce591a54ebdfe1a4721f88e82f53ead5f63e69ee1f19e2c42",
+    "src/features/node-agent/runtime/nodeAgentChatAdapter.ts": "18a238b08287f415dc4474e46d007f2fe9c6d49eba16bb64fbbab222d7c7a1a9",
+    "package.json": "b8c29dca85263de4a015bfc7cb89255a73c22440b5140616fd92d6441dedf76e",
+    "package-lock.json": "9951aa3919121d6a1dbd5351ed58ae38b7befcf7a042f9a103919ede57cd23ce",
+    ".tours/03-debug-and-recovery.tour": "9aa6c7d7ecd380b5564bfaf27ea24a7a09d72b8db7ffdcb8d249f533c49e099e",
+    "docs/codebase/TESTING.md": "512d3df76468fc3229ce0f3506f97bd9fe0d0529b5827cfbef3157ac199ecfc6",
+    "e2e/header-reflow-proof.mjs": "1506b7de8f61e173c31ef12ffa9b85464beee783990b58bbadd5ab6fdb79bb1c"
+  },
+  "gitBefore": {
+    "head": "5362505886883b49c8037bf5b9fb4ff2738d47a7",
+    "index": "71c2a72d325902a8f012c9204395241f66a94eed09922f3f1a8fcfd1d30f40f8",
+    "refs": "63ea8d5aa704559ad977eba9f2882f3447b68f4c31d8b30fd8b80176555e7873",
+    "status": "59179cf1b0a8d9ce5330d6042de2250fa767cb8965374f4c7b0df6a4e783412c"
+  },
+  "checks": [
+    {
+      "name": "source-390-text-100 DOM unchanged during capture",
+      "passed": true
+    },
+    {
+      "name": "source-390-text-100 no horizontal overflow",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "source-390-text-100 main below actual header",
+      "passed": true
+    },
+    {
+      "name": "source-390-text-100 named native resource navigation",
+      "passed": true
+    },
+    {
+      "name": "source-390-text-100 link boxes are visible and hittable",
+      "passed": true
+    },
+    {
+      "name": "source-390-text-100 exact original destinations",
+      "passed": true
+    },
+    {
+      "name": "source-390-text-100 correct bounded height",
+      "passed": true,
+      "detail": 54
+    }
+  ],
+  "captures": [
+    {
+      "name": "source-390-text-100",
+      "state": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "header": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 54,
+          "width": 390,
+          "height": 54
+        },
+        "brand": {
+          "x": 18,
+          "y": 15.65625,
+          "right": 111.453125,
+          "bottom": 37.34375,
+          "width": 93.453125,
+          "height": 21.6875
+        },
+        "main": {
+          "x": 0,
+          "y": 54,
+          "right": 390,
+          "bottom": 844,
+          "width": 390,
+          "height": 790
+        },
+        "overflow": 0,
+        "nav": {
+          "role": "NAV",
+          "name": "Project resources"
+        },
+        "links": [
+          {
+            "text": "Prototype ↗",
+            "href": "/nodeagent-v1.html",
+            "box": {
+              "x": 243.8125,
+              "y": 4.5,
+              "right": 310.296875,
+              "bottom": 48.5,
+              "width": 66.484375,
+              "height": 44
+            },
+            "focusVisible": false,
+            "hit": true
+          },
+          {
+            "text": "GitHub ↗",
+            "href": "https://github.com/HomenShum/NodeAgent",
+            "box": {
+              "x": 322.296875,
+              "y": 4.5,
+              "right": 372,
+              "bottom": 48.5,
+              "width": 49.703125,
+              "height": 44
+            },
+            "focusVisible": false,
+            "hit": true
+          }
+        ],
+        "focus": "",
+        "fonts": {
+          "manrope": true,
+          "mono": false
+        }
+      },
+      "pngSha256": "3d209bcddf3e3d426d1747f07f45f1c0a4f3e6eff9619f520dc7895ebf472ca5"
+    }
+  ],
+  "cells": [],
+  "limitations": [
+    "Four source-only normal-motion Chromium cells; no full matrix, actual device or provider proof.",
+    "Computed font doubling is not native zoom.",
+    "Link destination requests are intercepted with a labelled diagnostic document; destination contents are not certified.",
+    "Knockout restores only old layout rules in browser memory and display:contents for the added grouping; product files untouched."
+  ],
+  "error": "locator.focus: Error: strict mode violation: locator('textarea') resolved to 2 elements:\n    1) <textarea rows=\"1\" name=\"input\" class=\"na-composer-input\" placeholder=\"Ask the room anything…\"></textarea> aka getByRole('textbox', { name: 'Ask the room anything…' })\n    2) <textarea tabindex=\"-1\" aria-hidden=\"true\"></textarea> aka locator('textarea').nth(1)\n\nCall log:\n\u001b[2m  - waiting for locator('textarea')\u001b[22m\n\n    at C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6f-nodeagent-header-independent.mjs:55:34",
+  "browser": "151.0.7922.34",
+  "node": "v22.22.2",
+  "sourceAfter": {
+    "src/app/styles.css": "6e6feb6d48d3d2623d5139a890b4f58149e315153aa20934e0ee8f698febfb87",
+    "src/features/node-agent/components/NodeAgentDemoApp.tsx": "5bfb4d66491582163365fd8798444dc2744df5389cbb29b519f671e5d02a0707",
+    "src/features/node-agent/components/NodeAgentThread.tsx": "867c29ffa6efe1bce591a54ebdfe1a4721f88e82f53ead5f63e69ee1f19e2c42",
+    "src/features/node-agent/runtime/nodeAgentChatAdapter.ts": "18a238b08287f415dc4474e46d007f2fe9c6d49eba16bb64fbbab222d7c7a1a9",
+    "package.json": "b8c29dca85263de4a015bfc7cb89255a73c22440b5140616fd92d6441dedf76e",
+    "package-lock.json": "9951aa3919121d6a1dbd5351ed58ae38b7befcf7a042f9a103919ede57cd23ce",
+    ".tours/03-debug-and-recovery.tour": "9aa6c7d7ecd380b5564bfaf27ea24a7a09d72b8db7ffdcb8d249f533c49e099e",
+    "docs/codebase/TESTING.md": "512d3df76468fc3229ce0f3506f97bd9fe0d0529b5827cfbef3157ac199ecfc6",
+    "e2e/header-reflow-proof.mjs": "1506b7de8f61e173c31ef12ffa9b85464beee783990b58bbadd5ab6fdb79bb1c"
+  },
+  "gitAfter": {
+    "head": "5362505886883b49c8037bf5b9fb4ff2738d47a7",
+    "index": "71c2a72d325902a8f012c9204395241f66a94eed09922f3f1a8fcfd1d30f40f8",
+    "refs": "63ea8d5aa704559ad977eba9f2882f3447b68f4c31d8b30fd8b80176555e7873",
+    "status": "59179cf1b0a8d9ce5330d6042de2250fa767cb8965374f4c7b0df6a4e783412c"
+  },
+  "preserved": true,
+  "passed": false
+}

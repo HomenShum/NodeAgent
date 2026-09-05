@@ -50,7 +50,7 @@ from `src/`. See `docs/SIMPLIFICATION_REPORT.md`.
 
 For the browser gate, the equivalent is to re-hide the graph rail on narrow
 screens (`src/app/styles.css`, the `@media (max-width: 960px)` block at line
-181). `e2e/capture-journey-at-width.mjs` asserts the graph canvas is not
+217). `e2e/capture-journey-at-width.mjs` asserts the graph canvas is not
 zero-width — the *cause* of defect D1, not its symptom — so any mechanism that
 re-hides the rail turns the gate red.
 
