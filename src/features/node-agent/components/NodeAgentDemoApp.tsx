@@ -34,12 +34,14 @@ export function NodeAgentDemoApp() {
             <span className="na-ver mono">on assistant-ui</span>
           </h1>
           <span className="na-spacer" />
-          <a className="na-link" href="/nodeagent-v1.html">
-            Prototype ↗
-          </a>
-          <a className="na-link" href="https://github.com/HomenShum/NodeAgent">
-            GitHub ↗
-          </a>
+          <nav className="na-resource-links" aria-label="Project resources">
+            <a className="na-link" href="/nodeagent-v1.html">
+              Prototype ↗
+            </a>
+            <a className="na-link" href="https://github.com/HomenShum/NodeAgent">
+              GitHub ↗
+            </a>
+          </nav>
         </header>
 
         <main className="na-main">

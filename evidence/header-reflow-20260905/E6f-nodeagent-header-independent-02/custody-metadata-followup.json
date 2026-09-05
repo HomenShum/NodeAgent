@@ -1,0 +1,19 @@
+{
+  "status": "FIRST_CUSTODY_ASSERTION_TOO_BROAD",
+  "error": "Full234 current-byte equality after recovery rejected the two later numeric citation updates; product/runtime inputs remain exact.",
+  "metadataOnlyDifferences": [
+    {
+      "path": ".tours/03-debug-and-recovery.tour",
+      "recoverySha256": "01cdce8aac5661f3b5802d8bca8749ad07ccaa1b447af7f88049bdb2f0f81c94",
+      "currentSha256": "9aa6c7d7ecd380b5564bfaf27ea24a7a09d72b8db7ffdcb8d249f533c49e099e",
+      "recoveryEqualsBase": true
+    },
+    {
+      "path": "docs/codebase/TESTING.md",
+      "recoverySha256": "b28b3964fda89568df077fe998eb78befb4b0f2399edb6f94ecada9579f5c7c0",
+      "currentSha256": "512d3df76468fc3229ce0f3506f97bd9fe0d0529b5827cfbef3157ac199ecfc6",
+      "recoveryEqualsBase": true
+    }
+  ],
+  "correction": "Bind232 unchanged recovery inputs directly and the two documentation changes via their actual diff and final citation replay. No runtime proof rerun needed."
+}

@@ -1,0 +1,17 @@
+{
+  "name": "build",
+  "at": "2026-09-05T10:22:32.723496+00:00",
+  "argv": [
+    "cmd.exe",
+    "/d",
+    "/c",
+    "npm",
+    "run",
+    "build"
+  ],
+  "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+  "exitCode": 0,
+  "seconds": 7.218999999924563,
+  "log": "build.log",
+  "environment": "Provider/Convex/Vite inherited variables removed without output; no credential files read."
+}

@@ -1,0 +1,80 @@
+diff --git a/.tours/03-debug-and-recovery.tour b/.tours/03-debug-and-recovery.tour
+index 9a866b6..2dcffb4 100644
+--- a/.tours/03-debug-and-recovery.tour
++++ b/.tours/03-debug-and-recovery.tour
+@@ -23,7 +23,7 @@
+     },
+     {
+       "file": "src/app/styles.css",
+-      "line": 216,
++      "line": 217,
+       "anchor": "@media (max-width: 960px)",
+       "description": "The site of defect D1. This block used to say `.na-rail { display: none }`. CSS owned visibility, React owned mounting and gated on data — so a WebGL renderer was mounted into a 0x0 box, threw, and took the app down. The rail is now a bottom panel instead: one owner, no hidden-but-mounted state."
+     },
+diff --git a/docs/codebase/TESTING.md b/docs/codebase/TESTING.md
+index 94b3169..4ef6513 100644
+--- a/docs/codebase/TESTING.md
++++ b/docs/codebase/TESTING.md
+@@ -50,7 +50,7 @@ from `src/`. See `docs/SIMPLIFICATION_REPORT.md`.
+ 
+ For the browser gate, the equivalent is to re-hide the graph rail on narrow
+ screens (`src/app/styles.css`, the `@media (max-width: 960px)` block at line
+-181). `e2e/capture-journey-at-width.mjs` asserts the graph canvas is not
++217). `e2e/capture-journey-at-width.mjs` asserts the graph canvas is not
+ zero-width — the *cause* of defect D1, not its symptom — so any mechanism that
+ re-hides the rail turns the gate red.
+ 
+diff --git a/src/app/styles.css b/src/app/styles.css
+index e1e4b82..4dbe1e2 100644
+--- a/src/app/styles.css
++++ b/src/app/styles.css
+@@ -61,19 +61,20 @@ button { font-family: inherit; cursor: pointer; }
+ /* shell */
+ .na-app { display: flex; flex-direction: column; height: 100%; }
+ .na-appbar {
+-  display: flex; align-items: center; gap: 12px;
+-  height: 54px; padding: 0 18px;
++  display: flex; flex-wrap: wrap; flex-shrink: 0; align-items: center; gap: 0 12px;
++  min-height: 54px; padding: 4px 18px;
+   border-bottom: 1px solid var(--line);
+   background: linear-gradient(180deg, rgba(21, 20, 19, 0.92), rgba(21, 20, 19, 0.7));
+   backdrop-filter: blur(12px);
+ }
+ /* .na-brand is the <h1>; the reset keeps the appbar looking identical. */
+-.na-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: -0.02em; margin: 0; font-size: 14px; line-height: 1.55; }
++.na-brand { display: flex; flex-shrink: 0; align-items: center; gap: 8px; font-weight: 800; letter-spacing: -0.02em; margin: 0; font-size: 14px; line-height: 1.55; }
+ .na-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.5); animation: na-breathe 3.4s ease infinite; }
+ @keyframes na-breathe { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217,119,87,.5);} 50% { transform: scale(1.18); box-shadow: 0 0 0 7px rgba(217,119,87,0);} }
+ .na-ver { color: var(--ink-faint); font-size: 11px; font-weight: 500; }
+ .na-spacer { flex: 1; }
+-.na-link { font-size: 12px; color: var(--ink-muted); }
++.na-resource-links { display: flex; flex-shrink: 0; align-items: center; gap: 12px; }
++.na-link { font-size: 12px; color: var(--ink-muted); white-space: nowrap; }
+ .na-link:hover { color: var(--accent); }
+ 
+ .na-main { flex: 1; min-height: 0; display: flex; }
+diff --git a/src/features/node-agent/components/NodeAgentDemoApp.tsx b/src/features/node-agent/components/NodeAgentDemoApp.tsx
+index 5cce69c..aa00f8c 100644
+--- a/src/features/node-agent/components/NodeAgentDemoApp.tsx
++++ b/src/features/node-agent/components/NodeAgentDemoApp.tsx
+@@ -34,12 +34,14 @@ export function NodeAgentDemoApp() {
+             <span className="na-ver mono">on assistant-ui</span>
+           </h1>
+           <span className="na-spacer" />
+-          <a className="na-link" href="/nodeagent-v1.html">
+-            Prototype ↗
+-          </a>
+-          <a className="na-link" href="https://github.com/HomenShum/NodeAgent">
+-            GitHub ↗
+-          </a>
++          <nav className="na-resource-links" aria-label="Project resources">
++            <a className="na-link" href="/nodeagent-v1.html">
++              Prototype ↗
++            </a>
++            <a className="na-link" href="https://github.com/HomenShum/NodeAgent">
++              GitHub ↗
++            </a>
++          </nav>
+         </header>
+ 
+         <main className="na-main">

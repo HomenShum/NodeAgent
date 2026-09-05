@@ -1,0 +1,64 @@
+{
+  "layout": [
+    {
+      "class": "na-viewport",
+      "scrollTop": 0,
+      "scrollHeight": 906,
+      "clientHeight": 906,
+      "box": {
+        "x": 370,
+        "y": 54,
+        "width": 820,
+        "height": 906,
+        "top": 54,
+        "right": 1190,
+        "bottom": 960,
+        "left": 370
+      }
+    },
+    {
+      "class": "na-footer",
+      "scrollTop": 0,
+      "scrollHeight": 103,
+      "clientHeight": 103,
+      "box": {
+        "x": 388,
+        "y": 848.953125,
+        "width": 784,
+        "height": 103.046875,
+        "top": 848.953125,
+        "right": 1172,
+        "bottom": 952,
+        "left": 388
+      }
+    }
+  ],
+  "viewport": {
+    "width": 1920,
+    "height": 960
+  },
+  "scroll": {
+    "x": 0,
+    "y": 0
+  },
+  "text": "NodeAgent\non assistant-ui\nPrototype ↗\nGitHub ↗\n◆\nAsk the room\n\nNodeAgent gathers the relevant context, finds the right document for the right answer, updates the model as a versioned delta, and writes the cited memo — and you watch each step render inline.\n\nDoes our wedge hold + survive 18 months? →\nWhat changed since last update? →\n↑\n\nDeterministic demo — no keys. The agent runs the real ported modules over a fixed scenario.\n\nSession graph\n0 entities · 0 edges\n\nAsk the room a question — each loop step streams the entities it actually touched into this graph.",
+  "overflow": 0,
+  "focus": {
+    "tag": "TEXTAREA",
+    "label": null
+  },
+  "buttons": [
+    {
+      "label": "Does our wedge hold + survive 18 months? →",
+      "disabled": false
+    },
+    {
+      "label": "What changed since last update? →",
+      "disabled": false
+    },
+    {
+      "label": "Send",
+      "disabled": true
+    }
+  ]
+}

@@ -23,7 +23,7 @@
     },
     {
       "file": "src/app/styles.css",
-      "line": 216,
+      "line": 217,
       "anchor": "@media (max-width: 960px)",
       "description": "The site of defect D1. This block used to say `.na-rail { display: none }`. CSS owned visibility, React owned mounting and gated on data — so a WebGL renderer was mounted into a 0x0 box, threw, and took the app down. The rail is now a bottom panel instead: one owner, no hidden-but-mounted state."
     },

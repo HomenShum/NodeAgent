@@ -1,0 +1,16 @@
+{
+  "name": "source-recovery",
+  "at": "2026-09-05T10:20:16.860242+00:00",
+  "argv": [
+    "node",
+    "e2e/current-consumer-recovery-proof.mjs",
+    "D:/ProjectRecovery/NodeAgent current consumer 20260905/Response recovery Chat app 03",
+    "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6f-nodeagent-header-recovery-01",
+    "--source-only"
+  ],
+  "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+  "exitCode": 0,
+  "seconds": 134.0779999999795,
+  "log": "source-recovery.log",
+  "environment": "Provider/Convex/Vite inherited variables removed without output; no credential files read."
+}

@@ -1,0 +1,20 @@
+
+> nodeagent@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 D:/VSCode Projects/cafecorner_nodebench/nodebench_ai4/.portfolio-worktrees/nodeagent-current-consumer-20260905
+
+ ✓ tests/omnigentAdapter.test.ts (2 tests) 4ms
+ ✓ tests/searchSynthesize.test.ts (10 tests) 6ms
+ ✓ tests/spreadsheetDelta.test.ts (13 tests) 9ms
+ ✓ tests/reasoningFrameRunner.test.ts (2 tests) 5ms
+ ✓ tests/durableRuntime.test.ts (4 tests) 7ms
+ ✓ tests/nodeAgentRuntime.test.ts (8 tests) 7ms
+ ✓ tests/sqliteDurableRuntime.test.ts (2 tests) 83ms
+
+ Test Files  7 passed (7)
+      Tests  41 passed (41)
+   Start at  03:22:31
+   Duration  839ms (transform 385ms, setup 0ms, collect 1.33s, tests 121ms, environment 1ms, prepare 956ms)
+
