@@ -1,0 +1,15 @@
+# UI change boundary
+
+Route: source canonical React demo, original loopback URL in report.json.
+Viewport: 1440 x 960.
+Theme: actual product dark theme; anonymous local session.
+Trigger: running.
+Fixture: Does our wedge hold versus Acme, and does the runway model survive 18 months? followed by the explicit PROOF FIXTURE failure question from the raw report. The running capture pauses the actual adapter iterator after its actual first tool-call yield; it changes no source or payload and exists only to settle text animation. The error capture uses an explicitly labelled in-memory adapter throw, not an external provider failure.
+
+CHANGE A / Run controls: .na-composer. Current composer disables Send while running and has no Stop. Expected: show supported Stop while running; stopping presentation must never imply undoing already-computed local work or prior writes. Empty/populated keep ordinary keyboard submission and existing no-key disclosure.
+
+CHANGE B / Current run response: last matching .na-msg-assistant .na-bubble. Current failed turn leaves its last partial text visible without a visible error or Retry; earlier four cards remain. Expected: explicit failed/stopped status and a supported retry action, preserving previous turns and avoiding fake success. Error text is a safe constant; exact raw exception remains in the raw fixture proof. Long messages/statuses wrap at named widths and enlarged text.
+
+Protected neighbors: brand/header, suggestions, prior messages and four tool facts, existing graph traversal/assertion semantics, immutable source fixture results, no-key policy and separate SQLite persistence. These regions are not a license to change provider ownership or implement Pi. Browser reload resets the conversation; durable/frame proof belongs to a separate library path. Grades stay null.
+
+Before source SHA bindings: d3-source-boundary-03/report.json. Exact screenshot bytes are copied, not re-rendered. D3 implementation requires separate root review after the installed-consumer dependency repair passes. Historical snapshot/selector harness failures remain under d3-source-boundary-01/02. The final settled capture preserves exact DOM before/after overlays.

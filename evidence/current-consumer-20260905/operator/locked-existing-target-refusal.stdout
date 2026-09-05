@@ -1,0 +1,12 @@
+T  NodeAgent App Scaffold: chat-ui
+|
+x  Target already exists: D:\ProjectRecovery\NodeAgent current consumer 20260905\Locked Chat app
+|
+o  Existing directory ----------------------------------------+
+|                                                             |
+|  Re-run with --force to overwrite matching template files.  |
+|                                                             |
++-------------------------------------------------------------+
+|
+—  App scaffold stopped before writing files.
+

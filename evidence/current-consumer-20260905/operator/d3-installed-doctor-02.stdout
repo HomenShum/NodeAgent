@@ -1,0 +1,23 @@
+T  NodeAgent Doctor
+|
+*  found examples/apps/chat-ui/template/package.json
+|
+*  found examples/apps/local-dashboard/template/package.json
+|
+*  found examples/apps/chat-ui/template/src/nodeagent-chat/NodeAgentChatApp.jsx
+|
+*  found examples/apps/local-dashboard/template/src/main.jsx
+|
+o  Next -----------------------------------------------------------------------+
+|                                                                              |
+|  No-key chat UI scaffold:                                                    |
+|    nodeagent apps scaffold chat-ui --dir nodeagent-chat-ui --auto            |
+|                                                                              |
+|  No-key dashboard scaffold:                                                  |
+|    nodeagent apps scaffold local-dashboard --dir nodeagent-local-dashboard   |
+|  --auto                                                                      |
+|                                                                              |
++------------------------------------------------------------------------------+
+|
+—  Doctor passed.
+

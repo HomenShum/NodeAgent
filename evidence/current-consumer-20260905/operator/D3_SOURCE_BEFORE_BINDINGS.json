@@ -1,0 +1,32 @@
+{
+  "entries": [
+    {
+      "path": "evidence/nodeagent-d3-source-before/source-running-390",
+      "pngSha256": "0e61aa353c714c586a86f780e6edee68d43e5d4a26b68b8b98ae0d4ebfaea873",
+      "state": "running",
+      "width": 390
+    },
+    {
+      "path": "evidence/nodeagent-d3-source-before/source-error-390",
+      "pngSha256": "02217ecb45988088b5c8a329d439cf1edf36daff0c94485eaad75edbd58406ec",
+      "state": "error",
+      "width": 390
+    },
+    {
+      "path": "evidence/nodeagent-d3-source-before/source-running-1440",
+      "pngSha256": "f5e8fbf4b550ddf1270bb4b1dd2ba01677aae3b586cde19143a55651b8d08ef4",
+      "state": "running",
+      "width": 1440
+    },
+    {
+      "path": "evidence/nodeagent-d3-source-before/source-error-1440",
+      "pngSha256": "835986f05145c79da8c42d8198702795cc83d4b0cfa382f9cb825e83268a2a36",
+      "state": "error",
+      "width": 1440
+    }
+  ],
+  "sourceHead": "4e525fd0f84e08a4f8203599d7341c17bf53205e",
+  "noSourceChanges": true,
+  "rawReportSha256": "256a6ca00c3041129d0048b2323bd1a2df3c0647ce19051df82f83434a7eb951",
+  "status": "BEFORE_ONLY_D3_NOT_IMPLEMENTED"
+}

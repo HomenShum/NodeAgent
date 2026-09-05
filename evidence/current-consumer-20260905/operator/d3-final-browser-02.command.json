@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "e2e/current-consumer-recovery-proof.mjs",
+    "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery Chat app 02",
+    "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-02"
+  ],
+  "exit": 1,
+  "seconds": 139.8300929069519
+}

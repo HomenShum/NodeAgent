@@ -1,0 +1,786 @@
+{
+  "namedProof": "NODEAGENT-RESPONSE-RECOVERY-01",
+  "startedAt": "2026-09-05T08:15:50.311Z",
+  "sourceBefore": {
+    ".gitattributes": "7d24510d29efb0bb23dc6507849c430d2eed29e78e972b9e96b8a0da66bba2c5",
+    ".github/workflows/ci.yml": "060a77ce6de5d1af76b178522c99ca3c707535e597ed1ff91d3bd6bb32185425",
+    ".github/workflows/node-platform-conformance.yml": "d527515d835cf3be91687dcab1af14c23fb43f613dfc6e46c2ebbe801fd4dea1",
+    ".gitignore": "350b0dc83efaee7060b28176fe4823f5ad363f5925c13508f4c5374229693bfb",
+    ".tours/01-primary-user-flow.tour": "c238088d3c9f457f4ffdb1940f172f2bf78e37399a957751ec4cd850b2d908ae",
+    ".tours/02-agent-execution.tour": "a27de3c0a8d77e83bb599d7fb9e8945fe6629077136e58ec23c84a05f7c79d37",
+    ".tours/03-debug-and-recovery.tour": "01cdce8aac5661f3b5802d8bca8749ad07ccaa1b447af7f88049bdb2f0f81c94",
+    "NODE-LOOPS.md": "de5c06200746f18c4a60db55021cb2ac69d481372555566cd85e008a74d30a80",
+    "README.md": "b872bea0ee4490993529903a4f871caa581c0a45104813d8c9cec0cddc156140",
+    "bin/nodeagent.mjs": "c8114aaac7bb8eeedfc6be2784ee09b4996b1a3babfc06da84d981e21cc86f4d",
+    "convex/schema.ts": "0031874d28c3ef866ed5f279f9e90eab30f8cbb07e60db5db76e08391784e26b",
+    "demo/runNodeAgentDemo.ts": "cb04228b26bddb45f8551fa5512456fa97a97b2e116dc20d19dc2462e3904952",
+    "docs/ARCHITECTURE.md": "4f65e5d952a4c067ce2c4c5d92f24e23023d6fe83210f114c30d4681b9382055",
+    "docs/CHAT_UI_ADOPTION.md": "874a5a85dad2064de574da13dd5e86279a603edb508a4ad073fcf8c12a2420e7",
+    "docs/DEMO_SCRIPT.md": "485fba652a80422320c631cf922a8971275c50d7cac8f8083c53fd0c1da2bff2",
+    "docs/DURABLE_RUNTIME.md": "761c1b709867bef39a7f56457be7b8a91295015407eeecad395a543de59d8a76",
+    "docs/FEATURE_PROOF_STORYBOARD.md": "7af5de5f23936d67738f729af5e6f080b53d62a477781aa6a12b599a11c22ea6",
+    "docs/GRAPH_INTEGRATION.md": "de2d0a9d605901e4e02a4d398d8e99912fbe82f28c1084e94ce2ac325c3686c1",
+    "docs/LOCAL_DASHBOARD_WALKTHROUGH.md": "5700b4f5cd72116eaa870294fd8504e3da9ede2d6d8248d41c83fd14db409847",
+    "docs/MIGRATION_MAP.md": "54e140fe9613de32f4a809881145bd3dcc569d33340be5768bf48a6d27261c1a",
+    "docs/OMNIGENT_INTEGRATION.md": "6cfd2c8172cb2fb395af7f24d73fd3426a9fcc69c302233f214dd4d666d08fe0",
+    "docs/PUSH_TO_GITHUB.md": "08bd4a4abdd268b5a8ef5e167925b9abeb0773ec262e7e88e6272dd10ed5adc2",
+    "docs/SIMPLIFICATION_REPORT.md": "76d606b042d3459c66c0cc31a054c164baae47d641408ff723b9e3cd8fa9bcbf",
+    "docs/START_HERE.md": "4e989353925e5d00718b75bd6a0f0bd730617f2bd12ba4b438bd99d0dbaa5f54",
+    "docs/TECH_RETRO.md": "7893581c35ee86a2e4d9886eb1a7fe18191cbdd229e6f9cf401a72866d51e59f",
+    "docs/codebase/ARCHITECTURE.md": "affa237f04914fe198686fdff72f1dbf8fcaa5fc711f628a06a9e28db6f58c99",
+    "docs/codebase/CONCERNS.md": "7b62490046c9d8bbc43d982f6dbab56c3f3cba4177218ba3491d857a28f763bb",
+    "docs/codebase/CONVENTIONS.md": "d951d489cf71076d42c9e27843b35a42a1eabb9fba0224522967af507a5619e8",
+    "docs/codebase/INTEGRATIONS.md": "1cb82e52bee42b972c56b056baf06065847d97c162f62f9cf885cd5c447dbc06",
+    "docs/codebase/STACK.md": "4865265a6b9c8fb98c0ed1c387f5bc6c4d61a2082e46c7c6e1f5e3d2661124ef",
+    "docs/codebase/STRUCTURE.md": "3668b893562275e0eb2d0e4c5840b1a724bed8b3ea8189340e61ba300a2d6511",
+    "docs/codebase/TESTING.md": "b28b3964fda89568df077fe998eb78befb4b0f2399edb6f94ecada9579f5c7c0",
+    "docs/eval/nodeagent-chat-ui-scaffold-smoke.json": "d5124be82b93bf14b09075aab3b8ed36409917c66e771124f9dde4dceafaccfd",
+    "docs/eval/nodeagent-convex-smoke.json": "e32097737d106d50e0c1a6cbddb2f225b06ae042bf4a8e04b30b2877991c0a26",
+    "docs/eval/nodeagent-durable-smoke.json": "1238544f850a472ca59782591a5a1a7a2720492e89b73681f130d9b7ef269272",
+    "docs/eval/nodeagent-frame-smoke.json": "679d289510ae9ec0f3042d9cabe470cdf7142746f3282661e9a256a8ee4ecd79",
+    "docs/eval/nodeagent-happy-path-speed.json": "3cf7fa349a29064282f9d6c1c184e43f0b209d29e9abb121b03645b88ae87e40",
+    "docs/eval/nodeagent-live-provider-smoke.json": "cc596d297d02cc5e2da761ccb4fed2149efd16be961c14905f095d15f86f6adf",
+    "docs/eval/nodeagent-local-dashboard-scaffold-smoke.json": "ba143f75f6b86a1bd07b6d77a1a80e44ee61a91931771e3e051c6cd05c47011d",
+    "docs/eval/nodeagent-sqlite-smoke.json": "08fe435245ccee33fc4a061ae34ebd1b9851d9ce3d13ab7d8099971dc1ee7ecb",
+    "docs/eval/omnigent-nodeagent-smoke.json": "be36f32f096efa3a0295426ad91b9ca0017e95edeb8d83a59f966c13f0a55eef",
+    "docs/eval/omnigent-official-cli-probe.json": "b4e076dd9e465470c47b7321a06f11cff2963223984d5b02a36bf4e26bf3c86c",
+    "docs/media/live-graph-rail.gif": "8b3c9cf2c1d9b74c3184144315de24006333e400f0847a481fb2858aeb5f167e",
+    "docs/media/live-graph-rail.mp4": "c634fc8802bb29fb60b87dacf311a8226f867b301314c3637b47dcdb9a2df34c",
+    "docs/media/live-graph-rail.png": "dbefe80026c7ed0b49b0d6287aa3e34a64dcacd1e41edae3f008ef8ea3c54a8d",
+    "docs/screenshots/chat-desktop-empty.png": "6015202a5f57f94ab430b83c378190a954a305e8bd06afcb2e49cdd8f523009a",
+    "docs/screenshots/chat-desktop-run.png": "778a93ddada16a0a537e9d485ab92f564f2d36a6bc7012ba2f219c1d4485999e",
+    "docs/screenshots/chat-mobile-empty.png": "ea2e57ceedf84c3f069c912960fa3058eccd06c93b80d99c79242eba663b19be",
+    "docs/screenshots/chat-mobile-run.png": "afe70662889a13acd1a4c380a6d2b7e928ee11590d0152be53a3955f85aebfb2",
+    "docs/screenshots/local-dashboard-builder-locked.png": "ba9787c3227dd031b6ba7ef5ded15270c5bdf21a2a3b990a5f8feea9eb7f6c85",
+    "docs/screenshots/local-dashboard-overview.png": "de827fe60aecccb69cd7a95ba953788c0db66ce6fc483ec3bd1b5221dd695248",
+    "docs/screenshots/proto-desktop-empty.png": "85d98003fdfa0ea23b9d0f91285712ab9a02a7dffdc0553991a87c04864fa482",
+    "docs/screenshots/proto-desktop-run.png": "fb8f3447f228808a25cb66b355f4e0fb037d7544f384f9c7d733cdad2212efe9",
+    "docs/screenshots/proto-mobile-empty.png": "206f48c6be8dbcaefcbe0805a2d5ea45b189be0cf3e76f60db72c0f078e53fa0",
+    "docs/screenshots/proto-mobile-run.png": "0685cda48af13f861e8c3f3e91647e8f145fe78edb8074624d8bfe2646d937da",
+    "docs/walkthroughs/nodeagent-local-dashboard-walkthrough.gif": "7f6b95e318a12616c3d3aaef36148d4c100485fbba0e6f4a477ab7185478dedf",
+    "docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4": "a70c7e948943bde977bcf7a1ae381c0f41740ed1d7f61e1e1fe878cb2869b7a5",
+    "e2e/audit-web-quality.mjs": "4873cdab32d9f453287a3739be8f5d993ef9b95c7602cd831f7da7661e6d3dcf",
+    "e2e/capture-journey-at-width.mjs": "013d27272d604264791013570e2d73164a00da6db3f3d01d58b1ce65b7343a68",
+    "e2e/capture-live-graph-rail.mjs": "0bc99d4c34c13c65860f71831655eef5720f6518549e028918e3815e9f31e002",
+    "e2e/record-live-graph-rail.mjs": "659e60cedd9c808484133b327bd1342cf0e563f6bd421a3bc8722ae0cb5f6dd9",
+    "e2e/wig-review.mjs": "6237b35b2a7973a5f5dc1ad1b046f8957b96eb9565ee7281f08e93ca0c3b5155",
+    "examples/adapters/AGENTS.md": "dc4767012dfd4817196efd49f201aa7cd01b5f04d90bd84d45c36d37879647c9",
+    "examples/adapters/README.md": "de09b71405f0bbdbd3e4690d8cf9ca4383c8eb2ba17e834b4c3df9a8ae3c75b2",
+    "examples/adapters/aws-dynamodb/README.md": "ae85683cbd7d9e00994dcb411949e2828f2f37c3982d18844f80d2132b4a0ed4",
+    "examples/adapters/aws-dynamodb/iam-policy.template.json": "110beae5c54e161816e9306d8975cf019f7b001aa06c8cc9ba7186b044501df7",
+    "examples/adapters/cloudflare/README.md": "4ec0db54d38b7eecd76351094d1575dcaa7e9e66b7913b0e76eff26402b0cf1e",
+    "examples/adapters/cloudflare/wrangler.example.jsonc": "84d8bdead5698bc7d1f44e80892f30a54d0b4d832aa2f8e1875a9b93cbc37f20",
+    "examples/adapters/convex/README.md": "bb94b7aecc1d6264f54a92b560bd8c3fd9187f33b9b880ba54312c16767a592b",
+    "examples/adapters/postgres/README.md": "e8623e1543f85f37a4bdb5f2c790794455cbff8b77c3d82e714c3eb3c9813434",
+    "examples/adapters/postgres/schema.sql": "e20e5cdedfbc3db9f453366c6ada1a247dd9b52126aeedb223366594cfe349b0",
+    "examples/adapters/sqlite-local/README.md": "bb92f5764c073e9fba39c9fee81dff3fe6af69da2c65dcd47193426a45b73f02",
+    "examples/adapters/sqlite-local/schema.sql": "815a7006448cb0353c2e833cdbfe7106c0d83b94cd78c8be4ca12115b7a0373c",
+    "examples/adapters/sqlite-local/sqliteDurableRuntime.ts": "fce534d3e972a145b09ea65609aee4dbae51ee036ba493f315eca807e4f4e269",
+    "examples/apps/README.md": "e13d8ceb2745530408139ccf3435e949d39c0beff3e5f405b156efe8f8d20d94",
+    "examples/apps/aws-hackathon-visual-labs/README.md": "562af6f3a57b019bb439d2d4d0e992d6242c371288ad2ecb9f161b17139171df",
+    "examples/apps/chat-ui/README.md": "f121e87752bdc044d8ddd72f3aabe99c46c84390081cfb0daad31518710a1ba9",
+    "examples/apps/chat-ui/template/AGENTS.md": "77f8742492c181e676e099eec3c6eac08d9666fb15243d3db290618a993336a7",
+    "examples/apps/chat-ui/template/README.md": "8be8d44b92426c1ce5458f346dff2473d8443988c486f4808fc86586cfe4e11b",
+    "examples/apps/chat-ui/template/index.html": "58cc6f4dc254bd4d28c03ee74e69ef6d6dd84e249f77bf302e9d7acfcb3f5f50",
+    "examples/apps/chat-ui/template/package.json": "1967ba21a4990b73cf2702ada8ced1294a1ceb09feb51f61258c07199a7755c9",
+    "examples/apps/chat-ui/template/public/nodeagent-chat-state.json": "8012c846edea7d83e2357168bb60f86c3d8931350afbc677777f39759c55efda",
+    "examples/apps/chat-ui/template/scripts/chat-ui-smoke.mjs": "02fb0afaff76d2808d1e73c42fdd3a15c685adb7baebfb3f90a9e2dc214bcf28",
+    "examples/apps/chat-ui/template/scripts/run-chat-demo.mjs": "4fc8639132b44051f0d3fa07aef314926d4cd53f59cf23ec3587a35f339cb34f",
+    "examples/apps/chat-ui/template/src/main.jsx": "77078b85930791d340d62404e1274427d42cd60332b5f318ae016f9356b05d1f",
+    "examples/apps/chat-ui/template/src/nodeagent-chat/NodeAgentChatApp.jsx": "1b13c028fb4db0bdf2a7ce91b2a3b9d185a2026b27c068492f3c122c0f1ad7e6",
+    "examples/apps/chat-ui/template/src/nodeagent-chat/nodeAgentLocalAdapter.js": "e0932f813c420b5f9c2c76df07a01d7dcd8888c4ad44dac28f4625f395397f14",
+    "examples/apps/chat-ui/template/src/nodeagent-chat/toolUIs.jsx": "99ddf781c65b86bc50d450efe03a8f0090ef82597a649a1303cd532eb95d1a24",
+    "examples/apps/chat-ui/template/src/styles.css": "20a969c5ba58a410ffd1d736693a5f793dbd7a90214c130dee4eb87c6f30ed1a",
+    "examples/apps/chat-ui/template/vite.config.mjs": "891cad9de5cf84ed18dbd809b6f354871c8847514a002cd46f7aa0169928ef4a",
+    "examples/apps/local-dashboard/README.md": "0b1cddba25b20cf7c73f53be875f34d37249d7fea34f29462dcf5e5fa9aa2cc1",
+    "examples/apps/local-dashboard/template/AGENTS.md": "62feff51961821ee700280258aece1e403cbf36b81b452f038700ffabf59e6b0",
+    "examples/apps/local-dashboard/template/README.md": "c6193c1590e5264305dd23b3ae437821ad8db3ab22173b36b908a91d0264f761",
+    "examples/apps/local-dashboard/template/docs/eval/.gitkeep": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "examples/apps/local-dashboard/template/index.html": "e43f5f41df5efffad72701ae0eae1bb048ce61275c91f37be1dd12f6446ee3c0",
+    "examples/apps/local-dashboard/template/package.json": "fe4aa76bf304081d58abd3c651679b48ca96139f9aaf278b7513676f02d44633",
+    "examples/apps/local-dashboard/template/public/nodeagent-state.json": "8ea1acdbed9372f70ab32dc208f05de76fe9779e9ff9a5282330c299c7edc5cb",
+    "examples/apps/local-dashboard/template/scripts/run-local-agent.mjs": "ca5d95d565fa65d79b0a91a752228f22a9d82e47e985e3efb1ebcc1a3d1f5b50",
+    "examples/apps/local-dashboard/template/src/main.jsx": "ae374c7a163355eae17f2b0f303e4fdec627b530f2cc10a01d53c1fb6998426f",
+    "examples/apps/local-dashboard/template/src/styles.css": "18bcf7e4bb560eded6a6b668d7d43bcd58e161cfb4d8788afebfaebc5f6e325a",
+    "examples/apps/local-dashboard/template/vite.config.mjs": "2448a94bdacc4085b4fd26ccb7c3f323d04a220af29a24b61703903730b68984",
+    "examples/apps/local-design-dashboard/README.md": "7d9957a325eb2be1f4ebcd333701265bd467ba7bf7f6b142a8f1fd2b0becf4cc",
+    "examples/apps/minimal-portable-agent/AGENTS.md": "7c12015d5910ef934abdf90280e9a12036b85d810dca6c4b94d5ec250615a8df",
+    "examples/apps/minimal-portable-agent/README.md": "ac46bc0e6b9858fc30bc6acf8b28b314aeac6837b71f32ec10e0e63f2d0858b7",
+    "examples/apps/video-agent-pipeline/README.md": "9260fbec0741c9f3c9c30f0522d3ba3562cca81b0b2228abd7d1a577f2378e92",
+    "examples/omnigent/nodeagent-reviewer.yaml": "7cb996f27c510212664af96e452e8dc9facf2d694c3dc10f8efdf7768d181b90",
+    "examples/omnigent/nodeagent-worker.yaml": "a3347fd136ebfc576e10d7cff5e0812f6ee3e7f9013950cfdc37a2647e3d845d",
+    "index.html": "8b6c4cc13f3ff1c50e46d302092cccded55f2f0e37ce651ba11080e0940b9f0d",
+    "knip.json": "2e5e58e3b9b4cf805b6ed7676a27afa1a695cfebc7ed06851eac192fb0069500",
+    "nodeagent-v1.html": "ab7ebcf897f035fe7637a89bf4a08deb1bd70385756b56c0a2b1b132738e3883",
+    "nodekit.yaml": "0ed8a02933119956a5661fd88161bbcc49b16da094f7759c1b6fa2cbd1e27841",
+    "package-lock.json": "9951aa3919121d6a1dbd5351ed58ae38b7befcf7a042f9a103919ede57cd23ce",
+    "package.json": "b8c29dca85263de4a015bfc7cb89255a73c22440b5140616fd92d6441dedf76e",
+    "promotion/PRODUCT_GOAL.md": "9aea76a3fd78c8278563ccce3d78af450ba92be5c0170c11c4fb84de044cd812",
+    "promotion/PRODUCT_JOURNEYS.md": "228eafccc9ec25399030be5ec892df89d5ab0629ad493300acb2a4bae7e983f9",
+    "promotion/PROMOTION_LOG.md": "347660b94db66da063a9bc3d11ef8747ad03c1000d6cb89bbbe6af40612a1f0f",
+    "promotion/SKILLS.md": "87b7007d45eed6728cb739dc9aced62fad66f9e761a0c96f09ee8389b45fa797",
+    "promotion/WIG_REVIEW.md": "95034e5b091d63e112e7caf693583a1ad7db3e4795968600e408d9536fe6ab0d",
+    "promotion/evidence/axe-initial-prefix.json": "da7e1040ca40e5e09d355f6e2c878c0fcd5b5c1c43fd0f015eaf652a9a72b644",
+    "promotion/evidence/axe-initial.json": "b8f7eb1afb6326dec583515c90cd79c2a0b7cbbd7d05f3d228e0b7368955f3a1",
+    "promotion/evidence/axe-populated-axe-1440.json": "00ef2ee3b0928d563812c704a881e05f10b918c7b56283ab70b1d77fb59e70e1",
+    "promotion/evidence/axe-populated-keyboard-375.json": "f7c368a01a5cf61b00677ec791a45e473a5cf8c2abca188f1fbb3bf6446e5064",
+    "promotion/evidence/axe-populated-prefix-keyboard-375.json": "b4746398b2d3839d9978465b11204f706ae745dbb992229e14e89d08782941f2",
+    "promotion/evidence/baseline-observations.json": "db6a60101e5ab6843a76505251da47ad093c738b8ee86066b3a7746958374e63",
+    "promotion/evidence/desktop-1440-agent-running.png": "59d197b7594b42956c8afa15bf7d327a65092049e0299af73e24e9dde24bc535",
+    "promotion/evidence/desktop-1440-empty.png": "d514655292a386be5ad20edb2cfe4f76af3190f7ac718582482494a7067d7e6b",
+    "promotion/evidence/desktop-1440-keyboard-run.png": "0e977bbb6fd4383c09154a38132f625f6cb78b5e9f414ed91b88c29cde8a84a7",
+    "promotion/evidence/desktop-1440-run.png": "973264d3929d9cc41c3f78425e91c9e85bfc7823b5c8a01e5238a3fc63b40b35",
+    "promotion/evidence/desktop-1440-second-turn.png": "9ef17024c7cdebd2640402f69853d484b06fce767eb5c07204c0907352fa3d72",
+    "promotion/evidence/journey-1440-observations.json": "bd3835b91468f1115a84f61fd044aa84df531f14bb805ecf2d13dcf537162113",
+    "promotion/evidence/journey-1440-run.png": "3b1e7a1a26cb8f7bf7c4df6fd1de764584a55b2491c9a93a84b6370711c9c1b3",
+    "promotion/evidence/journey-375-observations.json": "e612f35f176b122d6bd7389fdd01b8b70d666532f170ea9d651cf18fb1f088ab",
+    "promotion/evidence/journey-375-run.png": "40d5d90f21dafb8fa24bb2ddfce1b4a57867b5f3f7d2380e8d9d44ba335f903b",
+    "promotion/evidence/journey-375-steering-observations.json": "a107e8699a5301fdc9dac1699cc7c47a92310449b7bcd03205ce932e9e8b8335",
+    "promotion/evidence/journey-375-steering-run.png": "e39edecdf92bdecdf531491274875c3cb2e8fa096c6f16fa6a1b1c75eda94a9f",
+    "promotion/evidence/journey-768-observations.json": "9731276e8484bf770b205716eae75168fc8e14d841c66bb48d94bb002deab3ce",
+    "promotion/evidence/journey-768-run.png": "b8672a01484849956524c36440b3993276f3d69d50a1e65bcb97d64f2bc718ce",
+    "promotion/evidence/journey-960-observations.json": "f67ddf68db73b7b66a4cac43642f22026459bb390edc010002caf14ca111430c",
+    "promotion/evidence/journey-960-run.png": "fb354a0920a8596457e5189f3216f4e8b16dc4d297697ee6464cac57447a030b",
+    "promotion/evidence/journey-axe-1440-observations.json": "75ce969f25ca14396b58cf4e93212c192b1f344df46ee5baf452478a72f2d4bb",
+    "promotion/evidence/journey-axe-1440-run.png": "5f00c6a489356fd0279888156ba4b7a2afa8528c97532d055cf3b64d280dcbf1",
+    "promotion/evidence/journey-keyboard-375-observations.json": "b711e0b9da6cb842954c4abdb982926b1c95e92880a81c61a5bba6364afb1e92",
+    "promotion/evidence/journey-keyboard-375-run.png": "eec0e6a9a82055c79bebfa4086919d68431e36efa8dacd335830779564650148",
+    "promotion/evidence/journey-prefix-375-observations.json": "e5a8a6d31bfe8438e12cf71455e1a7f1840e589d885c002e108357e7c8d6413f",
+    "promotion/evidence/journey-prefix-375-run.png": "8379e47ac9ccff998b670239e1d281b512bc82e754cf4b2b9996db2a0921b510",
+    "promotion/evidence/journey-prefix-keyboard-375-observations.json": "bda35cb5a853545dddb09cb6044a216d9ef956af7cb71cc30ee0defc4a97f5bc",
+    "promotion/evidence/journey-prefix-keyboard-375-run.png": "35f532215562a0a609ef45afff48d763427d56fe87f6e942fb830ba60f3cdc2b",
+    "promotion/evidence/journey-wave3-1440-observations.json": "daa2b1dac5d2e7582711cfd13899bc9568aba730a1040159a5d01324ae10661b",
+    "promotion/evidence/journey-wave3-1440-run.png": "0c11da8891f5a7d57eb80d27acaeb286e5735c764d4d7deb3931de9053bb8c9e",
+    "promotion/evidence/journey-wave3-375-observations.json": "c396c8fa40378296b1996fb5d9555370e152aa48e8a0e5f2cd9f548c14793468",
+    "promotion/evidence/journey-wave3-375-run.png": "4cabe7d9f8a74ebac8cdd67ae56aab8407491a7ddc7cf8d8c88645c440f01eca",
+    "promotion/evidence/lighthouse-desktop.json": "6fda80aef30aeb0dc7a6c2010a81d5e838be87e57db766b01729199bca593c6d",
+    "promotion/evidence/lighthouse-mobile.json": "858f474b0e2c7fcee358788017b26e443cb1de7b9e099c776acd079cfee383d1",
+    "promotion/evidence/mobile-375-empty.png": "d69267ac381f314004c7b3d93d8ac7e28e635e918c0c3af609ef2ff065f94820",
+    "promotion/evidence/mobile-375-run.png": "8379e47ac9ccff998b670239e1d281b512bc82e754cf4b2b9996db2a0921b510",
+    "promotion/evidence/proto-1440-load.png": "fe94f4634a2f61c66063b8d04d747204be9a5745dbe33e68744a1cb704a858a7",
+    "promotion/evidence/proto-375-load.png": "8bcb22d700b48b963238539e7ecbe1236eb3a598a311a8794832fd10e547bc80",
+    "promotion/evidence/proto-375-run.png": "9bc0a79b7ab71054d10c4ff25635c0f6267970b73a6051678298f1424748564d",
+    "promotion/evidence/web-quality-audit-prefix.json": "7e567bf0a00c7a6c1dca46eb5d34673517b35f4e5001807e2a67b272b258cffc",
+    "promotion/evidence/web-quality-audit.json": "d9b3d606aea56d52701938438f15160e544a3f851087379c2164f2c0ab7b9542",
+    "promotion/evidence/wig-desktop-1440.png": "7a9b9468da89add6a02fef6b89a10a3aeba69c92b3105a24f4b323f447bab782",
+    "promotion/evidence/wig-mobile-375.png": "4eecfad55c0987091bfc2473a09348614d4072adf19c6f6488059c3c4126cc1b",
+    "promotion/evidence/wig-prefix-desktop-1440.png": "5182a2de904e374cccb7cbcd88275f9b9cf433333b88c5a25117894b8fcd5b0e",
+    "promotion/evidence/wig-prefix-mobile-375.png": "edd0f631c333f40ee5b70a7a233814eb88924862f19760e3b7ef017e1f1210bf",
+    "promotion/evidence/wig-review-prefix.json": "4573eeaa3d7b803c1a74eaf9c7ea5b745402348edd5b8489e077eeb6047faa02",
+    "promotion/evidence/wig-review.json": "9bfed217e1e92e14a40ae660f7b6fb03c23b166bd001d9c39c2d76d5e9039539",
+    "scripts/build-tours.mjs": "79aea4ee99ca24733948fca6ab472335b4567eec5db4ac8041b47dc3a59404db",
+    "scripts/example-guidance-smoke.ts": "cc53a94e306a54a3cf85d497ddd1802f60806b90fb62ad93abaf95dceff06f53",
+    "scripts/nodeagent-chat-ui-scaffold-smoke.ts": "71c0fed96a5cb1733bd6728a77b5e2518a7f237b100ed79f9a40d0ccec1155c0",
+    "scripts/nodeagent-cli.ts": "21b7e4033e54419916d2735852944e77365f20e6eddad5061871aabb32a8c0e6",
+    "scripts/nodeagent-convex-smoke.ts": "31340db7e4a1ae135f43f4fcd9f7941216e28a9bd927fc96daef42d6d19e5039",
+    "scripts/nodeagent-durable-smoke.ts": "dbd650b8883af90e73179ac3414b39e1d76f9afdbcb2e02ebda3013650107b21",
+    "scripts/nodeagent-frame-smoke.ts": "c01615665f8d95d4a4bbf6db90ab9eb4c51b9a58726664fda1792e2b753d2ed3",
+    "scripts/nodeagent-live-provider-smoke.ts": "023bee3044929e9e2d10042929cdeec8b96f1cfb8cf2b7d59faf371002235282",
+    "scripts/nodeagent-local-dashboard-scaffold-smoke.ts": "a59f10aa5eb13f8566faa048a1e9d4739711867eb03f9371971e1a95edcfff4f",
+    "scripts/nodeagent-sqlite-smoke.ts": "373cfb480567f54d1d180c1c571bcfd73d38cee8a70a45dc748b448f29b50bbf",
+    "scripts/omnigent-nodeagent-smoke.ts": "016588db4356fc54425058b8d53f3fd91f22a3634539e0e127f64f5fa7c28b34",
+    "scripts/omnigent-official-probe.mjs": "2889f5a2525d56ab33fe2c32169c570aa6a1637816f2b7fb4f13150d95db6924",
+    "scripts/render-walkthrough-media.mjs": "4ae3bd74fc0763d906073a14bc0a49b990d73e38c3e32232793e8f6ddc43d6a7",
+    "scripts/secret-scan.mjs": "fa2fc25a02d3be68adfbe94dd4303ebc37c20b5400ca02ef122c6e7c096a61ea",
+    "scripts/validate-tours.mjs": "b12f121765332413fd114ac349d29a3e9244872e0813c45904eec195a018ad46",
+    "src/app/main.tsx": "e78edc8cca4aa10ee2829143dd8696670106d652de1ff8f1b2db5a0b4590934d",
+    "src/app/styles.css": "b18a51e811b6ac0a003f7bebf988c1077500b4183ae6c54db5e9878a0b28eca8",
+    "src/features/chat/contextCollector.ts": "01364ce485d6d6221457fd8390d367c804d2f424e78f0188f2f84bcc476dea94",
+    "src/features/node-agent/components/GraphRailPanel.tsx": "48d1a17e30b1226d4cdba538b95ca2b5c933f922a29668d53fe663bb79a29e32",
+    "src/features/node-agent/components/NodeAgentDemoApp.tsx": "7d683b2ce58f46ebb72bbd2bfd944bf3171a927edd2439ae64307ce41ac384b8",
+    "src/features/node-agent/components/NodeAgentThread.tsx": "2d2644ae39e93b598d8386807d18fb886d1635e68dd38f5903e3a7b5f8be06fb",
+    "src/features/node-agent/components/toolUIs.tsx": "f7de41d57e4b01946a36f79d4bc3040d07f8355a07107e9a9e5e580e9c31311e",
+    "src/features/node-agent/demoScenario.ts": "b884601b7f13f13959c77a4c0423d86e12342b0cef126a7413eac17de646d68d",
+    "src/features/node-agent/graph/agentGraphSession.ts": "3073cdcdb33d435ef54fdbe61658bcb9364b6cd7447e71819592a490beee1389",
+    "src/features/node-agent/runtime/durableRuntime.ts": "45ebef719388de3bcf16c42a18413b730d7fea6b1c781bf50469dc95a40a1c6c",
+    "src/features/node-agent/runtime/nodeAgentChatAdapter.ts": "18a238b08287f415dc4474e46d007f2fe9c6d49eba16bb64fbbab222d7c7a1a9",
+    "src/features/node-agent/runtime/nodeAgentRuntime.ts": "3ba6c3c6089c9e739c190b005720329df62f32eb352ad407a775fb7cbd02accf",
+    "src/features/node-agent/runtime/omnigentAdapter.ts": "d0b8c58f55ef452fec981e7d0a6e0a79c77e8e8413eb5cc49265680206dc6a4d",
+    "src/features/node-agent/runtime/reasoningFrameRunner.ts": "f20347b5128748ffa9e194b4d4c8fc4332b5f6d7abad9fba12a4dcf852ed7b12",
+    "src/features/node-agent/types/nodeAgentTypes.ts": "216a0648600fcb7e5b851fd499861a96aedbf670b9d521d6cad691b322414e69",
+    "src/features/notebook/notebookEditor.ts": "a5a04cb4ae089f7d6c085b1c55babe0b25b9812dc0ab5a8fa4bc882450c89456",
+    "src/features/search/searchAndSynthesize.ts": "59a3e3002b8881e84488a865d29a895170ede787088df2fc813dbc3cbeab7a7c",
+    "src/features/spreadsheet/applySpreadsheetDelta.ts": "448ee8f83b34a79f4b090f8c07fc258ad3297690d5f63da40ff9b8f631b767b9",
+    "src/features/spreadsheet/versionedSpreadsheetSync.ts": "3ed2315732c9ec4989e5f392a9766dfd94e345492875f04882449fc3e39cee95",
+    "tests/durableRuntime.test.ts": "f7128fc991589c30c24279f8b5f1b2e779794c04837fb6b42c5aae4b09b12873",
+    "tests/nodeAgentRuntime.test.ts": "a08d84238b338f5d50aeedc527026adcbeef8c2b5bcf594b5f517875d425d725",
+    "tests/omnigentAdapter.test.ts": "9392a5379b92be856bb3cd42e869b24d9f894d00f7b5d70685dd9417e515ef99",
+    "tests/reasoningFrameRunner.test.ts": "2eb988dbab897f21bacc1f5b18e1764dbfcf5a5af121a9ea19045be284589f54",
+    "tests/searchSynthesize.test.ts": "f39c7a7689f490e4ff10bf4ad8c281429990ded1a18f2acdb1208a08a5ad66b3",
+    "tests/spreadsheetDelta.test.ts": "7f339af70b18e8ede59e271761542a2f3a17f3f8d6abaa9107997ccbda0a3c87",
+    "tests/sqliteDurableRuntime.test.ts": "89e01223c55c94bedd20e62dab00d82e8af2c27e0f57e35ef979a25b39d8848a",
+    "tsconfig.json": "4a675f027533015c432e5de6839180b84e7cdcb9278c65908225ee46d2c69f4b",
+    "vendor/nodegraph-live/NodeGraph.d.ts": "2039d9072e11433766cebe53dcc5e901fd40a442c568ddc944e9d012702f9141",
+    "vendor/nodegraph-live/NodeGraph.d.ts.map": "802d6fe1463be0c5ad44bfd5d6ce0cf53c42667e03277fd9591f36e2803dd16e",
+    "vendor/nodegraph-live/NodeGraph.js": "48986620b279c677dd5f676ef81399328fa1488b0eac804d64694436614401df",
+    "vendor/nodegraph-live/NodeGraph.js.map": "1a517f4f66669cb35f3eb3c08f092f261d5d11ae5cf893bb5614175a86c17776",
+    "vendor/nodegraph-live/README.md": "5b4466502e3014e8befb90e0d18c2cc184c5b291ad175ed1d5bd6cd2e6886241",
+    "vendor/nodegraph-live/graph-model.d.ts": "a42987e8583f06981a9ae286955764b9c63a01e9757bf5f77917e81421ede83c",
+    "vendor/nodegraph-live/graph-model.d.ts.map": "5552bb968aaa00ac5234cefc1cd0a6aebb64ca0f526faec8fbe32d0bc3e948e2",
+    "vendor/nodegraph-live/graph-model.js": "f599d5677230abb22134ccc6554c19b53161c92170a764d15a3f33b9ff8a3d6b",
+    "vendor/nodegraph-live/graph-model.js.map": "9ef75a42ab38bba189f1ea7d7915cc6290198f08b57c86ff8e8d1c71202950db",
+    "vendor/nodegraph-live/index.d.ts": "c00e12ecf850b57ebb877c55458074f7013b5d959b292dc05b326ce4baea6c47",
+    "vendor/nodegraph-live/index.d.ts.map": "7b806813920802717ee2b4d043a7c5d50e963bbbe3c81ba230249cc64f55606a",
+    "vendor/nodegraph-live/index.js": "3617688e70d3583ed7295795c19597b20e7f300d0ca18004a0d639d2ee1e8969",
+    "vendor/nodegraph-live/index.js.map": "e6453494e706d147b59f7c0d151cda30808930a99689fde8e5a8867e0ad6771a",
+    "vendor/nodegraph-live/react.d.ts": "0ea368669aba5528bda8a408450d45bee9098093ab560a29dd23ddb5098e6edd",
+    "vendor/nodegraph-live/react.d.ts.map": "c4e587ef6c5f2dfd209a57b05890e0ad3f5d996db88dd9169e4c2fd8c36d06ab",
+    "vendor/nodegraph-live/react.js": "c548be84f505f0b5cf2f45b9531c35768370a7a32620d4b3e0151a45a39fa6ff",
+    "vendor/nodegraph-live/react.js.map": "6c9d5842235d854c2e59c8f8491a4d4a7a2049ffe3481eca2e3d500af2fbc575",
+    "vendor/nodegraph-live/session.d.ts": "50d05a702a783fa43042cd9c2195f70b2c3f45bfc21aa49df127e8b45910f06a",
+    "vendor/nodegraph-live/session.d.ts.map": "22f7a2d5b760146ee0b2f21393922bc88c9108d6344a7e4a808aca93ae32df9f",
+    "vendor/nodegraph-live/session.js": "18fdd651e1f5cb7c2bf791309de0a22010f5dd836630abedec9b9de7f54e1282",
+    "vendor/nodegraph-live/session.js.map": "d074dda592ba198f54bce40d2fedb9c964e5ab7ea90e4710c7e136a61cf69881",
+    "vite.config.ts": "5cc068e630d5904a4727d5ed793cd8a875f7f17b5216249bfa45e28fdd9e1202",
+    "vitest.config.ts": "ed02124f628d1a5e7a4aefccd17c0b4cd208dc1c3f6dcd321196a0c8069ebdcc",
+    "e2e/current-consumer-proof.mjs": "88a30299d05c290299bd38cd32fdad9a876ab941378e1f257fb23d5c365622a0",
+    "e2e/current-consumer-recovery-proof.mjs": "46d5bc98ecf4282a93c5e542321be060994f815e6f8c0e5fcec57160d3b95175",
+    "examples/apps/chat-ui/template/package-lock.json": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6"
+  },
+  "consumerBefore": {
+    "package.json": "1967ba21a4990b73cf2702ada8ced1294a1ceb09feb51f61258c07199a7755c9",
+    "package-lock.json": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+    "index.html": "58cc6f4dc254bd4d28c03ee74e69ef6d6dd84e249f77bf302e9d7acfcb3f5f50",
+    "vite.config.mjs": "891cad9de5cf84ed18dbd809b6f354871c8847514a002cd46f7aa0169928ef4a",
+    "src/main.jsx": "77078b85930791d340d62404e1274427d42cd60332b5f318ae016f9356b05d1f",
+    "src/styles.css": "f9f17ff4fee7d12a196e8648e071b5081a77a50c33768be03d934957edd3328e",
+    "src/nodeagent-chat/NodeAgentChatApp.jsx": "7435e2a9bc6bd9e905fa7ec17d46c05073317556acf741567f58b0bfe064bc15",
+    "src/nodeagent-chat/nodeAgentLocalAdapter.js": "e0932f813c420b5f9c2c76df07a01d7dcd8888c4ad44dac28f4625f395397f14",
+    "src/nodeagent-chat/toolUIs.jsx": "6e13941961da00d6ce0e2ff34d074ceb83c5d832cef76680b94500b87e1a4216"
+  },
+  "passed": false,
+  "checks": [
+    {
+      "name": "source-empty-320 exact DOM during settled screenshot",
+      "passed": true
+    },
+    {
+      "name": "source native incomplete tool shows stopped 320",
+      "passed": true
+    },
+    {
+      "name": "source Stop preserves earlier completed response 320",
+      "passed": true
+    },
+    {
+      "name": "source stopped response has no fake Done 320",
+      "passed": true
+    },
+    {
+      "name": "source stopped response remains stable 320",
+      "passed": true
+    },
+    {
+      "name": "source-stopped-320 exact DOM during settled screenshot",
+      "passed": true
+    },
+    {
+      "name": "source Stop retains keyboard continuation focus 320",
+      "passed": true
+    },
+    {
+      "name": "source stopped Retry replaces only current response 320",
+      "passed": true
+    },
+    {
+      "name": "source partial failure names failed tool 320",
+      "passed": true
+    },
+    {
+      "name": "source failed response does not retry automatically 320",
+      "passed": true
+    },
+    {
+      "name": "source-error-320 exact DOM during settled screenshot",
+      "passed": true
+    },
+    {
+      "name": "source explicit Retry runs once despite repeated activation 320",
+      "passed": false
+    }
+  ],
+  "cells": [
+    {
+      "kind": "source",
+      "width": 320,
+      "errors": [
+        "PROOF FIXTURE: second tool failed after the first actual result."
+      ],
+      "checksStart": 0,
+      "capturesStart": 0,
+      "stopInput": "pointer",
+      "stopLatencyMs": 358,
+      "actualRecoveryStarts": 2
+    }
+  ],
+  "captures": [
+    {
+      "name": "source-empty-320",
+      "pngSha256": "cb6b31cbc124638e6bd64c50e178278dc4a11031daa0cff5d3c518fa4b85eabf",
+      "state": {
+        "layout": [
+          {
+            "class": "na-viewport",
+            "scrollTop": 0,
+            "scrollHeight": 660,
+            "clientHeight": 660,
+            "box": {
+              "x": 0,
+              "y": 54,
+              "width": 320,
+              "height": 660.21875,
+              "top": 54,
+              "right": 320,
+              "bottom": 714.21875,
+              "left": 0
+            }
+          },
+          {
+            "class": "na-footer",
+            "scrollTop": 0,
+            "scrollHeight": 128,
+            "clientHeight": 128,
+            "box": {
+              "x": 12,
+              "y": 578.125,
+              "width": 296,
+              "height": 128.09375,
+              "top": 578.125,
+              "right": 308,
+              "bottom": 706.21875,
+              "left": 12
+            }
+          }
+        ],
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "scroll": {
+          "x": 0,
+          "y": 0
+        },
+        "text": "NodeAgent\nPrototype ↗\nGitHub ↗\n◆\nAsk the room\n\nNodeAgent gathers the relevant context, finds the right document for the right answer, updates the model as a versioned delta, and writes the cited memo — and you watch each step render inline.\n\nDoes our wedge hold + survive 18 months? →\nWhat changed since last update? →\n↑\n\nDeterministic demo — no keys. The agent runs the real ported modules over a fixed scenario.\n\nSession graph\n0 entities · 0 edges\n\nAsk the room a question — each loop step streams the entities it actually touched into this graph.",
+        "overflow": 0,
+        "focus": {
+          "tag": "TEXTAREA",
+          "label": null
+        },
+        "buttons": [
+          {
+            "label": "Does our wedge hold + survive 18 months? →",
+            "disabled": false
+          },
+          {
+            "label": "What changed since last update? →",
+            "disabled": false
+          },
+          {
+            "label": "Send",
+            "disabled": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "source-stopped-320",
+      "pngSha256": "b0e274d75f19400abfe6634650b2152cb9a142ab092e1d85444a35895c1fd6c8",
+      "state": {
+        "layout": [
+          {
+            "class": "na-viewport",
+            "scrollTop": 1965,
+            "scrollHeight": 2367,
+            "clientHeight": 402,
+            "box": {
+              "x": 0,
+              "y": 54,
+              "width": 320,
+              "height": 401.765625,
+              "top": 54,
+              "right": 320,
+              "bottom": 455.765625,
+              "left": 0
+            }
+          },
+          {
+            "class": "na-recovery",
+            "scrollTop": 0,
+            "scrollHeight": 111,
+            "clientHeight": 111,
+            "box": {
+              "x": 63,
+              "y": 178.53125,
+              "width": 230,
+              "height": 111.78125,
+              "top": 178.53125,
+              "right": 293,
+              "bottom": 290.3125,
+              "left": 63
+            }
+          },
+          {
+            "class": "na-footer",
+            "scrollTop": 0,
+            "scrollHeight": 128,
+            "clientHeight": 128,
+            "box": {
+              "x": 12,
+              "y": 319.671875,
+              "width": 296,
+              "height": 128.09375,
+              "top": 319.671875,
+              "right": 308,
+              "bottom": 447.765625,
+              "left": 12
+            }
+          }
+        ],
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "scroll": {
+          "x": 0,
+          "y": 0
+        },
+        "text": "NodeAgent\nPrototype ↗\nGitHub ↗\n\nDoes our wedge hold versus Acme, and does the runway model survive 18 months?\n\n◆\n\nDone. The wedge holds on high-confidence grounding (3/4), the model now clears 18 months, and the cited memo is ready.\n\n💬\nGather room context\n3 items · 2 active\n0.20\nDOCUMENT\nI pushed the retrieval-latency benchmark doc to the room earlier.\n0.19\nMESSAGE\nAcme just dropped a competing teardown of our wedge. Investor call is in 40.\n0.03\nMESSAGE\nFinance flagged burn crept to 420k/mo after the two senior hires.\n🔎\nSearch & synthesize\nhigh · grounded 3/4\nRAG\n[1] room://benchmark — wedge holds vs Acme on latency\n0.44\nDOC\n[2] finance://burn — runway model\n0.56\nDOC\n[3] diligence://wedge — competitive note\n0.44\nWEB\n[4] Acme teardown blog — Why context rooms lose\n0.11\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n▦\nUpdate model\nv2 · 2 cells\nNet burn / mo ($k)\t420\nCash on hand ($k)\t7560\nRunway (months)\t18\n↳ Correct base burn to the finance-audited 420k (was stress figure 510k).\n✎\nWrite memo\n5 blocks\nAcme — diligence memo\n\nThe room asked: \"Does our wedge hold versus Acme, and does the runway model survive 18 months?\"\n\n◆ CLAIM · GROUNDED 3/4\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n\n⌗ room://benchmark — wedge holds vs Acme on latency\n\nModel updated to v2 (2 cells).\n\nDoes our wedge hold versus Acme, and does the runway model survive 18 months?\n\n◆\n\nOn it — pulling the room context, then searching, updating the model, and writing the memo.\n\n💬\nGather room context\nstopped\n\nStopped this response. Completed work is kept.\n\nRetry response\n↑\n\nDeterministic demo — no keys. The agent runs the real ported modules over a fixed scenario.\n\nSession graph\n12 entities · 26 edges\nRelationship graph\n\n12 entities · 26 of 26 relationships shown\n\nfit\nevidence\n(5)\ntraversal\n(21)\n· local",
+        "overflow": 0,
+        "focus": {
+          "tag": "TEXTAREA",
+          "label": null
+        },
+        "buttons": [
+          {
+            "label": "Retry response",
+            "disabled": false
+          },
+          {
+            "label": "Send",
+            "disabled": true
+          },
+          {
+            "label": "fit",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "source-error-320",
+      "pngSha256": "89ae3381d45815aae413f4eee9c4a12c30d6c099aff2876fc20c1f983198b21d",
+      "state": {
+        "layout": [
+          {
+            "class": "na-viewport",
+            "scrollTop": 3879,
+            "scrollHeight": 4281,
+            "clientHeight": 402,
+            "box": {
+              "x": 0,
+              "y": 54,
+              "width": 320,
+              "height": 401.765625,
+              "top": 54,
+              "right": 320,
+              "bottom": 455.765625,
+              "left": 0
+            }
+          },
+          {
+            "class": "na-recovery",
+            "scrollTop": 0,
+            "scrollHeight": 111,
+            "clientHeight": 111,
+            "box": {
+              "x": 63,
+              "y": 177.90625,
+              "width": 230,
+              "height": 111.78125,
+              "top": 177.90625,
+              "right": 293,
+              "bottom": 289.6875,
+              "left": 63
+            }
+          },
+          {
+            "class": "na-footer",
+            "scrollTop": 0,
+            "scrollHeight": 128,
+            "clientHeight": 128,
+            "box": {
+              "x": 12,
+              "y": 319.671875,
+              "width": 296,
+              "height": 128.09375,
+              "top": 319.671875,
+              "right": 308,
+              "bottom": 447.765625,
+              "left": 12
+            }
+          }
+        ],
+        "viewport": {
+          "width": 320,
+          "height": 844
+        },
+        "scroll": {
+          "x": 0,
+          "y": 0
+        },
+        "text": "NodeAgent\nPrototype ↗\nGitHub ↗\n\nDoes our wedge hold versus Acme, and does the runway model survive 18 months?\n\n◆\n\nDone. The wedge holds on high-confidence grounding (3/4), the model now clears 18 months, and the cited memo is ready.\n\n💬\nGather room context\n3 items · 2 active\n0.20\nDOCUMENT\nI pushed the retrieval-latency benchmark doc to the room earlier.\n0.19\nMESSAGE\nAcme just dropped a competing teardown of our wedge. Investor call is in 40.\n0.03\nMESSAGE\nFinance flagged burn crept to 420k/mo after the two senior hires.\n🔎\nSearch & synthesize\nhigh · grounded 3/4\nRAG\n[1] room://benchmark — wedge holds vs Acme on latency\n0.44\nDOC\n[2] finance://burn — runway model\n0.56\nDOC\n[3] diligence://wedge — competitive note\n0.44\nWEB\n[4] Acme teardown blog — Why context rooms lose\n0.11\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n▦\nUpdate model\nv2 · 2 cells\nNet burn / mo ($k)\t420\nCash on hand ($k)\t7560\nRunway (months)\t18\n↳ Correct base burn to the finance-audited 420k (was stress figure 510k).\n✎\nWrite memo\n5 blocks\nAcme — diligence memo\n\nThe room asked: \"Does our wedge hold versus Acme, and does the runway model survive 18 months?\"\n\n◆ CLAIM · GROUNDED 3/4\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n\n⌗ room://benchmark — wedge holds vs Acme on latency\n\nModel updated to v2 (2 cells).\n\nDoes our wedge hold versus Acme, and does the runway model survive 18 months?\n\n◆\n\nDone. The wedge holds on high-confidence grounding (3/4), the model now clears 18 months, and the cited memo is ready.\n\n💬\nGather room context\n3 items · 2 active\n0.20\nDOCUMENT\nI pushed the retrieval-latency benchmark doc to the room earlier.\n0.19\nMESSAGE\nAcme just dropped a competing teardown of our wedge. Investor call is in 40.\n0.03\nMESSAGE\nFinance flagged burn crept to 420k/mo after the two senior hires.\n🔎\nSearch & synthesize\nhigh · grounded 3/4\nRAG\n[1] room://benchmark — wedge holds vs Acme on latency\n0.44\nDOC\n[2] finance://burn — runway model\n0.56\nDOC\n[3] diligence://wedge — competitive note\n0.44\nWEB\n[4] Acme teardown blog — Why context rooms lose\n0.11\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n▦\nUpdate model\nv2 · 2 cells\nNet burn / mo ($k)\t420\nCash on hand ($k)\t7560\nRunway (months)\t18\n↳ Correct base burn to the finance-audited 420k (was stress figure 510k).\n✎\nWrite memo\n5 blocks\nAcme — diligence memo\n\nThe room asked: \"Does our wedge hold versus Acme, and does the runway model survive 18 months?\"\n\n◆ CLAIM · GROUNDED 3/4\nBest-grounded source [1] (RAG): Defends the wedge: NodeAgent retrieval latency p95 211ms versus Acme 540ms on the shared eval set; grounded answer rate 0.93 across 103 queries. Corroborated by [2] finance://burn — runway model; [3] diligence://wedge — competitive note.\n\n⌗ room://benchmark — wedge holds vs Acme on latency\n\nModel updated to v2 (2 cells).\n\nDoes our wedge hold versus Acme, and does the runway model survive 18 months?\n\n◆\n\nOn it — pulling the room context, then searching, updating the model, and writing the memo.\n\n💬\nGather room context\n3 items · 2 active\n0.20\nDOCUMENT\nI pushed the retrieval-latency benchmark doc to the room earlier.\n0.19\nMESSAGE\nAcme just dropped a competing teardown of our wedge. Investor call is in 40.\n0.03\nMESSAGE\nFinance flagged burn crept to 420k/mo after the two senior hires.\n🔎\nSearch & synthesize\nfailed\n\nThis response failed. Earlier results are kept.\n\nRetry response\n↑\n\nDeterministic demo — no keys. The agent runs the real ported modules over a fixed scenario.\n\nSession graph\n12 entities · 26 edges\nRelationship graph\n\n12 entities · 26 of 26 relationships shown\n\nfit\nevidence\n(5)\ntraversal\n(21)\n· local",
+        "overflow": 0,
+        "focus": {
+          "tag": "TEXTAREA",
+          "label": null
+        },
+        "buttons": [
+          {
+            "label": "Retry response",
+            "disabled": false
+          },
+          {
+            "label": "Send",
+            "disabled": true
+          },
+          {
+            "label": "fit",
+            "disabled": false
+          }
+        ]
+      }
+    }
+  ],
+  "requests": [
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/@vite/client",
+      "method": "GET"
+    },
+    {
+      "origin": "https://fonts.googleapis.com",
+      "path": "/css2",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/app/main.tsx",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/@react-refresh",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/react_jsx-dev-runtime.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/react.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/react-dom_client.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/node-agent/components/NodeAgentDemoApp.tsx",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/app/styles.css",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/vite/dist/client/env.mjs",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/chunk-ZZMF36N4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/chunk-DP4XHQAG.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/@assistant-ui_react.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/node-agent/components/toolUIs.tsx",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/node-agent/components/NodeAgentThread.tsx",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/node-agent/components/GraphRailPanel.tsx",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/chunk-QJQSCR4D.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/node-agent/demoScenario.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/node-agent/runtime/nodeAgentRuntime.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/spreadsheet/applySpreadsheetDelta.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/node-agent/graph/agentGraphSession.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/vendor/nodegraph-live/react.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/chat/contextCollector.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/search/searchAndSynthesize.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/spreadsheet/versionedSpreadsheetSync.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/src/features/notebook/notebookEditor.ts",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/vendor/nodegraph-live/index.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/vendor/nodegraph-live/NodeGraph.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/chunk-ONGDZAIN.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/vendor/nodegraph-live/graph-model.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/vendor/nodegraph-live/session.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/react_jsx-runtime.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/sigma.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/@sigma_node-border.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/graphology-layout-forceatlas2.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/graphology-layout-forceatlas2_worker__js.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/chunk-5DNN236L.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/chunk-YYJD3BGG.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/chunk-B3RW7T5U.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/chunk-SF2L6BXH.js",
+      "method": "GET"
+    },
+    {
+      "origin": "http://127.0.0.1:51622",
+      "path": "/node_modules/.vite/deps/graphology.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/manrope/v20/xn7gYHE41ni1AdIRggexSg.woff2",
+      "method": "GET"
+    },
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2",
+      "method": "GET"
+    }
+  ],
+  "grade": null,
+  "browser": "151.0.7922.34",
+  "node": "v22.22.2",
+  "error": "AssertionError [ERR_ASSERTION]: source explicit Retry runs once despite repeated activation 320\n    at check (file:///D:/VSCode%20Projects/cafecorner_nodebench/nodebench_ai4/.portfolio-worktrees/nodeagent-current-consumer-20260905/e2e/current-consumer-recovery-proof.mjs:21:95)\n    at file:///D:/VSCode%20Projects/cafecorner_nodebench/nodebench_ai4/.portfolio-worktrees/nodeagent-current-consumer-20260905/e2e/current-consumer-recovery-proof.mjs:105:114",
+  "finishedAt": "2026-09-05T08:16:03.891Z"
+}

@@ -1,0 +1,43 @@
+{
+  "status": "PROPOSED_AWAITING_PARENT_REVIEW",
+  "namedProof": "NODEAGENT-CURRENT-CONSUMER-01",
+  "head": "4e525fd0f84e08a4f8203599d7341c17bf53205e",
+  "finding": "Fresh generated chat cannot accept its first prompt; generated no-lock install resolves a different compatible dependency cohort from tested canonical source. Diagnostic canonical-cohort aliases restore the same unchanged generated UI at 390/1440.",
+  "causalityLimit": "This identifies dependency-cohort drift, not a uniquely isolated defective upstream package/version. The alias run is diagnostic only.",
+  "allowedFirstDelta": [
+    "examples/apps/chat-ui/template/package-lock.json (new tested dependency lock)",
+    "e2e/current-consumer-proof.mjs (bounded installed-browser scenario)",
+    "HANDOFF.md (new truthful consumer entrypoint)",
+    "evidence/current-consumer-20260905 (portable raw evidence)"
+  ],
+  "noRuntimeOrUiEditsYet": true,
+  "dependencyStrategy": "Derive a pruned chat-template lock from the exact canonical lock already proven by normal npm ci, preserving compatible template ranges and adding its existing lucide dependency. Verify normal install follows that lock. No overrides, new dependency, registry configuration, CLI option or generic installer. If npm cannot preserve a valid compatible closure, stop and report before changing strategy.",
+  "firstRepairProof": [
+    "Preserve original broken consumer and exact dependency identities",
+    "Generate lock only in isolated owned candidate; no env or lifecycle during lock construction",
+    "Normal npm pack and installed CLI scaffold into a new sibling target under retained consumer root; normal install/build/demo/smoke must pass",
+    "Bind source package, tarball, installed templates, generated lock and resolved dependency versions",
+    "Real first prompt produces four scripted tool cards without runtime error at all six declared widths; input burst/repeated/reload and failure story remain explicit",
+    "D3 before capture/review precedes any separate Stop/error/retry UI or abort-owner edit"
+  ],
+  "nonGoals": [
+    "No Pi integration, provider calls, original checkout mutation, lifecycle/provider config changes, commit/push",
+    "No source-root development audit repair in this step; nine dev findings retained, production audit zero",
+    "No grade promotion; browser reset remains distinct from SQLite persistence"
+  ],
+  "evidence": {
+    "first-submit-diagnosis-01/report.json": "27741aacc74b04bb19380e0c6354f20d8db768414689edcee557674d7567cfa8",
+    "first-submit-dependency-comparison-01/report.json": "99693bc6140469572d3821b30642b6d3a395c45f12a96a0a8ebd8dd0044aaf1c",
+    "package-installed-bindings.json": "29e64cdfa39615640cbef7cc0eb8eb25ca04c7a6c29b8d00001d22c3e41f00d9",
+    "canonical-checks.json": "36fefaf8774eb0b53302640f6779e09bca9293d0c01b34d53a93d1758974299d",
+    "source-audit.stdout": "0507abc50afeaaf68af460c5d475d106c4749a1fdda75812c327823c36cf59ab"
+  },
+  "guardedSources": {
+    "package.json": "b8c29dca85263de4a015bfc7cb89255a73c22440b5140616fd92d6441dedf76e",
+    "package-lock.json": "9951aa3919121d6a1dbd5351ed58ae38b7befcf7a042f9a103919ede57cd23ce",
+    "bin/nodeagent.mjs": "c8114aaac7bb8eeedfc6be2784ee09b4996b1a3babfc06da84d981e21cc86f4d",
+    "examples/apps/chat-ui/template/package.json": "1967ba21a4990b73cf2702ada8ced1294a1ceb09feb51f61258c07199a7755c9",
+    "examples/apps/chat-ui/template/src/nodeagent-chat/NodeAgentChatApp.jsx": "7435e2a9bc6bd9e905fa7ec17d46c05073317556acf741567f58b0bfe064bc15",
+    "examples/apps/chat-ui/template/src/nodeagent-chat/nodeAgentLocalAdapter.js": "e0932f813c420b5f9c2c76df07a01d7dcd8888c4ad44dac28f4625f395397f14"
+  }
+}

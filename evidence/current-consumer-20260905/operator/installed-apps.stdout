@@ -1,0 +1,8 @@
+T  NodeAgent Apps
+|
+•  local-dashboard  nodeagent-local-dashboard    credentials: none  VisualLabs/NodeRoom-style dashboard with SQLite and Trace Lens tabs.
+|
+•  chat-ui          nodeagent-chat-ui            credentials: none  assistant-ui chat scaffold with a no-key local adapter and inline tool cards.
+|
+—  Use `nodeagent apps scaffold chat-ui --dir nodeagent-chat-ui --auto` for the no-key chat, or `local-dashboard` for the dashboard shell.
+

@@ -1,0 +1,11 @@
+{
+  "sourceHead": "4e525fd0f84e08a4f8203599d7341c17bf53205e",
+  "newBranch": "codex/nodeagent-current-consumer-20260905",
+  "worktree": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+  "originalBranchPreserved": "codex/nodeagent-runtime-contract",
+  "originalHead": "c0ad5236d5424fca60008ed500cb565683bcd1d5",
+  "createdAt": "2026-09-05T07:11:29.913025+00:00",
+  "purpose": "NODEAGENT-CURRENT-CONSUMER-01 isolated package/application adoption proof",
+  "integration": "NOT_YET_REVIEWED",
+  "retirement": "HOLD_UNTIL_RETAINED_EVIDENCE_AND_OWNER_RELEASE"
+}

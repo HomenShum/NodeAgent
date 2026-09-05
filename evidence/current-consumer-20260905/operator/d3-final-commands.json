@@ -1,0 +1,109 @@
+[
+  {
+    "name": "d3-final-test",
+    "command": [
+      "npm.cmd",
+      "run",
+      "test"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 1.698270320892334
+  },
+  {
+    "name": "d3-final-build",
+    "command": [
+      "npm.cmd",
+      "run",
+      "build"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 7.013497591018677
+  },
+  {
+    "name": "d3-final-tours-validate",
+    "command": [
+      "npm.cmd",
+      "run",
+      "tours:validate"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 1,
+    "seconds": 0.4321708679199219
+  },
+  {
+    "name": "d3-corrected-tours-validate",
+    "command": [
+      "npm.cmd",
+      "run",
+      "tours:validate"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 0.44364333152770996
+  },
+  {
+    "name": "d3-final-examples-guidance-smoke",
+    "command": [
+      "npm.cmd",
+      "run",
+      "examples:guidance:smoke"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 0.8092706203460693
+  },
+  {
+    "name": "d3-pack",
+    "command": [
+      "npm.cmd",
+      "pack",
+      "--json",
+      "--pack-destination",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery package 01"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 1.6991913318634033
+  },
+  {
+    "name": "d3-host-install",
+    "command": [
+      "npm.cmd",
+      "install",
+      "--save-exact",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery package 01\\nodeagent-0.1.0.tgz"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host",
+    "exit": 0,
+    "seconds": 14.162391901016235
+  },
+  {
+    "name": "d3-installed-doctor",
+    "command": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "doctor"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host",
+    "exit": 0,
+    "seconds": 0.6388072967529297
+  },
+  {
+    "name": "d3-installed-scaffold",
+    "command": [
+      "node",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host\\node_modules\\nodeagent\\bin\\nodeagent.mjs",
+      "apps",
+      "scaffold",
+      "chat-ui",
+      "--dir",
+      "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery Chat app",
+      "--auto"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Response recovery installed host",
+    "exit": 0,
+    "seconds": 28.491788625717163
+  }
+]

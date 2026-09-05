@@ -1,0 +1,44 @@
+[
+  {
+    "path": "src/features/node-agent/components/NodeAgentThread.tsx",
+    "before": "be83c68d759e836ea92da6971fb8e4f05a107ffc9eb814d7b69963f7ee33c752",
+    "after": "be83c68d759e836ea92da6971fb8e4f05a107ffc9eb814d7b69963f7ee33c752",
+    "normalizationOnly": false
+  },
+  {
+    "path": "src/features/node-agent/components/toolUIs.tsx",
+    "before": "f7de41d57e4b01946a36f79d4bc3040d07f8355a07107e9a9e5e580e9c31311e",
+    "after": "f7de41d57e4b01946a36f79d4bc3040d07f8355a07107e9a9e5e580e9c31311e",
+    "normalizationOnly": false
+  },
+  {
+    "path": "src/app/styles.css",
+    "before": "b18a51e811b6ac0a003f7bebf988c1077500b4183ae6c54db5e9878a0b28eca8",
+    "after": "b18a51e811b6ac0a003f7bebf988c1077500b4183ae6c54db5e9878a0b28eca8",
+    "normalizationOnly": false
+  },
+  {
+    "path": "examples/apps/chat-ui/template/src/nodeagent-chat/NodeAgentChatApp.jsx",
+    "before": "83ac384c19eebdb1e49d8e0e3dc3af967a9f076193081efa45aa16a91036f5b1",
+    "after": "83ac384c19eebdb1e49d8e0e3dc3af967a9f076193081efa45aa16a91036f5b1",
+    "normalizationOnly": false
+  },
+  {
+    "path": "examples/apps/chat-ui/template/src/nodeagent-chat/toolUIs.jsx",
+    "before": "99ddf781c65b86bc50d450efe03a8f0090ef82597a649a1303cd532eb95d1a24",
+    "after": "99ddf781c65b86bc50d450efe03a8f0090ef82597a649a1303cd532eb95d1a24",
+    "normalizationOnly": false
+  },
+  {
+    "path": "examples/apps/chat-ui/template/src/styles.css",
+    "before": "20a969c5ba58a410ffd1d736693a5f793dbd7a90214c130dee4eb87c6f30ed1a",
+    "after": "20a969c5ba58a410ffd1d736693a5f793dbd7a90214c130dee4eb87c6f30ed1a",
+    "normalizationOnly": false
+  },
+  {
+    "path": "e2e/current-consumer-recovery-proof.mjs",
+    "before": "ed2a8ff8e0c034d534b2d5b1ca941735c71c0e4c091af7a6e48a5200503e6ecd",
+    "after": "ed2a8ff8e0c034d534b2d5b1ca941735c71c0e4c091af7a6e48a5200503e6ecd",
+    "normalizationOnly": false
+  }
+]

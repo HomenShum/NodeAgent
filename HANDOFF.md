@@ -1,0 +1,38 @@
+# NodeAgent developer handoff
+
+Read this file first, then [the runtime walkthrough](docs/START_HERE.md). This review candidate starts from canonical `4e525fd0`. The separately preserved Pi draft is not integrated. Independent source and installed-consumer review passes for the bounded slice below. The [portable judgment](evidence/current-consumer-20260905/judge/E6e_NODEAGENT_CURRENT_CONSUMER_FINAL_JUDGE.md.txt), manifest and Git history identify the reviewed implementation and its later publication metadata.
+
+A developer can run the repository's local scenario and generate a separate chat application without credentials. Both chats use scripted local adapters; displayed confidence numbers come from fixtures. Their browser conversations reset on reload. The library's durable/SQLite demonstration is a separate integration and does not persist either browser chat.
+
+Use Node 22; this proof used Node 22.22.2. From this repository run `npm ci`, `npm test`, `npm run build` and `npm run tours:validate`. The 41 tests, typecheck/build, three tours/36 steps and 11 walkthrough citations pass. To generate a consumer, run `npm pack`, install that exact tarball in a new empty npm project, then use its installed CLI:
+
+```powershell
+node node_modules/nodeagent/bin/nodeagent.mjs doctor
+node node_modules/nodeagent/bin/nodeagent.mjs apps scaffold chat-ui --dir "../NodeAgent Chat" --auto
+Set-Location "../NodeAgent Chat"
+npm run dev
+```
+
+`--auto` performs normal install, demo, smoke and build. Keep the included template lock; use `npm ci` for repeatable reinstall. Existing-target refusal was verified with an owner sentinel and without force. Each failed and repaired consumer was retained separately.
+
+The original unlocked template resolved incompatible assistant-ui dependencies and failed its first real prompt despite smoke/build passing. A tested compatible template lock fixes that install seam without changing dependency ranges. The final packed consumer binds 242 source/tarball/installed files and the exact generated lock. Its tarball SHA-256 is `1a6e980a684f433fcdc80021eb5569fa5c4b94e09a71e8a2adbe5d821e654c69`. That package predates this final handoff/evidence metadata; it is an uncommitted candidate proof, not a published release certificate.
+
+Both current chats expose **Stop response**, visible incomplete/failed tool status, and explicit **Retry response**. Stop ends response display updates and keeps completed work. It cannot undo work already computed by the adapter, graph facts already recorded, durable work or external actions. Retry re-executes only the current response through the native runtime and preserves earlier turns. It is never automatic. A synchronous claim on the current response ID rejects immediate double activation; actual SDK IDs were observed to change on each retry, so a second failed response remains retryable. This is a local UI guarantee, not external-service idempotency or provider cancellation.
+
+[Portable evidence](evidence/current-consumer-20260905/README.md) contains the actual before boundaries, failure history, command logs, source bindings and final browser reports. The response-recovery run passed 289 checks and saved 76 captures across 320/390/768/1024/1440/1920 for both source and installed generated apps. It covers ordinary pointer/keyboard Stop, stable incomplete output, preserved earlier cards/graph snapshot, failure then explicit retry then failure again then explicit recovery, duplicate activation, pointer target stability, keyboard-visible error/Retry at enlarged text, and reload reset. An additional 12 turns produced 15 responses/60 cards in 21.182 seconds generated and 29.482 seconds source. These are bounded accumulation checks, not production longevity measurements.
+
+The unchanged first-run scenario separately passed 59 checks/25 captures on the final installed app, including eight sequential turns/32 cards in 13.968 seconds. Reproduce the two browser journeys from the source checkout with a fresh installed generated target and NEW output directories:
+
+```powershell
+node e2e/current-consumer-proof.mjs "<generated app>" "<new baseline evidence>"
+node e2e/current-consumer-recovery-proof.mjs "<generated app>" "<new recovery evidence>"
+```
+
+Separate offline frame/durable/SQLite runs completed. SQLite closed/reopened the retained database and replayed the same frame with one journal entry; lease exclusion, expiry recovery and fencing passed. Use `nodeagent:frame:smoke`, `nodeagent:durable:smoke` and `nodeagent:sqlite:smoke` for that separate library integration. Their fixture confidence is not an external provider measurement.
+
+Remaining limits are explicit. Source-header text still overflows by 21 pixels in the 390-pixel, doubled-computed-text fixture; the changed recovery/composer regions fit and remain visible. The text fixture is not an operating-system zoom certificate. The source graph still needs its own visual/readability assessment. There is no React render-error boundary or New Thread control. Full visual, responsive, accessibility and performance grades remain null. Source full audit has nine development advisories, including one critical; the locked generated app has four development advisories, three high and one low. Both recorded production-only audits have zero findings. Those full-audit findings remain open.
+
+No provider, Convex, login, external-host hook, deployment or Pi capability was activated. The historical dependency checkpoint and previous promotion records retain their original outcomes. This handoff closes the bounded offline consumer and response-recovery implementation for independent review; it does not claim complete repository readiness.
+
+
+Independent replay adds130 checks/34 captures, including late Stop after an actual completed tool result and two distinct failed-response Retry identities. Fresh41 tests, typecheck and citations pass. The original publication judgment records60 line-ending mismatches; packet-local attributes preserve those exact raw bytes before commit. Existing header overflow, graph readability, development advisories, browser reset and provider/durability limits remain unchanged. This local source/installed proof does not certify deployment or the whole product.

@@ -1,0 +1,37 @@
+{
+  "cohort": {
+    "@assistant-ui/react": {
+      "canonical": "0.14.14",
+      "template": "0.14.14"
+    },
+    "@assistant-ui/core": {
+      "canonical": "0.2.10",
+      "template": "0.2.10"
+    },
+    "@assistant-ui/store": {
+      "canonical": "0.2.13",
+      "template": "0.2.13"
+    },
+    "@assistant-ui/tap": {
+      "canonical": "0.5.14",
+      "template": "0.5.14"
+    },
+    "react": {
+      "canonical": "19.2.7",
+      "template": "19.2.7"
+    },
+    "react-dom": {
+      "canonical": "19.2.7",
+      "template": "19.2.7"
+    },
+    "assistant-stream": {
+      "canonical": "0.3.20",
+      "template": "0.3.20"
+    }
+  },
+  "lockedPackages": 355,
+  "templateLockSha256": "fd1d53e6249ac23ff1eeb4bc8ae9c75a0fdc4d43e699bcc2a133c6127beffba6",
+  "newDependencies": 0,
+  "newRuntimeConfig": 0,
+  "rangeChanges": 0
+}

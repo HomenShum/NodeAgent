@@ -1,0 +1,12 @@
+{
+  "source": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+  "host": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Installed host",
+  "consumer": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Generated Chat app",
+  "tarball": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\nodeagent-0.1.0.tgz",
+  "tarballSha256": "8e6c91ebde1abe8e9b2dd613a5c4c1184710ed29e73cf4352735282398bb3fce",
+  "packageFileCount": 238,
+  "templateFileCount": 14,
+  "allRequiredCommandsPassed": true,
+  "existingTargetRefused": true,
+  "providerVariablesPassed": false
+}

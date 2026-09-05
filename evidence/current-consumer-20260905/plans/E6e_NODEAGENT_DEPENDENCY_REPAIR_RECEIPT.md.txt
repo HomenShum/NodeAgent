@@ -1,0 +1,11 @@
+# NodeAgent dependency repair receipt
+
+**Re your request:** make the repository ready for real developer/user handoff. The installed generated chat's first-prompt failure is repaired by one template lock, with no package-range, installer or runtime changes.
+
+Normal pack/install/installed doctor/CLI auto setup pass. The 240-file tarball was byte-bound to source and installed files; the generated lock remains exactly equal to the template lock. The final real browser proof passes 59 checks with 25 captures across six widths, zero runtime errors, burst Enter denial, eight sequential turns/32 cards and reload reset. It uses no provider request or alias override. The failed unlocked app, diagnostic alias comparison and early-completion probe failure remain retained.
+
+The package's browser harness revision predates the final 59-check harness; this receipt separately freezes that tested harness. Installed CLI/template/runtime bytes and lock are exact. No final committed-package certificate is asserted. HANDOFF is later metadata. Source tests remain 41 passing; source build and separate frame/durable/SQLite reopen proof pass. These do not imply browser persistence.
+
+Both production-only audits report zero. Full source audit has nine development findings; full generated audit has four (three high, one low). They remain open. D3 controls and full visual grades remain open. No Pi integration, provider, host activation, commit or push.
+
+Exact hashes, commands and limits: matching JSON. Frozen dependency files: `E6e-nodeagent-current-consumer/dependency-repair-freeze/`. UI recovery may now proceed only under its separately approved six-file plan; this receipt must not be overwritten or presented as proof of later UI bytes.

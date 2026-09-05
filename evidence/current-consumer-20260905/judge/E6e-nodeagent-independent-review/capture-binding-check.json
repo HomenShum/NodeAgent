@@ -1,0 +1,27 @@
+{
+  "reports": [
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\d3-final-browser-03",
+      "reportSha256": "76dd8ca1416225bd0f9abe0b524ced0299a86c975fb839cafa18551d04759f24",
+      "checks": 289,
+      "captures": 76,
+      "sourceConsumerBeforeAfterExact": true
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\browser-01",
+      "reportSha256": "f52dbcec03ade588cf9c315a5ca94af7866b9426af39670afea0e3021889a36d",
+      "checks": 105,
+      "captures": 28,
+      "sourceConsumerBeforeAfterExact": true
+    },
+    {
+      "folder": "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-independent-review\\late-stop-01",
+      "reportSha256": "aad45e4f95205692f1c0e65f335d4c3d0ffbe5d3e2ff53153c239618dc0d9423",
+      "checks": 25,
+      "captures": 6,
+      "sourceConsumerBeforeAfterExact": true
+    }
+  ],
+  "failures": [],
+  "judgeSetupCorrection": "Prior state comparison decoded UTF-8 sidecars with the Windows cp1252 default while decoding reports as UTF-8. That checker-only false mismatch is retained in capture-binding-check-before-explicit-utf8.json. Raw source evidence unchanged."
+}

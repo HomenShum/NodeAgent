@@ -1,0 +1,24 @@
+{
+  "url": "http://127.0.0.1:53414/",
+  "viewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "focused": "TEXTAREA",
+  "overflow": 0,
+  "buttons": [
+    {
+      "label": "Run the MVP proof",
+      "disabled": false
+    },
+    {
+      "label": "Find the next check",
+      "disabled": false
+    },
+    {
+      "label": "Send",
+      "disabled": true
+    }
+  ],
+  "bodyText": "NA\nNodeAgent\nportable chat UI\nno keys\n\nNO-KEY LOCAL AGENT\n\nAsk the room. Watch the work.\n\nNodeAgent gathers context, checks sources, applies a model delta, and writes the memo as inline tool cards. The default adapter is scripted so the first run needs no API keys.\n\nRun the MVP proof\nFind the next check\n\nScripted local adapter. Replace it with a server route when credentials exist."
+}

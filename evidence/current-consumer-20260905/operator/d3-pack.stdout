@@ -1,0 +1,1226 @@
+[
+  {
+    "id": "nodeagent@0.1.0",
+    "name": "nodeagent",
+    "version": "0.1.0",
+    "size": 8716154,
+    "unpackedSize": 10892272,
+    "shasum": "585b327605bf9b4eb1d8a44c5ce56bcc5a3ccae1",
+    "integrity": "sha512-AI3qcBJNb9JmkBJM03fev6YkwCzZ9WhIAI2BNJyaYe1zJyYL+iOaEyHKMLACbUPnbU0dRMexDWecGwXfuKXhiw==",
+    "filename": "nodeagent-0.1.0.tgz",
+    "files": [
+      {
+        "path": ".env.example",
+        "size": 2059,
+        "mode": 420
+      },
+      {
+        "path": ".gitattributes",
+        "size": 230,
+        "mode": 420
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "size": 1007,
+        "mode": 420
+      },
+      {
+        "path": ".github/workflows/node-platform-conformance.yml",
+        "size": 245,
+        "mode": 420
+      },
+      {
+        "path": ".tours/01-primary-user-flow.tour",
+        "size": 4887,
+        "mode": 420
+      },
+      {
+        "path": ".tours/02-agent-execution.tour",
+        "size": 4419,
+        "mode": 420
+      },
+      {
+        "path": ".tours/03-debug-and-recovery.tour",
+        "size": 4149,
+        "mode": 420
+      },
+      {
+        "path": "HANDOFF.md",
+        "size": 3118,
+        "mode": 420
+      },
+      {
+        "path": "NODE-LOOPS.md",
+        "size": 18453,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 24923,
+        "mode": 420
+      },
+      {
+        "path": "bin/nodeagent.mjs",
+        "size": 9925,
+        "mode": 420
+      },
+      {
+        "path": "convex/schema.ts",
+        "size": 6450,
+        "mode": 420
+      },
+      {
+        "path": "demo/runNodeAgentDemo.ts",
+        "size": 3047,
+        "mode": 420
+      },
+      {
+        "path": "docs/ARCHITECTURE.md",
+        "size": 23278,
+        "mode": 420
+      },
+      {
+        "path": "docs/CHAT_UI_ADOPTION.md",
+        "size": 2472,
+        "mode": 420
+      },
+      {
+        "path": "docs/codebase/ARCHITECTURE.md",
+        "size": 6793,
+        "mode": 420
+      },
+      {
+        "path": "docs/codebase/CONCERNS.md",
+        "size": 7265,
+        "mode": 420
+      },
+      {
+        "path": "docs/codebase/CONVENTIONS.md",
+        "size": 4354,
+        "mode": 420
+      },
+      {
+        "path": "docs/codebase/INTEGRATIONS.md",
+        "size": 4605,
+        "mode": 420
+      },
+      {
+        "path": "docs/codebase/STACK.md",
+        "size": 3543,
+        "mode": 420
+      },
+      {
+        "path": "docs/codebase/STRUCTURE.md",
+        "size": 4452,
+        "mode": 420
+      },
+      {
+        "path": "docs/codebase/TESTING.md",
+        "size": 5470,
+        "mode": 420
+      },
+      {
+        "path": "docs/DEMO_SCRIPT.md",
+        "size": 13073,
+        "mode": 420
+      },
+      {
+        "path": "docs/DURABLE_RUNTIME.md",
+        "size": 4339,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/nodeagent-chat-ui-scaffold-smoke.json",
+        "size": 940,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/nodeagent-convex-smoke.json",
+        "size": 292,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/nodeagent-durable-smoke.json",
+        "size": 798,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/nodeagent-frame-smoke.json",
+        "size": 513,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/nodeagent-happy-path-speed.json",
+        "size": 1389,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/nodeagent-live-provider-smoke.json",
+        "size": 375,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/nodeagent-local-dashboard-scaffold-smoke.json",
+        "size": 796,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/nodeagent-sqlite-smoke.json",
+        "size": 915,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/omnigent-nodeagent-smoke.json",
+        "size": 4911,
+        "mode": 420
+      },
+      {
+        "path": "docs/eval/omnigent-official-cli-probe.json",
+        "size": 3882,
+        "mode": 420
+      },
+      {
+        "path": "docs/FEATURE_PROOF_STORYBOARD.md",
+        "size": 2524,
+        "mode": 420
+      },
+      {
+        "path": "docs/GRAPH_INTEGRATION.md",
+        "size": 11246,
+        "mode": 420
+      },
+      {
+        "path": "docs/LOCAL_DASHBOARD_WALKTHROUGH.md",
+        "size": 3009,
+        "mode": 420
+      },
+      {
+        "path": "docs/media/live-graph-rail.gif",
+        "size": 3752304,
+        "mode": 420
+      },
+      {
+        "path": "docs/media/live-graph-rail.mp4",
+        "size": 752930,
+        "mode": 420
+      },
+      {
+        "path": "docs/media/live-graph-rail.png",
+        "size": 153152,
+        "mode": 420
+      },
+      {
+        "path": "docs/MIGRATION_MAP.md",
+        "size": 6228,
+        "mode": 420
+      },
+      {
+        "path": "docs/OMNIGENT_INTEGRATION.md",
+        "size": 3501,
+        "mode": 420
+      },
+      {
+        "path": "docs/PUSH_TO_GITHUB.md",
+        "size": 3458,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/chat-desktop-empty.png",
+        "size": 73151,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/chat-desktop-run.png",
+        "size": 109697,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/chat-mobile-empty.png",
+        "size": 49168,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/chat-mobile-run.png",
+        "size": 72898,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/local-dashboard-builder-locked.png",
+        "size": 77366,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/local-dashboard-overview.png",
+        "size": 99852,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/proto-desktop-empty.png",
+        "size": 104196,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/proto-desktop-run.png",
+        "size": 292952,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/proto-mobile-empty.png",
+        "size": 74915,
+        "mode": 420
+      },
+      {
+        "path": "docs/screenshots/proto-mobile-run.png",
+        "size": 254578,
+        "mode": 420
+      },
+      {
+        "path": "docs/SIMPLIFICATION_REPORT.md",
+        "size": 19108,
+        "mode": 420
+      },
+      {
+        "path": "docs/START_HERE.md",
+        "size": 18001,
+        "mode": 420
+      },
+      {
+        "path": "docs/TECH_RETRO.md",
+        "size": 7418,
+        "mode": 420
+      },
+      {
+        "path": "docs/walkthroughs/nodeagent-local-dashboard-walkthrough.gif",
+        "size": 179310,
+        "mode": 420
+      },
+      {
+        "path": "docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4",
+        "size": 63733,
+        "mode": 420
+      },
+      {
+        "path": "e2e/audit-web-quality.mjs",
+        "size": 8040,
+        "mode": 420
+      },
+      {
+        "path": "e2e/capture-journey-at-width.mjs",
+        "size": 14569,
+        "mode": 420
+      },
+      {
+        "path": "e2e/capture-live-graph-rail.mjs",
+        "size": 3581,
+        "mode": 420
+      },
+      {
+        "path": "e2e/current-consumer-proof.mjs",
+        "size": 9566,
+        "mode": 420
+      },
+      {
+        "path": "e2e/current-consumer-recovery-proof.mjs",
+        "size": 16029,
+        "mode": 420
+      },
+      {
+        "path": "e2e/record-live-graph-rail.mjs",
+        "size": 4094,
+        "mode": 420
+      },
+      {
+        "path": "e2e/wig-review.mjs",
+        "size": 13334,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/AGENTS.md",
+        "size": 992,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/aws-dynamodb/.env.example",
+        "size": 119,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/aws-dynamodb/iam-policy.template.json",
+        "size": 741,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/aws-dynamodb/README.md",
+        "size": 2892,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/cloudflare/.env.example",
+        "size": 114,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/cloudflare/README.md",
+        "size": 2583,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/cloudflare/wrangler.example.jsonc",
+        "size": 632,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/convex/.env.example",
+        "size": 141,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/convex/README.md",
+        "size": 2758,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/postgres/.env.example",
+        "size": 68,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/postgres/README.md",
+        "size": 2491,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/postgres/schema.sql",
+        "size": 1455,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/README.md",
+        "size": 3284,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/sqlite-local/.env.example",
+        "size": 142,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/sqlite-local/README.md",
+        "size": 2132,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/sqlite-local/schema.sql",
+        "size": 1408,
+        "mode": 420
+      },
+      {
+        "path": "examples/adapters/sqlite-local/sqliteDurableRuntime.ts",
+        "size": 13915,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/aws-hackathon-visual-labs/README.md",
+        "size": 1769,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/README.md",
+        "size": 2782,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/.env.example",
+        "size": 181,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/AGENTS.md",
+        "size": 966,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/index.html",
+        "size": 304,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/package-lock.json",
+        "size": 235233,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/package.json",
+        "size": 558,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/public/nodeagent-chat-state.json",
+        "size": 227,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/README.md",
+        "size": 2170,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/scripts/chat-ui-smoke.mjs",
+        "size": 2953,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/scripts/run-chat-demo.mjs",
+        "size": 1251,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/src/main.jsx",
+        "size": 296,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/src/nodeagent-chat/NodeAgentChatApp.jsx",
+        "size": 5921,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/src/nodeagent-chat/nodeAgentLocalAdapter.js",
+        "size": 4251,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/src/nodeagent-chat/toolUIs.jsx",
+        "size": 3753,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/src/styles.css",
+        "size": 7126,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/chat-ui/template/vite.config.mjs",
+        "size": 176,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/README.md",
+        "size": 3366,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/.env.example",
+        "size": 183,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/AGENTS.md",
+        "size": 693,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/docs/eval/.gitkeep",
+        "size": 1,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/index.html",
+        "size": 312,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/package.json",
+        "size": 613,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/public/nodeagent-state.json",
+        "size": 2228,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/README.md",
+        "size": 2440,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/scripts/run-local-agent.mjs",
+        "size": 7591,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/src/main.jsx",
+        "size": 8493,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/src/styles.css",
+        "size": 6174,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-dashboard/template/vite.config.mjs",
+        "size": 192,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/local-design-dashboard/README.md",
+        "size": 1411,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/minimal-portable-agent/.env.example",
+        "size": 136,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/minimal-portable-agent/AGENTS.md",
+        "size": 287,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/minimal-portable-agent/README.md",
+        "size": 1771,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/README.md",
+        "size": 2011,
+        "mode": 420
+      },
+      {
+        "path": "examples/apps/video-agent-pipeline/README.md",
+        "size": 2115,
+        "mode": 420
+      },
+      {
+        "path": "examples/omnigent/nodeagent-reviewer.yaml",
+        "size": 811,
+        "mode": 420
+      },
+      {
+        "path": "examples/omnigent/nodeagent-worker.yaml",
+        "size": 886,
+        "mode": 420
+      },
+      {
+        "path": "index.html",
+        "size": 1273,
+        "mode": 420
+      },
+      {
+        "path": "knip.json",
+        "size": 1226,
+        "mode": 420
+      },
+      {
+        "path": "nodeagent-v1.html",
+        "size": 25839,
+        "mode": 420
+      },
+      {
+        "path": "nodekit.yaml",
+        "size": 1291,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 5147,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/axe-initial-prefix.json",
+        "size": 111936,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/axe-initial.json",
+        "size": 112485,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/axe-populated-axe-1440.json",
+        "size": 697,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/axe-populated-keyboard-375.json",
+        "size": 677,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/axe-populated-prefix-keyboard-375.json",
+        "size": 3271,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/baseline-observations.json",
+        "size": 2602,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/desktop-1440-agent-running.png",
+        "size": 68440,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/desktop-1440-empty.png",
+        "size": 84064,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/desktop-1440-keyboard-run.png",
+        "size": 162268,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/desktop-1440-run.png",
+        "size": 162473,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/desktop-1440-second-turn.png",
+        "size": 141629,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-375-observations.json",
+        "size": 971,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-375-run.png",
+        "size": 55980,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-375-steering-observations.json",
+        "size": 1035,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-375-steering-run.png",
+        "size": 54568,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-768-observations.json",
+        "size": 972,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-768-run.png",
+        "size": 108296,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-960-observations.json",
+        "size": 971,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-960-run.png",
+        "size": 102626,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-1440-observations.json",
+        "size": 975,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-1440-run.png",
+        "size": 142820,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-axe-1440-observations.json",
+        "size": 1576,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-axe-1440-run.png",
+        "size": 142664,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-keyboard-375-observations.json",
+        "size": 1827,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-keyboard-375-run.png",
+        "size": 56137,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-prefix-375-observations.json",
+        "size": 1421,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-prefix-375-run.png",
+        "size": 17874,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-prefix-keyboard-375-observations.json",
+        "size": 4769,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-prefix-keyboard-375-run.png",
+        "size": 61683,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-wave3-375-observations.json",
+        "size": 942,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-wave3-375-run.png",
+        "size": 61575,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-wave3-1440-observations.json",
+        "size": 946,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/journey-wave3-1440-run.png",
+        "size": 143242,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/lighthouse-desktop.json",
+        "size": 507209,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/lighthouse-mobile.json",
+        "size": 538645,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/mobile-375-empty.png",
+        "size": 50419,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/mobile-375-run.png",
+        "size": 17874,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/proto-375-load.png",
+        "size": 72242,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/proto-375-run.png",
+        "size": 82707,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/proto-1440-load.png",
+        "size": 106661,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/web-quality-audit-prefix.json",
+        "size": 6321,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/web-quality-audit.json",
+        "size": 5913,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/wig-desktop-1440.png",
+        "size": 151387,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/wig-mobile-375.png",
+        "size": 55383,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/wig-prefix-desktop-1440.png",
+        "size": 151660,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/wig-prefix-mobile-375.png",
+        "size": 67905,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/wig-review-prefix.json",
+        "size": 13686,
+        "mode": 420
+      },
+      {
+        "path": "promotion/evidence/wig-review.json",
+        "size": 13677,
+        "mode": 420
+      },
+      {
+        "path": "promotion/PRODUCT_GOAL.md",
+        "size": 12758,
+        "mode": 420
+      },
+      {
+        "path": "promotion/PRODUCT_JOURNEYS.md",
+        "size": 8759,
+        "mode": 420
+      },
+      {
+        "path": "promotion/PROMOTION_LOG.md",
+        "size": 21001,
+        "mode": 420
+      },
+      {
+        "path": "promotion/SKILLS.md",
+        "size": 1965,
+        "mode": 420
+      },
+      {
+        "path": "promotion/WIG_REVIEW.md",
+        "size": 10270,
+        "mode": 420
+      },
+      {
+        "path": "scripts/build-tours.mjs",
+        "size": 12094,
+        "mode": 420
+      },
+      {
+        "path": "scripts/example-guidance-smoke.ts",
+        "size": 6150,
+        "mode": 420
+      },
+      {
+        "path": "scripts/nodeagent-chat-ui-scaffold-smoke.ts",
+        "size": 6899,
+        "mode": 420
+      },
+      {
+        "path": "scripts/nodeagent-cli.ts",
+        "size": 12183,
+        "mode": 420
+      },
+      {
+        "path": "scripts/nodeagent-convex-smoke.ts",
+        "size": 3813,
+        "mode": 420
+      },
+      {
+        "path": "scripts/nodeagent-durable-smoke.ts",
+        "size": 3881,
+        "mode": 420
+      },
+      {
+        "path": "scripts/nodeagent-frame-smoke.ts",
+        "size": 1759,
+        "mode": 420
+      },
+      {
+        "path": "scripts/nodeagent-live-provider-smoke.ts",
+        "size": 12362,
+        "mode": 420
+      },
+      {
+        "path": "scripts/nodeagent-local-dashboard-scaffold-smoke.ts",
+        "size": 7620,
+        "mode": 420
+      },
+      {
+        "path": "scripts/nodeagent-sqlite-smoke.ts",
+        "size": 5087,
+        "mode": 420
+      },
+      {
+        "path": "scripts/omnigent-nodeagent-smoke.ts",
+        "size": 7796,
+        "mode": 420
+      },
+      {
+        "path": "scripts/omnigent-official-probe.mjs",
+        "size": 4419,
+        "mode": 420
+      },
+      {
+        "path": "scripts/render-walkthrough-media.mjs",
+        "size": 3784,
+        "mode": 420
+      },
+      {
+        "path": "scripts/secret-scan.mjs",
+        "size": 4589,
+        "mode": 420
+      },
+      {
+        "path": "scripts/validate-tours.mjs",
+        "size": 6395,
+        "mode": 420
+      },
+      {
+        "path": "src/app/main.tsx",
+        "size": 346,
+        "mode": 420
+      },
+      {
+        "path": "src/app/styles.css",
+        "size": 14198,
+        "mode": 420
+      },
+      {
+        "path": "src/features/chat/contextCollector.ts",
+        "size": 4882,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/components/GraphRailPanel.tsx",
+        "size": 1731,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/components/NodeAgentDemoApp.tsx",
+        "size": 2103,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/components/NodeAgentThread.tsx",
+        "size": 5161,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/components/toolUIs.tsx",
+        "size": 6199,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/demoScenario.ts",
+        "size": 4339,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/graph/agentGraphSession.ts",
+        "size": 5405,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/runtime/durableRuntime.ts",
+        "size": 16727,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
+        "size": 5303,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/runtime/nodeAgentRuntime.ts",
+        "size": 6247,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/runtime/omnigentAdapter.ts",
+        "size": 5334,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/runtime/reasoningFrameRunner.ts",
+        "size": 4264,
+        "mode": 420
+      },
+      {
+        "path": "src/features/node-agent/types/nodeAgentTypes.ts",
+        "size": 7520,
+        "mode": 420
+      },
+      {
+        "path": "src/features/notebook/notebookEditor.ts",
+        "size": 3510,
+        "mode": 420
+      },
+      {
+        "path": "src/features/search/searchAndSynthesize.ts",
+        "size": 6871,
+        "mode": 420
+      },
+      {
+        "path": "src/features/spreadsheet/applySpreadsheetDelta.ts",
+        "size": 8449,
+        "mode": 420
+      },
+      {
+        "path": "src/features/spreadsheet/versionedSpreadsheetSync.ts",
+        "size": 3636,
+        "mode": 420
+      },
+      {
+        "path": "tests/durableRuntime.test.ts",
+        "size": 4594,
+        "mode": 420
+      },
+      {
+        "path": "tests/nodeAgentRuntime.test.ts",
+        "size": 3145,
+        "mode": 420
+      },
+      {
+        "path": "tests/omnigentAdapter.test.ts",
+        "size": 1690,
+        "mode": 420
+      },
+      {
+        "path": "tests/reasoningFrameRunner.test.ts",
+        "size": 1697,
+        "mode": 420
+      },
+      {
+        "path": "tests/searchSynthesize.test.ts",
+        "size": 4487,
+        "mode": 420
+      },
+      {
+        "path": "tests/spreadsheetDelta.test.ts",
+        "size": 6534,
+        "mode": 420
+      },
+      {
+        "path": "tests/sqliteDurableRuntime.test.ts",
+        "size": 3844,
+        "mode": 420
+      },
+      {
+        "path": "tsconfig.json",
+        "size": 864,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/graph-model.d.ts",
+        "size": 6867,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/graph-model.d.ts.map",
+        "size": 2448,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/graph-model.js",
+        "size": 16285,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/graph-model.js.map",
+        "size": 13998,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/index.d.ts",
+        "size": 546,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/index.d.ts.map",
+        "size": 514,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/index.js",
+        "size": 305,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/index.js.map",
+        "size": 306,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/NodeGraph.d.ts",
+        "size": 1267,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/NodeGraph.d.ts.map",
+        "size": 1312,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/NodeGraph.js",
+        "size": 30805,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/NodeGraph.js.map",
+        "size": 24655,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/react.d.ts",
+        "size": 187,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/react.d.ts.map",
+        "size": 238,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/react.js",
+        "size": 120,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/react.js.map",
+        "size": 186,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/README.md",
+        "size": 111,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/session.d.ts",
+        "size": 2813,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/session.d.ts.map",
+        "size": 1876,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/session.js",
+        "size": 11719,
+        "mode": 420
+      },
+      {
+        "path": "vendor/nodegraph-live/session.js.map",
+        "size": 12101,
+        "mode": 420
+      },
+      {
+        "path": "vite.config.ts",
+        "size": 769,
+        "mode": 420
+      },
+      {
+        "path": "vitest.config.ts",
+        "size": 530,
+        "mode": 420
+      }
+    ],
+    "entryCount": 242,
+    "bundled": []
+  }
+]

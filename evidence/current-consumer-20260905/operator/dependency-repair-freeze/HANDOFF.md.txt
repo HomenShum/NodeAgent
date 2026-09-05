@@ -1,0 +1,24 @@
+# NodeAgent developer handoff
+
+Read this file first, then [the runtime walkthrough](docs/START_HERE.md). This candidate starts from canonical `4e525fd0`; the separately preserved Pi draft is not integrated.
+
+A developer can run the repository's local scenario and generate a separate chat application without credentials. The generated chat is scripted, including its displayed confidence numbers. Its browser conversation resets on reload. The library's durable/SQLite demonstration is a separate integration and does not persist the browser chat.
+
+Use Node 22; this receipt used Node 22.22.2. From the repository run `npm ci`, `npm test` and `npm run build`. The current 41 tests and build pass. To generate a consumer, run `npm pack`, install that exact tarball in a new empty npm project, then use its installed CLI:
+
+```powershell
+node node_modules/nodeagent/bin/nodeagent.mjs doctor
+node node_modules/nodeagent/bin/nodeagent.mjs apps scaffold chat-ui --dir "../NodeAgent Chat" --auto
+Set-Location "../NodeAgent Chat"
+npm run dev
+```
+
+`--auto` performs normal install, demo, smoke and build. Keep the included template lock; use `npm ci` for repeatable reinstall. Reusing an existing target refuses before writing unless a developer explicitly selects the existing force option. This proof verified refusal and preservation without force.
+
+The original unlocked template resolved newer assistant-ui dependencies and failed its first real prompt despite smoke/build passing. A tested compatible template lock now preserves the canonical dependency cohort. The normally packed and installed locked consumer passed 59 browser checks, 25 captures at 320/390/768/1024/1440/1920, pointer/keyboard submission, duplicate Enter during a run, eight sequential turns/32 cards in 13.94 seconds and reload reset. This is bounded local interaction evidence, not production longevity or a complete visual grade.
+
+Separate offline frame/durable/SQLite runs completed. SQLite reopened the retained database and replayed the same frame with one journal entry; lease exclusion, expiry recovery and fencing passed. Run the existing `nodeagent:frame:smoke`, `nodeagent:durable:smoke` and `nodeagent:sqlite:smoke` commands for that library integration. Their fixture-derived confidence is not an external provider measurement.
+
+Open limits: both source and generated chat lack designed Stop/error/retry controls at this checkpoint; a separately reviewed D3 slice is pending. Full UI/accessibility/performance grades remain null. No provider, Convex, login, external-host hook, deployment or Pi capability was activated by this proof. Source full audit reports nine development advisories; the generated locked app reports four development advisories (three high, one low). Both production-only audits report zero. Those full-audit findings remain open.
+
+Dependency proof and the D3 before state are retained in the operator portfolio packet under `E6e-nodeagent-current-consumer`; portable evidence will accompany the final reviewed slice. The dependency receipt stays historical and separate if response recovery changes the UI next.

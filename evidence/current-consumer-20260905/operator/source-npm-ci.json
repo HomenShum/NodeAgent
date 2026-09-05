@@ -1,0 +1,32 @@
+{
+  "command": [
+    "npm",
+    "ci"
+  ],
+  "exitCode": 0,
+  "seconds": 16.72,
+  "environmentKeys": [
+    "APPDATA",
+    "COMSPEC",
+    "HOMEDRIVE",
+    "HOMEPATH",
+    "LOCALAPPDATA",
+    "NPM_CONFIG_GLOBALCONFIG",
+    "NPM_CONFIG_USERCONFIG",
+    "NUMBER_OF_PROCESSORS",
+    "OS",
+    "PATH",
+    "PATHEXT",
+    "PROCESSOR_ARCHITECTURE",
+    "SYSTEMDRIVE",
+    "SYSTEMROOT",
+    "TEMP",
+    "TMP",
+    "USERPROFILE",
+    "WINDIR"
+  ],
+  "providerVariablesPassed": false,
+  "envFilesPresent": false,
+  "stdoutSha256": "a7cc1fc56bd4557bcba245d99a30bcbf76f7fc2f8347c9af41826f3d2c8d5624",
+  "stderrSha256": "da370bd608ea0f37ee2141f76cc040fe073f2665c7130ec0d3eb441b3a077804"
+}

@@ -7,13 +7,21 @@
  * four tool UIs inline (registered in toolUIs.tsx).
  */
 
+import { useRef, type MouseEvent } from "react";
 import {
+  ActionBarPrimitive,
   AuiIf,
   ComposerPrimitive,
   MessagePrimitive,
   ThreadPrimitive,
+  useAui,
+  useAuiState,
 } from "@assistant-ui/react";
 import { DEMO_QUESTION } from "../demoScenario";
+
+function focusComposer(event: MouseEvent<HTMLButtonElement>) {
+  event.currentTarget.closest(".na-thread")?.querySelector<HTMLTextAreaElement>("textarea[name=input]")?.focus();
+}
 
 function UserMessage() {
   return (
@@ -26,6 +34,17 @@ function UserMessage() {
 }
 
 function AssistantMessage() {
+  const aui = useAui();
+  const messageId = useAuiState((s) => s.message.id);
+  const submittedResponse = useRef<string | null>(null);
+  const retryResponse = (event: MouseEvent<HTMLButtonElement>) => {
+    if (aui.thread().getState().isRunning || submittedResponse.current === messageId) {
+      event.preventDefault();
+      return;
+    }
+    submittedResponse.current = messageId;
+    focusComposer(event);
+  };
   return (
     <MessagePrimitive.Root className="na-msg na-msg-assistant">
       <span className="na-av" aria-hidden>
@@ -33,6 +52,21 @@ function AssistantMessage() {
       </span>
       <div className="na-bubble na-bubble-assistant">
         <MessagePrimitive.Parts />
+        <AuiIf condition={(s) => s.message.status?.type === "incomplete" && (s.message.status.reason === "cancelled" || s.message.status.reason === "error")}>
+          <div className="na-recovery">
+            <AuiIf condition={(s) => s.message.status?.type === "incomplete" && s.message.status.reason === "cancelled"}>
+              <p role="status">Stopped this response. Completed work is kept.</p>
+            </AuiIf>
+            <MessagePrimitive.Error>
+              <p role="alert">This response failed. Earlier results are kept.</p>
+            </MessagePrimitive.Error>
+            <ActionBarPrimitive.Reload onClick={retryResponse} onFocus={(event) => {
+              if (event.currentTarget.matches(":focus-visible")) {
+                event.currentTarget.parentElement?.scrollIntoView({ block: "start" });
+              }
+            }}>Retry response</ActionBarPrimitive.Reload>
+          </div>
+        </AuiIf>
       </div>
     </MessagePrimitive.Root>
   );
@@ -88,9 +122,16 @@ export function NodeAgentThread() {
               rows={1}
               autoFocus
             />
-            <ComposerPrimitive.Send className="na-send" aria-label="Send">
-              ↑
-            </ComposerPrimitive.Send>
+            <AuiIf condition={(s) => !s.thread.isRunning}>
+              <ComposerPrimitive.Send className="na-send" aria-label="Send">
+                ↑
+              </ComposerPrimitive.Send>
+            </AuiIf>
+            <AuiIf condition={(s) => s.thread.isRunning}>
+              <ComposerPrimitive.Cancel className="na-send na-stop" aria-label="Stop response" onClick={focusComposer}>
+                Stop
+              </ComposerPrimitive.Cancel>
+            </AuiIf>
           </ComposerPrimitive.Root>
           <p className="na-disclaimer">
             Deterministic demo — no keys. The agent runs the real ported modules over a fixed

@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "frameId": "rf_nodeagent_demo_wedge_runway",
+  "status": "completed",
+  "runtimeStatus": "ok",
+  "stateDelta": {
+    "contextItemCount": 3,
+    "activeParticipants": 2,
+    "groundedCount": 3,
+    "modelChanged": true,
+    "memoBlockCount": 5
+  },
+  "verification": {
+    "status": "completed",
+    "reason": "Frame completed.",
+    "evidenceState": {
+      "confidence": "high",
+      "citationCount": 3,
+      "winnerSourceId": "src_bench"
+    }
+  },
+  "runwayMonths": 18,
+  "memoBlocks": 5
+}

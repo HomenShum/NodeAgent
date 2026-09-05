@@ -10,7 +10,7 @@
  */
 
 import type { ReactNode } from "react";
-import { makeAssistantToolUI } from "@assistant-ui/react";
+import { makeAssistantToolUI, type ToolCallMessagePartStatus } from "@assistant-ui/react";
 import type {
   ContextToolResult,
   MemoToolResult,
@@ -23,22 +23,28 @@ function ToolCard({
   label,
   sub,
   running,
+  status,
   children,
 }: {
   icon: string;
   label: string;
   sub?: string;
   running: boolean;
+  status: ToolCallMessagePartStatus;
   children?: ReactNode;
 }) {
+  const interrupted = running && status.type === "incomplete";
+  const interruptedLabel = interrupted ? (status.reason === "cancelled" ? "stopped" : status.reason === "error" ? "failed" : "interrupted") : null;
   return (
-    <div className="na-tool" data-running={running ? "true" : "false"}>
+    <div className="na-tool" data-running={running && !interrupted ? "true" : "false"} data-interrupted={interrupted ? "true" : "false"}>
       <div className="na-tool-h">
         <span className="na-tool-i" aria-hidden>
           {icon}
         </span>
         <span className="na-tool-label">{label}</span>
-        {running ? (
+        {interrupted ? (
+          <span className="na-tool-status na-interrupted">{interruptedLabel}</span>
+        ) : running ? (
           <span className="na-tool-status na-running">
             <i className="na-spin" aria-hidden /> working…
           </span>
@@ -54,8 +60,8 @@ function ToolCard({
 /* 1 — collect_context */
 const ContextToolUI = makeAssistantToolUI<{ focus: string }, ContextToolResult>({
   toolName: "collect_context",
-  render: ({ result }) => (
-    <ToolCard
+  render: ({ result, status }) => (
+    <ToolCard status={status}
       icon="💬"
       label="Gather room context"
       running={!result}
@@ -75,8 +81,8 @@ const ContextToolUI = makeAssistantToolUI<{ focus: string }, ContextToolResult>(
 /* 2 — search_synthesize */
 const SearchToolUI = makeAssistantToolUI<{ query: string }, SearchToolResult>({
   toolName: "search_synthesize",
-  render: ({ result }) => (
-    <ToolCard
+  render: ({ result, status }) => (
+    <ToolCard status={status}
       icon="🔎"
       label="Search & synthesize"
       running={!result}
@@ -103,10 +109,10 @@ const SearchToolUI = makeAssistantToolUI<{ query: string }, SearchToolResult>({
 /* 3 — apply_spreadsheet_delta */
 const SpreadsheetToolUI = makeAssistantToolUI<{ sheet: string }, ModelToolResult>({
   toolName: "apply_spreadsheet_delta",
-  render: ({ result }) => {
+  render: ({ result, status }) => {
     const changed = new Set((result?.applied?.changes ?? []).map((c) => c.address));
     return (
-      <ToolCard
+      <ToolCard status={status}
         icon="▦"
         label="Update model"
         running={!result}
@@ -134,8 +140,8 @@ const SpreadsheetToolUI = makeAssistantToolUI<{ sheet: string }, ModelToolResult
 /* 4 — write_memo */
 const MemoToolUI = makeAssistantToolUI<{ title: string }, MemoToolResult>({
   toolName: "write_memo",
-  render: ({ result }) => (
-    <ToolCard
+  render: ({ result, status }) => (
+    <ToolCard status={status}
       icon="✎"
       label="Write memo"
       running={!result}

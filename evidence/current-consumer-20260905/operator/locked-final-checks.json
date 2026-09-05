@@ -1,0 +1,35 @@
+[
+  {
+    "name": "locked-source-test",
+    "command": [
+      "npm.cmd",
+      "test"
+    ],
+    "cwd": "D:\\VSCode Projects\\cafecorner_nodebench\\nodebench_ai4\\.portfolio-worktrees\\nodeagent-current-consumer-20260905",
+    "exit": 0,
+    "seconds": 1.9538378715515137
+  },
+  {
+    "name": "locked-generated-audit",
+    "command": [
+      "npm.cmd",
+      "audit",
+      "--json"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked Chat app",
+    "exit": 1,
+    "seconds": 1.4180843830108643
+  },
+  {
+    "name": "locked-generated-production-audit",
+    "command": [
+      "npm.cmd",
+      "audit",
+      "--omit=dev",
+      "--json"
+    ],
+    "cwd": "D:\\ProjectRecovery\\NodeAgent current consumer 20260905\\Locked Chat app",
+    "exit": 0,
+    "seconds": 1.0734152793884277
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "e2e/current-consumer-proof.mjs",
+    "D:/ProjectRecovery/NodeAgent current consumer 20260905/Generated Chat app",
+    "C:\\Users\\hshum\\.codex\\worktrees\\5dba\\nodebench-ai\\docs\\plans\\portfolio-recovery-20260904\\E6e-nodeagent-current-consumer\\browser-before-03"
+  ],
+  "exit": 1,
+  "seconds": 14.219947814941406
+}

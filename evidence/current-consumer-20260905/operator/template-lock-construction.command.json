@@ -1,0 +1,11 @@
+{
+  "command": [
+    "npm.cmd",
+    "install",
+    "--package-lock-only",
+    "--ignore-scripts",
+    "--offline"
+  ],
+  "exit": 0,
+  "seconds": 1.3120684623718262
+}

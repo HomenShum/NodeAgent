@@ -1,0 +1,16 @@
+{
+  "url": "http://127.0.0.1:53414/",
+  "viewport": {
+    "width": 1920,
+    "height": 960
+  },
+  "focused": "TEXTAREA",
+  "overflow": 0,
+  "buttons": [
+    {
+      "label": "Send",
+      "disabled": true
+    }
+  ],
+  "bodyText": "NA\nNodeAgent\nportable chat UI\nno keys\n\nPROOF FIXTURE: Does the local no-key MVP path work? Preserve unknown provider capability.\n\nNA\n\nRunning local NodeAgent for: PROOF FIXTURE: Does the local no-key MVP path work? Preserve unknown provider capability.\n\nGather context\nworking\n\n●\n\nScripted local adapter. Replace it with a server route when credentials exist."
+}
