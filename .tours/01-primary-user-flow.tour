@@ -77,7 +77,7 @@
     },
     {
       "file": "src/features/node-agent/components/GraphRailPanel.tsx",
-      "line": 17,
+      "line": 8,
       "anchor": "const snapshot = useSyncExternalStore",
       "description": "The side panel subscribes to that session, so the graph grows as the run proceeds. This is the entire state-management story — no library."
     },

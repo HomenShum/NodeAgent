@@ -298,7 +298,7 @@ graphSession.observe(
 ```
 
 ```tsx
-// src/features/node-agent/components/GraphRailPanel.tsx:17-21
+// src/features/node-agent/components/GraphRailPanel.tsx:8-12
 const snapshot = useSyncExternalStore(
   graphSession.subscribe, graphSession.getSnapshot, graphSession.getSnapshot,
 );

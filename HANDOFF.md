@@ -1,5 +1,17 @@
 # NodeAgent developer handoff
 
+## Session relationship reading (2026-09-07)
+
+The source app provides a default List of complete entity names and their typed relationships, with native expandable rows and an optional existing Map. Both read the same retained live session. Measured zero remains distinct from unknown; visits and traversal are labelled activity, not evidence strength. Map filters affect only Map, and returning to it can reset its camera/filter state without resetting the session. The vendored renderer is unchanged: its overlapping/clipped labels remain an optional-Map limitation, not a corrected canvas claim.
+
+Reproduce the source-app reading journey with `node e2e/capture-journey-at-width.mjs --width 360 --height 800 --label graph-list-360-new` and `node e2e/capture-journey-at-width.mjs --width 1440 --height 960 --keyboard --axe --turns 2 --label graph-list-keyboard-new`. Choose a fresh label and free `--port`; the command writes under `promotion/evidence`. It checks the actual List against the live snapshot, activates entity details and Map/List through native controls, and preserves the existing overflow/error/keyboard/axe checks. This source app is separate from the generated chat template.
+
+The implementation/proof record must distinguish List reading, optional Map behavior and the scripted no-key demo from provider, physical-device and full-product readiness. Historical graph deductions and all full-score holds remain source-bound; a successful List journey does not clear the unchanged Map label defect.
+
+The local source check passed 63 tests in ten files, types, library/UI builds, tours and the existing runtime/scaffold checks; its production audit reported zero findings. Convex was unconfigured, live-provider execution skipped, and the official Omnigent CLI was absent. Historical generated receipts were restored after retaining fresh outputs. Earlier failed checks and browser attempts remain evidence of the corrections, not passing runs.
+
+The reading proof covered seven viewport pairs from 320×800 through 1920×1080, native keyboard/two-turn draft continuity, touch emulation, computed doubled text at 390/1440 and reduced motion. A mobile sticky header initially covered the enlarged question; the header now scrolls in normal flow, and all six affected mobile/tablet conditions passed again. The existing harness checks every retained entity and typed adjacency against the live session, records native scroll coverage and keeps submission/reset observations distinct from graph updates. Use `--text200` or `--reduced-motion` for those bounded fixtures; touch emulation is `--touch`, not a physical-device certificate. Desktop results from before the mobile-only rule removal remain revision-bound; the final normal check rebuilt the compiled assets. The optional Map label defects, dense long sessions and whole-product/provider/device/assistive-technology readiness remain open.
+
 ## Development tooling repair (2026-09-07)
 
 This source updates Vitest to 3.2.6, applies a tsup-only esbuild 0.28.1 override, and refreshes the affected development transitives. Production requirements, runtime/CLI exports, templates and test configuration are unchanged. The source-bound local run passed ordinary `npm ci`, `npm ls`, the unchanged `npm run check` (57 tests in nine files, types, library/UI builds, tours and local scaffold/runtime checks), full installed audit with zero findings, and `npm pack`. The earlier nine root-development advisories remain historical; generated-app audit findings are separate.

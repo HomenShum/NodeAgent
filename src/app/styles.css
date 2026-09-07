@@ -192,19 +192,44 @@ button { font-family: inherit; cursor: pointer; }
 
 /* live graph rail (vendored @homenshum/nodegraph-live) */
 .na-rail {
-  width: 360px; min-width: 300px;
+  width: 360px; min-width: 300px; min-height: 0; overflow-y: auto;
   display: flex; flex-direction: column;
   border-left: 1px solid var(--line);
   background: var(--paper);
 }
 .na-rail-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 14px; border-bottom: 1px solid var(--line-faint);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px;
+  flex-shrink: 0; padding: 10px 14px; border-bottom: 1px solid var(--line-faint);
   font-size: 12px; font-weight: 700;
 }
+.na-rail-head h2 { margin: 0; font: inherit; }
 .na-rail-meta { color: var(--ink-muted); font-size: 11px; font-weight: 500; }
 .na-rail-empty { padding: 14px; color: var(--ink-faint); font-size: 12px; }
 .na-rail-graph { padding: 8px; }
+/* Full names are the default reading surface; Map remains optional exploration. */
+.na-graph-views { display: flex; flex-wrap: wrap; gap: 8px; padding: 8px; flex-shrink: 0; }
+.na-graph-views button {
+  min-width: 64px; min-height: 44px; padding: 8px 12px;
+  border: 1px solid var(--ink-muted); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--ink); font: inherit; cursor: pointer;
+}
+.na-graph-views button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-dim); font-weight: 700; }
+.na-rail > div:last-child { flex: 0 0 auto; min-width: 0; }
+.na-graph-list, .na-relationships { list-style: none; padding: 0; margin: 0; }
+.na-graph-list { padding: 0 8px 8px; }
+.na-graph-list > li { margin-bottom: 8px; border: 1px solid var(--line); border-radius: var(--r-sm); }
+.na-graph-list summary { min-height: 44px; padding: 10px 12px; cursor: pointer; }
+.na-entity-label, .na-related-label { font-weight: 600; overflow-wrap: anywhere; }
+.na-entity-kind { display: block; color: var(--ink-muted); font-size: 12px; }
+.na-entity-body { padding: 0 12px 12px; font-size: 12px; overflow-wrap: anywhere; }
+.na-entity-counts { margin: 0; }
+.na-entity-counts dt { font-weight: 600; }
+.na-entity-counts dd { margin: 0 0 8px; }
+.na-relationships > li { border-top: 1px solid var(--line-faint); padding-top: 10px; margin-top: 10px; }
+.na-relationship-type { display: block; margin-top: 6px; }
+.na-relationships p { margin: 2px 0 0; }
+.na-map-help { margin: 0 0 10px; font-size: 12px; color: var(--ink-muted); }
+
 /* Below 960px there is no room beside the conversation, so the rail becomes a
    bottom panel — it is never hidden. It used to be `display: none` here, and
    that was defect D1: `display:none` is invisible to React, so GraphRailPanel
@@ -221,7 +246,6 @@ button { font-family: inherit; cursor: pointer; }
     flex: 0 0 auto; max-height: 46vh; overflow-y: auto;
     border-left: none; border-top: 1px solid var(--line);
   }
-  .na-rail-head { position: sticky; top: 0; z-index: 1; background: var(--paper); }
 
   /* WIG Interactions — "Match visual & hit targets": 44px minimum on mobile.
      Measured at 375w before this rule: .na-link 66x19, .na-send 34x34,
