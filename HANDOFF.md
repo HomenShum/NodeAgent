@@ -1,5 +1,13 @@
 # NodeAgent developer handoff
 
+## Development tooling repair (2026-09-07)
+
+This source updates Vitest to 3.2.6, applies a tsup-only esbuild 0.28.1 override, and refreshes the affected development transitives. Production requirements, runtime/CLI exports, templates and test configuration are unchanged. The source-bound local run passed ordinary `npm ci`, `npm ls`, the unchanged `npm run check` (57 tests in nine files, types, library/UI builds, tours and local scaffold/runtime checks), full installed audit with zero findings, and `npm pack`. The earlier nine root-development advisories remain historical; generated-app audit findings are separate.
+
+The actual package SHA-256 is `fefaebdc8e9f4e50ed1b978749d67c75ce316a050777b3e267e177837dbaec11`. Its 37 members differ from reviewed predecessor `3c0b306137e2f5e4cade8619305186837013c9d2eafa40dceb6d8d0a70b6eea0` only in development package metadata. The other 36 bodies are exact, carrying the prior executable/consumer proof by byte continuity without a new consumer reinstall. Actual module resolution verifies Convex, tsx and tsup share esbuild 0.28.1; Convex's previous Windows binary is byte-identical at the shared location.
+
+Convex was unconfigured, live-provider execution skipped, and the official Omnigent CLI was absent in this local run. Historical generated receipts were restored after preserving the new outputs. Shared integration follows its own source/Actions records. No browser, human/device, provider, deployment or full-grade claim is added.
+
 ## Current runtime salvage on main 6112cabe
 
 This candidate selectively integrates the preserved runtime/event/Pi seam onto current main `6112cabe1f56a6279890206e35d03b9e339c02f5`. It retains the current chat, graph, scripts, templates, tours and security overrides. The original primary draft and branch are preserved separately. Read [the packed runtime instructions](README.md#packed-runtime-and-optional-pi-adapter) for the current scoped package name, CLI template paths, optional peer and completion/error/cost contract.
