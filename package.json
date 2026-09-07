@@ -1,5 +1,5 @@
 {
-  "name": "nodeagent",
+  "name": "@homenshum/nodeagent",
   "version": "0.1.0",
   "private": false,
   "description": "Cross-collaborative agent for live chat context gathering, search & synthesis, spreadsheet modeling, and TipTap notebook editing — distilled from NodeBench AI.",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "npm run build:lib && tsc --noEmit && vite build",
     "preview": "vite preview --port 5173",
     "proto": "vite --open /nodeagent-v1.html",
     "demo": "tsx demo/runNodeAgentDemo.ts",
@@ -67,7 +67,9 @@
     "tours:validate": "node scripts/validate-tours.mjs",
     "tours:build": "node scripts/build-tours.mjs .",
     "convex:dev": "convex dev",
-    "prepush": "npm run secret-scan && npm run tours:validate && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run nodeagent:sqlite:smoke && npm run nodeagent:convex:smoke -- --skip-if-missing && npm run nodeagent:local-dashboard:smoke && npm run nodeagent:chat-ui:smoke && npm run nodeagent:live-provider:smoke -- --skip-if-missing && npm run omnigent:nodeagent:smoke && npm run examples:guidance:smoke && npm run typecheck && npm run test && npm run build && npm audit --omit=dev"
+    "prepush": "npm run secret-scan && npm run tours:validate && npm run nodeagent:frame:smoke && npm run nodeagent:durable:smoke && npm run nodeagent:sqlite:smoke && npm run nodeagent:convex:smoke -- --skip-if-missing && npm run nodeagent:local-dashboard:smoke && npm run nodeagent:chat-ui:smoke && npm run nodeagent:live-provider:smoke -- --skip-if-missing && npm run omnigent:nodeagent:smoke && npm run examples:guidance:smoke && npm run typecheck && npm run test && npm run build && npm audit --omit=dev",
+    "build:lib": "tsup src/runtime.ts src/features/node-agent/providers/piAiAdapter.ts --format esm --dts --clean --out-dir lib --external @earendil-works/pi-ai --external @earendil-works/pi-ai/providers/all",
+    "prepack": "npm run build:lib"
   },
   "dependencies": {
     "@assistant-ui/react": "^0.14.14",
@@ -94,7 +96,9 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.7",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.8",
+    "@earendil-works/pi-ai": "0.80.10",
+    "tsup": "8.5.1"
   },
   "overrides": {
     "convex": {
@@ -102,5 +106,35 @@
     },
     "ws": "8.21.0",
     "nanoid@^5.0.0": "5.1.16"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/runtime.d.ts",
+      "import": "./lib/runtime.js"
+    },
+    "./runtime": {
+      "types": "./lib/runtime.d.ts",
+      "import": "./lib/runtime.js"
+    },
+    "./providers/pi-ai": {
+      "types": "./lib/features/node-agent/providers/piAiAdapter.d.ts",
+      "import": "./lib/features/node-agent/providers/piAiAdapter.js"
+    }
+  },
+  "files": [
+    "bin",
+    "lib",
+    "README.md",
+    "examples/apps/chat-ui/template",
+    "examples/apps/local-dashboard/template"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "@earendil-works/pi-ai": ">=0.80.10 <1"
+  },
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-ai": {
+      "optional": true
+    }
   }
 }
