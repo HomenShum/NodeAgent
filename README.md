@@ -478,3 +478,35 @@ module that borrows the pattern cites it in its header comment.
 ## License
 
 MIT © [Homen Shum](https://github.com/homenshum)
+
+
+## Packed runtime and optional Pi adapter
+
+The source package is `@homenshum/nodeagent`. From this checkout, use Node 22.19 or newer, `npm ci`, then `npm pack`. Packing runs the library build; the tarball includes the ESM/type entrypoints, CLI and both existing app templates. It intentionally excludes source UI, private evidence and development tools. This local package workflow does not publish an npm release.
+
+In a fresh directory, run `npm init -y` and `npm install "<absolute path to the generated .tgz>"`. The root and `@homenshum/nodeagent/runtime` entrypoints work without the optional Pi peer:
+
+```js
+import { createNodeAgentEvent } from "@homenshum/nodeagent/runtime";
+const event = createNodeAgentEvent({
+  eventId: "review-1", runId: "local-1", sequence: 0,
+  type: "review.started", occurredAt: "2026-09-07T00:00:00Z",
+  payload: { artifact: "local-example" },
+});
+```
+
+The packaged CLI is separate from the repository's richer developer CLI. These commands copy local templates without installing or starting the generated apps:
+
+```powershell
+node node_modules/@homenshum/nodeagent/bin/nodeagent.mjs doctor
+node node_modules/@homenshum/nodeagent/bin/nodeagent.mjs apps scaffold chat-ui --dir "../NodeAgent Chat"
+node node_modules/@homenshum/nodeagent/bin/nodeagent.mjs apps scaffold local-dashboard --dir "../NodeAgent Dashboard"
+```
+
+The chat template includes a lockfile: use `npm ci` in the generated chat directory. The dashboard template has no checked-in lockfile: use `npm install` for its first install and retain the generated lock for later `npm ci` runs. Follow each template's README for its demo, smoke and build commands; `--auto` on scaffold performs the existing install/demo/verification sequence. The examples use local scripted adapters, not external providers.
+
+For the optional adapter, explicitly install `@earendil-works/pi-ai@0.80.10` (requires Node >=22.19), then import `createPiAiAdapter` and `PiAiAdapterError` from `@homenshum/nodeagent/providers/pi-ai`. Calling an adapter with its default loader can use provider credentials and network; injected `models`/`loadModels` ports support offline consumers. NodeAgent delegates provider auth, transport, timeouts and retries to Pi. It does not automatically invoke the adapter from the existing chat UI or execute returned tool calls.
+
+`next()` reports `done: true` only for a natural `stop` without tool calls. `length` (truncated output) and `toolUse` remain incomplete. SDK terminal `error` and `aborted` messages reject with `PiAiAdapterError` (`provider_error` or `aborted`), retaining `stopReason` and reported usage. Thrown provider failures preserve their cause. A text consumer failure rejects with `callback_error`; streaming failure aborts that call and ends its event stream. Deltas already delivered cannot be withdrawn, and cancellation is not rollback of tools or external effects. No automatic retry is added.
+
+Token counts are passed through from Pi. `costUsd` is Pi's model-rate calculation and is labelled `costKind: "estimated"`, including configured zero rates; it is not a provider invoice or an invented minimum price. Missing optional peer/model failures remain typed errors. Offline SDK scenarios exercise actual event-stream primitives with injected responses; they do not certify provider availability, billing, production concurrency or whole-product readiness.
