@@ -30,8 +30,12 @@ stranger reaches the finished memo about a minute after cloning.
 npm install
 npm run dev            # http://localhost:5173 — the app
 npm run demo           # the same loop, printed to a terminal
-npm test               # 41 tests
+npm test               # read the test summary for this revision
 ```
+
+For revision-bound results and remaining limits, read [HANDOFF.md](../HANDOFF.md)
+and the [NodeAgent CI runs](https://github.com/HomenShum/NodeAgent/actions/workflows/ci.yml).
+Passing local tests does not certify live providers or browser behavior.
 
 If you only read one file after this page, read
 `src/features/node-agent/runtime/nodeAgentRuntime.ts`. It is the loop.
@@ -395,12 +399,12 @@ it("applies the versioned delta and recomputes runway to 18.0", () => {
 });
 ```
 
-To confirm these are not decorative: change `GROUNDING_THRESHOLD` in
-`src/features/search/searchAndSynthesize.ts` from `0.34` to `0.99` and run
-`npm test`. Seven assertions fail, across four of the seven test files
-(`nodeAgentRuntime.test.ts` 3, `durableRuntime.test.ts` 2,
-`reasoningFrameRunner.test.ts` 1, `sqliteDurableRuntime.test.ts` 1). Change it
-back.
+The original seven-file suite recorded a knockout: changing `GROUNDING_THRESHOLD`
+in `src/features/search/searchAndSynthesize.ts` from `0.34` to `0.99` produced
+seven failing assertions across four files (`nodeAgentRuntime.test.ts` 3,
+`durableRuntime.test.ts` 2, `reasoningFrameRunner.test.ts` 1,
+`sqliteDurableRuntime.test.ts` 1). This is historical evidence; rerun against the
+exact checked-out revision and restore the value afterward.
 
 The browser check drives the real Vite server at a chosen width and asserts the
 graph canvas is not zero-width — the root cause of D1, not its symptom:
@@ -413,7 +417,8 @@ npm run e2e:journey:mobile     # 375x812
 **Input** — the canonical scenario in
 `src/features/node-agent/demoScenario.ts`, with a fixed clock so output is
 byte-stable.
-**Output** — 41 passing tests; PNG + JSON evidence under `promotion/evidence/`.
+**Output** — the test summary for the checked-out revision; browser PNG + JSON
+evidence under `promotion/evidence/`.
 **Failure behavior** — non-zero exit; the JSON records `pageErrors`,
 `consoleErrors`, `failedRequests` separately from third-party failures.
 

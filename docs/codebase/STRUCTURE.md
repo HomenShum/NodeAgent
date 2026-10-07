@@ -27,7 +27,7 @@ src/
     spreadsheet/            applySpreadsheetDelta · versionedSpreadsheetSync
     notebook/               notebookEditor — build and render the memo
 
-tests/                      7 vitest files, 41 tests
+tests/                      Vitest scenarios for the domain modules and runtime
 e2e/                        Playwright captures that drive the real dev server
 demo/runNodeAgentDemo.ts    the loop, printed to a terminal
 bin/nodeagent.mjs           the published CLI — the ONLY scaffold implementation
@@ -41,6 +41,10 @@ promotion/                  product goal, journeys, defect ledger, evidence
 docs/                       this documentation
 .tours/                     CodeTour files
 ```
+
+For revision-bound test results and remaining limits, read
+[HANDOFF.md](../../HANDOFF.md) and the
+[NodeAgent CI runs](https://github.com/HomenShum/NodeAgent/actions/workflows/ci.yml).
 
 ## The five files that matter
 

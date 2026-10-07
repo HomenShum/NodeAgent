@@ -3,6 +3,14 @@
 What proves what, and how to make each thing fail on purpose — because a check
 you have never seen go red is not yet evidence.
 
+**Historical reference.** The test counts, timings and gate outcomes below describe
+the original seven-file, 41-test snapshot; they are not a current-checkout
+certificate. For later revision-bound results and remaining limits, read
+[HANDOFF.md](../../HANDOFF.md) and the
+[NodeAgent CI runs](https://github.com/HomenShum/NodeAgent/actions/workflows/ci.yml).
+Provider skips do not certify live integrations; a production-only audit does
+not establish that the full dependency install is clean.
+
 ## The commands
 
 | Command | What it proves | Time |
@@ -89,7 +97,7 @@ Both scaffold smokes drive `bin/nodeagent.mjs` **directly**, with no
 argument when the smoke was re-run inside `happy-path` inside `prepush`, and
 `npm run check` failed from a clean checkout. Keep new smokes on the direct call.
 
-## Known state of the gate
+## Historical state of the gate
 
 `npm run check` runs all fifteen stages and exits **0** from a clean checkout:
 every smoke, the typecheck, all 41 tests, the build, and `npm audit --omit=dev`
