@@ -13,22 +13,22 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 `live chat + context` · `grounded search & synthesis` · `versioned spreadsheet` · `TipTap notebook`
 
-[Quickstart](#quickstart) · [CLI](#cli) · [Visual walkthrough](#visual-walkthrough) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
+[Run source demo](#quickstart) · [Adopt packed runtime](#packed-runtime-and-optional-pi-adapter) · [Current limits](https://github.com/HomenShum/NodeAgent/blob/main/HANDOFF.md) · [CLI](#cli) · [Visual walkthrough](#visual-walkthrough) · [Portability](#portability-guidance) · [Durable runtime](https://github.com/HomenShum/NodeAgent/blob/main/docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](https://github.com/HomenShum/NodeAgent/blob/main/docs/ARCHITECTURE.md)
 
 </div>
 
-> **New here? Read [docs/START_HERE.md](docs/START_HERE.md).** It walks the codebase in
+> **New here? Read [docs/START_HERE.md](https://github.com/HomenShum/NodeAgent/blob/main/docs/START_HERE.md).** It walks the codebase in
 > the order the code actually runs — page load, the composer, the loop, the four tool cards,
 > the live graph, what happens on failure, and the tests that prove it — with the file and
-> symbol for every step. Reference notes live in [docs/codebase/](docs/codebase/), and
-> [.tours/](.tours/) has three CodeTour walkthroughs. `npm run tours:validate` re-checks every
+> symbol for every step. Reference notes live in [docs/codebase/](https://github.com/HomenShum/NodeAgent/tree/main/docs/codebase), and
+> [.tours/](https://github.com/HomenShum/NodeAgent/tree/main/.tours) has three CodeTour walkthroughs. `npm run tours:validate` re-checks every
 > tour step and every START_HERE citation against the line it names.
 
 <div align="center">
 
 <img src="docs/media/live-graph-rail.gif" alt="A question typed into the chat composer; the agent loop runs and the graph rail populates" width="960" />
 
-<sub>Recorded live UI (<code>e2e/record-live-graph-rail.mjs</code>): a question typed into the real composer, the four-step agent loop rendering its tool UIs, and the session graph rail populating from real loop events. See <a href="docs/GRAPH_INTEGRATION.md">docs/GRAPH_INTEGRATION.md</a> for what the graph does and does not claim.</sub>
+<sub>Recorded live UI (<code>e2e/record-live-graph-rail.mjs</code>): a question typed into the real composer, the four-step agent loop rendering its tool UIs, and the session graph rail populating from real loop events. See <a href="https://github.com/HomenShum/NodeAgent/blob/main/docs/GRAPH_INTEGRATION.md">docs/GRAPH_INTEGRATION.md</a> for what the graph does and does not claim.</sub>
 
 </div>
 
@@ -64,7 +64,7 @@ delta, the grounded notebook claim. <br/>
 npm install
 npm run dev            # http://localhost:5173 — type a question or tap a suggestion
 
-# 2. The no-build prototype — a vanilla mirror of the same chat, zero install.
+# 2. The no-build prototype — a vanilla mirror of the same chat, after dependency install.
 npm run proto          # opens /nodeagent-v1.html
 
 # 3. CLI — the real loop over the canonical scenario.
@@ -78,21 +78,27 @@ npm run nodeagent -- apps scaffold chat-ui --dir nodeagent-chat-ui --auto
 npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
 ```
 
-Verify it for yourself:
+Verify the local paths (scaffold checks create and verify separate local apps):
 
 ```bash
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
 npm run nodeagent:sqlite:smoke
-npm run nodeagent:convex:smoke
 npm run nodeagent:local-dashboard:smoke
 npm run nodeagent:chat-ui:smoke
-npm run nodeagent:live-provider:smoke
 npm run omnigent:nodeagent:smoke
 npm run examples:guidance:smoke
 npm run typecheck      # tsc --noEmit, clean
 npm run test           # full deterministic suite across modules, runtime, frames, durability
 npm run build          # vite build, clean
+```
+
+Run these optional checks only with the intended Convex/provider configuration. The live-provider
+check can make provider requests; neither command is part of the no-key starting path.
+
+```bash
+npm run nodeagent:convex:smoke
+npm run nodeagent:live-provider:smoke
 ```
 
 `nodeagent:frame:smoke` proves the Fable-like bounded frame path:
@@ -144,10 +150,12 @@ On native Windows, the current official Python Omnigent package can fail before
 printing help because it imports POSIX-only `signal.SIGUSR1`; use WSL, Linux, or
 macOS for the official `omni run` path if that happens.
 
-To light up the **live** paths (multiplayer room, live web retrieval, LLM synthesis), copy
-`.env.example` → `.env.local` and add keys. With no keys, every live path falls back to the
-deterministic demo — nothing breaks. Secrets are gitignored and `npm run secret-scan` refuses
-to ship them.
+The source chat and generated app demos use scripted local adapters without provider keys.
+Live Convex and provider integrations have separate configuration and verification steps;
+missing configuration is not a passing live check. The optional Pi adapter reports typed errors
+instead of falling back to demo output; see the [packed runtime contract](#packed-runtime-and-optional-pi-adapter).
+Use `.env.example` as the configuration reference. Secrets are gitignored, and `npm run secret-scan`
+checks for accidental exposure.
 
 For live LLMs, prefer `OPENROUTER_API_KEY`. The default OpenRouter priority is:
 `z-ai/glm-5.2`, `moonshotai/kimi-k2.7-code`, `cohere/north-mini-code:free`,
@@ -175,7 +183,7 @@ npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboa
 The SQLite provider proof uses [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 and runs with no cloud account.
 `npm run nodeagent:happy-path:smoke` records init-to-runnable timing in
-[`docs/eval/nodeagent-happy-path-speed.json`](docs/eval/nodeagent-happy-path-speed.json).
+[`docs/eval/nodeagent-happy-path-speed.json`](https://github.com/HomenShum/NodeAgent/blob/main/docs/eval/nodeagent-happy-path-speed.json).
 
 The local dashboard scaffold creates a spinnable app that looks and behaves like
 a local VisualLabs/NodeRoom work surface without requiring model keys:
@@ -203,20 +211,20 @@ npm run dev
 It serves a NodeRoom-style agent chat surface with inline tool cards and a
 scripted local adapter. Upgrade it by replacing the adapter with a server route,
 worker, or live provider runtime; keep the no-key smoke green. Detailed
-instructions are in [`docs/CHAT_UI_ADOPTION.md`](docs/CHAT_UI_ADOPTION.md).
+instructions are in [`docs/CHAT_UI_ADOPTION.md`](https://github.com/HomenShum/NodeAgent/blob/main/docs/CHAT_UI_ADOPTION.md).
 
 ## Visual walkthrough
 
 The local dashboard scaffold has a step-by-step visual walkthrough in
-[`docs/LOCAL_DASHBOARD_WALKTHROUGH.md`](docs/LOCAL_DASHBOARD_WALKTHROUGH.md).
+[`docs/LOCAL_DASHBOARD_WALKTHROUGH.md`](https://github.com/HomenShum/NodeAgent/blob/main/docs/LOCAL_DASHBOARD_WALKTHROUGH.md).
 Storyboard first: the README media is governed by
-[`docs/FEATURE_PROOF_STORYBOARD.md`](docs/FEATURE_PROOF_STORYBOARD.md). It
+[`docs/FEATURE_PROOF_STORYBOARD.md`](https://github.com/HomenShum/NodeAgent/blob/main/docs/FEATURE_PROOF_STORYBOARD.md). It
 must prove the no-key adoption path, bounded frame execution, visible tool
 surfaces, and smoke receipts before it is treated as publishable proof.
 
 ![NodeAgent local dashboard MP4/GIF walkthrough](docs/walkthroughs/nodeagent-local-dashboard-walkthrough.gif)
 
-MP4 version: [`docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4`](docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4)
+MP4 version: [`docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4`](https://github.com/HomenShum/NodeAgent/blob/main/docs/walkthroughs/nodeagent-local-dashboard-walkthrough.mp4)
 
 The walkthrough shows the full no-key path: onboarding command, automated setup
 steps, the finished SQLite dashboard, and the locked Builder/code ownership
@@ -241,7 +249,7 @@ credentials. Builder/code ownership is locked by default:
 
 The right rail renders a live session graph (vendored
 [`@homenshum/nodegraph-live`](https://github.com/HomenShum/NodeGraph), in
-[`vendor/nodegraph-live/`](vendor/nodegraph-live/) pending its npm publish):
+[`vendor/nodegraph-live/`](https://github.com/HomenShum/NodeAgent/tree/main/vendor/nodegraph-live) pending its npm publish):
 each step of the real agent loop feeds the entities it actually touched — the
 room and its participants, the retrieved sources, the sheet the delta changed,
 the memo and what it cites — where **evidence** edges carry a count the host
@@ -249,7 +257,7 @@ genuinely measured (context items selected, cells changed, citations written),
 **traversal** edges are interaction history with no measurement claimed, and an
 entity with no measured magnitude renders "unknown — not measured" instead of
 inventing one. Wiring:
-[`agentGraphSession.ts`](src/features/node-agent/graph/agentGraphSession.ts);
+[`agentGraphSession.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/node-agent/graph/agentGraphSession.ts);
 gate: `node e2e/capture-live-graph-rail.mjs` drives the real demo loop and
 exits nonzero if the rail stays empty. Assertion edges are never drawn:
 NodeAgent citations have no release/version field, so no citation can satisfy
@@ -260,7 +268,7 @@ choice.
 
 The durable runtime is not locked to Convex, Postgres, DynamoDB, SQLite, or any
 one queue provider. NodeAgent core depends on **ports** in
-[`durableRuntime.ts`](src/features/node-agent/runtime/durableRuntime.ts), while
+[`durableRuntime.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/node-agent/runtime/durableRuntime.ts), while
 each app supplies adapters:
 
 ```text
@@ -310,8 +318,8 @@ If a target repo requires changing NodeAgent core to support its database, queue
 or render provider, the abstraction is wrong. The target should add adapters and
 tools, not fork the runtime contract.
 
-Provider and app blueprints live under [`examples/adapters`](examples/adapters)
-and [`examples/apps`](examples/apps). They are written for coding agents: each
+Provider and app blueprints live under [`examples/adapters`](https://github.com/HomenShum/NodeAgent/tree/main/examples/adapters)
+and [`examples/apps`](https://github.com/HomenShum/NodeAgent/tree/main/examples/apps). They are written for coding agents: each
 folder lists credential names, official setup links, spin-up commands, adapter
 mapping, app tools, and done criteria. `chat-ui` and `local-dashboard` are
 scaffoldable today with no credentials; `sqlite-local` is fully runnable today; `convex` has a
@@ -361,15 +369,15 @@ NodeAgent's UI is a real [assistant-ui](https://github.com/assistant-ui/assistan
 bespoke chat clone:
 
 - **The runtime** — `useLocalRuntime(nodeAgentChatAdapter)`. The adapter
-  ([`nodeAgentChatAdapter.ts`](src/features/node-agent/runtime/nodeAgentChatAdapter.ts)) is a
+  ([`nodeAgentChatAdapter.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/node-agent/runtime/nodeAgentChatAdapter.ts)) is a
   `ChatModelAdapter` whose `async *run()` executes the loop and streams the result back as an
   assistant message. Swap it for `useChatRuntime` (AI SDK) or a fetch-backed adapter to go live —
   the tool UIs and the modules don't change.
 - **The Thread** — built from assistant-ui's headless primitives (`ThreadPrimitive`,
   `ComposerPrimitive`, `MessagePrimitive`) and themed with the design DNA — no Tailwind, no shadcn
-  ([`NodeAgentThread.tsx`](src/features/node-agent/components/NodeAgentThread.tsx)).
+  ([`NodeAgentThread.tsx`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/node-agent/components/NodeAgentThread.tsx)).
 - **The four capabilities are tool UIs** — each is a `makeAssistantToolUI` renderer
-  ([`toolUIs.tsx`](src/features/node-agent/components/toolUIs.tsx)): `collect_context`,
+  ([`toolUIs.tsx`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/node-agent/components/toolUIs.tsx)): `collect_context`,
   `search_synthesize`, `apply_spreadsheet_delta`, `write_memo`. They render *inline in the
   assistant's message* as the agent works — the generative-UI pattern assistant-ui is built for.
 
@@ -381,12 +389,12 @@ Each renders as an assistant-ui tool UI; underneath, each is a real, tested modu
 
 | Surface | What it does | Real module |
 |---|---|---|
-| **Live room** | Cross-collaborative chat; the collector ranks the few messages/docs that matter for the question (presence-TTL aware, bounded). | [`chat/contextCollector.ts`](src/features/chat/contextCollector.ts) |
-| **Search & synthesize** | The 4-layer grounding pipeline: confidence gate → grounding filter → synthesis → citation chain. Finds the *right document* and **declines rather than fabricates** when grounding is weak. | [`search/searchAndSynthesize.ts`](src/features/search/searchAndSynthesize.ts) |
-| **Spreadsheet model** | Every edit is a **versioned delta** with optimistic concurrency, dependent recompute (a safe `eval`-free formula parser), and an audit log. Non-conflicting concurrent edits auto-rebase. | [`spreadsheet/applySpreadsheetDelta.ts`](src/features/spreadsheet/applySpreadsheetDelta.ts) · [`versionedSpreadsheetSync.ts`](src/features/spreadsheet/versionedSpreadsheetSync.ts) |
-| **Notebook** | The TipTap document model as immutable, testable blocks — claim / citation / entity — with markdown export for shareable memos. | [`notebook/notebookEditor.ts`](src/features/notebook/notebookEditor.ts) |
+| **Live room** | Cross-collaborative chat; the collector ranks the few messages/docs that matter for the question (presence-TTL aware, bounded). | [`chat/contextCollector.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/chat/contextCollector.ts) |
+| **Search & synthesize** | The 4-layer grounding pipeline: confidence gate → grounding filter → synthesis → citation chain. Finds the *right document* and **declines rather than fabricates** when grounding is weak. | [`search/searchAndSynthesize.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/search/searchAndSynthesize.ts) |
+| **Spreadsheet model** | Every edit is a **versioned delta** with optimistic concurrency, dependent recompute (a safe `eval`-free formula parser), and an audit log. Non-conflicting concurrent edits auto-rebase. | [`spreadsheet/applySpreadsheetDelta.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/spreadsheet/applySpreadsheetDelta.ts) · [`versionedSpreadsheetSync.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/spreadsheet/versionedSpreadsheetSync.ts) |
+| **Notebook** | The TipTap document model as immutable, testable blocks — claim / citation / entity — with markdown export for shareable memos. | [`notebook/notebookEditor.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/notebook/notebookEditor.ts) |
 
-These compose in [`node-agent/runtime/nodeAgentRuntime.ts`](src/features/node-agent/runtime/nodeAgentRuntime.ts) — the loop that returns a structured `AgentRunResult` and an **honest overall status** (`ok` only when every step completed).
+These compose in [`node-agent/runtime/nodeAgentRuntime.ts`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/node-agent/runtime/nodeAgentRuntime.ts) — the loop that returns a structured `AgentRunResult` and an **honest overall status** (`ok` only when every step completed).
 
 ## Why this shape: a career, compiled
 
@@ -403,7 +411,7 @@ problem I already spent years solving — the agent is the part that finally mak
   that drives all four surfaces — bounded, deterministic where it can be, honest about failure,
   traceable end to end.
 
-Read the full retrospective in [`docs/TECH_RETRO.md`](docs/TECH_RETRO.md).
+Read the full retrospective in [`docs/TECH_RETRO.md`](https://github.com/HomenShum/NodeAgent/blob/main/docs/TECH_RETRO.md).
 
 ## Mobile parity
 
@@ -436,7 +444,7 @@ in the code and the tests:
   overwrite. The runtime returns `partial`/`error`, never a fake `ok`.
 - **Bounded everything.** `MAX_ITEMS`, `MAX_OPS`, `MAX_LOG`, `MAX_SOURCES` — every collection
   has a cap.
-- **SSRF guard** on the live-fetch path ([`isSafeFetchUrl`](src/features/search/searchAndSynthesize.ts)).
+- **SSRF guard** on the live-fetch path ([`isSafeFetchUrl`](https://github.com/HomenShum/NodeAgent/blob/main/src/features/search/searchAndSynthesize.ts)).
 - **Deterministic.** Clocks are injectable; the same inputs produce the same memo (there's a test for it).
 
 ## Repo structure
@@ -469,7 +477,7 @@ NodeAgent/
 NodeAgent is distilled from **NodeBench AI**, a 300+-tool agent platform (live collaborative
 rooms, a 4-layer grounded search pipeline, TipTap notebooks, Convex-backed spreadsheets). The
 mapping from there to here — what was kept, simplified, and reduced to pure TypeScript — is in
-[`docs/MIGRATION_MAP.md`](docs/MIGRATION_MAP.md).
+[`docs/MIGRATION_MAP.md`](https://github.com/HomenShum/NodeAgent/blob/main/docs/MIGRATION_MAP.md).
 
 The UI is built on **[assistant-ui](https://github.com/assistant-ui/assistant-ui)** (`@assistant-ui/react`) —
 its `LocalRuntime` / `ChatModelAdapter` and `makeAssistantToolUI` generative-UI primitives. Each
