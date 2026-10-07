@@ -13,7 +13,7 @@ Thread; each capability renders inline as a tool UI as the agent works.
 
 `live chat + context` · `grounded search & synthesis` · `versioned spreadsheet` · `TipTap notebook`
 
-[Quickstart](#quickstart) · [CLI](#cli) · [Visual walkthrough](#visual-walkthrough) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
+[Run source demo](#quickstart) · [Adopt packed runtime](#packed-runtime-and-optional-pi-adapter) · [Current limits](HANDOFF.md) · [CLI](#cli) · [Visual walkthrough](#visual-walkthrough) · [Portability](#portability-guidance) · [Durable runtime](docs/DURABLE_RUNTIME.md) · [Built on assistant-ui](#built-on-assistant-ui) · [The four surfaces](#the-four-surfaces) · [Why this shape](#why-this-shape-a-career-compiled) · [Architecture](docs/ARCHITECTURE.md)
 
 </div>
 
@@ -64,7 +64,7 @@ delta, the grounded notebook claim. <br/>
 npm install
 npm run dev            # http://localhost:5173 — type a question or tap a suggestion
 
-# 2. The no-build prototype — a vanilla mirror of the same chat, zero install.
+# 2. The no-build prototype — a vanilla mirror of the same chat, after dependency install.
 npm run proto          # opens /nodeagent-v1.html
 
 # 3. CLI — the real loop over the canonical scenario.
@@ -78,21 +78,27 @@ npm run nodeagent -- apps scaffold chat-ui --dir nodeagent-chat-ui --auto
 npm run nodeagent -- apps scaffold local-dashboard --dir nodeagent-local-dashboard --auto
 ```
 
-Verify it for yourself:
+Verify the local paths (scaffold checks create and verify separate local apps):
 
 ```bash
 npm run nodeagent:frame:smoke
 npm run nodeagent:durable:smoke
 npm run nodeagent:sqlite:smoke
-npm run nodeagent:convex:smoke
 npm run nodeagent:local-dashboard:smoke
 npm run nodeagent:chat-ui:smoke
-npm run nodeagent:live-provider:smoke
 npm run omnigent:nodeagent:smoke
 npm run examples:guidance:smoke
 npm run typecheck      # tsc --noEmit, clean
 npm run test           # full deterministic suite across modules, runtime, frames, durability
 npm run build          # vite build, clean
+```
+
+Run these optional checks only with the intended Convex/provider configuration. The live-provider
+check can make provider requests; neither command is part of the no-key starting path.
+
+```bash
+npm run nodeagent:convex:smoke
+npm run nodeagent:live-provider:smoke
 ```
 
 `nodeagent:frame:smoke` proves the Fable-like bounded frame path:
@@ -144,10 +150,12 @@ On native Windows, the current official Python Omnigent package can fail before
 printing help because it imports POSIX-only `signal.SIGUSR1`; use WSL, Linux, or
 macOS for the official `omni run` path if that happens.
 
-To light up the **live** paths (multiplayer room, live web retrieval, LLM synthesis), copy
-`.env.example` → `.env.local` and add keys. With no keys, every live path falls back to the
-deterministic demo — nothing breaks. Secrets are gitignored and `npm run secret-scan` refuses
-to ship them.
+The source chat and generated app demos use scripted local adapters without provider keys.
+Live Convex and provider integrations have separate configuration and verification steps;
+missing configuration is not a passing live check. The optional Pi adapter reports typed errors
+instead of falling back to demo output; see the [packed runtime contract](#packed-runtime-and-optional-pi-adapter).
+Use `.env.example` as the configuration reference. Secrets are gitignored, and `npm run secret-scan`
+checks for accidental exposure.
 
 For live LLMs, prefer `OPENROUTER_API_KEY`. The default OpenRouter priority is:
 `z-ai/glm-5.2`, `moonshotai/kimi-k2.7-code`, `cohere/north-mini-code:free`,
