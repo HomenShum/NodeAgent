@@ -14,6 +14,8 @@
 <!-- brand:end -->
 
 
+# NodeAgent
+
 **A cross-collaborative agent that gathers live context from a shared room, finds the right
 document for the right answer, updates the model as a versioned delta, and writes it into a
 notebook — as one loop.**
