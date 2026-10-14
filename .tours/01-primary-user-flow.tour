@@ -41,7 +41,7 @@
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
-      "line": 66,
+      "line": 67,
       "anchor": "const result = runNodeAgent(scenario)",
       "description": "The surprise worth knowing early: this call is SYNCHRONOUS and all four steps finish right here, before anything renders. The streaming a user sees is this function pacing out results that already exist."
     },
@@ -59,13 +59,13 @@
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
-      "line": 112,
+      "line": 132,
       "anchor": "yield* step(\"ctx\", \"collect_context\"",
       "description": "Tool INVOCATION, using the exact same name string. If these two lists ever disagree the card silently does not render and the run still reports success. Nothing enforces the match."
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
-      "line": 96,
+      "line": 114,
       "anchor": "parts.set(id, { type: \"tool-call\", toolCallId: id, toolName, args })",
       "description": "How a card appears then fills in: yield the call (card shows 'working…'), pause, yield the same call plus its result (card shows the real data)."
     },
@@ -83,7 +83,7 @@
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
-      "line": 127,
+      "line": 147,
       "anchor": "const runway = result.modelDelta?.changes.find",
       "description": "The closing line quotes real numbers off the result — the grounded count and the recomputed runway — rather than a canned success message."
     }

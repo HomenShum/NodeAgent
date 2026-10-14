@@ -1,7 +1,7 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
   "title": "3 · When it breaks: what catches it, and what does not",
-  "description": "Failure handling, the two gaps you must know about before your first change, and how to make every check in this repo go red on purpose.",
+  "description": "Failure handling, cancellation boundaries, the remaining render-error gap, and how to make every check in this repo go red on purpose.",
   "steps": [
     {
       "file": "src/features/node-agent/runtime/nodeAgentRuntime.ts",
@@ -11,9 +11,9 @@
     },
     {
       "file": "src/features/node-agent/runtime/nodeAgentChatAdapter.ts",
-      "line": 98,
-      "anchor": "if (abortSignal.aborted) return",
-      "description": "The abort signal is checked BETWEEN steps only — because the loop already finished synchronously before this generator started yielding. Nothing in the UI is wired to trigger it (defect D3)."
+      "line": 122,
+      "anchor": "recordGraph();",
+      "description": "When an analyst presses Stop response, the shared step checks cancellation immediately before this synchronous graph write. Pending waits reject and every snapshot checks before emission, so later graph updates and response frames stop together. The installed assistant-ui runtime catches AbortError and reports cancelled. The domain loop already ran synchronously; stopping does not undo its computation or earlier completed work."
     },
     {
       "file": "src/features/node-agent/components/NodeAgentDemoApp.tsx",

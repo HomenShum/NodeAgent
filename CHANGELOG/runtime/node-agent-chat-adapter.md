@@ -61,3 +61,18 @@ graph writes share one guarded step instead of four separate outer branches.
 The first candidate's source, tests, and proof logs remain preserved in the
 campaign evidence directory. Exact timing is SDK/test evidence, not browser
 timing certification.
+
+### Documentation integration — attempt 3
+
+The approved cancellation code moved four cited tour anchors and removed the old
+inner-generator abort branch. CI tour validation also caught an outdated
+`START_HERE` snippet. Regenerating alone was insufficient: the tour generator
+still said there was no Stop control, although the generated primary tour had
+been manually corrected earlier. The generator now preserves that Stop/Retry
+description and anchors recovery guidance at the guarded synchronous graph
+write. Regenerated tours and the walkthrough describe pending-wait cleanup,
+frame and graph boundaries, SDK cancellation status, and retained results.
+Runtime and scenario-test contents are unchanged from candidate 2.
+`npm run tours:validate` passes all 3 tours, 36 steps, and 11 walkthrough
+citations. Rebuilding twice produces identical tour bytes, preserves the prior
+Stop/Retry description, and leaves the unaffected execution tour unchanged.

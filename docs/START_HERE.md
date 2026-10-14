@@ -135,8 +135,9 @@ actually start.
 **Output** — a user message appended to the thread; assistant-ui then calls the
 adapter in Step 4.
 **Failure behavior** — while a response runs, Send gives way to Stop response.
-Stop ends its display updates and preserves completed work; it does not undo
-already computed or external work. Incomplete responses offer explicit Retry
+Stop cancels pending waits and prevents later response frames and graph updates,
+while preserving completed work; it does not undo already computed or external
+work. Incomplete responses offer explicit Retry
 through the existing runtime. Retry is never automatic; this local demo does
 not certify provider cancellation.
 **Next** — Step 4 receives the message.
@@ -246,12 +247,16 @@ The four names are `collect_context`, `search_synthesize`,
 const ContextToolUI = makeAssistantToolUI<{ focus: string }, ContextToolResult>({
   toolName: "collect_context",
 
-// invocation — src/features/node-agent/runtime/nodeAgentChatAdapter.ts:96-101
+// invocation — src/features/node-agent/runtime/nodeAgentChatAdapter.ts:114-122
 parts.set(id, { type: "tool-call", toolCallId: id, toolName, args });
-yield snapshot();                                    // card appears, "working…"
+yield snapshot();
 await tick(360);
 parts.set(id, { type: "tool-call", toolCallId: id, toolName, args, result: toolResult });
-yield snapshot();                                    // same card, now filled in
+yield snapshot();
+await tick(160);
+// Check where shared state changes, with no asynchronous gap before the write.
+abortSignal.throwIfAborted();
+recordGraph();
 ```
 
 Note what this is *not*: there is no tool-calling model, no schema registry, and
@@ -262,9 +267,13 @@ embedding NodeAgent supplies real tools through the `ToolRuntime` port in
 
 **Input** — the thread's messages, plus an `abortSignal`.
 **Output** — a stream of message snapshots, each replacing the last.
-**Failure behavior** — the abort signal is checked between steps
-(`if (abortSignal.aborted) return`). There is no `try/catch`: a throw inside this
-generator surfaces as an unhandled rejection, which is the gap Step 8 names.
+**Failure behavior** — Stop response rejects a pending delay and releases its
+timer and abort listener. The adapter checks cancellation before computing a
+response, before each snapshot, and immediately before the shared step writes
+to the graph. The original abort reason unwinds the whole generator; the
+installed assistant-ui runtime catches `AbortError` and marks the response
+cancelled. Other adapter errors become incomplete responses with explicit
+Retry, as Step 8 describes.
 **Next** — Step 7 is what the run writes to.
 
 ---
@@ -356,8 +365,9 @@ function safe<T>(step: AgentStep, fn: () => T, fallback: T): T {
 - **Adapter failures are visible.** The existing assistant-ui runtime marks the
   response incomplete; the thread presents a constant failure message, marks
   unfinished tool cards failed, and offers explicit Retry. Earlier results stay.
-- **Stop response ends display updates.** It preserves completed work and cannot
-  undo computation already performed by the local adapter or external work.
+- **Stop response ends future frames and graph updates.** It cancels pending
+  waits, preserves completed work, and cannot undo computation already
+  performed by the local adapter or external work.
   Retry replaces the current response through the native runtime, runs only on
   an explicit action, and rejects duplicate immediate activation.
 - **Rendering exceptions remain separate.** There is still no React render-error
