@@ -96,7 +96,7 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.7",
-    "vitest": "3.2.6",
+    "vitest": "4.1.11",
     "@earendil-works/pi-ai": "0.80.10",
     "tsup": "8.5.1"
   },
