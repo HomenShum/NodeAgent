@@ -30,12 +30,12 @@ type SmokeReport = {
 };
 
 const EXPECTED = "NODEAGENT_LIVE_OK";
+const SMOKE_MAX_TOKENS = 256;
 const OPENROUTER_OPEN_MODEL_PRIORITY = [
   "z-ai/glm-5.2",
   "moonshotai/kimi-k2.7-code",
   "cohere/north-mini-code:free",
   "nvidia/nemotron-3-ultra-550b-a55b",
-  "nex-agi/nex-n2-pro",
 ] as const;
 
 async function main() {
@@ -164,7 +164,7 @@ function hasAnyProviderKey() {
   );
 }
 
-function selectModelCandidates(provider: Provider, raw?: string | string[]) {
+export function selectModelCandidates(provider: Provider, raw?: string | string[]) {
   const requested = Array.isArray(raw) ? raw[0] : raw;
   if (requested) return [requested];
   if (process.env.NODEAGENT_LIVE_MODEL) return [process.env.NODEAGENT_LIVE_MODEL];
@@ -174,11 +174,11 @@ function selectModelCandidates(provider: Provider, raw?: string | string[]) {
         ?? parseModelPriority(process.env.NODEAGENT_OPENROUTER_MODEL)
         ?? [...OPENROUTER_OPEN_MODEL_PRIORITY];
     case "openai":
-      return [process.env.NODEAGENT_OPENAI_MODEL ?? "gpt-5.5"];
+      return [process.env.NODEAGENT_OPENAI_MODEL ?? "gpt-6.1-sol"];
     case "anthropic":
-      return [process.env.NODEAGENT_ANTHROPIC_MODEL ?? "claude-3-5-haiku-latest"];
+      return [process.env.NODEAGENT_ANTHROPIC_MODEL ?? "claude-haiku-5-5"];
     case "gemini":
-      return [process.env.NODEAGENT_GEMINI_MODEL ?? "gemini-2.0-flash"];
+      return [process.env.NODEAGENT_GEMINI_MODEL ?? "gemini-3.8-flash"];
   }
 }
 
@@ -244,7 +244,7 @@ async function probeLlm(provider: Provider, models: string[]): Promise<{ model: 
   };
 }
 
-async function callProvider(provider: Provider, model: string) {
+export async function callProvider(provider: Provider, model: string) {
   switch (provider) {
     case "openrouter":
       return openAiCompatibleChat({
@@ -258,6 +258,7 @@ async function callProvider(provider: Provider, model: string) {
         url: "https://api.openai.com/v1/chat/completions",
         key: requiredEnv("OPENAI_API_KEY"),
         model,
+        openai: true,
       });
     case "anthropic":
       return anthropicMessages(model);
@@ -266,7 +267,9 @@ async function callProvider(provider: Provider, model: string) {
   }
 }
 
-async function openAiCompatibleChat(args: { url: string; key: string; model: string; headers?: Record<string, string> }) {
+// No sampling params (removed on GPT-6, 400 on Haiku 5.5). The cap is 256, not 16, because reasoning
+// models spend output tokens before the visible reply. `openai` selects the GPT-6 Chat Completions shape.
+async function openAiCompatibleChat(args: { url: string; key: string; model: string; headers?: Record<string, string>; openai?: boolean }) {
   const response = await fetch(args.url, {
     method: "POST",
     headers: {
@@ -280,8 +283,9 @@ async function openAiCompatibleChat(args: { url: string; key: string; model: str
         { role: "system", content: "You are a smoke test. Follow the user instruction exactly." },
         { role: "user", content: `Reply with exactly: ${EXPECTED}` },
       ],
-      temperature: 0,
-      max_tokens: 16,
+      ...(args.openai
+        ? { max_completion_tokens: SMOKE_MAX_TOKENS, reasoning_effort: "low" }
+        : { max_tokens: SMOKE_MAX_TOKENS }),
     }),
     signal: AbortSignal.timeout(45_000),
   });
@@ -302,14 +306,13 @@ async function anthropicMessages(model: string) {
       model,
       system: "You are a smoke test. Follow the user instruction exactly.",
       messages: [{ role: "user", content: `Reply with exactly: ${EXPECTED}` }],
-      max_tokens: 16,
-      temperature: 0,
+      max_tokens: SMOKE_MAX_TOKENS,
     }),
     signal: AbortSignal.timeout(45_000),
   });
   const json = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(`provider_http_${response.status}: ${JSON.stringify(json).slice(0, 240)}`);
-  return String(json.content?.map((part: { text?: string }) => part.text ?? "").join("") ?? "");
+  return String(json.content?.filter((part: { type?: string }) => part.type === "text").map((part: { text?: string }) => part.text ?? "").join("") ?? "");
 }
 
 async function geminiGenerate(model: string) {
@@ -319,7 +322,7 @@ async function geminiGenerate(model: string) {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
       contents: [{ role: "user", parts: [{ text: `Reply with exactly: ${EXPECTED}` }] }],
-      generationConfig: { temperature: 0, maxOutputTokens: 16 },
+      generationConfig: { maxOutputTokens: SMOKE_MAX_TOKENS },
     }),
     signal: AbortSignal.timeout(45_000),
   });
