@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   callProvider,
@@ -24,6 +24,16 @@ function fakeFetch(responseBody: unknown): { captured: Captured[] } {
   return { captured };
 }
 
+beforeEach(() => {
+  // Isolate from host overrides so default-resolution tests are hermetic.
+  vi.stubEnv("NODEAGENT_LIVE_MODEL", undefined);
+  vi.stubEnv("NODEAGENT_OPENAI_MODEL", undefined);
+  vi.stubEnv("NODEAGENT_ANTHROPIC_MODEL", undefined);
+  vi.stubEnv("NODEAGENT_GEMINI_MODEL", undefined);
+  vi.stubEnv("NODEAGENT_OPENROUTER_MODEL_PRIORITY", undefined);
+  vi.stubEnv("NODEAGENT_OPENROUTER_MODEL", undefined);
+});
+
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
@@ -31,12 +41,6 @@ afterEach(() => {
 
 describe("live provider smoke request shape", () => {
   it("defaults resolve to the §1.2 wire ids", () => {
-    vi.stubEnv("NODEAGENT_LIVE_MODEL", undefined);
-    vi.stubEnv("NODEAGENT_OPENAI_MODEL", undefined);
-    vi.stubEnv("NODEAGENT_ANTHROPIC_MODEL", undefined);
-    vi.stubEnv("NODEAGENT_GEMINI_MODEL", undefined);
-    vi.stubEnv("NODEAGENT_OPENROUTER_MODEL_PRIORITY", undefined);
-    vi.stubEnv("NODEAGENT_OPENROUTER_MODEL", undefined);
     expect(selectModelCandidates("openai")).toEqual(["gpt-6.1-sol"]);
     expect(selectModelCandidates("anthropic")).toEqual(["claude-haiku-5-5"]);
     expect(selectModelCandidates("gemini")).toEqual(["gemini-3.8-flash"]);
@@ -77,7 +81,7 @@ describe("live provider smoke request shape", () => {
     vi.stubEnv("ANTHROPIC_API_KEY", "test-anthropic-key-0000");
     const { captured } = fakeFetch({
       content: [
-        { type: "thinking", thinking: "NODEAGENT_LIVE_NO" },
+        { type: "thinking", text: "NODEAGENT_LIVE_NO" },
         { type: "text", text: "NODEAGENT_LIVE_OK" },
       ],
     });
@@ -90,6 +94,7 @@ describe("live provider smoke request shape", () => {
     expect(body.max_tokens).toBeGreaterThanOrEqual(256);
     expect(body.messages.at(-1).role).toBe("user"); // no assistant prefill (400 on Haiku 5.5)
     expect(text).toBe("NODEAGENT_LIVE_OK");
+    expect(text).not.toContain("NODEAGENT_LIVE_NO");
   });
 
   it("gemini: gemini-3.8-flash body has no sampling params and a >= 256 output cap", async () => {
