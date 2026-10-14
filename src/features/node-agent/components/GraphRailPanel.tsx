@@ -1,8 +1,10 @@
 /** Readable entities and optional spatial exploration of one live session. */
-import { useId, useState, useSyncExternalStore } from "react";
+import { Component, lazy, Suspense, useId, useState, useSyncExternalStore, type ReactNode } from "react";
 import type { GraphEdge } from "../../../../vendor/nodegraph-live/index.js";
-import { NodeGraph } from "../../../../vendor/nodegraph-live/react.js";
 import { graphSession } from "../graph/agentGraphSession";
+
+const NodeGraph = lazy(() => import("../../../../vendor/nodegraph-live/react.js")
+  .then(({ NodeGraph }) => ({ default: NodeGraph })));
 
 export function GraphRailPanel() {
   const snapshot = useSyncExternalStore(
@@ -91,16 +93,35 @@ export function GraphRailPanel() {
         ) : (
           <div className="na-rail-graph">
             <p className="na-map-help">Explore connections here. Use List for full names and all typed relationships.</p>
-            <NodeGraph
-              nodes={snapshot.nodes}
-              edges={snapshot.edges}
-              visits={graphSession.visitsById()}
-              dark
-              height={440}
-            />
+            <MapErrorBoundary>
+              <Suspense fallback={<p className="na-rail-empty" role="status">Loading map… You can keep using chat or switch to List.</p>}>
+                <NodeGraph
+                  nodes={snapshot.nodes}
+                  edges={snapshot.edges}
+                  visits={graphSession.visitsById()}
+                  dark
+                  height={440}
+                />
+              </Suspense>
+            </MapErrorBoundary>
           </div>
         )}
       </div>
     </aside>
   );
+}
+
+// A failed optional renderer must not discard the conversation or readable List.
+class MapErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    return this.state.failed
+      ? <p className="na-rail-empty" role="alert">Map unavailable. Use List to read all entities and relationships.</p>
+      : this.props.children;
+  }
 }
