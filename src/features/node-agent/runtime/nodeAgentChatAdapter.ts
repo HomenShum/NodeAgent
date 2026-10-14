@@ -59,6 +59,7 @@ function lastUserText(messages: readonly { role: string; content: readonly unkno
 
 export const nodeAgentChatAdapter: ChatModelAdapter = {
   async *run({ messages, abortSignal }) {
+    abortSignal.throwIfAborted();
     const question = lastUserText(messages) || DEMO_QUESTION;
 
     // Run the real loop, then derive the post-delta model for the model tool UI.
@@ -71,20 +72,36 @@ export const nodeAgentChatAdapter: ChatModelAdapter = {
     }
 
     const reduced = prefersReducedMotion();
-    const tick = (ms: number) =>
-      new Promise<void>((res) => setTimeout(res, reduced ? 0 : ms));
+    const tick = async (ms: number) => {
+      abortSignal.throwIfAborted();
+      await new Promise<void>((resolve, reject) => {
+        const onAbort = () => {
+          clearTimeout(timer);
+          abortSignal.removeEventListener("abort", onAbort);
+          reject(abortSignal.reason);
+        };
+        const timer = setTimeout(() => {
+          abortSignal.removeEventListener("abort", onAbort);
+          resolve();
+        }, reduced ? 0 : ms);
+        abortSignal.addEventListener("abort", onAbort, { once: true });
+      });
+    };
 
     // Ordered map of tool-call parts; each yield replaces content cumulatively.
     const parts = new Map<string, Record<string, unknown>>();
     let lead =
       "On it — pulling the room context, then searching, updating the model, and writing the memo.";
 
-    const snapshot = () => ({
-      content: [
-        { type: "text" as const, text: lead },
-        ...(Array.from(parts.values()) as never[]),
-      ],
-    });
+    const snapshot = () => {
+      abortSignal.throwIfAborted();
+      return {
+        content: [
+          { type: "text" as const, text: lead },
+          ...(Array.from(parts.values()) as never[]),
+        ],
+      };
+    };
 
     // Each step: show the tool running, then complete with its real result.
     async function* step(
@@ -92,14 +109,17 @@ export const nodeAgentChatAdapter: ChatModelAdapter = {
       toolName: string,
       args: Record<string, unknown>,
       toolResult: unknown,
+      recordGraph: () => void,
     ) {
       parts.set(id, { type: "tool-call", toolCallId: id, toolName, args });
       yield snapshot();
-      if (abortSignal.aborted) return;
       await tick(360);
       parts.set(id, { type: "tool-call", toolCallId: id, toolName, args, result: toolResult });
       yield snapshot();
       await tick(160);
+      // Check where shared state changes, with no asynchronous gap before the write.
+      abortSignal.throwIfAborted();
+      recordGraph();
     }
 
     yield snapshot();
@@ -109,19 +129,19 @@ export const nodeAgentChatAdapter: ChatModelAdapter = {
     // actually touched (see agentGraphSession.ts for the honesty contract).
     const graphRunId = nextGraphRunId();
 
-    yield* step("ctx", "collect_context", { focus: question }, result.context as ContextToolResult);
-    feedGatherStep(graphRunId, scenario.room, result);
-    yield* step("search", "search_synthesize", { query: question }, result.synthesis as SearchToolResult);
-    feedSearchStep(graphRunId, result);
+    yield* step("ctx", "collect_context", { focus: question }, result.context as ContextToolResult,
+      () => feedGatherStep(graphRunId, scenario.room, result));
+    yield* step("search", "search_synthesize", { query: question }, result.synthesis as SearchToolResult,
+      () => feedSearchStep(graphRunId, result));
     yield* step(
       "model",
       "apply_spreadsheet_delta",
       { sheet: model.name },
       { applied: result.modelDelta, model } as ModelToolResult,
+      () => feedModelStep(graphRunId, model, result),
     );
-    feedModelStep(graphRunId, model, result);
-    yield* step("memo", "write_memo", { title: result.memo.title }, result.memo as MemoToolResult);
-    feedMemoStep(graphRunId, result);
+    yield* step("memo", "write_memo", { title: result.memo.title }, result.memo as MemoToolResult,
+      () => feedMemoStep(graphRunId, result));
 
     // Closing line — honest about the run.
     const runway = result.modelDelta?.changes.find((c) => c.address === "B3");
