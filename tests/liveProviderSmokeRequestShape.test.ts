@@ -97,6 +97,15 @@ describe("live provider smoke request shape", () => {
     expect(text).not.toContain("NODEAGENT_LIVE_NO");
   });
 
+  it("anthropic: stop_reason refusal throws provider_refusal instead of returning its text", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "test-anthropic-key-0000");
+    fakeFetch({
+      stop_reason: "refusal",
+      content: [{ type: "text", text: "I cannot comply with the request to output NODEAGENT_LIVE_OK." }],
+    });
+    await expect(callProvider("anthropic", "claude-haiku-5-5")).rejects.toThrow("provider_refusal");
+  });
+
   it("gemini: gemini-3.8-flash body has no sampling params and a >= 256 output cap", async () => {
     vi.stubEnv("GEMINI_API_KEY", "test-gemini-key-0000");
     vi.stubEnv("GOOGLE_GENERATIVE_AI_API_KEY", "");

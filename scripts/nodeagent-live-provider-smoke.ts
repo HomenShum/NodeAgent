@@ -312,6 +312,8 @@ async function anthropicMessages(model: string) {
   });
   const json = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(`provider_http_${response.status}: ${JSON.stringify(json).slice(0, 240)}`);
+  // Haiku 5.5 can answer 200 with stop_reason "refusal"; check it before reading content so a refusal never passes.
+  if (json.stop_reason === "refusal") throw new Error("provider_refusal");
   return String(json.content?.filter((part: { type?: string }) => part.type === "text").map((part: { text?: string }) => part.text ?? "").join("") ?? "");
 }
 
