@@ -33,7 +33,7 @@ function AssistantMessage() {
   const messageId = useAuiState((s) => s.message.id);
   const submittedResponse = useRef(null);
   const retryResponse = (event) => {
-    if (aui.thread().getState().isRunning || submittedResponse.current === messageId) {
+    if (aui.thread.getState().isRunning || submittedResponse.current === messageId) {
       event.preventDefault();
       return;
     }
