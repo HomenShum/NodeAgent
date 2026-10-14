@@ -18,6 +18,9 @@ from browser code with raw keys.
 
 ## Spin Up
 
+Use Node.js 20.19+ within Node 20, or Node.js 22.12+ (`^20.19.0 || >=22.12.0`),
+as required by Vite 8 and its React plugin.
+
 ```bash
 npm install
 npm run agent:demo
@@ -25,6 +28,12 @@ npm run dev
 ```
 
 Open the URL printed by Vite, usually `http://127.0.0.1:5173`.
+
+The production build uses Vite 8's default browser targets: Chrome/Edge 111,
+Firefox 114 and Safari 16.4. These are newer than Vite 6's defaults; older-browser
+compatibility has not been tested. See the official
+[Vite 7 migration guide](https://v7.vite.dev/guide/migration) and
+[Vite 8 migration guide](https://vite.dev/guide/migration).
 
 Verify the scaffold:
 
