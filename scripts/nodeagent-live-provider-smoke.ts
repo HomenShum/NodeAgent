@@ -1,10 +1,38 @@
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, isAbsolute, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 type Provider = "openrouter" | "openai" | "anthropic" | "gemini";
 
-type SmokeReport = {
+// SPEC-v3 §A.0 rule 3 receipt row: one per provider request, in chain order.
+type ReceiptRow = {
+  requestedModel: string;
+  resolvedModel: string;
+  echoedModel: string | null;
+  usage: unknown;
+  costUsd: number | null;
+  fallbackUsed: boolean;
+  error?: string;
+};
+
+type ProviderReply = { text: string; echoedModel: string | null; usage: unknown; costUsd: number | null };
+
+// Receipt fields added to the report. Absent on the skipped report (no run happened).
+type Receipt = {
+  command: string;
+  candidateIds: string[];
+  echoedModels: string[];
+  rows: ReceiptRow[];
+  testedCommit: string;
+  gitDirty: boolean;
+  constantSha256: string;
+  budget: { maxUsd: number; estimateUsd: number; spentUsd: number; requests: number; stoppedBy: string | null };
+  environment: { node: string; platform: string };
+};
+
+type SmokeReport = Partial<Receipt> & {
   ok: boolean;
   skipped?: boolean;
   startedAt: string;
@@ -31,6 +59,10 @@ type SmokeReport = {
 
 const EXPECTED = "NODEAGENT_LIVE_OK";
 const SMOKE_MAX_TOKENS = 256;
+// Receipt budget. The estimate is an upper bound: one ~30-token reply per request, 256-token cap.
+const SMOKE_MAX_USD = 0.1;
+const SMOKE_ESTIMATE_USD_PER_REQUEST = 0.01;
+const SMOKE_SOURCE = "scripts/nodeagent-live-provider-smoke.ts";
 const OPENROUTER_OPEN_MODEL_PRIORITY = [
   "z-ai/glm-5.2",
   "moonshotai/kimi-k2.7-code",
@@ -71,9 +103,10 @@ async function main() {
   const provider = selectProvider(args.provider);
   const modelCandidates = selectModelCandidates(provider, args.model);
   const convex = await probeConvexUrl();
-  const { model, llm } = await probeLlm(provider, modelCandidates);
+  const { model, llm, rows, budget } = await probeLlm(provider, modelCandidates);
   const report: SmokeReport = {
-    ok: llm.ok && (!convex.configured || convex.urlReachable === true),
+    ...receiptIdentity(process.argv.slice(2), modelCandidates, rows, budget),
+    ok: llm.ok && !budget.stoppedBy && (!convex.configured || convex.urlReachable === true),
     startedAt,
     completedAt: new Date().toISOString(),
     provider,
@@ -198,26 +231,45 @@ async function probeConvexUrl(): Promise<SmokeReport["convex"]> {
   }
 }
 
-async function probeLlm(provider: Provider, models: string[]): Promise<{ model: string; llm: SmokeReport["llm"] }> {
+export async function probeLlm(provider: Provider, models: string[]) {
   const attemptedModels: string[] = [];
+  const rows: ReceiptRow[] = [];
+  const budget: Receipt["budget"] = {
+    maxUsd: SMOKE_MAX_USD,
+    estimateUsd: models.length * SMOKE_ESTIMATE_USD_PER_REQUEST,
+    spentUsd: 0,
+    requests: 0,
+    stoppedBy: null,
+  };
   let last: { model: string; llm: SmokeReport["llm"] } | undefined;
-  for (const model of models) {
+  for (const [index, model] of models.entries()) {
+    if (budget.spentUsd >= budget.maxUsd) {
+      budget.stoppedBy = "maxUsd";
+      break;
+    }
     attemptedModels.push(model);
+    budget.requests += 1;
+    const row: ReceiptRow = { requestedModel: model, resolvedModel: model, echoedModel: null, usage: null, costUsd: null, fallbackUsed: index > 0 };
+    rows.push(row);
     const started = Date.now();
     try {
-      const text = await callProvider(provider, model);
-      const ok = text.includes(EXPECTED);
+      const reply = await callProviderDetailed(provider, model);
+      Object.assign(row, { echoedModel: reply.echoedModel, usage: reply.usage, costUsd: reply.costUsd });
+      budget.spentUsd += reply.costUsd ?? 0;
+      const ok = reply.text.includes(EXPECTED);
       const llm = {
         ok,
         ms: Date.now() - started,
         expected: EXPECTED,
-        receivedPreview: text.replace(/\s+/g, " ").slice(0, 120),
+        receivedPreview: reply.text.replace(/\s+/g, " ").slice(0, 120),
         attemptedModels: [...attemptedModels],
         ...(ok ? {} : { error: `expected ${EXPECTED}` }),
       };
       last = { model, llm };
-      if (ok) return last;
+      if (ok) return { ...last, rows, budget };
+      row.error = llm.error;
     } catch (error) {
+      row.error = sanitizeError(error);
       last = {
         model,
         llm: {
@@ -226,25 +278,52 @@ async function probeLlm(provider: Provider, models: string[]): Promise<{ model: 
           expected: EXPECTED,
           receivedPreview: "",
           attemptedModels: [...attemptedModels],
-          error: sanitizeError(error),
+          error: row.error,
         },
       };
     }
   }
-  return last ?? {
-    model: "none",
-    llm: {
-      ok: false,
-      ms: 0,
-      expected: EXPECTED,
-      receivedPreview: "",
-      attemptedModels,
-      error: "no model candidates configured",
-    },
+  return {
+    ...(last ?? {
+      model: "none",
+      llm: {
+        ok: false,
+        ms: 0,
+        expected: EXPECTED,
+        receivedPreview: "",
+        attemptedModels,
+        error: "no model candidates configured",
+      },
+    }),
+    rows,
+    budget,
+  };
+}
+
+// testedCommit is `git rev-parse HEAD`. The dirty check ignores docs/eval, the evidence directory the receipt is written
+// to (SPEC-v3 §A.0 rule 3, receipt-only commit), so running the four providers back to back does not dirty the tree.
+// constantSha256 hashes this file as committed at HEAD; a reviewer recomputes it with
+// `git show <testedCommit>:scripts/nodeagent-live-provider-smoke.ts | sha256sum`.
+export function receiptIdentity(argv: string[], candidateIds: string[], rows: ReceiptRow[], budget: Receipt["budget"]): Receipt {
+  const git = (...args: string[]) => execFileSync("git", args, { maxBuffer: 16 * 1024 * 1024 });
+  return {
+    command: ["tsx", SMOKE_SOURCE, ...argv].join(" "),
+    candidateIds,
+    echoedModels: [...new Set(rows.flatMap((row) => (row.echoedModel ? [row.echoedModel] : [])))],
+    rows,
+    testedCommit: git("rev-parse", "HEAD").toString().trim(),
+    gitDirty: git("status", "--porcelain", "--", ".", ":(exclude)docs/eval").toString().trim().length > 0,
+    constantSha256: createHash("sha256").update(git("show", `HEAD:${SMOKE_SOURCE}`)).digest("hex"),
+    budget,
+    environment: { node: process.version, platform: process.platform },
   };
 }
 
 export async function callProvider(provider: Provider, model: string) {
+  return (await callProviderDetailed(provider, model)).text;
+}
+
+export async function callProviderDetailed(provider: Provider, model: string): Promise<ProviderReply> {
   switch (provider) {
     case "openrouter":
       return openAiCompatibleChat({
@@ -269,7 +348,7 @@ export async function callProvider(provider: Provider, model: string) {
 
 // No sampling params (removed on GPT-6, 400 on Haiku 5.5). The cap is 256, not 16, because reasoning
 // models spend output tokens before the visible reply. `openai` selects the GPT-6 Chat Completions shape.
-async function openAiCompatibleChat(args: { url: string; key: string; model: string; headers?: Record<string, string>; openai?: boolean }) {
+async function openAiCompatibleChat(args: { url: string; key: string; model: string; headers?: Record<string, string>; openai?: boolean }): Promise<ProviderReply> {
   const response = await fetch(args.url, {
     method: "POST",
     headers: {
@@ -291,10 +370,15 @@ async function openAiCompatibleChat(args: { url: string; key: string; model: str
   });
   const json = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(`provider_http_${response.status}: ${JSON.stringify(json).slice(0, 240)}`);
-  return String(json.choices?.[0]?.message?.content ?? "");
+  return {
+    text: String(json.choices?.[0]?.message?.content ?? ""),
+    echoedModel: typeof json.model === "string" ? json.model : null,
+    usage: json.usage ?? null,
+    costUsd: typeof json.usage?.cost === "number" ? json.usage.cost : null, // only OpenRouter reports cost
+  };
 }
 
-async function anthropicMessages(model: string) {
+async function anthropicMessages(model: string): Promise<ProviderReply> {
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
@@ -314,10 +398,15 @@ async function anthropicMessages(model: string) {
   if (!response.ok) throw new Error(`provider_http_${response.status}: ${JSON.stringify(json).slice(0, 240)}`);
   // Haiku 5.5 can answer 200 with stop_reason "refusal"; check it before reading content so a refusal never passes.
   if (json.stop_reason === "refusal") throw new Error("provider_refusal");
-  return String(json.content?.filter((part: { type?: string }) => part.type === "text").map((part: { text?: string }) => part.text ?? "").join("") ?? "");
+  return {
+    text: String(json.content?.filter((part: { type?: string }) => part.type === "text").map((part: { text?: string }) => part.text ?? "").join("") ?? ""),
+    echoedModel: typeof json.model === "string" ? json.model : null,
+    usage: json.usage ?? null,
+    costUsd: null,
+  };
 }
 
-async function geminiGenerate(model: string) {
+async function geminiGenerate(model: string): Promise<ProviderReply> {
   const key = process.env.GOOGLE_GENERATIVE_AI_API_KEY || requiredEnv("GEMINI_API_KEY");
   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`, {
     method: "POST",
@@ -330,7 +419,12 @@ async function geminiGenerate(model: string) {
   });
   const json = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(`provider_http_${response.status}: ${JSON.stringify(json).slice(0, 240)}`);
-  return String(json.candidates?.[0]?.content?.parts?.map((part: { text?: string }) => part.text ?? "").join("") ?? "");
+  return {
+    text: String(json.candidates?.[0]?.content?.parts?.map((part: { text?: string }) => part.text ?? "").join("") ?? ""),
+    echoedModel: typeof json.modelVersion === "string" ? json.modelVersion : null,
+    usage: json.usageMetadata ?? null,
+    costUsd: null,
+  };
 }
 
 function requiredEnv(name: string) {

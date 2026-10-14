@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   callProvider,
+  probeLlm,
+  receiptIdentity,
   selectModelCandidates,
 } from "../scripts/nodeagent-live-provider-smoke";
 
@@ -121,5 +123,66 @@ describe("live provider smoke request shape", () => {
     }
     expect(body.generationConfig.maxOutputTokens).toBeGreaterThanOrEqual(256);
     expect(body.contents.at(-1).role).toBe("user");
+  });
+});
+
+// SPEC-v3 §A.0 rule 3: the receipt must record what the provider echoed, not what was requested.
+describe("live provider smoke receipt (rule 3)", () => {
+  it("records echoedModel, usage and cost per row when the provider answers with a different model", async () => {
+    vi.stubEnv("OPENROUTER_API_KEY", "test-openrouter-key-0000");
+    fakeFetch({
+      model: "some/rerouted-model",
+      choices: [{ message: { content: "NODEAGENT_LIVE_OK" } }],
+      usage: { prompt_tokens: 20, completion_tokens: 8, cost: 0.0002 },
+    });
+    const { rows, budget } = await probeLlm("openrouter", ["z-ai/glm-5.2"]);
+    expect(rows).toEqual([
+      {
+        requestedModel: "z-ai/glm-5.2",
+        resolvedModel: "z-ai/glm-5.2",
+        echoedModel: "some/rerouted-model",
+        usage: { prompt_tokens: 20, completion_tokens: 8, cost: 0.0002 },
+        costUsd: 0.0002,
+        fallbackUsed: false,
+      },
+    ]);
+    expect(budget).toMatchObject({ requests: 1, spentUsd: 0.0002, stoppedBy: null });
+    const receipt = receiptIdentity(["--provider", "openrouter"], ["z-ai/glm-5.2"], rows, budget);
+    expect(receipt.echoedModels).toEqual(["some/rerouted-model"]);
+    expect(receipt.candidateIds).toEqual(["z-ai/glm-5.2"]);
+    expect(receipt.testedCommit).toMatch(/^[0-9a-f]{40}$/);
+    expect(receipt.constantSha256).toMatch(/^[0-9a-f]{64}$/);
+    expect(typeof receipt.gitDirty).toBe("boolean");
+  });
+
+  it("reads the echoed model from anthropic `model` and gemini `modelVersion`", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "test-anthropic-key-0000");
+    fakeFetch({ model: "claude-other", content: [{ type: "text", text: "NODEAGENT_LIVE_OK" }], usage: { input_tokens: 9, output_tokens: 6 } });
+    const anthropic = await probeLlm("anthropic", ["claude-haiku-5-5"]);
+    expect(anthropic.rows[0]).toMatchObject({ echoedModel: "claude-other", usage: { input_tokens: 9, output_tokens: 6 }, costUsd: null });
+
+    vi.stubEnv("GEMINI_API_KEY", "test-gemini-key-0000");
+    vi.stubEnv("GOOGLE_GENERATIVE_AI_API_KEY", "");
+    fakeFetch({ modelVersion: "gemini-other", candidates: [{ content: { parts: [{ text: "NODEAGENT_LIVE_OK" }] } }], usageMetadata: { totalTokenCount: 15 } });
+    const gemini = await probeLlm("gemini", ["gemini-3.8-flash"]);
+    expect(gemini.rows[0]).toMatchObject({ echoedModel: "gemini-other", usage: { totalTokenCount: 15 } });
+  });
+
+  it("marks fallbackUsed when the OpenRouter chain moves past index 0", async () => {
+    vi.stubEnv("OPENROUTER_API_KEY", "test-openrouter-key-0000");
+    let call = 0;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (_url: string, init: { body: string }) => {
+        call += 1;
+        const model = JSON.parse(init.body).model;
+        if (call === 1) return new Response(JSON.stringify({ error: "down" }), { status: 503 });
+        return new Response(JSON.stringify({ model, choices: [{ message: { content: "NODEAGENT_LIVE_OK" } }] }), { status: 200 });
+      }),
+    );
+    const { rows } = await probeLlm("openrouter", ["a/first", "b/second"]);
+    expect(rows.map((row) => [row.requestedModel, row.fallbackUsed])).toEqual([["a/first", false], ["b/second", true]]);
+    expect(rows[0].echoedModel).toBeNull();
+    expect(rows[1].echoedModel).toBe("b/second");
   });
 });
