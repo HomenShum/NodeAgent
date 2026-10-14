@@ -17,7 +17,7 @@ type ReceiptRow = {
   error?: string;
 };
 
-type ProviderReply = { text: string; echoedModel: string | null; usage: unknown; costUsd: number | null };
+type ProviderReply = { text: string; echoedModel: string | null; usage: unknown; costUsd: number | null; refusal?: true };
 
 // Receipt fields added to the report. Absent on the skipped report (no run happened).
 type Receipt = {
@@ -28,7 +28,8 @@ type Receipt = {
   testedCommit: string;
   gitDirty: boolean;
   constantSha256: string;
-  budget: { maxUsd: number; estimateUsd: number; spentUsd: number; requests: number; stoppedBy: string | null };
+  // spentUsd is null when any dispatched request has no reported cost (direct OpenAI/Anthropic/Gemini replies carry none).
+  budget: { maxUsd: number; estimateUsd: number; spentUsd: number | null; requests: number; stoppedBy: string | null };
   environment: { node: string; platform: string };
 };
 
@@ -243,7 +244,9 @@ export async function probeLlm(provider: Provider, models: string[]) {
   };
   let last: { model: string; llm: SmokeReport["llm"] } | undefined;
   for (const [index, model] of models.entries()) {
-    if (budget.spentUsd >= budget.maxUsd) {
+    // Reserve before dispatch: a request with no reported cost counts at its estimate, so the cap holds for every provider.
+    const committedUsd = rows.reduce((sum, row) => sum + (row.costUsd ?? SMOKE_ESTIMATE_USD_PER_REQUEST), 0);
+    if (committedUsd + SMOKE_ESTIMATE_USD_PER_REQUEST > budget.maxUsd) {
       budget.stoppedBy = "maxUsd";
       break;
     }
@@ -255,7 +258,7 @@ export async function probeLlm(provider: Provider, models: string[]) {
     try {
       const reply = await callProviderDetailed(provider, model);
       Object.assign(row, { echoedModel: reply.echoedModel, usage: reply.usage, costUsd: reply.costUsd });
-      budget.spentUsd += reply.costUsd ?? 0;
+      if (reply.refusal) throw new Error("provider_refusal"); // after the row captured model and usage
       const ok = reply.text.includes(EXPECTED);
       const llm = {
         ok,
@@ -281,6 +284,8 @@ export async function probeLlm(provider: Provider, models: string[]) {
           error: row.error,
         },
       };
+    } finally {
+      budget.spentUsd = rows.every((row) => row.costUsd !== null) ? rows.reduce((sum, row) => sum + (row.costUsd ?? 0), 0) : null;
     }
   }
   return {
@@ -300,7 +305,7 @@ export async function probeLlm(provider: Provider, models: string[]) {
   };
 }
 
-// testedCommit is `git rev-parse HEAD`. The dirty check ignores docs/eval, the evidence directory the receipt is written
+// testedCommit is `git rev-parse HEAD`. Pathspecs are top-anchored so the dirty check does not depend on the caller's cwd. The dirty check ignores docs/eval, the evidence directory the receipt is written
 // to (SPEC-v3 §A.0 rule 3, receipt-only commit), so running the four providers back to back does not dirty the tree.
 // constantSha256 hashes this file as committed at HEAD; a reviewer recomputes it with
 // `git show <testedCommit>:scripts/nodeagent-live-provider-smoke.ts | sha256sum`.
@@ -312,7 +317,7 @@ export function receiptIdentity(argv: string[], candidateIds: string[], rows: Re
     echoedModels: [...new Set(rows.flatMap((row) => (row.echoedModel ? [row.echoedModel] : [])))],
     rows,
     testedCommit: git("rev-parse", "HEAD").toString().trim(),
-    gitDirty: git("status", "--porcelain", "--", ".", ":(exclude)docs/eval").toString().trim().length > 0,
+    gitDirty: git("status", "--porcelain", "--", ":(top)", ":(top,exclude)docs/eval").toString().trim().length > 0,
     constantSha256: createHash("sha256").update(git("show", `HEAD:${SMOKE_SOURCE}`)).digest("hex"),
     budget,
     environment: { node: process.version, platform: process.platform },
@@ -320,7 +325,9 @@ export function receiptIdentity(argv: string[], candidateIds: string[], rows: Re
 }
 
 export async function callProvider(provider: Provider, model: string) {
-  return (await callProviderDetailed(provider, model)).text;
+  const reply = await callProviderDetailed(provider, model);
+  if (reply.refusal) throw new Error("provider_refusal");
+  return reply.text;
 }
 
 export async function callProviderDetailed(provider: Provider, model: string): Promise<ProviderReply> {
@@ -396,10 +403,12 @@ async function anthropicMessages(model: string): Promise<ProviderReply> {
   });
   const json = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(`provider_http_${response.status}: ${JSON.stringify(json).slice(0, 240)}`);
-  // Haiku 5.5 can answer 200 with stop_reason "refusal"; check it before reading content so a refusal never passes.
-  if (json.stop_reason === "refusal") throw new Error("provider_refusal");
+  // Haiku 5.5 can answer 200 with stop_reason "refusal"; flag it before reading content so a refusal never passes,
+  // while still returning model and usage for the receipt row. Callers must reject `refusal`.
+  const refusal = json.stop_reason === "refusal";
   return {
-    text: String(json.content?.filter((part: { type?: string }) => part.type === "text").map((part: { text?: string }) => part.text ?? "").join("") ?? ""),
+    ...(refusal ? { refusal: true as const } : {}),
+    text: refusal ? "" : String(json.content?.filter((part: { type?: string }) => part.type === "text").map((part: { text?: string }) => part.text ?? "").join("") ?? ""),
     echoedModel: typeof json.model === "string" ? json.model : null,
     usage: json.usage ?? null,
     costUsd: null,

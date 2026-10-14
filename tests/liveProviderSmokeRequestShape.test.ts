@@ -1,3 +1,4 @@
+import { rmSync, writeFileSync } from "node:fs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -184,5 +185,43 @@ describe("live provider smoke receipt (rule 3)", () => {
     expect(rows.map((row) => [row.requestedModel, row.fallbackUsed])).toEqual([["a/first", false], ["b/second", true]]);
     expect(rows[0].echoedModel).toBeNull();
     expect(rows[1].echoedModel).toBe("b/second");
+  });
+  it("direct providers report no cost: spentUsd is null, never 0", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "test-anthropic-key-0000");
+    fakeFetch({ model: "claude-haiku-5-5", content: [{ type: "text", text: "NODEAGENT_LIVE_OK" }], usage: { input_tokens: 30, output_tokens: 200 } });
+    const { budget } = await probeLlm("anthropic", ["claude-haiku-5-5"]);
+    expect(budget).toMatchObject({ requests: 1, spentUsd: null, stoppedBy: null });
+  });
+
+  it("reserves the per-request estimate before dispatch, so unreported cost cannot cross maxUsd", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "test-anthropic-key-0000");
+    const { captured } = fakeFetch({ model: "m", content: [{ type: "text", text: "nope" }] });
+    const { budget } = await probeLlm("anthropic", Array.from({ length: 12 }, (_, i) => `m${i}`));
+    expect(captured).toHaveLength(10); // 10 x $0.01 estimate = $0.10 cap
+    expect(budget).toMatchObject({ requests: 10, spentUsd: null, stoppedBy: "maxUsd" });
+  });
+
+  it("a refusal row still records echoedModel and usage, and the probe fails", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "test-anthropic-key-0000");
+    fakeFetch({ stop_reason: "refusal", model: "claude-haiku-5-5", content: [{ type: "text", text: "NODEAGENT_LIVE_OK" }], usage: { input_tokens: 5, output_tokens: 1 } });
+    const result = await probeLlm("anthropic", ["claude-haiku-5-5"]);
+    expect(result.llm.ok).toBe(false);
+    expect(result.rows[0]).toMatchObject({ error: "provider_refusal", echoedModel: "claude-haiku-5-5", usage: { input_tokens: 5, output_tokens: 1 } });
+  });
+
+  it("gitDirty does not depend on the caller's working directory", () => {
+    const cwd = process.cwd();
+    const probe = ".gitdirty-probe.tmp";
+    writeFileSync(probe, "x"); // untracked file at the repo root
+    try {
+      const budget = { maxUsd: 0.1, estimateUsd: 0, spentUsd: 0, requests: 0, stoppedBy: null };
+      const fromRoot = receiptIdentity(["--provider", "x"], ["m"], [], budget).gitDirty;
+      process.chdir("docs");
+      const fromSubdir = receiptIdentity(["--provider", "x"], ["m"], [], budget).gitDirty;
+      expect([fromRoot, fromSubdir]).toEqual([true, true]);
+    } finally {
+      process.chdir(cwd);
+      rmSync(probe, { force: true });
+    }
   });
 });
