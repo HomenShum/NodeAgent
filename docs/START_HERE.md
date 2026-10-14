@@ -311,11 +311,16 @@ graphSession.observe(
 ```
 
 ```tsx
-// src/features/node-agent/components/GraphRailPanel.tsx:8-12
+// src/features/node-agent/components/GraphRailPanel.tsx:10-14
 const snapshot = useSyncExternalStore(
   graphSession.subscribe, graphSession.getSnapshot, graphSession.getSnapshot,
 );
 ```
+
+The default List uses that session immediately. The optional Map renderer loads
+only after Map is selected and entities exist. While it loads, chat and List
+remain usable; if it fails, an alert directs the reader back to List without
+discarding earlier answers. Switching views does not reset the session.
 
 The honesty contract is written at the top of `agentGraphSession.ts` and is worth
 reading in full: a count is passed only when something was actually counted;

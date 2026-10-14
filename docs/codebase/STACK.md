@@ -33,12 +33,17 @@ browser checks in `e2e/`), `typescript`, the `@types/*` packages, and
 
 `vendor/nodegraph-live/` is a pre-built copy of the `@homenshum/nodegraph-live`
 graph renderer, committed as compiled `.js` + `.d.ts` + `.js.map`. It is
-imported directly by path:
+loaded on demand when Map is selected and the session has data:
 
 ```ts
-// src/features/node-agent/components/GraphRailPanel.tsx:13
-import { NodeGraph } from "../../../../vendor/nodegraph-live/react.js";
+// src/features/node-agent/components/GraphRailPanel.tsx
+const NodeGraph = lazy(() => import("../../../../vendor/nodegraph-live/react.js")
+  .then(({ NodeGraph }) => ({ default: NodeGraph })));
 ```
+
+The graph session and readable List remain available immediately. A loading
+status and a local error boundary keep chat and List usable if Map cannot load.
+Graphology is still needed by the session; only the spatial renderer is deferred.
 
 It is excluded from `knip.json` because its unused exports are that library's
 public API, not this repo's debt.
