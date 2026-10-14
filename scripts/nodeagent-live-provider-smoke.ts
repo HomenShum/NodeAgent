@@ -286,6 +286,7 @@ export async function probeLlm(provider: Provider, models: string[]) {
       };
     } finally {
       budget.spentUsd = rows.every((row) => row.costUsd !== null) ? rows.reduce((sum, row) => sum + (row.costUsd ?? 0), 0) : null;
+      if (budget.spentUsd !== null && budget.spentUsd > budget.maxUsd) budget.stoppedBy = "maxUsd"; // a reply can cost more than the pre-dispatch estimate
     }
   }
   return {
@@ -312,7 +313,7 @@ export async function probeLlm(provider: Provider, models: string[]) {
 export function receiptIdentity(argv: string[], candidateIds: string[], rows: ReceiptRow[], budget: Receipt["budget"]): Receipt {
   const git = (...args: string[]) => execFileSync("git", args, { maxBuffer: 16 * 1024 * 1024 });
   return {
-    command: ["tsx", SMOKE_SOURCE, ...argv].join(" "),
+    command: ["tsx", SMOKE_SOURCE, ...argv].map((arg) => (/\s/.test(arg) ? JSON.stringify(arg) : arg)).join(" "), // replayable: quote args with whitespace
     candidateIds,
     echoedModels: [...new Set(rows.flatMap((row) => (row.echoedModel ? [row.echoedModel] : [])))],
     rows,

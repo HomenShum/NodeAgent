@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { rmSync, writeFileSync } from "node:fs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -209,9 +210,26 @@ describe("live provider smoke receipt (rule 3)", () => {
     expect(result.rows[0]).toMatchObject({ error: "provider_refusal", echoedModel: "claude-haiku-5-5", usage: { input_tokens: 5, output_tokens: 1 } });
   });
 
+  it("a successful reply that costs more than maxUsd stops the run", async () => {
+    vi.stubEnv("OPENROUTER_API_KEY", "test-openrouter-key-0000");
+    fakeFetch({ model: "m", choices: [{ message: { content: "NODEAGENT_LIVE_OK" } }], usage: { prompt_tokens: 5, completion_tokens: 5, cost: 0.11 } });
+    const { llm, budget } = await probeLlm("openrouter", ["m"]);
+    expect(llm.ok).toBe(true);
+    expect(budget).toMatchObject({ spentUsd: 0.11, stoppedBy: "maxUsd" });
+  });
+
+  it("receipt command quotes arguments that contain whitespace so it can be replayed", () => {
+    const budget = { maxUsd: 0.1, estimateUsd: 0, spentUsd: 0, requests: 0, stoppedBy: null };
+    const { command } = receiptIdentity(["--env-file", "D:/VSCode Projects/x.env", "--provider", "x"], ["m"], [], budget);
+    expect(command).toContain('--env-file "D:/VSCode Projects/x.env" --provider x');
+  });
+
   it("gitDirty does not depend on the caller's working directory", () => {
     const cwd = process.cwd();
-    const probe = ".gitdirty-probe.tmp";
+    const probe = "gitdirty-probe.txt"; // must not match .gitignore, or git status never sees it
+    const git = (...args: string[]) => execFileSync("git", args).toString();
+    expect(() => git("check-ignore", "-q", probe)).toThrow(); // exit 1 = not ignored
+    expect(git("status", "--porcelain", "--", ":(top)", ":(top,exclude)docs/eval").trim()).toBe(""); // clean tree, so the probe is the only dirt
     writeFileSync(probe, "x"); // untracked file at the repo root
     try {
       const budget = { maxUsd: 0.1, estimateUsd: 0, spentUsd: 0, requests: 0, stoppedBy: null };
