@@ -1,5 +1,6 @@
 export const SUGGESTED_PROMPT = "Does the local NodeAgent wedge hold for an MVP?";
 
+// Scripted demo fixtures; relevance and grounding values are not model-quality scores.
 const demo = {
   context: {
     items: [
@@ -74,20 +75,36 @@ const prefersReducedMotion = () =>
 export const nodeAgentLocalAdapter = {
   apiKeysRequired: false,
   async *run({ messages, abortSignal }) {
+    abortSignal.throwIfAborted();
     const question = lastUserText(messages);
     const reduced = prefersReducedMotion();
-    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, reduced ? 0 : ms));
+    const delay = async (ms) => {
+      abortSignal.throwIfAborted();
+      await new Promise((resolve, reject) => {
+        const onAbort = () => {
+          clearTimeout(timer);
+          abortSignal.removeEventListener("abort", onAbort);
+          reject(abortSignal.reason);
+        };
+        const timer = setTimeout(() => {
+          abortSignal.removeEventListener("abort", onAbort);
+          resolve();
+        }, reduced ? 0 : ms);
+        abortSignal.addEventListener("abort", onAbort, { once: true });
+      });
+    };
+    // Per-run state is bounded by the four fixed stage IDs below.
     const parts = new Map();
     let lead = `Running local NodeAgent for: ${question}`;
 
-    const snapshot = () => ({
-      content: [{ type: "text", text: lead }, ...Array.from(parts.values())],
-    });
+    const snapshot = () => {
+      abortSignal.throwIfAborted();
+      return { content: [{ type: "text", text: lead }, ...Array.from(parts.values())] };
+    };
 
     async function* step(id, toolName, args, result) {
       parts.set(id, { type: "tool-call", toolCallId: id, toolName, args });
       yield snapshot();
-      if (abortSignal.aborted) return;
       await delay(260);
       parts.set(id, { type: "tool-call", toolCallId: id, toolName, args, result });
       yield snapshot();
