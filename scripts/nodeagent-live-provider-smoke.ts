@@ -296,10 +296,10 @@ export async function probeLlm(provider: Provider, models: string[]) {
         },
       };
     } finally {
-      const knownUsd = rows.reduce((sum, row) => sum + (row.costUsd ?? 0), 0);
-      budget.spentUsd = rows.every((row) => row.costUsd !== null) ? knownUsd : null;
-      // Compare the reported spend even when other rows reported none: a reply can cost more than the estimate, and one unknown row must not hide it.
-      if (knownUsd > budget.maxUsd) budget.stoppedBy = "maxUsd";
+      budget.spentUsd = rows.every((row) => row.costUsd !== null) ? rows.reduce((sum, row) => sum + (row.costUsd ?? 0), 0) : null;
+      // Same accounting as the pre-dispatch reservation: a row with no reported cost counts at its estimate, so an unknown row cannot hide an overshoot.
+      const committedUsd = rows.reduce((sum, row) => sum + (row.costUsd ?? SMOKE_ESTIMATE_USD_PER_REQUEST), 0);
+      if (committedUsd > budget.maxUsd) budget.stoppedBy = "maxUsd";
     }
   }
   return {

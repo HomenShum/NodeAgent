@@ -255,6 +255,21 @@ describe("live provider smoke receipt (rule 3)", () => {
     expect(budget).toMatchObject({ requests: 2, spentUsd: null, stoppedBy: "maxUsd" }); // spentUsd stays null (a row is unknown); the known $0.11 still trips the cap
   });
 
+  it("an unreported-cost failure counts at its estimate, so a $0.095 reply after it crosses maxUsd", async () => {
+    vi.stubEnv("OPENROUTER_API_KEY", "test-openrouter-key-0000");
+    let call = 0;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        call += 1;
+        if (call === 1) return new Response(JSON.stringify({ error: "down" }), { status: 503 }); // no cost: counts $0.01
+        return new Response(JSON.stringify({ model: "b/second", choices: [{ message: { content: "NODEAGENT_LIVE_OK" } }], usage: { cost: 0.095 } }), { status: 200 });
+      }),
+    );
+    const { budget } = await probeLlm("openrouter", ["a/first", "b/second"]);
+    expect(budget).toMatchObject({ requests: 2, spentUsd: null, stoppedBy: "maxUsd" }); // 0.01 + 0.095 = 0.105 > 0.10; reported-only total 0.095 would have hidden it
+  });
+
   it("a missing credential counts no request and records no row", async () => {
     vi.stubEnv("ANTHROPIC_API_KEY", "");
     const { captured } = fakeFetch({});
