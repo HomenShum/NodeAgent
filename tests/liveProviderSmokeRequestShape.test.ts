@@ -268,8 +268,8 @@ describe("live provider smoke receipt (rule 3)", () => {
 
   it("receipt command is shell-quoted so it replays: whitespace, semicolons, empty and quote characters survive", () => {
     const { command } = receiptIdentity(["--env-file", "D:/VSCode Projects/x.env", "--env-file", "a;b.env", "--model", "", "--note", "it's"], ["m"], [], BUDGET, gitIdentity(makeRepo()));
-    expect(command).toBe("tsx scripts/nodeagent-live-provider-smoke.ts --env-file 'D:/VSCode Projects/x.env' --env-file 'a;b.env' --model '' --note 'it'\\''s'");
-  });
+    expect(command).toBe("npx tsx scripts/nodeagent-live-provider-smoke.ts --env-file 'D:/VSCode Projects/x.env' --env-file 'a;b.env' --model '' --note 'it'\\''s'");
+  }, 30_000);
 
   it("gitIdentity reads an isolated repo: clean, dirty from any cwd, and docs/eval receipt output is ignored", () => {
     const repo = makeRepo();
@@ -286,12 +286,12 @@ describe("live provider smoke receipt (rule 3)", () => {
 
     writeFileSync(join(repo, "probe.txt"), "x"); // untracked file at the repo root
     expect([gitIdentity(repo).gitDirty, gitIdentity(join(repo, "docs")).gitDirty]).toEqual([true, true]);
-  });
+  }, 30_000); // ~20 git processes; the 5000 ms default timed out once under load
 
   it("gitIdentity throws outside a git checkout", () => {
     const notARepo = mkdtempSync(join(tmpdir(), "smoke-nogit-"));
     tempRepos.push(notARepo);
     vi.stubEnv("GIT_CEILING_DIRECTORIES", tmpdir());
-    expect(() => gitIdentity(notARepo)).toThrow();
-  });
+    expect(() => gitIdentity(notARepo)).toThrow(/not a git repository/i);
+  }, 30_000);
 });

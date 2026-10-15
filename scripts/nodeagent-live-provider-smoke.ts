@@ -60,7 +60,7 @@ type SmokeReport = Partial<Receipt> & {
 
 const EXPECTED = "NODEAGENT_LIVE_OK";
 const SMOKE_MAX_TOKENS = 256;
-// Receipt budget. The estimate is an upper bound: one ~30-token reply per request, 256-token cap.
+// Receipt budget. The estimate is sized for the built-in and frozen ids (~30-token reply, 256-token cap; gpt-6.1-sol is ~$0.003). An operator-supplied NODEAGENT_OPENROUTER_MODEL_PRIORITY with pricier ids can overshoot maxUsd by up to one request; the run then ends stoppedBy:"maxUsd", ok:false.
 const SMOKE_MAX_USD = 0.1;
 const SMOKE_ESTIMATE_USD_PER_REQUEST = 0.01;
 const SMOKE_SOURCE = "scripts/nodeagent-live-provider-smoke.ts";
@@ -255,7 +255,7 @@ export async function probeLlm(provider: Provider, models: string[]) {
   }
   let last: { model: string; llm: SmokeReport["llm"] } | undefined;
   for (const [index, model] of models.entries()) {
-    // Reserve before dispatch: a request with no reported cost counts at its estimate, so the cap holds for every provider.
+    // Reserve before dispatch: a request with no reported cost counts at its estimate, so the cap holds for every provider at the flat estimate (see SMOKE_ESTIMATE_USD_PER_REQUEST for the operator-override caveat).
     const committedUsd = rows.reduce((sum, row) => sum + (row.costUsd ?? SMOKE_ESTIMATE_USD_PER_REQUEST), 0);
     if (committedUsd + SMOKE_ESTIMATE_USD_PER_REQUEST > budget.maxUsd) {
       budget.stoppedBy = "maxUsd";
@@ -341,7 +341,7 @@ function shellQuote(arg: string) {
 
 export function receiptIdentity(argv: string[], candidateIds: string[], rows: ReceiptRow[], budget: Receipt["budget"], identity: GitIdentity): Receipt {
   return {
-    command: ["tsx", SMOKE_SOURCE, ...argv].map(shellQuote).join(" "),
+    command: ["npx", "tsx", SMOKE_SOURCE, ...argv].map(shellQuote).join(" "),
     candidateIds,
     echoedModels: [...new Set(rows.flatMap((row) => (row.echoedModel ? [row.echoedModel] : [])))],
     rows,
