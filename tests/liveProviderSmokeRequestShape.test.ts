@@ -1,9 +1,12 @@
 import { execFileSync } from "node:child_process";
-import { rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   callProvider,
+  gitIdentity,
   probeLlm,
   receiptIdentity,
   selectModelCandidates,
@@ -28,6 +31,22 @@ function fakeFetch(responseBody: unknown): { captured: Captured[] } {
   return { captured };
 }
 
+// A throwaway git repo holding the smoke script, so identity tests never read or dirty the real checkout.
+const tempRepos: string[] = [];
+function makeRepo() {
+  const dir = mkdtempSync(join(tmpdir(), "smoke-identity-"));
+  tempRepos.push(dir);
+  const git = (...args: string[]) => execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@t", ...args], { cwd: dir });
+  git("init", "-q");
+  mkdirSync(join(dir, "scripts"));
+  mkdirSync(join(dir, "docs"));
+  writeFileSync(join(dir, "scripts", "nodeagent-live-provider-smoke.ts"), "// constant\n");
+  git("add", ".");
+  git("commit", "-q", "-m", "init");
+  return dir;
+}
+const BUDGET = { maxUsd: 0.1, estimateUsd: 0, spentUsd: 0, requests: 0, stoppedBy: null };
+
 beforeEach(() => {
   // Isolate from host overrides so default-resolution tests are hermetic.
   vi.stubEnv("NODEAGENT_LIVE_MODEL", undefined);
@@ -41,6 +60,7 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
+  for (const dir of tempRepos.splice(0)) rmSync(dir, { recursive: true, force: true });
 });
 
 describe("live provider smoke request shape", () => {
@@ -149,7 +169,7 @@ describe("live provider smoke receipt (rule 3)", () => {
       },
     ]);
     expect(budget).toMatchObject({ requests: 1, spentUsd: 0.0002, stoppedBy: null });
-    const receipt = receiptIdentity(["--provider", "openrouter"], ["z-ai/glm-5.2"], rows, budget);
+    const receipt = receiptIdentity(["--provider", "openrouter"], ["z-ai/glm-5.2"], rows, budget, gitIdentity(makeRepo()));
     expect(receipt.echoedModels).toEqual(["some/rerouted-model"]);
     expect(receipt.candidateIds).toEqual(["z-ai/glm-5.2"]);
     expect(receipt.testedCommit).toMatch(/^[0-9a-f]{40}$/);
@@ -218,28 +238,57 @@ describe("live provider smoke receipt (rule 3)", () => {
     expect(budget).toMatchObject({ spentUsd: 0.11, stoppedBy: "maxUsd" });
   });
 
-  it("receipt command quotes arguments that contain whitespace so it can be replayed", () => {
-    const budget = { maxUsd: 0.1, estimateUsd: 0, spentUsd: 0, requests: 0, stoppedBy: null };
-    const { command } = receiptIdentity(["--env-file", "D:/VSCode Projects/x.env", "--provider", "x"], ["m"], [], budget);
-    expect(command).toContain('--env-file "D:/VSCode Projects/x.env" --provider x');
+  it("an over-budget reply still stops the run when an earlier attempt reported no cost", async () => {
+    vi.stubEnv("OPENROUTER_API_KEY", "test-openrouter-key-0000");
+    let call = 0;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        call += 1;
+        if (call === 1) return new Response(JSON.stringify({ error: "down" }), { status: 503 }); // no cost
+        return new Response(JSON.stringify({ model: "b/second", choices: [{ message: { content: "NODEAGENT_LIVE_OK" } }], usage: { cost: 0.11 } }), { status: 200 });
+      }),
+    );
+    const { llm, budget } = await probeLlm("openrouter", ["a/first", "b/second"]);
+    expect(llm.ok).toBe(true);
+    expect(budget).toMatchObject({ requests: 2, spentUsd: null, stoppedBy: "maxUsd" }); // spentUsd stays null (a row is unknown); the known $0.11 still trips the cap
   });
 
-  it("gitDirty does not depend on the caller's working directory", () => {
-    const cwd = process.cwd();
-    const probe = "gitdirty-probe.txt"; // must not match .gitignore, or git status never sees it
-    const git = (...args: string[]) => execFileSync("git", args).toString();
-    expect(() => git("check-ignore", "-q", probe)).toThrow(); // exit 1 = not ignored
-    expect(git("status", "--porcelain", "--", ":(top)", ":(top,exclude)docs/eval").trim()).toBe(""); // clean tree, so the probe is the only dirt
-    writeFileSync(probe, "x"); // untracked file at the repo root
-    try {
-      const budget = { maxUsd: 0.1, estimateUsd: 0, spentUsd: 0, requests: 0, stoppedBy: null };
-      const fromRoot = receiptIdentity(["--provider", "x"], ["m"], [], budget).gitDirty;
-      process.chdir("docs");
-      const fromSubdir = receiptIdentity(["--provider", "x"], ["m"], [], budget).gitDirty;
-      expect([fromRoot, fromSubdir]).toEqual([true, true]);
-    } finally {
-      process.chdir(cwd);
-      rmSync(probe, { force: true });
-    }
+  it("a missing credential counts no request and records no row", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "");
+    const { captured } = fakeFetch({});
+    const { llm, rows, budget } = await probeLlm("anthropic", ["claude-haiku-5-5"]);
+    expect(captured).toHaveLength(0);
+    expect(llm.ok).toBe(false);
+    expect(llm.error).toContain("ANTHROPIC_API_KEY is required");
+    expect(rows).toEqual([]);
+    expect(budget).toMatchObject({ requests: 0, spentUsd: 0 });
+  });
+
+  it("receipt command is shell-quoted so it replays: whitespace, semicolons, empty and quote characters survive", () => {
+    const { command } = receiptIdentity(["--env-file", "D:/VSCode Projects/x.env", "--env-file", "a;b.env", "--model", "", "--note", "it's"], ["m"], [], BUDGET, gitIdentity(makeRepo()));
+    expect(command).toBe("tsx scripts/nodeagent-live-provider-smoke.ts --env-file 'D:/VSCode Projects/x.env' --env-file 'a;b.env' --model '' --note 'it'\\''s'");
+  });
+
+  it("gitIdentity reads an isolated repo: clean, dirty from any cwd, and docs/eval receipt output is ignored", () => {
+    const repo = makeRepo();
+    const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: repo }).toString().trim();
+    const clean = gitIdentity(repo);
+    expect(clean).toMatchObject({ testedCommit: head, gitDirty: false });
+    expect(clean.constantSha256).toMatch(/^[0-9a-f]{64}$/);
+
+    mkdirSync(join(repo, "docs", "eval"));
+    writeFileSync(join(repo, "docs", "eval", "receipt.json"), "{}"); // the receipt itself must not dirty the tree
+    expect(gitIdentity(repo).gitDirty).toBe(false);
+
+    writeFileSync(join(repo, "probe.txt"), "x"); // untracked file at the repo root
+    expect([gitIdentity(repo).gitDirty, gitIdentity(join(repo, "docs")).gitDirty]).toEqual([true, true]);
+  });
+
+  it("gitIdentity throws outside a git checkout, which is why main() calls it before the first dispatch", () => {
+    const notARepo = mkdtempSync(join(tmpdir(), "smoke-nogit-"));
+    tempRepos.push(notARepo);
+    vi.stubEnv("GIT_CEILING_DIRECTORIES", tmpdir());
+    expect(() => gitIdentity(notARepo)).toThrow();
   });
 });

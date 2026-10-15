@@ -103,10 +103,11 @@ async function main() {
   }
   const provider = selectProvider(args.provider);
   const modelCandidates = selectModelCandidates(provider, args.model);
+  const identity = gitIdentity(); // before the first paid dispatch: a git failure must not follow spend, and the tested commit must not move mid-run
   const convex = await probeConvexUrl();
   const { model, llm, rows, budget } = await probeLlm(provider, modelCandidates);
   const report: SmokeReport = {
-    ...receiptIdentity(process.argv.slice(2), modelCandidates, rows, budget),
+    ...receiptIdentity(process.argv.slice(2), modelCandidates, rows, budget, identity),
     ok: llm.ok && !budget.stoppedBy && (!convex.configured || convex.urlReachable === true),
     startedAt,
     completedAt: new Date().toISOString(),
@@ -242,6 +243,16 @@ export async function probeLlm(provider: Provider, models: string[]) {
     requests: 0,
     stoppedBy: null,
   };
+  try {
+    providerKey(provider); // no credential, no request: nothing is counted or recorded for a call that was never made
+  } catch (error) {
+    return {
+      model: models[0] ?? "none",
+      llm: { ok: false, ms: 0, expected: EXPECTED, receivedPreview: "", attemptedModels, error: sanitizeError(error) },
+      rows,
+      budget,
+    };
+  }
   let last: { model: string; llm: SmokeReport["llm"] } | undefined;
   for (const [index, model] of models.entries()) {
     // Reserve before dispatch: a request with no reported cost counts at its estimate, so the cap holds for every provider.
@@ -285,8 +296,10 @@ export async function probeLlm(provider: Provider, models: string[]) {
         },
       };
     } finally {
-      budget.spentUsd = rows.every((row) => row.costUsd !== null) ? rows.reduce((sum, row) => sum + (row.costUsd ?? 0), 0) : null;
-      if (budget.spentUsd !== null && budget.spentUsd > budget.maxUsd) budget.stoppedBy = "maxUsd"; // a reply can cost more than the pre-dispatch estimate
+      const knownUsd = rows.reduce((sum, row) => sum + (row.costUsd ?? 0), 0);
+      budget.spentUsd = rows.every((row) => row.costUsd !== null) ? knownUsd : null;
+      // Compare the reported spend even when other rows reported none: a reply can cost more than the estimate, and one unknown row must not hide it.
+      if (knownUsd > budget.maxUsd) budget.stoppedBy = "maxUsd";
     }
   }
   return {
@@ -310,16 +323,29 @@ export async function probeLlm(provider: Provider, models: string[]) {
 // to (SPEC-v3 §A.0 rule 3, receipt-only commit), so running the four providers back to back does not dirty the tree.
 // constantSha256 hashes this file as committed at HEAD; a reviewer recomputes it with
 // `git show <testedCommit>:scripts/nodeagent-live-provider-smoke.ts | sha256sum`.
-export function receiptIdentity(argv: string[], candidateIds: string[], rows: ReceiptRow[], budget: Receipt["budget"]): Receipt {
-  const git = (...args: string[]) => execFileSync("git", args, { maxBuffer: 16 * 1024 * 1024 });
+export type GitIdentity = Pick<Receipt, "testedCommit" | "gitDirty" | "constantSha256">;
+
+export function gitIdentity(cwd: string = process.cwd()): GitIdentity {
+  const git = (...args: string[]) => execFileSync("git", args, { cwd, maxBuffer: 16 * 1024 * 1024 });
   return {
-    command: ["tsx", SMOKE_SOURCE, ...argv].map((arg) => (/\s/.test(arg) ? JSON.stringify(arg) : arg)).join(" "), // replayable: quote args with whitespace
-    candidateIds,
-    echoedModels: [...new Set(rows.flatMap((row) => (row.echoedModel ? [row.echoedModel] : [])))],
-    rows,
     testedCommit: git("rev-parse", "HEAD").toString().trim(),
     gitDirty: git("status", "--porcelain", "--", ":(top)", ":(top,exclude)docs/eval").toString().trim().length > 0,
     constantSha256: createHash("sha256").update(git("show", `HEAD:${SMOKE_SOURCE}`)).digest("hex"),
+  };
+}
+
+// POSIX single-quote any argument that is not plainly safe, so the recorded command replays verbatim (`;`, empty and spaced arguments included).
+function shellQuote(arg: string) {
+  return /^[A-Za-z0-9_@%+=:,./-]+$/.test(arg) ? arg : `'${arg.replaceAll("'", String.raw`'\''`)}'`;
+}
+
+export function receiptIdentity(argv: string[], candidateIds: string[], rows: ReceiptRow[], budget: Receipt["budget"], identity: GitIdentity): Receipt {
+  return {
+    command: ["tsx", SMOKE_SOURCE, ...argv].map(shellQuote).join(" "),
+    candidateIds,
+    echoedModels: [...new Set(rows.flatMap((row) => (row.echoedModel ? [row.echoedModel] : [])))],
+    rows,
+    ...identity,
     budget,
     environment: { node: process.version, platform: process.platform },
   };
@@ -331,26 +357,40 @@ export async function callProvider(provider: Provider, model: string) {
   return reply.text;
 }
 
+function providerKey(provider: Provider) {
+  switch (provider) {
+    case "openrouter":
+      return requiredEnv("OPENROUTER_API_KEY");
+    case "openai":
+      return requiredEnv("OPENAI_API_KEY");
+    case "anthropic":
+      return requiredEnv("ANTHROPIC_API_KEY");
+    case "gemini":
+      return process.env.GOOGLE_GENERATIVE_AI_API_KEY || requiredEnv("GEMINI_API_KEY");
+  }
+}
+
 export async function callProviderDetailed(provider: Provider, model: string): Promise<ProviderReply> {
+  const key = providerKey(provider);
   switch (provider) {
     case "openrouter":
       return openAiCompatibleChat({
         url: "https://openrouter.ai/api/v1/chat/completions",
-        key: requiredEnv("OPENROUTER_API_KEY"),
+        key,
         model,
         headers: { "HTTP-Referer": "https://nodeagent.local", "X-Title": "NodeAgent live provider smoke" },
       });
     case "openai":
       return openAiCompatibleChat({
         url: "https://api.openai.com/v1/chat/completions",
-        key: requiredEnv("OPENAI_API_KEY"),
+        key,
         model,
         openai: true,
       });
     case "anthropic":
-      return anthropicMessages(model);
+      return anthropicMessages(model, key);
     case "gemini":
-      return geminiGenerate(model);
+      return geminiGenerate(model, key);
   }
 }
 
@@ -386,12 +426,12 @@ async function openAiCompatibleChat(args: { url: string; key: string; model: str
   };
 }
 
-async function anthropicMessages(model: string): Promise<ProviderReply> {
+async function anthropicMessages(model: string, key: string): Promise<ProviderReply> {
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "x-api-key": requiredEnv("ANTHROPIC_API_KEY"),
+      "x-api-key": key,
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
@@ -416,8 +456,7 @@ async function anthropicMessages(model: string): Promise<ProviderReply> {
   };
 }
 
-async function geminiGenerate(model: string): Promise<ProviderReply> {
-  const key = process.env.GOOGLE_GENERATIVE_AI_API_KEY || requiredEnv("GEMINI_API_KEY");
+async function geminiGenerate(model: string, key: string): Promise<ProviderReply> {
   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`, {
     method: "POST",
     headers: { "content-type": "application/json" },
