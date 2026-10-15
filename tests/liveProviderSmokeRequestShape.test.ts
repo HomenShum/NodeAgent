@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -275,17 +276,19 @@ describe("live provider smoke receipt (rule 3)", () => {
     const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: repo }).toString().trim();
     const clean = gitIdentity(repo);
     expect(clean).toMatchObject({ testedCommit: head, gitDirty: false });
-    expect(clean.constantSha256).toMatch(/^[0-9a-f]{64}$/);
+    expect(clean.constantSha256).toBe(createHash("sha256").update("// constant\n").digest("hex")); // the committed blob, not just a 64-hex string
 
+    execFileSync("git", ["config", "status.showUntrackedFiles", "no"], { cwd: repo }); // a user setting must not hide untracked files from the check
     mkdirSync(join(repo, "docs", "eval"));
     writeFileSync(join(repo, "docs", "eval", "receipt.json"), "{}"); // the receipt itself must not dirty the tree
-    expect(gitIdentity(repo).gitDirty).toBe(false);
+    // Asserted before any root probe file exists, from the repo root and from docs/: a cwd-relative exclude would see docs/eval/receipt.json as dirty from docs/.
+    expect([gitIdentity(repo).gitDirty, gitIdentity(join(repo, "docs")).gitDirty]).toEqual([false, false]);
 
     writeFileSync(join(repo, "probe.txt"), "x"); // untracked file at the repo root
     expect([gitIdentity(repo).gitDirty, gitIdentity(join(repo, "docs")).gitDirty]).toEqual([true, true]);
   });
 
-  it("gitIdentity throws outside a git checkout, which is why main() calls it before the first dispatch", () => {
+  it("gitIdentity throws outside a git checkout", () => {
     const notARepo = mkdtempSync(join(tmpdir(), "smoke-nogit-"));
     tempRepos.push(notARepo);
     vi.stubEnv("GIT_CEILING_DIRECTORIES", tmpdir());
