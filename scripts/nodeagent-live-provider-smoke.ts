@@ -321,16 +321,17 @@ export async function probeLlm(provider: Provider, models: string[]) {
 
 // testedCommit is `git rev-parse HEAD`. --untracked-files=all is explicit so a user's status.showUntrackedFiles=no cannot hide untracked files. Pathspecs are top-anchored so the dirty check does not depend on the caller's cwd. The dirty check ignores docs/eval, the evidence directory the receipt is written
 // to (SPEC-v3 §A.0 rule 3, receipt-only commit), so running the four providers back to back does not dirty the tree.
-// constantSha256 hashes this file as committed at HEAD; a reviewer recomputes it with
+// constantSha256 hashes this file as committed at testedCommit; a reviewer recomputes it with
 // `git show <testedCommit>:scripts/nodeagent-live-provider-smoke.ts | sha256sum`.
 export type GitIdentity = Pick<Receipt, "testedCommit" | "gitDirty" | "constantSha256">;
 
 export function gitIdentity(cwd: string = process.cwd()): GitIdentity {
   const git = (...args: string[]) => execFileSync("git", args, { cwd, maxBuffer: 16 * 1024 * 1024 });
+  const testedCommit = git("rev-parse", "HEAD").toString().trim(); // HEAD is read once; the hash below is taken at this sha, so a checkout mid-call cannot split the receipt across two commits
   return {
-    testedCommit: git("rev-parse", "HEAD").toString().trim(),
+    testedCommit,
     gitDirty: git("status", "--porcelain", "--untracked-files=all", "--", ":(top)", ":(top,exclude)docs/eval").toString().trim().length > 0,
-    constantSha256: createHash("sha256").update(git("show", `HEAD:${SMOKE_SOURCE}`)).digest("hex"),
+    constantSha256: createHash("sha256").update(git("show", `${testedCommit}:${SMOKE_SOURCE}`)).digest("hex"),
   };
 }
 

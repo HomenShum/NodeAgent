@@ -5,6 +5,24 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+// Lets one test run a hook right after the script's first `git rev-parse`, to move HEAD mid-call. Pass-through otherwise.
+const gitHook = vi.hoisted(() => ({ afterRevParse: null as null | (() => void) }));
+vi.mock("node:child_process", async (importOriginal) => {
+  const real = await importOriginal<typeof import("node:child_process")>();
+  return {
+    ...real,
+    execFileSync: ((file: string, args: string[], opts: object) => {
+      const out = (real.execFileSync as any)(file, args, opts);
+      if (args?.[0] === "rev-parse" && gitHook.afterRevParse) {
+        const hook = gitHook.afterRevParse;
+        gitHook.afterRevParse = null;
+        hook();
+      }
+      return out;
+    }) as typeof real.execFileSync,
+  };
+});
+
 import {
   callProvider,
   gitIdentity,
@@ -302,6 +320,20 @@ describe("live provider smoke receipt (rule 3)", () => {
     writeFileSync(join(repo, "probe.txt"), "x"); // untracked file at the repo root
     expect([gitIdentity(repo).gitDirty, gitIdentity(join(repo, "docs")).gitDirty]).toEqual([true, true]);
   }, 30_000); // ~20 git processes; the 5000 ms default timed out once under load
+
+  it("gitIdentity hashes the sha it captured, not whatever HEAD is by the second git call", () => {
+    const repo = makeRepo();
+    const git = (...args: string[]) => execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@t", ...args], { cwd: repo });
+    const captured = git("rev-parse", "HEAD").toString().trim();
+    gitHook.afterRevParse = () => {
+      writeFileSync(join(repo, "scripts", "nodeagent-live-provider-smoke.ts"), "// moved\n");
+      git("commit", "-qam", "move HEAD");
+    };
+    const id = gitIdentity(repo);
+    expect(git("rev-parse", "HEAD").toString().trim()).not.toBe(captured); // HEAD really moved mid-call
+    expect(id.testedCommit).toBe(captured);
+    expect(id.constantSha256).toBe(createHash("sha256").update("// constant\n").digest("hex")); // commit A's blob, not the moved HEAD's "// moved\n"
+  }, 30_000);
 
   it("gitIdentity throws outside a git checkout", () => {
     const notARepo = mkdtempSync(join(tmpdir(), "smoke-nogit-"));
