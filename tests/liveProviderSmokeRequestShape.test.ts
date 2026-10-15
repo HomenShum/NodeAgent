@@ -105,7 +105,7 @@ describe("live provider smoke request shape", () => {
     const { url, body } = captured[0];
     expect(url).toBe("https://api.openai.com/v1/chat/completions");
     expect(body.model).toBe("gpt-6.1-sol");
-    for (const key of [...SAMPLING_KEYS, "tools", "tool_choice", "max_tokens"]) expect(body).not.toHaveProperty(key);
+    for (const key of [...SAMPLING_KEYS, "tools", "tool_choice", "max_tokens", "logprobs", "top_logprobs"]) expect(body).not.toHaveProperty(key);
     expect(body.reasoning_effort).toBe("low");
     expect(body.max_completion_tokens).toBeGreaterThanOrEqual(256);
   });
@@ -161,6 +161,12 @@ describe("live provider smoke request shape", () => {
     for (const key of SAMPLING_KEYS) {
       expect(body).not.toHaveProperty(key);
       expect(body.generationConfig).not.toHaveProperty(key);
+    }
+    // SPEC-v3 §1.3 gemini-3.8-flash: thinking_budget removed, candidate_count unsupported.
+    for (const key of ["thinkingBudget", "thinking_budget", "candidateCount", "candidate_count"]) {
+      expect(body.generationConfig).not.toHaveProperty(key);
+      expect(body.generationConfig.thinkingConfig ?? {}).not.toHaveProperty(key);
+      expect(body).not.toHaveProperty(key);
     }
     expect(body.generationConfig.maxOutputTokens).toBeGreaterThanOrEqual(256);
     expect(body.contents.at(-1).role).toBe("user");
