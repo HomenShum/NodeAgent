@@ -1,0 +1,69 @@
+{
+  "command": "npx tsx scripts/nodeagent-live-provider-smoke.ts --provider anthropic --json-out docs/eval/nodeagent-live-provider-smoke-anthropic.json",
+  "candidateIds": [
+    "claude-haiku-5-5"
+  ],
+  "echoedModels": [
+    "claude-haiku-5-5"
+  ],
+  "rows": [
+    {
+      "requestedModel": "claude-haiku-5-5",
+      "resolvedModel": "claude-haiku-5-5",
+      "echoedModel": "claude-haiku-5-5",
+      "usage": {
+        "input_tokens": 52,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 17,
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard"
+      },
+      "costUsd": null,
+      "fallbackUsed": false
+    }
+  ],
+  "testedCommit": "f7963e256121d3e9c31ef65ca01fa9c7db4b2ede",
+  "gitDirty": false,
+  "constantSha256": "74d9f21a1bfad1cf9aa1b1a7ad774243b19d8143c1d45755a2e3502dc95e6e06",
+  "budget": {
+    "maxUsd": 0.1,
+    "estimateUsd": 0.01,
+    "spentUsd": null,
+    "requests": 1,
+    "stoppedBy": null
+  },
+  "environment": {
+    "node": "v22.22.2",
+    "platform": "win32"
+  },
+  "ok": true,
+  "startedAt": "2026-10-16T20:26:57.370Z",
+  "completedAt": "2026-10-16T20:26:58.781Z",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "modelCandidates": [
+    "claude-haiku-5-5"
+  ],
+  "envFilesLoaded": [],
+  "convex": {
+    "configured": false
+  },
+  "llm": {
+    "ok": true,
+    "ms": 1005,
+    "expected": "NODEAGENT_LIVE_OK",
+    "receivedPreview": "NODEAGENT_LIVE_OK",
+    "attemptedModels": [
+      "claude-haiku-5-5"
+    ]
+  }
+}
