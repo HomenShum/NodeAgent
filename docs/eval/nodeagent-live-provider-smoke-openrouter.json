@@ -1,0 +1,75 @@
+{
+  "note": "NOT a run. OpenRouter chain roles are not called (SPEC-v3 D2: no working OpenRouter key). Rows are the frozen chain from selectModelCandidates('openrouter'); nex-agi/nex-n2-pro was deleted (absent from the catalog). The refresh moved no OpenRouter role to a :free target (D2a), so no new :free id is chosen here; the chain already contains cohere/north-mini-code:free.",
+  "status": "live-unverified (no key, Homen 2026-10-16)",
+  "publicListFetchedAt": "2026-10-16T20:27:34.633Z",
+  "publicListUrl": "https://openrouter.ai/api/v1/models",
+  "publicListRows": 467,
+  "candidateIds": [
+    "z-ai/glm-5.2",
+    "moonshotai/kimi-k2.7-code",
+    "cohere/north-mini-code:free",
+    "nvidia/nemotron-3-ultra-550b-a55b"
+  ],
+  "echoedModels": [],
+  "rows": [
+    {
+      "requestedModel": "z-ai/glm-5.2",
+      "resolvedModel": "z-ai/glm-5.2",
+      "echoedModel": null,
+      "usage": null,
+      "costUsd": null,
+      "fallbackUsed": false,
+      "status": "live-unverified (no key, Homen 2026-10-16)",
+      "publicList": {
+        "listed": true,
+        "expiration_date": null
+      }
+    },
+    {
+      "requestedModel": "moonshotai/kimi-k2.7-code",
+      "resolvedModel": "moonshotai/kimi-k2.7-code",
+      "echoedModel": null,
+      "usage": null,
+      "costUsd": null,
+      "fallbackUsed": false,
+      "status": "live-unverified (no key, Homen 2026-10-16)",
+      "publicList": {
+        "listed": true,
+        "expiration_date": null
+      }
+    },
+    {
+      "requestedModel": "cohere/north-mini-code:free",
+      "resolvedModel": "cohere/north-mini-code:free",
+      "echoedModel": null,
+      "usage": null,
+      "costUsd": null,
+      "fallbackUsed": false,
+      "status": "live-unverified (no key, Homen 2026-10-16)",
+      "publicList": {
+        "listed": true,
+        "expiration_date": null
+      }
+    },
+    {
+      "requestedModel": "nvidia/nemotron-3-ultra-550b-a55b",
+      "resolvedModel": "nvidia/nemotron-3-ultra-550b-a55b",
+      "echoedModel": null,
+      "usage": null,
+      "costUsd": null,
+      "fallbackUsed": false,
+      "status": "live-unverified (no key, Homen 2026-10-16)",
+      "publicList": {
+        "listed": true,
+        "expiration_date": null
+      }
+    }
+  ],
+  "budget": {
+    "maxUsd": 1.5,
+    "estimateUsd": 0,
+    "spentUsd": 0,
+    "requests": 0,
+    "stoppedBy": null
+  }
+}

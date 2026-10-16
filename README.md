@@ -171,7 +171,7 @@ checks for accidental exposure.
 
 For live LLMs, prefer `OPENROUTER_API_KEY`. The default OpenRouter priority is:
 `z-ai/glm-5.2`, `moonshotai/kimi-k2.7-code`, `cohere/north-mini-code:free`,
-`nvidia/nemotron-3-ultra-550b-a55b`, then `nex-agi/nex-n2-pro`. Override with
+and `nvidia/nemotron-3-ultra-550b-a55b`. Override with
 `NODEAGENT_OPENROUTER_MODEL_PRIORITY` when a project needs a pinned or cheaper
 route; use `NODEAGENT_LIVE_MODEL` only for a one-off smoke.
 

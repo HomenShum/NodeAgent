@@ -1,0 +1,69 @@
+{
+  "command": "npx tsx scripts/nodeagent-live-provider-smoke.ts --provider openai --json-out docs/eval/nodeagent-live-provider-smoke-openai.json",
+  "candidateIds": [
+    "gpt-6.1-sol"
+  ],
+  "echoedModels": [
+    "gpt-6.1-sol"
+  ],
+  "rows": [
+    {
+      "requestedModel": "gpt-6.1-sol",
+      "resolvedModel": "gpt-6.1-sol",
+      "echoedModel": "gpt-6.1-sol",
+      "usage": {
+        "prompt_tokens": 32,
+        "completion_tokens": 9,
+        "total_tokens": 41,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "costUsd": null,
+      "fallbackUsed": false
+    }
+  ],
+  "testedCommit": "f7963e256121d3e9c31ef65ca01fa9c7db4b2ede",
+  "gitDirty": false,
+  "constantSha256": "74d9f21a1bfad1cf9aa1b1a7ad774243b19d8143c1d45755a2e3502dc95e6e06",
+  "budget": {
+    "maxUsd": 0.1,
+    "estimateUsd": 0.01,
+    "spentUsd": null,
+    "requests": 1,
+    "stoppedBy": null
+  },
+  "environment": {
+    "node": "v22.22.2",
+    "platform": "win32"
+  },
+  "ok": true,
+  "startedAt": "2026-10-16T20:27:04.896Z",
+  "completedAt": "2026-10-16T20:27:09.357Z",
+  "provider": "openai",
+  "model": "gpt-6.1-sol",
+  "modelCandidates": [
+    "gpt-6.1-sol"
+  ],
+  "envFilesLoaded": [],
+  "convex": {
+    "configured": false
+  },
+  "llm": {
+    "ok": true,
+    "ms": 4149,
+    "expected": "NODEAGENT_LIVE_OK",
+    "receivedPreview": "NODEAGENT_LIVE_OK",
+    "attemptedModels": [
+      "gpt-6.1-sol"
+    ]
+  }
+}
