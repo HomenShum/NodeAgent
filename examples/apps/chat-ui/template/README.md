@@ -18,8 +18,9 @@ from browser code with raw keys.
 
 ## Spin Up
 
-Use Node.js 20.19+ within Node 20, or Node.js 22.12+ (`^20.19.0 || >=22.12.0`),
-as required by Vite 8 and its React plugin.
+Use Node.js 22.12+ within Node 22, Node.js 24.x, or Node.js 26+
+(`^22.12.0 || ^24.0.0 || >=26.0.0`). The installed assistant-ui dependency
+graph excludes Node 20, 23 and 25; Vite 8 sets the 22.12 minimum on Node 22.
 
 ```bash
 npm install

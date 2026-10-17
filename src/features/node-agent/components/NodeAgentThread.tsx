@@ -38,7 +38,7 @@ function AssistantMessage() {
   const messageId = useAuiState((s) => s.message.id);
   const submittedResponse = useRef<string | null>(null);
   const retryResponse = (event: MouseEvent<HTMLButtonElement>) => {
-    if (aui.thread().getState().isRunning || submittedResponse.current === messageId) {
+    if (aui.thread.getState().isRunning || submittedResponse.current === messageId) {
       event.preventDefault();
       return;
     }
